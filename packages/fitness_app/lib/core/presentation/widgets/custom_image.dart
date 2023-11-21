@@ -1,4 +1,4 @@
-import 'package:bloc_boilerplate/gen/assets.gen.dart';
+import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +15,8 @@ CustomImageWidget(
 
 class CustomImageWidget extends StatelessWidget {
   const CustomImageWidget({
-    required this.imageUrl, super.key,
+    required this.imageUrl,
+    super.key,
     this.borderRadius = const BorderRadius.all(Radius.circular(8)),
     this.height = 72,
     this.width = 72,

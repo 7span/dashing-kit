@@ -6,3 +6,27 @@ packages:
 scripts:
   analyze:
     exec: dart analyze .
+
+  build-runner:
+    description: Run build runner in only fitness_app package
+    packageFilters:
+      flutter: true
+      dirExists: lib
+      scope: fitness_app
+    exec: dart run build_runner build -d
+
+  env-gen:
+    description: Generate environment configuration
+    packageFilters:
+      flutter: true
+      dirExists: lib
+      scope: fitness_app
+    run: melos exec dart run build_runner clean && melos exec dart run build_runner build -d
+
+  locale-gen:
+    description: Generate localization
+    packageFilters:
+      flutter: true
+      dirExists: lib
+      scope: fitness_app
+    exec: dart run easy_localization:generate -f keys -o locale_keys.g.dart -O ./lib/gen -S assets/l10n

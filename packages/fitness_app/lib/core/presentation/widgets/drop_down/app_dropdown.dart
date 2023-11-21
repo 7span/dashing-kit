@@ -1,8 +1,8 @@
-import 'package:bloc_boilerplate/app/helpers/extensions/extensions.dart';
-import 'package:bloc_boilerplate/app/theme/app_theme.dart';
-import 'package:bloc_boilerplate/app/theme/spacing.dart';
-import 'package:bloc_boilerplate/core/presentation/widgets/drop_down/cubit/app_drop_down_cubit.dart';
-import 'package:bloc_boilerplate/core/presentation/widgets/drop_down/model/dropdown_model.dart';
+import 'package:fitness_app/app/helpers/extensions/extensions.dart';
+import 'package:fitness_app/app/theme/app_theme.dart';
+import 'package:fitness_app/app/theme/spacing.dart';
+import 'package:fitness_app/core/presentation/widgets/drop_down/cubit/app_drop_down_cubit.dart';
+import 'package:fitness_app/core/presentation/widgets/drop_down/model/dropdown_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/modules/home/model/post_model.dart';
-import 'package:bloc_boilerplate/modules/home/repository/home_repository.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/modules/home/model/post_model.dart';
+import 'package:fitness_app/modules/home/repository/home_repository.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';

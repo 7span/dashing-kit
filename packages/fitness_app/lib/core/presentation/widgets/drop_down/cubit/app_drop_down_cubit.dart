@@ -2,8 +2,8 @@
 // ignore_for_file: join_return_with_assignment
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_boilerplate/app/helpers/extensions/extensions.dart';
-import 'package:bloc_boilerplate/core/presentation/widgets/drop_down/model/dropdown_model.dart';
+import 'package:fitness_app/app/helpers/extensions/extensions.dart';
+import 'package:fitness_app/core/presentation/widgets/drop_down/model/dropdown_model.dart';
 import 'package:equatable/equatable.dart';
 
 part 'app_drop_down_state.dart';

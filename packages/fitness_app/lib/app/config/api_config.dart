@@ -5,9 +5,9 @@ import 'package:fpdart/fpdart.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import 'package:bloc_boilerplate/app/config/app_config.dart';
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/core/domain/failure.dart';
+import 'package:fitness_app/app/config/app_config.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/core/domain/failure.dart';
 
 /// This class is used for connecting with remote data source using Dio
 /// as an API Client. This class is responsible for making API requests and

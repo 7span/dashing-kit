@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:fpdart/fpdart.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/core/data/models/user_model.dart';
-import 'package:bloc_boilerplate/core/domain/failure.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/core/data/models/user_model.dart';
+import 'package:fitness_app/core/domain/failure.dart';
 
 /// This class is used for creating the contract for setting and getting the
 /// user data, with the help of this class. Anyone can create their own
@@ -61,8 +61,7 @@ final class AuthService implements IAuthService {
   }
 
   @override
-  TaskEither<Failure, Unit> setAccessToken(String value) =>
-      TaskEither<Failure, Unit>.tryCatch(
+  TaskEither<Failure, Unit> setAccessToken(String value) => TaskEither<Failure, Unit>.tryCatch(
         () async {
           final box = Hive.box<String>(USER.token.value);
           await box.put(_Keys.accessToken, value);
@@ -75,8 +74,7 @@ final class AuthService implements IAuthService {
       );
 
   @override
-  TaskEither<Failure, Unit> setUserData(UserModel userModel) =>
-      TaskEither.tryCatch(
+  TaskEither<Failure, Unit> setUserData(UserModel userModel) => TaskEither.tryCatch(
         () async {
           final box = Hive.box<UserModel>(USER.data.value);
           await box.add(userModel);

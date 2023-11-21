@@ -1,11 +1,11 @@
 import 'dart:developer';
 
-import 'package:bloc_boilerplate/app/helpers/injection.dart';
+import 'package:fitness_app/app/helpers/injection.dart';
 import 'package:fpdart/fpdart.dart';
 
-import 'package:bloc_boilerplate/core/data/models/user_model.dart';
-import 'package:bloc_boilerplate/core/data/services/auth.service.dart';
-import 'package:bloc_boilerplate/core/domain/failure.dart';
+import 'package:fitness_app/core/data/models/user_model.dart';
+import 'package:fitness_app/core/data/services/auth.service.dart';
+import 'package:fitness_app/core/domain/failure.dart';
 
 /// This repository contains the contract for login and logout function
 abstract interface class IAuthRepository {

@@ -3,8 +3,8 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
-import 'package:bloc_boilerplate/core/presentation/widgets/image_cropper/cubit/image_cropper_state.dart';
-import 'package:bloc_boilerplate/core/presentation/widgets/image_cropper/image_picker_utils.dart';
+import 'package:fitness_app/core/presentation/widgets/image_cropper/cubit/image_cropper_state.dart';
+import 'package:fitness_app/core/presentation/widgets/image_cropper/image_picker_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';

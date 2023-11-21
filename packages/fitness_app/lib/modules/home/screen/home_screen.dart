@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/app/helpers/extensions/extensions.dart';
-import 'package:bloc_boilerplate/app/helpers/mixins/pagination_mixin.dart';
-import 'package:bloc_boilerplate/app/theme/spacing.dart';
-import 'package:bloc_boilerplate/core/presentation/widgets/custom_app_bar.dart';
-import 'package:bloc_boilerplate/modules/home/bloc/home_bloc.dart';
-import 'package:bloc_boilerplate/modules/home/repository/home_repository.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/app/helpers/extensions/extensions.dart';
+import 'package:fitness_app/app/helpers/mixins/pagination_mixin.dart';
+import 'package:fitness_app/app/theme/spacing.dart';
+import 'package:fitness_app/core/presentation/widgets/custom_app_bar.dart';
+import 'package:fitness_app/modules/home/bloc/home_bloc.dart';
+import 'package:fitness_app/modules/home/repository/home_repository.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget implements AutoRouteWrapper {

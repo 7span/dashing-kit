@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bloc_boilerplate/app/routes/app_router.dart';
+import 'package:fitness_app/app/routes/app_router.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()

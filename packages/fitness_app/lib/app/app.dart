@@ -1,11 +1,11 @@
-import 'package:bloc_boilerplate/core/presentation/screens/error_screen.dart';
+import 'package:fitness_app/core/presentation/screens/error_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:bloc_boilerplate/app/routes/app_router.dart';
-import 'package:bloc_boilerplate/app/theme/app_theme.dart';
-import 'package:bloc_boilerplate/core/domain/bloc/theme_bloc.dart';
+import 'package:fitness_app/app/routes/app_router.dart';
+import 'package:fitness_app/app/theme/app_theme.dart';
+import 'package:fitness_app/core/domain/bloc/theme_bloc.dart';
 
 /// This class contains the [MaterialApp] widget. In this class, we're
 /// doing the following things:

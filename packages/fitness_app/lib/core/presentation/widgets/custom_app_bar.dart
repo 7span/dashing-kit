@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:bloc_boilerplate/app/helpers/extensions/extensions.dart';
-import 'package:bloc_boilerplate/app/theme/app_text_style.dart';
-import 'package:bloc_boilerplate/app/theme/spacing.dart';
+import 'package:fitness_app/app/helpers/extensions/extensions.dart';
+import 'package:fitness_app/app/theme/app_text_style.dart';
+import 'package:fitness_app/app/theme/spacing.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bloc_boilerplate/app/enum.dart';
+import 'package:fitness_app/app/enum.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 

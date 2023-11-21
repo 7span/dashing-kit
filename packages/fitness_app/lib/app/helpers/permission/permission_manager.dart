@@ -1,5 +1,5 @@
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/app/helpers/permission/permission_helper.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/app/helpers/permission/permission_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -24,7 +24,6 @@ class PermissionManager {
     }
     return result;
   }
-
 
   /// returns true or false based on if permission is granted or not
   Future<bool> getPermissionStatus(MediaPermission runtimePermission) async {

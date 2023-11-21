@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
-import 'package:bloc_boilerplate/modules/auth/repository/auth_repository.dart';
+import 'package:fitness_app/modules/auth/repository/auth_repository.dart';
 
 class LoginFormBloc extends FormBloc<String, String> {
   LoginFormBloc({required IAuthRepository authenticationRepository})

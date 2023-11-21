@@ -1,6 +1,6 @@
-import 'package:bloc_boilerplate/app/app.dart';
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/bootstrap.dart';
+import 'package:fitness_app/app/app.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/bootstrap.dart';
 
 void main() {
   bootstrap(App.new, Env.production);

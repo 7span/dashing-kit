@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:bloc_boilerplate/app/enum.dart';
+import 'package:fitness_app/app/enum.dart';
 import 'package:envied/envied.dart';
 import 'package:fpdart/fpdart.dart';
 

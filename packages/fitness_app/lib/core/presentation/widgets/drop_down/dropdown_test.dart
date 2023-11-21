@@ -1,5 +1,5 @@
-import 'package:bloc_boilerplate/core/presentation/widgets/drop_down/app_dropdown.dart';
-import 'package:bloc_boilerplate/core/presentation/widgets/drop_down/cubit/app_drop_down_cubit.dart';
+import 'package:fitness_app/core/presentation/widgets/drop_down/app_dropdown.dart';
+import 'package:fitness_app/core/presentation/widgets/drop_down/cubit/app_drop_down_cubit.dart';
 import 'package:flutter/material.dart';
 
 class TestDropdown extends StatefulWidget {

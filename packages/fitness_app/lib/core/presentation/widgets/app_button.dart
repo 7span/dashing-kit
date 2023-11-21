@@ -1,6 +1,6 @@
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/app/helpers/extensions/extensions.dart';
-import 'package:bloc_boilerplate/app/theme/spacing.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/app/helpers/extensions/extensions.dart';
+import 'package:fitness_app/app/theme/spacing.dart';
 import 'package:flutter/material.dart';
 
 /// This class is used for implementing the Buttons throughout the App

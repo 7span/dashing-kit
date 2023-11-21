@@ -6,12 +6,12 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:bloc_boilerplate/app/config/api_config.dart';
-import 'package:bloc_boilerplate/app/config/app_config.dart';
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/app/helpers/injection.dart';
-import 'package:bloc_boilerplate/app/observers/app_bloc_observer.dart';
-import 'package:bloc_boilerplate/core/data/services/auth.service.dart';
+import 'package:fitness_app/app/config/api_config.dart';
+import 'package:fitness_app/app/config/app_config.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/app/helpers/injection.dart';
+import 'package:fitness_app/app/observers/app_bloc_observer.dart';
+import 'package:fitness_app/core/data/services/auth.service.dart';
 // import 'package:leak_tracker/leak_tracker.dart';
 
 /// This function is one of the core function that should be run before we even

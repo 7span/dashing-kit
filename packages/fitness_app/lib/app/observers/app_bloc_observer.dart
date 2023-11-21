@@ -1,4 +1,4 @@
-import 'package:bloc_boilerplate/app/helpers/injection.dart';
+import 'package:fitness_app/app/helpers/injection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 

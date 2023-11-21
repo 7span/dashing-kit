@@ -1,5 +1,5 @@
-import 'package:bloc_boilerplate/app/theme/app_colors.dart';
-import 'package:bloc_boilerplate/app/theme/app_text_style.dart';
+import 'package:fitness_app/app/theme/app_colors.dart';
+import 'package:fitness_app/app/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 /// App Theme Definitions

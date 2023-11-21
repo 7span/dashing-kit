@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:bloc_boilerplate/app/enum.dart';
+import 'package:fitness_app/app/enum.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:bloc_boilerplate/app/helpers/extensions/extensions.dart';
-import 'package:bloc_boilerplate/app/helpers/permission/permission_helper.dart';
-import 'package:bloc_boilerplate/app/helpers/permission/permission_manager.dart';
+import 'package:fitness_app/app/helpers/extensions/extensions.dart';
+import 'package:fitness_app/app/helpers/permission/permission_helper.dart';
+import 'package:fitness_app/app/helpers/permission/permission_manager.dart';
 
 class ImagePickerUtils {
   factory ImagePickerUtils() {

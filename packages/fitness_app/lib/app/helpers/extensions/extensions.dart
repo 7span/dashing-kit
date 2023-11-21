@@ -4,11 +4,11 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' show format;
 
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/app/helpers/extensions/extension_utils.dart';
-import 'package:bloc_boilerplate/app/helpers/injection.dart';
-import 'package:bloc_boilerplate/core/data/services/auth.service.dart';
-import 'package:bloc_boilerplate/core/data/services/network_helper.service.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/app/helpers/extensions/extension_utils.dart';
+import 'package:fitness_app/app/helpers/injection.dart';
+import 'package:fitness_app/core/data/services/auth.service.dart';
+import 'package:fitness_app/core/data/services/network_helper.service.dart';
 
 extension BuildContextX on BuildContext {
   ColorScheme get colorScheme => Theme.of(this).colorScheme;

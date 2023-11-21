@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bloc_boilerplate/app/routes/route_guards/auth_guard.dart';
-import 'package:bloc_boilerplate/core/presentation/widgets/image_cropper/custom_image_cropper.dart';
-import 'package:bloc_boilerplate/modules/auth/sign_in/screens/login_screen.dart';
-import 'package:bloc_boilerplate/modules/bottom_navigation_bar.dart';
-import 'package:bloc_boilerplate/modules/home/screen/home_screen.dart';
-import 'package:bloc_boilerplate/modules/profile/screen/profile_screen.dart';
-import 'package:bloc_boilerplate/modules/splash/splash_screen.dart';
+import 'package:fitness_app/app/routes/route_guards/auth_guard.dart';
+import 'package:fitness_app/core/presentation/widgets/image_cropper/custom_image_cropper.dart';
+import 'package:fitness_app/modules/auth/sign_in/screens/login_screen.dart';
+import 'package:fitness_app/modules/bottom_navigation_bar.dart';
+import 'package:fitness_app/modules/home/screen/home_screen.dart';
+import 'package:fitness_app/modules/profile/screen/profile_screen.dart';
+import 'package:fitness_app/modules/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

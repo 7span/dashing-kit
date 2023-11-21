@@ -1,9 +1,9 @@
 // ignore_for_file: one_member_abstracts
 
-import 'package:bloc_boilerplate/app/config/api_config.dart';
-import 'package:bloc_boilerplate/app/enum.dart';
-import 'package:bloc_boilerplate/core/domain/failure.dart';
-import 'package:bloc_boilerplate/modules/home/model/post_model.dart';
+import 'package:fitness_app/app/config/api_config.dart';
+import 'package:fitness_app/app/enum.dart';
+import 'package:fitness_app/core/domain/failure.dart';
+import 'package:fitness_app/modules/home/model/post_model.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bloc_boilerplate/app/helpers/extensions/extensions.dart';
-import 'package:bloc_boilerplate/app/routes/app_router.dart';
-import 'package:bloc_boilerplate/core/presentation/widgets/image_cropper/image_picker_utils.dart';
+import 'package:fitness_app/app/helpers/extensions/extensions.dart';
+import 'package:fitness_app/app/routes/app_router.dart';
+import 'package:fitness_app/core/presentation/widgets/image_cropper/image_picker_utils.dart';
 import 'package:flutter/material.dart';
 
 class ImageCropperTest extends StatefulWidget {

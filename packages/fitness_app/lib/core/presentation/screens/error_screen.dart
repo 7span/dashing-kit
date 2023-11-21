@@ -1,7 +1,7 @@
-import 'package:bloc_boilerplate/app/helpers/extensions/extensions.dart';
-import 'package:bloc_boilerplate/app/theme/app_colors.dart';
-import 'package:bloc_boilerplate/app/theme/spacing.dart';
-import 'package:bloc_boilerplate/gen/assets.gen.dart';
+import 'package:fitness_app/app/helpers/extensions/extensions.dart';
+import 'package:fitness_app/app/theme/app_colors.dart';
+import 'package:fitness_app/app/theme/spacing.dart';
+import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -54,9 +54,7 @@ class _ErrorContent extends StatelessWidget {
                 children: [
                   Assets.images.errorIllustration.image(),
                   Text(
-                    kDebugMode
-                        ? details.summary.toString()
-                        : 'Oups! Something went wrong!',
+                    kDebugMode ? details.summary.toString() : 'Oups! Something went wrong!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: kDebugMode ? errorColor : primaryColor,
