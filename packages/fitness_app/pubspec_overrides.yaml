@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: fitness_ui
+dependency_overrides:
+  fitness_ui:
+    path: ../fitness_ui

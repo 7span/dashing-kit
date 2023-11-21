@@ -1,0 +1,8 @@
+name: fitness-application-melos
+
+packages:
+  - packages/*
+
+scripts:
+  analyze:
+    exec: dart analyze .

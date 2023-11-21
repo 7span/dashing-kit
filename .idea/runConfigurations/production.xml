@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="production" type="FlutterRunConfigurationType" factoryName="Flutter">
-    <option name="filePath" value="$PROJECT_DIR$/lib/main_production.dart" />
+  <configuration default="false" name="production" type="FlutterRunConfigurationType"
+    factoryName="Flutter">
+    <option name="filePath" value="$PROJECT_DIR$/packages/fitness_app/lib/main_production.dart" />
     <method v="2" />
   </configuration>
 </component>

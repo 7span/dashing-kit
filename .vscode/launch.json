@@ -8,65 +8,65 @@
             "name": "Launch development",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_development.dart",
+            "program": "packages/fitness_app/lib/main_development.dart",
             "args": [
                 "--target",
-                "lib/main_development.dart"
+                "packages/fitness_app/lib/main_development.dart"
             ]
         },
         {
             "name": "Launch development in Release",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_development.dart",
+            "program": "packages/fitness_app/lib/main_development.dart",
             "flutterMode": "release",
             "args": [
                 "--target",
-                "lib/main_development.dart"
+                "packages/fitness_app/lib/main_development.dart"
             ]
         },
         {
             "name": "Launch development in Profile",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_development.dart",
+            "program": "packages/fitness_app/lib/main_development.dart",
             "flutterMode": "profile",
             "args": [
                 "--target",
-                "lib/main_development.dart"
+                "packages/fitness_app/lib/main_development.dart"
             ]
         },
         {
             "name": "Launch production in Debug",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_production.dart",
+            "program": "packages/fitness_app/lib/main_production.dart",
             "flutterMode": "debug",
             "args": [
                 "--target",
-                "lib/main_production.dart"
+                "packages/fitness_app/lib/main_production.dart"
             ]
         },
         {
             "name": "Launch production in Profile",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_production.dart",
+            "program": "packages/fitness_app/lib/main_production.dart",
             "flutterMode": "profile",
             "args": [
                 "--target",
-                "lib/main_production.dart"
+                "packages/fitness_app/lib/main_production.dart"
             ]
         },
         {
             "name": "Launch production in Release",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_production.dart",
+            "program": "packages/fitness_app/lib/main_production.dart",
             "flutterMode": "release",
             "args": [
                 "--target",
-                "lib/main_production.dart"
+                "packages/fitness_app/lib/main_production.dart"
             ]
         }
     ]
