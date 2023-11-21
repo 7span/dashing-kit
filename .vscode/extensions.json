@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "dart-code.dart-code",
+        "dart-code.flutter",
+        "felixangelov.bloc",
+        "eugeniobuffo.android-manifest-snippets",
+        "pflannery.vscode-versionlens",
+        "hzgood.dart-data-class-generator",
+        "circlecodesolution.ccs-flutter-color",
+        "antoinegtr.flutter-icons",
+        "christian-kohler.path-intellisense",
+        "nash.awesome-flutter-snippets",
+    ]
+}

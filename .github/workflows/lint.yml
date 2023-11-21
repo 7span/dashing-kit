@@ -1,0 +1,49 @@
+name: Flutter Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.16.0"
+
+      - name: Create .env.dev file
+        run: |
+          cat > .env.dev <<EOF
+          BASE_API_URL=${{ secrets.BASE_API_URL_DEV }}
+          ENV=Development
+          EOF
+
+      - name: Create .env.prod file
+        run: |
+          cat > .env.prod <<EOF
+          BASE_API_URL=${{ secrets.BASE_API_URL_PROD }}
+          ENV=Production
+          EOF
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate Assets, Enviroments Configurations and Hive Code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Run Localisation Key Generation
+        run: flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -O ./lib/gen -S assets/l10n
+
+      - name: Run Localisation Key Generation
+        run: flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -O ./lib/gen -S assets/l10n
+
+      - name: Run Lint
+        run: flutter analyze
