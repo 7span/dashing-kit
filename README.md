@@ -6,11 +6,8 @@
 2. Open this project and run the command below:
 `melos bs`
 
-3. Run build runner command to generate the configuration files
+3. Run build runner command to generate the configuration files such as assets, enviroments or routing
 `melos run build-runner`
 
-4. Run the command below to generate enviroment configurations
-`melos run env-gen`
-
-5. Run this command to generate localization
+4. Run this command to generate localization
 `melos run locale-gen`
