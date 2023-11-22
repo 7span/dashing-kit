@@ -1,6 +1,5 @@
-import 'package:fitness_app/app/enum.dart';
-import 'package:fitness_app/app/helpers/extensions/extensions.dart';
-import 'package:fitness_app/app/theme/spacing.dart';
+import 'package:fitness_ui/src/theme/utils/utils.dart';
+import 'package:fitness_ui/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 /// This class is used for implementing the Buttons throughout the App
@@ -97,16 +96,16 @@ class _ButtonType extends StatelessWidget {
     final iconWithPadding = Padding(
       padding: iconPadding ??
           const EdgeInsets.fromLTRB(
-            Insets.xxsmall,
+            Insets.xsmall,
             Insets.medium,
             Insets.zero,
             Insets.medium,
           ),
       child: icon,
     );
-    final primaryColor = context.colorScheme.primary;
-    final secondaryColor = context.colorScheme.secondary;
-    final onPrimaryColor = context.colorScheme.onPrimary;
+    final primaryColor = context.colorScheme.foreground;
+    final secondaryColor = context.colorScheme.foreground;
+    final onPrimaryColor = context.colorScheme.foreground;
 
     return switch (buttonType) {
       ButtonType.elevated when icon != null => ElevatedButton.icon(
@@ -271,7 +270,7 @@ class _ButtonContent extends StatelessWidget {
             Insets.medium,
           )
         : const EdgeInsets.all(Insets.medium);
-    final defaultTextStyle = context.textTheme.bodyLarge!.copyWith(color: defaultTextColor);
+    final defaultTextStyle = context.textTheme?.title.copyWith(color: defaultTextColor);
     return Container(
       width: isExpanded ? Insets.infinity : null,
       padding: contentPadding ?? defaultPadding,
@@ -283,10 +282,18 @@ class _ButtonContent extends StatelessWidget {
             )
           : Center(
               child: SizedBox.square(
-                dimension: textStyle?.fontSize ?? defaultTextStyle.fontSize,
+                dimension: textStyle?.fontSize ?? defaultTextStyle?.fontSize,
                 child: const CircularProgressIndicator(),
               ),
             ),
     );
   }
+}
+
+enum ButtonType {
+  elevated,
+  filled,
+  tonal,
+  outlined,
+  text,
 }

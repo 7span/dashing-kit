@@ -1,10 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-// ignore_for_file: join_return_with_assignment
-
 import 'package:bloc/bloc.dart';
-import 'package:fitness_app/app/helpers/extensions/extensions.dart';
 import 'package:fitness_app/core/presentation/widgets/drop_down/model/dropdown_model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 
 part 'app_drop_down_state.dart';
 

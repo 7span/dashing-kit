@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:fitness_app/app/enum.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:fitness_app/app/helpers/extensions/extensions.dart';
 import 'package:fitness_app/app/helpers/permission/permission_helper.dart';
 import 'package:fitness_app/app/helpers/permission/permission_manager.dart';
 
@@ -94,7 +94,7 @@ class ImagePickerUtils {
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: context.colorScheme.primary,
+            toolbarColor: context.colorScheme.foreground,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
@@ -140,7 +140,7 @@ class ImagePickerUtils {
           uiSettings: [
             AndroidUiSettings(
               toolbarTitle: 'Cropper',
-              toolbarColor: context.colorScheme.primary,
+              toolbarColor: context.colorScheme.foreground,
               toolbarWidgetColor: Colors.white,
               initAspectRatio: CropAspectRatioPreset.original,
               lockAspectRatio: false,

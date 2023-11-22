@@ -8,11 +8,7 @@
             "name": "Launch development",
             "request": "launch",
             "type": "dart",
-            "program": "packages/fitness_app/lib/main_development.dart",
-            "args": [
-                "--target",
-                "packages/fitness_app/lib/main_development.dart"
-            ]
+            "program": "packages/fitness_app/lib/main_development.dart"
         },
         {
             "name": "Launch development in Release",
@@ -20,10 +16,6 @@
             "type": "dart",
             "program": "packages/fitness_app/lib/main_development.dart",
             "flutterMode": "release",
-            "args": [
-                "--target",
-                "packages/fitness_app/lib/main_development.dart"
-            ]
         },
         {
             "name": "Launch development in Profile",
@@ -31,10 +23,6 @@
             "type": "dart",
             "program": "packages/fitness_app/lib/main_development.dart",
             "flutterMode": "profile",
-            "args": [
-                "--target",
-                "packages/fitness_app/lib/main_development.dart"
-            ]
         },
         {
             "name": "Launch production in Debug",
@@ -42,10 +30,6 @@
             "type": "dart",
             "program": "packages/fitness_app/lib/main_production.dart",
             "flutterMode": "debug",
-            "args": [
-                "--target",
-                "packages/fitness_app/lib/main_production.dart"
-            ]
         },
         {
             "name": "Launch production in Profile",
@@ -53,10 +37,6 @@
             "type": "dart",
             "program": "packages/fitness_app/lib/main_production.dart",
             "flutterMode": "profile",
-            "args": [
-                "--target",
-                "packages/fitness_app/lib/main_production.dart"
-            ]
         },
         {
             "name": "Launch production in Release",
@@ -64,10 +44,6 @@
             "type": "dart",
             "program": "packages/fitness_app/lib/main_production.dart",
             "flutterMode": "release",
-            "args": [
-                "--target",
-                "packages/fitness_app/lib/main_production.dart"
-            ]
         }
     ]
 }

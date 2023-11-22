@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fitness_app/app/helpers/extensions/extensions.dart';
 import 'package:fitness_app/app/routes/app_router.dart';
 import 'package:fitness_app/core/presentation/widgets/image_cropper/image_picker_utils.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 import 'package:flutter/material.dart';
 
 class ImageCropperTest extends StatefulWidget {
@@ -27,7 +27,7 @@ class _ImageCropperTestState extends State<ImageCropperTest> {
       },
       icon: Icon(
         Icons.add_photo_alternate_outlined,
-        color: context.colorScheme.onPrimary,
+        color: context.colorScheme.foreground,
       ),
     );
   }

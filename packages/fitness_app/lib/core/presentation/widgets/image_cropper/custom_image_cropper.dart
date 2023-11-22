@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:fitness_app/app/helpers/extensions/extensions.dart';
-import 'package:fitness_app/app/theme/spacing.dart';
-import 'package:fitness_app/core/presentation/widgets/app_button.dart';
 import 'package:fitness_app/core/presentation/widgets/image_cropper/cubit/image_cropper_cubit.dart';
 import 'package:fitness_app/core/presentation/widgets/image_cropper/cubit/image_cropper_state.dart';
 
@@ -58,8 +56,8 @@ class _CustomImageCropperScreenState extends State<CustomImageCropperScreen> {
         ),
         title: Text(
           'Crop Image',
-          style: context.textTheme.bodyLarge?.copyWith(
-            color: context.colorScheme.onSurfaceVariant,
+          style: context.textTheme?.paragraph.copyWith(
+            color: context.colorScheme.foreground,
           ),
         ),
       ),
@@ -95,11 +93,10 @@ class _CustomImageCropperScreenState extends State<CustomImageCropperScreen> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: context.colorScheme.shadow,
                                 border: Border.all(
                                   width: 2,
                                   color: index == state.selectedIndex
-                                      ? context.colorScheme.primary
+                                      ? context.colorScheme.foreground
                                       : Colors.transparent,
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(4)),

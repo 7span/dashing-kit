@@ -1,7 +1,5 @@
-import 'package:fitness_app/app/helpers/extensions/extensions.dart';
-import 'package:fitness_app/app/theme/app_colors.dart';
-import 'package:fitness_app/app/theme/spacing.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -44,9 +42,8 @@ class _ErrorContent extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final errorColor = context.colorScheme.error;
-          final primaryColor = context.colorScheme.primary;
+          final primaryColor = context.colorScheme.foreground;
           return Scaffold(
-            backgroundColor: AppColors.white,
             body: Padding(
               padding: const EdgeInsets.all(Insets.medium),
               child: Column(
@@ -69,7 +66,6 @@ class _ErrorContent extends StatelessWidget {
                         : "We encountered an error and we've notified our engineering team about it. Sorry for the inconvenience caused.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: AppColors.black,
                       fontSize: 14,
                     ),
                   ),

@@ -1,8 +1,6 @@
+import 'package:fitness_ui/src/theme/theme.dart';
+import 'package:fitness_ui/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fitness_app/app/helpers/extensions/extensions.dart';
-import 'package:fitness_app/app/theme/app_text_style.dart';
-import 'package:fitness_app/app/theme/spacing.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -37,9 +35,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 padding: const EdgeInsets.only(left: Insets.xsmall),
                 child: Text(
                   title ?? 'Boilerplate',
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    color: titleColor ?? context.colorScheme.primary,
-                    fontWeight: AppFontWeight.medium,
+                  style: context.textTheme?.title.copyWith(
+                    color: titleColor ?? context.colorScheme.foreground,
                   ),
                 ),
               )

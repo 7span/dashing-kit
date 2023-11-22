@@ -1,8 +1,6 @@
-import 'package:fitness_app/app/helpers/extensions/extensions.dart';
-import 'package:fitness_app/app/theme/app_theme.dart';
-import 'package:fitness_app/app/theme/spacing.dart';
 import 'package:fitness_app/core/presentation/widgets/drop_down/cubit/app_drop_down_cubit.dart';
 import 'package:fitness_app/core/presentation/widgets/drop_down/model/dropdown_model.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,7 +54,7 @@ class CustomDropDown extends StatelessWidget {
                   if (labelText != null)
                     Text(
                       labelText!,
-                      style: context.textTheme.labelMedium?.copyWith(
+                      style: context.textTheme?.paragraph.copyWith(
                         fontSize: 15,
                       ),
                     ),
@@ -64,8 +62,8 @@ class CustomDropDown extends StatelessWidget {
                   Container(
                     height: 60,
                     decoration: BoxDecoration(
-                      color: context.colorScheme.primary,
-                      borderRadius: BorderRadius.circular(radius ?? AppTheme.defaultRadius),
+                      color: context.colorScheme.foreground,
+                      borderRadius: BorderRadius.circular(radius ?? 1),
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 20),
                     child: DropdownButton<AppDropdownModel>(
@@ -76,7 +74,7 @@ class CustomDropDown extends StatelessWidget {
                       // ),
                       hint: Text(
                         hint ?? '',
-                        style: context.textTheme.labelMedium?.copyWith(
+                        style: context.textTheme?.paragraph.copyWith(
                           fontSize: 15,
                           overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.w400,
@@ -86,7 +84,7 @@ class CustomDropDown extends StatelessWidget {
                       value: context.read<AppDropDownCubit>().selectedDropdownValue,
                       icon: Icon(
                         Icons.keyboard_arrow_down,
-                        color: context.colorScheme.secondary,
+                        color: context.colorScheme.foreground,
                       ),
                       elevation: 16,
                       underline: Container(),

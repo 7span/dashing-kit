@@ -1,10 +1,10 @@
 import 'package:fitness_app/core/presentation/screens/error_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:fitness_app/app/routes/app_router.dart';
-import 'package:fitness_app/app/theme/app_theme.dart';
 import 'package:fitness_app/core/domain/bloc/theme_bloc.dart';
 
 /// This class contains the [MaterialApp] widget. In this class, we're
@@ -40,24 +40,24 @@ class App extends StatelessWidget {
       fallbackLocale: const Locale('en', 'US'),
       child: MultiBlocProvider(
         providers: providers,
-        child: BlocBuilder<ThemeBloc, ThemeMode>(
-          builder: (BuildContext context, ThemeMode themeMode) {
-            return MaterialApp.router(
-              routerConfig: _appRouter.config(),
-              title: 'Boilerplate code',
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
-              themeMode: themeMode,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              builder: (BuildContext context, Widget? widget) {
-                ErrorWidget.builder = (details) {
-                  return ErrorScreen(details: details);
-                };
-                return widget!;
-              },
-              debugShowCheckedModeBanner: false,
+        child: BlocBuilder<ThemeBloc, AppThemeColorMode>(
+          builder: (BuildContext context, AppThemeColorMode themeMode) {
+            return AppResponsiveTheme(
+              colorMode: themeMode,
+              child: MaterialApp.router(
+                routerConfig: _appRouter.config(),
+                title: 'Fitness App',
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                builder: (BuildContext context, Widget? widget) {
+                  ErrorWidget.builder = (details) {
+                    return ErrorScreen(details: details);
+                  };
+                  return widget!;
+                },
+                debugShowCheckedModeBanner: false,
+              ),
             );
           },
         ),

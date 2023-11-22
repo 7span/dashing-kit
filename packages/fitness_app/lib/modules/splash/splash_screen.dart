@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fitness_app/app/helpers/extensions/extensions.dart';
 import 'package:fitness_app/app/routes/app_router.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()

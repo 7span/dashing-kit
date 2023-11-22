@@ -1,14 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fitness_app/gen/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import 'package:fitness_app/app/routes/app_router.dart';
-import 'package:fitness_app/app/theme/spacing.dart';
 import 'package:fitness_app/core/data/services/auth.service.dart';
-import 'package:fitness_app/core/presentation/widgets/app_button.dart';
-import 'package:fitness_app/core/presentation/widgets/custom_app_bar.dart';
 import 'package:fitness_app/modules/auth/repository/auth_repository.dart';
 import 'package:fitness_app/modules/auth/sign_in/bloc/login_bloc.dart';
 

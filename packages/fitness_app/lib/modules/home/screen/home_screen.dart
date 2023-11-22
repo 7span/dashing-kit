@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fitness_ui/fitness_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:fitness_app/app/enum.dart';
 import 'package:fitness_app/app/helpers/extensions/extensions.dart';
 import 'package:fitness_app/app/helpers/mixins/pagination_mixin.dart';
-import 'package:fitness_app/app/theme/spacing.dart';
-import 'package:fitness_app/core/presentation/widgets/custom_app_bar.dart';
 import 'package:fitness_app/modules/home/bloc/home_bloc.dart';
 import 'package:fitness_app/modules/home/repository/home_repository.dart';
 
@@ -65,12 +64,12 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
                       padding: const EdgeInsets.all(Insets.small),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: context.colorScheme.primary,
+                        color: context.colorScheme.foreground,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         state.postsList[index].title ?? '',
-                        style: context.textTheme.titleSmall,
+                        style: context.textTheme?.title,
                       ),
                     ),
                   );
