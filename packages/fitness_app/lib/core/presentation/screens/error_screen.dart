@@ -42,7 +42,7 @@ class _ErrorContent extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final errorColor = context.colorScheme.error;
-          // final primaryColor = context.colorScheme.foreground;
+          final primaryColor = context.colorScheme.foreground;
           return Scaffold(
             body: Padding(
               padding: const EdgeInsets.all(Insets.medium),
