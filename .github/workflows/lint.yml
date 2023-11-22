@@ -24,8 +24,8 @@ jobs:
           echo "BASE_API_URL=${{ secrets.BASE_API_URL_DEV }}" > "packages/fitness_app/.env.dev"
           echo "ENV=Development" >> "packages/fitness_app/.env.dev"
           
-          - name: Create .env.prod file
-          run: |
+      - name: Create .env.prod file
+        run: |
           echo "BASE_API_URL=${{ secrets.BASE_API_URL_PROD }}" > "packages/fitness_app/.env.prod"
           echo "ENV=Production" >> "packages/fitness_app/.env.prod"
 
