@@ -21,17 +21,11 @@ jobs:
 
       - name: Create .env.dev file
         run: |
-          cat > packages/fitness_app/.env.dev <<EOF
-          BASE_API_URL=${{ secrets.BASE_API_URL_DEV }}
-          ENV=Development
-          EOF
-
+          echo "BASE_API_URL=${{ secrets.BASE_API_URL_DEV }} ENV=Development" > "packages/fitness_app/.env.dev"
+          
       - name: Create .env.prod file
         run: |
-          cat > packages/fitness_app/.env.dev <<EOF
-          BASE_API_URL=${{ secrets.BASE_API_URL_PROD }}
-          ENV=Production
-          EOF
+          echo "BASE_API_URL=${{ secrets.BASE_API_URL_PROD }} ENV=Production" > "packages/fitness_app/.env.prod"
 
       - name: Install melos
         run: flutter pub global activate melos
