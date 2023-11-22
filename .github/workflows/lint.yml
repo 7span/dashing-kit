@@ -22,6 +22,7 @@ jobs:
       - name: Create .env.dev file
         run: |
           echo "BASE_API_URL=${{ secrets.BASE_API_URL_DEV }} ENV=Development" > "packages/fitness_app/.env.dev"
+          cat packages/fitness_app/.env.dev
           
       - name: Create .env.prod file
         run: |
