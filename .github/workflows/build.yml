@@ -1,7 +1,7 @@
-name: Flutter Lint
+name: Flutter Build APK
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -42,5 +42,15 @@ jobs:
       - name: Run Localisation Key Generation
         run: melos run locale-gen
 
-      - name: Run Lint
-        run: melos run analyze
+      - name: Build Android APK
+        run: melos run build-apk
+    
+      - name: Upload QR Code Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: packages/fitness_app/build/app/outputs/apk/release/app-release.apk
+
+      - name: Generate QR Code
+        run: echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" | qrencode -o artifact_qr_code.png
+        

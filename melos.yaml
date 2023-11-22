@@ -24,3 +24,11 @@ scripts:
       dirExists: lib
       scope: fitness_app
     exec: dart run easy_localization:generate -f keys -o locale_keys.g.dart -O ./lib/gen -S assets/l10n
+
+  build-apk:
+    description: Generate localization
+    packageFilters:
+      flutter: true
+      dirExists: lib
+      scope: fitness_app
+    exec: flutter build apk -t lib/main_development.dart
