@@ -3,7 +3,7 @@ name: Flutter Build APK
 on:
   push:
     branches:
-      - main
+      - sudo
 
 jobs:
   build-apk:
