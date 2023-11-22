@@ -5,7 +5,9 @@ packages:
 
 scripts:
   analyze:
-    exec: dart analyze .
+    run: |
+      melos exec -c 5 -- \
+        dart analyze . --fatal-infos
 
   build-runner:
     description: Generate environment configuration, assets and other code generation
