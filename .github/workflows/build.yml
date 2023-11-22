@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  lint:
-    name: Lint
+  build-apk:
+    name: Flutter Build APK
     runs-on: ubuntu-latest
 
     steps:
@@ -45,12 +45,9 @@ jobs:
       - name: Build Android APK
         run: melos run build-apk
     
-      - name: Upload QR Code Artifact
+      - name: Upload the build Artifact
         uses: actions/upload-artifact@v2
         with:
           name: app-release
           path: packages/fitness_app/build/app/outputs/apk/release/app-release.apk
-
-      - name: Generate QR Code
-        run: echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" | qrencode -o artifact_qr_code.png
         
