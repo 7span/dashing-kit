@@ -9,9 +9,8 @@
 3. Enable Git Hooks
 `dart run husky install`
 
-
 > [!WARNING] 
-> **Before step 4, Configure that you've done the setup of `env` files before moving further**
+> **Before step 4, Configure that you've done the setup of `env` files before moving further [Link](https://cavin-7span.github.io/Dash-Docs/docs/tutorial-basics/configuring-environment-variables)**
 
 4. Run build runner command to generate the configuration files such as assets, enviroments or routing
 `melos run build-runner`
