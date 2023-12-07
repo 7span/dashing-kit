@@ -23,12 +23,12 @@ jobs:
       - name: Create .env.dev file
         run: |
           echo "BASE_API_URL=${{ secrets.BASE_API_URL_DEV }}" > "packages/app_core/.env.dev"
-          echo "ENV=Development" >> "packages/fitness_app/.env.dev"
+          echo "ENV=Development" >> "packages/app_core/.env.dev"
           
       - name: Create .env.prod file
         run: |
           echo "BASE_API_URL=${{ secrets.BASE_API_URL_PROD }}" > "packages/app_core/.env.prod"
-          echo "ENV=Production" >> "packages/fitness_app/.env.prod"
+          echo "ENV=Production" >> "packages/app_core/.env.prod"
 
       - name: Install melos
         run: flutter pub global activate melos
