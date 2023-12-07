@@ -48,6 +48,7 @@ dependencies:
       url: https://github.com/Cavin6080/form_bloc.git
       path: packages/flutter_form_bloc
       branch: development
+      ref: "6e31e30"
 
   # Utils
   logger: ^2.0.2+1
