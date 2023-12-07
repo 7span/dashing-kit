@@ -35,8 +35,4 @@ scripts:
 
   format:
     description: Formats the files
-    exec: dart run lint_staged
-
-  abc:
-    description: Formats the files
     exec: dart format . --line-length 120 --set-exit-if-changed
