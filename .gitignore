@@ -46,7 +46,6 @@ app.*.map.json
 windows/flutter/*
 .gitmessage
 settings.json
-pubspec.lock
 linux/flutter/*
 *.gr.dart
 *.env

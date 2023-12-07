@@ -1,4 +1,4 @@
-name: fitness-application-melos
+name: boilerplate-application-melos
 
 packages:
   - packages/*
@@ -14,7 +14,7 @@ scripts:
     packageFilters:
       flutter: true
       dirExists: lib
-      scope: fitness_app
+      scope: app_core
     run: melos exec dart run build_runner clean && melos exec dart run build_runner build -d
 
   locale-gen:
@@ -22,13 +22,13 @@ scripts:
     packageFilters:
       flutter: true
       dirExists: lib
-      scope: fitness_app
+      scope: app_core
     exec: dart run easy_localization:generate -f keys -o locale_keys.g.dart -O ./lib/gen -S assets/l10n
 
   build-apk:
-    description: Generate localization
+    description: Builds the APK File
     packageFilters:
       flutter: true
       dirExists: lib
-      scope: fitness_app
+      scope: app_core
     exec: flutter build apk -t lib/main_development.dart

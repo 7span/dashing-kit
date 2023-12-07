@@ -8,41 +8,41 @@
             "name": "Launch development",
             "request": "launch",
             "type": "dart",
-            "program": "packages/fitness_app/lib/main_development.dart"
+            "program": "packages/app_core/lib/main_development.dart"
         },
         {
             "name": "Launch development in Release",
             "request": "launch",
             "type": "dart",
-            "program": "packages/fitness_app/lib/main_development.dart",
+            "program": "packages/app_core/lib/main_development.dart",
             "flutterMode": "release",
         },
         {
             "name": "Launch development in Profile",
             "request": "launch",
             "type": "dart",
-            "program": "packages/fitness_app/lib/main_development.dart",
+            "program": "packages/app_core/lib/main_development.dart",
             "flutterMode": "profile",
         },
         {
             "name": "Launch production in Debug",
             "request": "launch",
             "type": "dart",
-            "program": "packages/fitness_app/lib/main_production.dart",
+            "program": "packages/app_core/lib/main_production.dart",
             "flutterMode": "debug",
         },
         {
             "name": "Launch production in Profile",
             "request": "launch",
             "type": "dart",
-            "program": "packages/fitness_app/lib/main_production.dart",
+            "program": "packages/app_core/lib/main_production.dart",
             "flutterMode": "profile",
         },
         {
             "name": "Launch production in Release",
             "request": "launch",
             "type": "dart",
-            "program": "packages/fitness_app/lib/main_production.dart",
+            "program": "packages/app_core/lib/main_production.dart",
             "flutterMode": "release",
         }
     ]
