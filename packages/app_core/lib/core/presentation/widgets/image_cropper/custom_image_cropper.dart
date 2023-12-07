@@ -9,7 +9,8 @@ import 'package:app_core/core/presentation/widgets/image_cropper/cubit/image_cro
 import 'package:app_core/core/presentation/widgets/image_cropper/cubit/image_cropper_state.dart';
 
 @RoutePage()
-class CustomImageCropperScreen extends StatefulWidget implements AutoRouteWrapper {
+class CustomImageCropperScreen extends StatefulWidget
+    implements AutoRouteWrapper {
   const CustomImageCropperScreen({required this.imageFileList, super.key});
   final List<XFile>? imageFileList;
 
@@ -23,7 +24,8 @@ class CustomImageCropperScreen extends StatefulWidget implements AutoRouteWrappe
   }
 
   @override
-  State<CustomImageCropperScreen> createState() => _CustomImageCropperScreenState();
+  State<CustomImageCropperScreen> createState() =>
+      _CustomImageCropperScreenState();
 }
 
 class _CustomImageCropperScreenState extends State<CustomImageCropperScreen> {
@@ -89,7 +91,9 @@ class _CustomImageCropperScreenState extends State<CustomImageCropperScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: () {
-                              context.read<CustomImageCropperCubit>().selectImage(index);
+                              context
+                                  .read<CustomImageCropperCubit>()
+                                  .selectImage(index);
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -99,7 +103,8 @@ class _CustomImageCropperScreenState extends State<CustomImageCropperScreen> {
                                       ? context.colorScheme.foreground
                                       : Colors.transparent,
                                 ),
-                                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(4)),
                               ),
                               margin: const EdgeInsets.only(right: 5),
                               padding: const EdgeInsets.all(5),
@@ -119,7 +124,9 @@ class _CustomImageCropperScreenState extends State<CustomImageCropperScreen> {
                       child: AppButton(
                         text: 'Save',
                         onPressed: () {
-                          context.read<CustomImageCropperCubit>().saveImages(context);
+                          context
+                              .read<CustomImageCropperCubit>()
+                              .saveImages(context);
                         },
                       ),
                     ),

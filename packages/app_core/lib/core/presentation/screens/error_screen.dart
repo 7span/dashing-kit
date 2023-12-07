@@ -51,7 +51,9 @@ class _ErrorContent extends StatelessWidget {
                 children: [
                   Assets.images.errorIllustration.image(),
                   Text(
-                    kDebugMode ? details.summary.toString() : 'Oups! Something went wrong!',
+                    kDebugMode
+                        ? details.summary.toString()
+                        : 'Oups! Something went wrong!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: kDebugMode ? errorColor : primaryColor,

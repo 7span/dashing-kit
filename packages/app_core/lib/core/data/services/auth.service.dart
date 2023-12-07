@@ -61,7 +61,8 @@ final class AuthService implements IAuthService {
   }
 
   @override
-  TaskEither<Failure, Unit> setAccessToken(String value) => TaskEither<Failure, Unit>.tryCatch(
+  TaskEither<Failure, Unit> setAccessToken(String value) =>
+      TaskEither<Failure, Unit>.tryCatch(
         () async {
           final box = Hive.box<String>(HiveKeys.userToken.value);
           await box.put(_Keys.accessToken, value);
@@ -74,7 +75,8 @@ final class AuthService implements IAuthService {
       );
 
   @override
-  TaskEither<Failure, Unit> setUserData(UserModel userModel) => TaskEither.tryCatch(
+  TaskEither<Failure, Unit> setUserData(UserModel userModel) =>
+      TaskEither.tryCatch(
         () async {
           final box = Hive.box<UserModel>(HiveKeys.userData.value);
           await box.add(userModel);

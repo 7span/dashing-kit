@@ -30,7 +30,8 @@ class CustomImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lastValue = imageUrl.isNotEmpty ? imageUrl.split('/').last.split('?').first : 0;
+    final lastValue =
+        imageUrl.isNotEmpty ? imageUrl.split('/').last.split('?').first : 0;
     return Container(
       height: height,
       width: width,

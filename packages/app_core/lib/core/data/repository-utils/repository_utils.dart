@@ -7,7 +7,8 @@ class RepositoryUtils {
   /// This functions checks if the status code is valid or not
   /// and based on that it delegates to the next function or returns error
   /// in case of the Error.
-  static Either<Failure, Response> checkStatusCode(Response response) => Either<Failure, Response>.fromPredicate(
+  static Either<Failure, Response> checkStatusCode(Response response) =>
+      Either<Failure, Response>.fromPredicate(
         response,
         (response) => response.statusCode?.getStatusCodeEnum.isSuccess ?? false,
         (error) => APIFailure(error: error),

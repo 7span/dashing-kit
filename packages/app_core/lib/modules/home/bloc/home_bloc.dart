@@ -54,7 +54,8 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       List<PostModel>.from(
         (json['postsList'] as List<dynamic>)
             // ignore: unnecessary_lambdas
-            .map<PostModel>((json) => PostModel.fromJson(json as Map<String, dynamic>))
+            .map<PostModel>(
+                (json) => PostModel.fromJson(json as Map<String, dynamic>))
             .toList(),
       ),
       false,

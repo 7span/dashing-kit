@@ -37,7 +37,8 @@ class ImagePickerUtils {
                 leading: const Icon(Icons.photo_library),
                 title: const Text('Gallery'),
                 onTap: () async {
-                  final result = await _requestPermission(MediaPermission.photo);
+                  final result =
+                      await _requestPermission(MediaPermission.photo);
                   if (result.result == PermissionResult.granted) {
                     onGalleryClicked();
                   }
@@ -47,7 +48,8 @@ class ImagePickerUtils {
                 leading: const Icon(Icons.photo_camera),
                 title: const Text('Camera'),
                 onTap: () async {
-                  final result = await _requestPermission(MediaPermission.camera);
+                  final result =
+                      await _requestPermission(MediaPermission.camera);
                   if (result.result == PermissionResult.granted) {
                     onCameraClicked();
                   } else {}
@@ -81,7 +83,8 @@ class ImagePickerUtils {
   }
 
   ///Crop Image
-  static Future<String?> cropImage(XFile? pickedFile, BuildContext context) async {
+  static Future<String?> cropImage(
+      XFile? pickedFile, BuildContext context) async {
     CroppedFile? croppedFile;
     if (pickedFile != null) {
       const ratio = CropAspectRatio(
@@ -127,7 +130,9 @@ class ImagePickerUtils {
   }) async {
     croppedFile = null;
     await ImagePicker()
-        .pickImage(source: useCamera ? ImageSource.camera : ImageSource.gallery, imageQuality: 60)
+        .pickImage(
+            source: useCamera ? ImageSource.camera : ImageSource.gallery,
+            imageQuality: 60)
         .then((pickedFile) async {
       if (pickedFile == null || !File(pickedFile.path).existsSync()) {
         return Stream.error(Exception('No image picked!'));
@@ -162,15 +167,18 @@ class ImagePickerUtils {
     return croppedFile?.path;
   }
 
-  static Future<PermissionResultData> _requestPermission(MediaPermission permission) async {
+  static Future<PermissionResultData> _requestPermission(
+      MediaPermission permission) async {
     final androidInfo = await DeviceInfoPlugin().androidInfo;
     if (permission == MediaPermission.photo) {
       ///Request permission for android 12 or lower
       if (androidInfo.version.sdkInt <= 32) {
-        return _permissionManager.requestPermission(MediaPermission.storage, _buildContext!);
+        return _permissionManager.requestPermission(
+            MediaPermission.storage, _buildContext!);
       } else {
         ///Request permission for android 13+
-        return _permissionManager.requestPermission(MediaPermission.photo, _buildContext!);
+        return _permissionManager.requestPermission(
+            MediaPermission.photo, _buildContext!);
       }
     } else {
       return _permissionManager.requestPermission(permission, _buildContext!);

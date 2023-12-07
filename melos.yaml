@@ -35,4 +35,4 @@ scripts:
 
   format:
     description: Formats the files
-    exec: dart format .
+    exec: dart format . --line-length 120
