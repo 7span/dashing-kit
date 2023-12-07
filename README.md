@@ -1,4 +1,4 @@
-# Fitness App
+# Boilerplate
 
 1. Activate melos:
 `dart pub global activate melos`
