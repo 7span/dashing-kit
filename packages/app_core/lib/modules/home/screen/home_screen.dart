@@ -56,9 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
                     return const Center(child: CircularProgressIndicator());
                   }
                   return InkWell(
-                    onTap: () => context
-                        .read<HomeBloc>()
-                        .add(const HomeDeletePostEvent()),
+                    onTap: () => context.read<HomeBloc>().add(const HomeDeletePostEvent()),
                     child: Container(
                       height: 80,
                       width: double.infinity,

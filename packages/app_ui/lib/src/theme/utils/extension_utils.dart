@@ -52,8 +52,7 @@ class ExtensionUtils {
       return null;
     }
 
-    final separatedWords =
-        value.split(RegExp(r'[!@#<>?":`~;[\]\\|=+)(*&^%-\s_]+'));
+    final separatedWords = value.split(RegExp(r'[!@#<>?":`~;[\]\\|=+)(*&^%-\s_]+'));
     var newString = '';
 
     for (final word in separatedWords) {
@@ -72,9 +71,7 @@ class ExtensionUtils {
     if (isNullOrBlank(text)!) {
       return null;
     }
-    return _groupIntoWords(text!)
-        .map((word) => word.toLowerCase())
-        .join(separator);
+    return _groupIntoWords(text!).map((word) => word.toLowerCase()).join(separator);
   }
 
   /// Checks if data is null or blank (empty or only contains whitespace).
@@ -111,9 +108,8 @@ class ExtensionUtils {
         continue;
       }
       sb.write(char);
-      final isEndOfWord = nextChar == null ||
-          (_upperAlphaRegex.hasMatch(nextChar) && !isAllCaps) ||
-          _symbolSet.contains(nextChar);
+      final isEndOfWord =
+          nextChar == null || (_upperAlphaRegex.hasMatch(nextChar) && !isAllCaps) || _symbolSet.contains(nextChar);
       if (isEndOfWord) {
         words.add('$sb');
         sb.clear();

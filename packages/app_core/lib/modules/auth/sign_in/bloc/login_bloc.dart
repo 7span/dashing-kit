@@ -17,8 +17,7 @@ class LoginFormBloc extends FormBloc<String, String> {
     ],
   );
 
-  final password =
-      TextFieldBloc(validators: [FieldBlocValidators.passwordMin6Chars]);
+  final password = TextFieldBloc(validators: [FieldBlocValidators.passwordMin6Chars]);
 
   @override
   FutureOr<void> onSubmitting() async {

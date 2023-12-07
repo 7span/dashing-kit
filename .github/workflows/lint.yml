@@ -3,7 +3,7 @@ name: Flutter Lint
 on:
   pull_request:
     branches:
-      - main
+      - sudo
 
 jobs:
   lint:

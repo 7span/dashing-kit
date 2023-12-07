@@ -19,20 +19,14 @@ abstract interface class IHomeRepository {
 /// This repository contains the implementation for [IHomeRepository]
 class HomeRepository implements IHomeRepository {
   @override
-  TaskEither<Failure, List<PostModel>> fetchPosts({required int page}) =>
-      mappingRequest('posts', page);
+  TaskEither<Failure, List<PostModel>> fetchPosts({required int page}) => mappingRequest('posts', page);
 
   /// This mapping request function is basically a wrapper around all of the function
   ///  that makes API requests and handles the validation logic and Failure handling
   TaskEither<Failure, List<PostModel>> mappingRequest(String url, int page) =>
-      makefetchPostsRequest(url, page)
-          .chainEither(RepositoryUtils.checkStatusCode)
-          .chainEither(mapToList)
-          .chainEither(
+      makefetchPostsRequest(url, page).chainEither(RepositoryUtils.checkStatusCode).chainEither(mapToList).chainEither(
             (r) => RepositoryUtils.mapToModel(
-              () => r
-                  .map((e) => PostModel.fromJson(e as Map<String, dynamic>))
-                  .toList(),
+              () => r.map((e) => PostModel.fromJson(e as Map<String, dynamic>)).toList(),
             ),
           );
 

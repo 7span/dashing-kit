@@ -34,9 +34,7 @@ class HomeState extends Equatable {
   }
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'postsList': postsList.map((e) => e.toJson()).toList()
-    };
+    return <String, dynamic>{'postsList': postsList.map((e) => e.toJson()).toList()};
   }
 
   @override

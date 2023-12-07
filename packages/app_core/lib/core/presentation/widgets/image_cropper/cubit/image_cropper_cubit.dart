@@ -13,32 +13,26 @@ class CustomImageCropperCubit extends Cubit<CustomImageCropperState> {
   CustomImageCropperCubit() : super(CustomImageCropperState());
 
   void initialize(List<XFile>? imageFileList) {
-    emit(state.copyWith(
-        imageFileList: imageFileList, selectedImage: imageFileList?[0]));
+    emit(state.copyWith(imageFileList: imageFileList, selectedImage: imageFileList?[0]));
   }
 
   void selectImage(int index) {
-    emit(state.copyWith(
-        selectedImage: state.imageFileList?[index], selectedIndex: index));
+    emit(state.copyWith(selectedImage: state.imageFileList?[index], selectedIndex: index));
   }
 
   Future<void> cropImage(BuildContext context) async {
-    await ImagePickerUtils.cropImage(state.selectedImage, context)
-        .then((value) {
+    await ImagePickerUtils.cropImage(state.selectedImage, context).then((value) {
       if (value != null) {
         final updatedList = List<XFile>.from(state.imageFileList ?? [])
           ..removeAt(state.selectedIndex)
           ..insert(state.selectedIndex, XFile(value));
-        emit(state.copyWith(
-            imageFileList: updatedList, selectedImage: XFile(value)));
+        emit(state.copyWith(imageFileList: updatedList, selectedImage: XFile(value)));
       }
     });
   }
 
   void saveImages(BuildContext context) {
-    final croppedList = state.imageFileList
-        ?.map((element) => CroppedFile(element.path))
-        .toList();
+    final croppedList = state.imageFileList?.map((element) => CroppedFile(element.path)).toList();
     emit(state.copyWith(croppedFileList: croppedList));
     context.popRoute(croppedList);
   }

@@ -4,13 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' show format;
 
 extension BuildContextX on BuildContext {
-  AppColorsData get colorScheme =>
-      AppTheme.maybeOf(this)?.colors ?? AppColorsData.light();
+  AppColorsData get colorScheme => AppTheme.maybeOf(this)?.colors ?? AppColorsData.light();
 
   AppTypographyData? get textTheme => AppTheme.maybeOf(this)?.typography;
 
-  bool get isDarkMode =>
-      MediaQuery.platformBrightnessOf(this) == Brightness.dark;
+  bool get isDarkMode => MediaQuery.platformBrightnessOf(this) == Brightness.dark;
 
   double get screenWidth => MediaQuery.sizeOf(this).width;
 
@@ -21,9 +19,7 @@ extension DateTimeX on DateTime {
   String defaultFormat() => DateFormat('MMM dd, yyyy').format(this);
 
   String get ago => format(
-        DateTime.now()
-            .toUtc()
-            .subtract(DateTime.now().toUtc().difference(this)),
+        DateTime.now().toUtc().subtract(DateTime.now().toUtc().difference(this)),
       );
 }
 
@@ -50,15 +46,13 @@ extension DurationDoubleExtension on double {
   ///```dart
   ///2.minutes
   ///```
-  Duration get minutes =>
-      Duration(seconds: (this * Duration.secondsPerMinute).round());
+  Duration get minutes => Duration(seconds: (this * Duration.secondsPerMinute).round());
 
   ///Usage
   ///```dart
   ///2.hours
   ///```
-  Duration get hours =>
-      Duration(minutes: (this * Duration.minutesPerHour).round());
+  Duration get hours => Duration(minutes: (this * Duration.minutesPerHour).round());
 
   ///Usage
   ///```dart

@@ -27,8 +27,7 @@ class LoginPage extends StatelessWidget implements AutoRouteWrapper {
       ],
       child: BlocProvider(
         create: (context) => LoginFormBloc(
-          authenticationRepository:
-              RepositoryProvider.of<AuthRepository>(context),
+          authenticationRepository: RepositoryProvider.of<AuthRepository>(context),
         ),
         child: this,
       ),
@@ -47,8 +46,7 @@ class LoginPage extends StatelessWidget implements AutoRouteWrapper {
               const SnackBar(content: Text('Could not log in')),
             );
         },
-        onSuccess: (context, state) =>
-            context.replaceRoute(const BottomNavigationBarRoute()),
+        onSuccess: (context, state) => context.replaceRoute(const BottomNavigationBarRoute()),
         child: Center(
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: Insets.large),
@@ -104,14 +102,11 @@ class _LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginFormBloc, FormBlocState<String, String>>(
       buildWhen: (previous, current) =>
-          previous.runtimeType != current.runtimeType ||
-          previous is FormBlocLoading && current is FormBlocLoading,
+          previous.runtimeType != current.runtimeType || previous is FormBlocLoading && current is FormBlocLoading,
       builder: (context, state) {
         return AppButton(
           text: LocaleKeys.login.tr(),
-          onPressed: state is! FormBlocSubmitting
-              ? () => context.read<LoginFormBloc>().submit()
-              : null,
+          onPressed: state is! FormBlocSubmitting ? () => context.read<LoginFormBloc>().submit() : null,
           isExpanded: true,
           isEnabled: state is FormBlocSubmitting ? false : true,
         );

@@ -5,7 +5,5 @@ import 'package:data_connection_checker_nulls/data_connection_checker_nulls.dart
 class NetWorkInfo {
   const NetWorkInfo();
   Future<ConnectionStatus> get isConnected async =>
-      await DataConnectionChecker().hasConnection
-          ? ConnectionStatus.online
-          : ConnectionStatus.offline;
+      await DataConnectionChecker().hasConnection ? ConnectionStatus.online : ConnectionStatus.offline;
 }

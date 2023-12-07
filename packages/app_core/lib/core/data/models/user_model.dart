@@ -23,8 +23,7 @@ class UserModel extends HiveObject {
     );
   }
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @HiveField(1)
   final String name;

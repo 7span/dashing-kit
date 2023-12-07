@@ -19,8 +19,7 @@ class _ImageCropperTestState extends State<ImageCropperTest> {
         await ImagePickerUtils.selectImages(context).then((data) async {
           if (data != null) {
             // ignore: unused_local_variable
-            final result =
-                context.pushRoute(CustomImageCropperRoute(imageFileList: data));
+            final result = context.pushRoute(CustomImageCropperRoute(imageFileList: data));
 
             ///in result get cropped image files
           }

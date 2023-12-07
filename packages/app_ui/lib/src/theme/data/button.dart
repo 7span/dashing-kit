@@ -269,8 +269,7 @@ class _ButtonContent extends StatelessWidget {
             Insets.medium,
           )
         : const EdgeInsets.all(Insets.medium);
-    final defaultTextStyle =
-        context.textTheme?.title.copyWith(color: defaultTextColor);
+    final defaultTextStyle = context.textTheme?.title.copyWith(color: defaultTextColor);
     return Container(
       width: isExpanded ? Insets.infinity : null,
       padding: contentPadding ?? defaultPadding,
