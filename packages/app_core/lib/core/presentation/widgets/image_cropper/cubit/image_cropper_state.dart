@@ -3,7 +3,6 @@ import 'package:image_picker/image_picker.dart';
 
 // State
 class CustomImageCropperState {
-
   CustomImageCropperState({
     this.imageFileList,
     this.selectedImage,

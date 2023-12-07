@@ -29,4 +29,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  husky: ^0.1.6
   melos: ^3.4.0

@@ -32,3 +32,7 @@ scripts:
       dirExists: lib
       scope: app_core
     exec: flutter build apk -t lib/main_development.dart
+
+  format:
+    description: Formats the files
+    exec: dart format .
