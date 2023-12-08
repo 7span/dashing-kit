@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_core/app/enum.dart';
+import 'package:api_client/api_client.dart';
 import 'package:app_core/modules/home/model/post_model.dart';
 import 'package:app_core/modules/home/repository/home_repository.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';

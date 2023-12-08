@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:api_client/api_client.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:app_core/app/config/api_config.dart';
 import 'package:app_core/app/config/app_config.dart';
 import 'package:app_core/app/enum.dart';
 import 'package:app_core/app/helpers/injection.dart';
@@ -35,7 +35,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   await getIt<IAuthService>().init();
 
   ///setting up the Dio configurations
-  await ApiClient.init(isApiCacheEnabled: false);
+  await ApiClient.instance.init(isApiCacheEnabled: false, baseURL: AppConfig.baseApiUrl);
   Bloc.observer = getIt<AppBlocObserver>();
 
   // MemoryAllocations.instance.addListener((ObjectEvent event) {

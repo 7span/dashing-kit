@@ -20,17 +20,6 @@ extension GetUsernameExtension on NavigationResolver {
       );
 }
 
-extension StatusCodeX on StatusCode {
-  bool get isSuccess => value == 200 || value == 201 || value == 204;
-}
-
-extension IntX on int {
-  StatusCode get getStatusCodeEnum => StatusCode.values.firstWhere(
-        (StatusCode element) => element.value == this,
-        orElse: () => StatusCode.http000,
-      );
-}
-
 extension AddEventSafe<Event, State> on Bloc<Event, State> {
   /// This extension lets you add event only if there's a network connection. It's useful when you're
   /// implementing caching functionality using [HydratedBloc]

@@ -1,7 +1,18 @@
 name: boilerplate-application-melos
 
+command:
+  bootstrap:
+    environment:
+      sdk: ">=3.2.0 <4.0.0"
+      flutter: ">=3.0.0 <4.0.0"
+    dependencies:
+      intl: ^0.18.1
+      fpdart: ^1.1.0
+
 packages:
-  - packages/*
+  - packages/api_client
+  - packages/app_core
+  - packages/app_ui
 
 scripts:
   analyze:
@@ -35,4 +46,4 @@ scripts:
 
   format:
     description: Formats the files
-    exec: dart format . --line-length 120
+    exec: dart format . --line-length 100

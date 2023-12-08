@@ -1,11 +1,11 @@
 import 'dart:developer';
 
+import 'package:api_client/api_client.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:app_core/app/enum.dart';
 import 'package:app_core/core/data/models/user_model.dart';
-import 'package:app_core/core/domain/failure.dart';
 
 /// This class is used for creating the contract for setting and getting the
 /// user data, with the help of this class. Anyone can create their own

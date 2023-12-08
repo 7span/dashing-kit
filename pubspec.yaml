@@ -24,13 +24,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   husky: ^0.1.6
-  lint_staged: ^0.4.2
   melos: ^3.4.0
 
 lint_staged:

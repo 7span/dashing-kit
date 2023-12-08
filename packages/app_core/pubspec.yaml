@@ -27,8 +27,11 @@ dependencies:
 
   cupertino_icons: ^1.0.6
 
-  # Fitness App UI
+  # App UI Package
   app_ui: ^0.0.1
+
+  # API Client Package
+  api_client: ^0.0.1
 
   # internationalization
   timeago: ^3.6.0
@@ -48,7 +51,7 @@ dependencies:
       url: https://github.com/Cavin6080/form_bloc.git
       path: packages/flutter_form_bloc
       branch: development
-      ref: "6e31e30"
+      ref: b808dfd
 
   # Utils
   logger: ^2.0.2+1
@@ -118,14 +121,11 @@ flutter_gen:
 
 flutter:
   uses-material-design: true
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
     - assets/icons/
     - assets/fonts/
     - assets/l10n/
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
 
   # fonts:
   #   - family: Schyler

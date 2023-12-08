@@ -1,11 +1,11 @@
 import 'dart:developer';
 
+import 'package:api_client/api_client.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:fpdart/fpdart.dart';
 
 import 'package:app_core/core/data/models/user_model.dart';
 import 'package:app_core/core/data/services/auth.service.dart';
-import 'package:app_core/core/domain/failure.dart';
 
 /// This repository contains the contract for login and logout function
 abstract interface class IAuthRepository {

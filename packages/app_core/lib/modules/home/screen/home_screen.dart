@@ -1,13 +1,12 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:app_ui/app_ui.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:app_core/app/enum.dart';
+import 'package:api_client/api_client.dart';
 import 'package:app_core/app/helpers/extensions/extensions.dart';
 import 'package:app_core/app/helpers/mixins/pagination_mixin.dart';
 import 'package:app_core/modules/home/bloc/home_bloc.dart';
 import 'package:app_core/modules/home/repository/home_repository.dart';
+import 'package:app_ui/app_ui.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
