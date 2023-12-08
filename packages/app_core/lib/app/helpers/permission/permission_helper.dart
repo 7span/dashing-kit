@@ -48,7 +48,8 @@ class PermissionsHelper {
     final permissionResultMapper = PermissionResultMapper();
 
     result.forEach((key, value) {
-      resultMap[permissionMapper.reverseMap(key)] = PermissionResultData(result: permissionResultMapper.map(value));
+      resultMap[permissionMapper.reverseMap(key)] =
+          PermissionResultData(result: permissionResultMapper.map(value));
     });
 
     return resultMap;
