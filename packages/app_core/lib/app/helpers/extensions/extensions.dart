@@ -16,7 +16,7 @@ extension GetUserDataExtension on BuildContext {
 extension GetUsernameExtension on NavigationResolver {
   bool get isLoggedIn => getIt<IAuthService>().getUserData().fold<bool>(
         (_) => false,
-        (model) => true,
+        (model) => model.isNotEmpty,
       );
 }
 

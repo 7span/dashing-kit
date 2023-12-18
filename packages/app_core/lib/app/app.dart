@@ -33,11 +33,10 @@ class App extends StatelessWidget {
     /// https://pub.dev/packages/easy_localization
     return EasyLocalization(
       supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('en', 'IN'),
+        Locale('en'),
       ],
       path: 'assets/l10n',
-      fallbackLocale: const Locale('en', 'US'),
+      fallbackLocale: const Locale('en'),
       child: MultiBlocProvider(
         providers: providers,
         child: BlocBuilder<ThemeBloc, AppThemeColorMode>(

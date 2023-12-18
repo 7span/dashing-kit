@@ -19,9 +19,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           initial: true,
           page: SplashRoute.page,
-          guards: [
-            AuthGuard(),
-          ],
+          guards: [AuthGuard()],
         ),
         AutoRoute(page: LoginRoute.page),
         AutoRoute(page: CustomImageCropperRoute.page),
