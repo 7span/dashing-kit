@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:api_client/api_client.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:app_core/core/data/services/network_helper.service.dart';
+import 'package:app_translations/app_translations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logger/logger.dart';
@@ -11,7 +13,9 @@ import 'package:app_core/app/config/app_config.dart';
 import 'package:app_core/app/enum.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/app/observers/app_bloc_observer.dart';
-import 'package:app_core/core/data/services/auth.service.dart';
+import 'package:app_core/core/data/services/hive.service.dart';
+// import 'package:app_core/firebase_options.dart';
+// import 'package:firebase_core/firebase_core.dart';
 // import 'package:leak_tracker/leak_tracker.dart';
 
 /// This function is one of the core function that should be run before we even
@@ -19,23 +23,42 @@ import 'package:app_core/core/data/services/auth.service.dart';
 ///
 /// * [HydratedBloc] for caching the state
 /// * [AppBlocObserver] for printing the events and state logs
-/// * [AuthService] for getting and setting the Userdata
+/// * [HiveService] for getting and setting the Userdata
 Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  /// Initialization of Firebase
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   ///  Initializing localizations
-  await EasyLocalization.ensureInitialized();
+  LocaleSettings.useDeviceLocale();
+
+  /// Initialzing realtime network info service
+  NetWorkInfoService.instance.init();
 
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getTemporaryDirectory(),
+    storageDirectory:
+        kIsWeb ? HydratedStorage.webStorageDirectory : await getApplicationDocumentsDirectory(),
   );
+
+  //! Should be removed in future
+  if (NetWorkInfoService.instance.connectionStatus == ConnectionStatus.online) {
+    await HydratedBloc.storage.clear();
+  }
   // enableLeakTracking();
   initializeSingletons();
   AppConfig.setEnvConfig(env);
-  await getIt<IAuthService>().init();
+  await getIt<IHiveService>().init();
 
-  ///setting up the Dio configurations
-  await ApiClient.instance.init(isApiCacheEnabled: false, baseURL: AppConfig.baseApiUrl);
+  ///setting up the GraphQL configurations
+  await openApiClient.init(isApiCacheEnabled: false, baseURL: AppConfig.baseApiUrl);
+
+  /// If the user has already logged in, then set the authorization token for the Closed API endpoint
+  // getIt<IHiveService>().getAccessToken().fold(
+  //       () => null,
+  //       (token) => closeApiClient.setAuthorizationToken(token, AppConfig.baseApiUrl),
+  //     );
+
   Bloc.observer = getIt<AppBlocObserver>();
 
   // MemoryAllocations.instance.addListener((ObjectEvent event) {
@@ -53,6 +76,8 @@ void initializeSingletons() {
         output: ConsoleOutput(),
       ),
     )
+    ..registerLazySingleton(ApiClient.new, instanceName: 'open')
+    ..registerLazySingleton(ApiClient.new, instanceName: 'close')
     ..registerSingleton(AppBlocObserver())
-    ..registerSingleton<IAuthService>(const AuthService());
+    ..registerSingleton<IHiveService>(const HiveService());
 }

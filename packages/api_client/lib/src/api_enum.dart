@@ -1,13 +1,11 @@
 /// Used while making the API request to define the type of the request
 enum RequestType {
-  get,
-  post,
-  put,
-  delete,
+  query,
+  mutation,
 }
 
 /// Used in state class for emitting the status of the API
-enum ApiStatus { initial, loading, loaded, error }
+enum ApiStatus { initial, loading, loaded, error, empty }
 
 /// For making some computations based on status code.
 ///

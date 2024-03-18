@@ -5,7 +5,7 @@ import 'package:app_core/app/helpers/injection.dart';
 import 'package:fpdart/fpdart.dart';
 
 import 'package:app_core/core/data/models/user_model.dart';
-import 'package:app_core/core/data/services/auth.service.dart';
+import 'package:app_core/core/data/services/hive.service.dart';
 
 /// This repository contains the contract for login and logout function
 abstract interface class IAuthRepository {
@@ -15,10 +15,11 @@ abstract interface class IAuthRepository {
 }
 
 /// This class contains the implementation for login and logout functions.
+// ignore: comment_references
 /// This repository connects with [IAuthService] for setting the data of the user
 /// that is given by the API Response
 class AuthRepository implements IAuthRepository {
-  AuthRepository();
+  const AuthRepository();
 
   @override
   TaskEither<Failure, Unit> login(
@@ -31,9 +32,9 @@ class AuthRepository implements IAuthRepository {
       id: 1,
       profilePicUrl: 'profilePicUrl',
     );
-    return getIt<IAuthService>()
+    return getIt<IHiveService>()
         .setAccessToken('uniquetoken')
-        .flatMap((_) => getIt<IAuthService>().setUserData(userModel));
+        .flatMap((_) => getIt<IHiveService>().setUserData(userModel));
   }
 
   @override
@@ -42,7 +43,7 @@ class AuthRepository implements IAuthRepository {
       await Future<void>.delayed(const Duration(seconds: 2));
 
       //clear auth tokens from the local storage
-      await getIt<IAuthService>().clearData().run();
+      await getIt<IHiveService>().clearData().run();
       return true;
     } catch (error) {
       log(error.toString());

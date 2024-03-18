@@ -59,8 +59,8 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
                     child: Container(
                       height: 80,
                       width: double.infinity,
-                      margin: const EdgeInsets.all(Insets.small),
-                      padding: const EdgeInsets.all(Insets.small),
+                      margin: const EdgeInsets.all(Insets.small12),
+                      padding: const EdgeInsets.all(Insets.small12),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: context.colorScheme.foreground,
@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
             case ApiStatus.initial:
               return const SizedBox.shrink();
             case ApiStatus.error:
+            case ApiStatus.empty:
               return const Center(child: Text('Error'));
           }
         },

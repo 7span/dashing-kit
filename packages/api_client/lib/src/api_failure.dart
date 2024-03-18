@@ -1,10 +1,14 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
+import 'package:graphql/client.dart';
 
 /// Here, we're creating an abstract class for Faliure, Because
 /// We can swap any kind of implementation that we want while
 /// passing the Sub Failure class or while testing
+/// [APIFailure] -> Failure while Calling the API
+/// [RequestMakingFaliure] -> Failure when creating the request
+/// [ResponseValidationFailure] -> Failure when validating the response
+/// [ModelConversionFailure] -> Failure when converting the model to Dart Object
 sealed class Failure {
   Failure();
   String get message;
@@ -14,7 +18,10 @@ sealed class Failure {
 /// in either calling an API or while there's something
 /// happened on the backend side
 class APIFailure extends Failure {
-  APIFailure({this.error, this.stackTrace});
+  APIFailure([this.error, this.stackTrace]) {
+    log(stackTrace.toString());
+    log(error.toString());
+  }
 
   final Object? error;
   final StackTrace? stackTrace;
@@ -23,22 +30,36 @@ class APIFailure extends Failure {
   String get message {
     String? errorMessage;
 
-    if (error != null) {
-      if (error! is DioException) {
-        /// Here, [message] is the key in which we're getting the
-        /// error message from the API call
-        final exception = error! as DioException?;
-        if (exception?.response?.data is Map<String, dynamic>) {
-          // ignore: avoid_dynamic_calls
-          errorMessage = (exception?.response?.data['message'] != null)
-              // ignore: avoid_dynamic_calls
-              ? exception?.response?.data['message']
-              : null;
-        }
-      }
-    }
     return errorMessage ?? 'An error occurred';
   }
+}
+
+/// This failure represents that there's some problem in creating the request
+class RequestMakingFaliure extends Failure {
+  RequestMakingFaliure({this.error, this.stackTrace}) {
+    log(stackTrace.toString());
+    log(error.toString());
+  }
+  final Object? error;
+  final StackTrace? stackTrace;
+
+  @override
+  String get message => 'There is some error in preparing the request';
+}
+
+/// This failure represents that there's some problem in validating the response
+class ResponseValidationFailure extends Failure {
+  ResponseValidationFailure({this.error, this.stackTrace}) {
+    log(stackTrace.toString());
+    log(error.toString());
+  }
+  final Object? error;
+  final StackTrace? stackTrace;
+
+  @override
+  String get message => error is OperationException
+      ? (error as OperationException).graphqlErrors[0].message
+      : 'There is some error in validating the API response';
 }
 
 /// This failure represents that there's some problem in parsing the
@@ -46,25 +67,13 @@ class APIFailure extends Failure {
 class ModelConversionFailure extends Failure {
   ModelConversionFailure({this.error, this.stackTrace}) {
     log(stackTrace.toString());
+    log(error.toString());
   }
   final Object? error;
   final StackTrace? stackTrace;
 
   @override
   String get message => 'The API data could not be parsed into the model';
-}
-
-/// This failure represents that there's some problem in parsing the
-/// json data from the API
-class JsonParsingFailure extends Failure {
-  JsonParsingFailure({this.error, this.stackTrace}) {
-    log(stackTrace.toString());
-  }
-  final Object? error;
-  final StackTrace? stackTrace;
-
-  @override
-  String get message => 'The JSON data could not be parsed';
 }
 
 /// This failure is used when we're not able to write the userdata into the database
@@ -74,6 +83,7 @@ class UserSaveFailure extends Failure {
     this.stackTrace,
   }) {
     log(stackTrace.toString());
+    log(error.toString());
   }
   final Object? error;
   final StackTrace? stackTrace;
@@ -88,6 +98,7 @@ class UserTokenSaveFailure extends Failure {
     this.stackTrace,
   }) {
     log(stackTrace.toString());
+    log(error.toString());
   }
   final Object? error;
   final StackTrace? stackTrace;
@@ -100,11 +111,30 @@ class HiveFailure extends Failure {
   HiveFailure({
     this.error,
     this.stackTrace,
-  });
+  }) {
+    log(stackTrace.toString());
+    log(error.toString());
+  }
 
   final Object? error;
   final StackTrace? stackTrace;
 
   @override
   String get message => "There's an issue in Hive";
+}
+
+class UrlLaunchingFailure extends Failure {
+  UrlLaunchingFailure({
+    this.error,
+    this.stackTrace,
+  }) {
+    log(stackTrace.toString());
+    log(error.toString());
+  }
+
+  final Object? error;
+  final StackTrace? stackTrace;
+
+  @override
+  String get message => "Could not launch the URL";
 }

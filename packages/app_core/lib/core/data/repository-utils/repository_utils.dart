@@ -10,7 +10,7 @@ class RepositoryUtils {
       Either<Failure, Response>.fromPredicate(
         response,
         (response) => response.statusCode?.getStatusCodeEnum.isSuccess ?? false,
-        (error) => APIFailure(error: error),
+        APIFailure.new,
       );
 
   static Either<Failure, T> mapToModel<T>(
@@ -28,9 +28,7 @@ class RepositoryUtils {
     return Either.tryCatch(
       // ignore: avoid_dynamic_calls
       () => response.data['message'] as String,
-      (error, stackStrace) => APIFailure(
-        error: error.toString(),
-      ),
+      APIFailure.new,
     );
   }
 }

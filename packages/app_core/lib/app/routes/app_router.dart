@@ -1,13 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:app_core/app/routes/route_guards/auth_guard.dart';
-import 'package:app_core/core/presentation/widgets/image_cropper/custom_image_cropper.dart';
-import 'package:app_core/modules/auth/sign_in/screens/login_screen.dart';
+import 'package:app_core/modules/auth/sign_in/screens/sign_in_screen.dart';
 import 'package:app_core/modules/bottom_navigation_bar.dart';
 import 'package:app_core/modules/home/screen/home_screen.dart';
 import 'package:app_core/modules/profile/screen/profile_screen.dart';
 import 'package:app_core/modules/splash/splash_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 part 'app_router.gr.dart';
 
@@ -21,8 +18,7 @@ class AppRouter extends _$AppRouter {
           page: SplashRoute.page,
           guards: [AuthGuard()],
         ),
-        AutoRoute(page: LoginRoute.page),
-        AutoRoute(page: CustomImageCropperRoute.page),
+        AutoRoute(page: SignInRoute.page),
         AutoRoute(
           page: BottomNavigationBarRoute.page,
           children: [

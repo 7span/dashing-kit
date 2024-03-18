@@ -1,4 +1,3 @@
-import 'package:app_core/gen/assets.gen.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +44,7 @@ class _ErrorContent extends StatelessWidget {
           final primaryColor = context.colorScheme.foreground;
           return Scaffold(
             body: Padding(
-              padding: const EdgeInsets.all(Insets.medium),
+              padding: const EdgeInsets.all(Insets.medium16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

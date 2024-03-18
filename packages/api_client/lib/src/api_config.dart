@@ -1,106 +1,118 @@
+import 'dart:developer';
+
 import 'package:api_client/src/api_enum.dart';
 import 'package:api_client/src/api_failure.dart';
-import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:graphql/client.dart';
 // ignore: depend_on_referenced_packages
-import 'package:pretty_dio_logger/pretty_dio_logger.dart' show PrettyDioLogger;
+import 'package:flutter/services.dart';
 
-/// This class is used for connecting with remote data source using Dio
+/// This class is used for connecting with remote data source using GraphQL
 /// as an API Client. This class is responsible for making API requests and
 /// sending the response in case of success and error in case of API failure.
 final class ApiClient {
-  factory ApiClient() => instance;
-  ApiClient._internal();
-  static final instance = ApiClient._internal();
+  late GraphQLClient graphQLClient;
 
-  late final Dio dio;
+  final cache = GraphQLCache();
 
-  ///initialize dio and Hive Cache for API. It is configurable to disable the
+  ///initialize GraphQL for API calling. It is configurable to disable the
   ///cache by providing [isApiCacheEnabled] to false.
   Future<Unit> init({required bool isApiCacheEnabled, required String baseURL}) async {
-    dio = Dio(
-      BaseOptions(
-        baseUrl: baseURL,
-        contentType: 'application/json',
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 5),
-      ),
-    );
-    if (isApiCacheEnabled) {
-      final dir = await getTemporaryDirectory();
-      final options = CacheOptions(
-        /// Other store that you can use instead of Hive
-        /// store: MemCacheStore(),
-        store: HiveCacheStore(dir.path),
-        hitCacheOnErrorExcept: [401, 403],
-      );
+    final httpLink = HttpLink(baseURL);
+    final AuthLink authLink = AuthLink(getToken: () async => null);
+    Link link = authLink.concat(httpLink);
 
-      /// Adding caching interceptor for request
-      dio.interceptors.add(DioCacheInterceptor(options: options));
-    }
-
-    /// Adding Dio logger in order to print API responses beautifully
-    dio.interceptors.add(
-      PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
+    graphQLClient = GraphQLClient(
+      cache: cache,
+      defaultPolicies: DefaultPolicies(
+        query: Policies(fetch: FetchPolicy.noCache),
+        watchQuery: Policies(fetch: FetchPolicy.noCache),
       ),
+      link: link,
     );
+
     return unit;
   }
 
-  void setAuthorizationToken(String token) {
-    dio.options.headers = {'Authorization': 'Bearer $token'};
+  /// We're setting a new instance to assign an authorization token. That way, we won't have
+  /// to listen for the stream for setting the Authentication token
+  void setAuthorizationToken(String token, String baseURL) {
+    final httpLink = HttpLink(baseURL);
+    final AuthLink authLink = AuthLink(getToken: () => 'Bearer $token');
+    Link link = authLink.concat(httpLink);
+
+    graphQLClient = GraphQLClient(
+      cache: cache,
+      defaultPolicies: DefaultPolicies(
+        query: Policies(fetch: FetchPolicy.noCache),
+        watchQuery: Policies(fetch: FetchPolicy.noCache),
+      ),
+      link: link,
+    );
   }
 
-  /// With this function, users can make GET, POST, PUT, DELETE request using
+  TaskEither<Failure, Map<String, dynamic>> request({
+    required String request,
+    RequestType requestType = RequestType.query,
+    Map<String, dynamic>? variables,
+  }) =>
+      readGraphQLFile(request)
+          .flatMap<QueryResult<Object?>>(
+            (r) => doApiCall(
+              request: r,
+              variables: variables ?? {},
+              requestType: requestType,
+            ),
+          )
+          .chainEither(validateResponse)
+          .map(getResponseData);
+
+  /// This function is responsible for reading the GraphQL from the assets
+  TaskEither<Failure, String> readGraphQLFile(String filePath) => TaskEither.tryCatch(
+        () => rootBundle.loadString(filePath),
+        (error, stackTrace) => RequestMakingFaliure(),
+      );
+
+  /// With this function, users can make Query/Mutation request using
   /// only single function.
-  TaskEither<Failure, Response> request({
-    required String path,
-    RequestType requestType = RequestType.post,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    Object? body,
+  TaskEither<Failure, QueryResult<Object?>> doApiCall({
+    required String request,
+    RequestType requestType = RequestType.query,
+    Map<String, dynamic>? variables,
   }) =>
       TaskEither.tryCatch(
-        () async {
+        () {
+          log('variables: $variables');
           switch (requestType) {
-            case RequestType.get:
-              return dio.get(
-                path,
-                queryParameters: queryParameters,
-                options: options,
-                data: body,
+            case RequestType.query:
+              final result = graphQLClient.query(
+                QueryOptions(
+                  document: gql(request),
+                  variables: variables ?? {},
+                ),
               );
-            case RequestType.post:
-              return dio.post(
-                path,
-                queryParameters: queryParameters,
-                options: options,
-                data: body,
+              return result;
+            case RequestType.mutation:
+              final result = graphQLClient.mutate(
+                MutationOptions(
+                  document: gql(request),
+                  variables: variables ?? {},
+                ),
               );
-            case RequestType.put:
-              return dio.put(
-                path,
-                queryParameters: queryParameters,
-                options: options,
-                data: body,
-              );
-            case RequestType.delete:
-              return dio.delete(
-                path,
-                queryParameters: queryParameters,
-                options: options,
-                data: body,
-              );
+              return result;
           }
         },
-        (error, stackTrace) => APIFailure(
-          error: error,
-          stackTrace: stackTrace,
-        ),
+        APIFailure.new,
       );
+
+  /// Validate the response. Send error in case of exception
+  Either<Failure, QueryResult<Object?>> validateResponse(QueryResult<Object?> response) =>
+      Either.fromPredicate(
+        response,
+        (response) => response.exception == null,
+        (response) => ResponseValidationFailure(error: response.exception),
+      );
+
+  /// Send response data after the sucessfull API call
+  Map<String, dynamic> getResponseData(QueryResult<Object?> response) => response.data!;
 }

@@ -1,6 +1,6 @@
 {
-    "name": "fitness_app",
-    "short_name": "fitness_app",
+    "name": "boilerplate_app",
+    "short_name": "boilerplate_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

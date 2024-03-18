@@ -5,17 +5,14 @@ import 'package:equatable/equatable.dart';
 class AppThemeData extends Equatable {
   const AppThemeData({
     required this.colors,
-    // required this.icons,
     required this.typography,
   });
 
   factory AppThemeData.regular() => AppThemeData(
-        colors: AppColorsData.dark(),
-        // icons: AppIconsData.regular(),
+        colors: AppColorsData.light(),
         typography: AppTypographyData.regular(),
       );
   final AppColorsData colors;
-  // final AppIconsData icons;
   final AppTypographyData typography;
 
   AppThemeData withColors(AppColorsData colors) {

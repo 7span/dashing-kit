@@ -1,0 +1,15 @@
+{
+    "SIGN_IN": "Sign In",
+    "SIGN_IN_SUCCESSFUL": "Sign In Successful",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "CREATE_ACCOUNT": "Create Account",
+    "FORGOT_PASSWORD": "Forgot Password?",
+    "HAVING_ISSUES": "Having Issues",
+    "GET_HELP": "Get help",
+    "auth_text_sign_in_to_account": "Sign In into your account",
+    "auth_text_no_account": "Don't have an account yet?",
+    "common_text_something_went_wrong": "Please check your credentials and try again",
+    "common_validation_email": "Please enter valid email",
+    "common_validation_password": "Please enter valid password"
+}

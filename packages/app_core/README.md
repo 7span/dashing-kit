@@ -1,4 +1,4 @@
-# fitness_app
+# boilerplate_app
 
 A new Flutter project.
 

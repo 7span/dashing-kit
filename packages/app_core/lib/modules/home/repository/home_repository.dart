@@ -1,6 +1,7 @@
 // ignore_for_file: one_member_abstracts
 
 import 'package:api_client/api_client.dart';
+// import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/modules/home/model/post_model.dart';
 import 'package:dio/dio.dart';
@@ -33,14 +34,10 @@ class HomeRepository implements IHomeRepository {
           );
 
   TaskEither<Failure, Response> makefetchPostsRequest(String url, int page) {
-    return ApiClient.instance.request(
-      path: url,
-      queryParameters: {
-        '_page': page,
-        '_limit': 10,
-      },
-      requestType: RequestType.get,
-    );
+    return TaskEither.left(APIFailure());
+    // return openApiClient.request(
+    //   request: 'url',
+    // );
   }
 
   /// This function is responsible for converting the repose to the dynamic list

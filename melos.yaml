@@ -1,18 +1,10 @@
 name: boilerplate-application-melos
 
-command:
-  bootstrap:
-    environment:
-      sdk: ">=3.2.0 <4.0.0"
-      flutter: ">=3.0.0 <4.0.0"
-    dependencies:
-      intl: ^0.18.1
-      fpdart: ^1.1.0
-
 packages:
   - packages/api_client
   - packages/app_core
   - packages/app_ui
+  - packages/app_translations
 
 scripts:
   analyze:
@@ -21,20 +13,28 @@ scripts:
         dart analyze . --fatal-infos
 
   build-runner:
-    description: Generate environment configuration, assets and other code generation
+    description: Generate environment configuration, Routes files and other code generation
     packageFilters:
       flutter: true
       dirExists: lib
       scope: app_core
     run: melos exec dart run build_runner clean && melos exec dart run build_runner build -d
 
+  asset-gen:
+    description: Generate assets
+    packageFilters:
+      flutter: true
+      dirExists: lib
+      scope: app_ui
+    run: melos exec dart run build_runner build -d
+
   locale-gen:
     description: Generate localization
     packageFilters:
       flutter: true
       dirExists: lib
-      scope: app_core
-    exec: dart run easy_localization:generate -f keys -o locale_keys.g.dart -O ./lib/gen -S assets/l10n
+      scope: app_translations
+    exec: dart run slang
 
   build-apk:
     description: Builds the APK File

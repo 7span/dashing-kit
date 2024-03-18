@@ -96,3 +96,17 @@ extension AppStringUtils on String {
   /// Discover if the String is a valid URL
   String? get paramCase => ExtensionUtils.paramCase(this);
 }
+
+extension RowExtension on List<Widget> {
+  List<Widget> implementVerticleDivider({double? width, Color? color}) => [
+        for (int i = 0; i < length; i++) ...[
+          if (i > 0)
+            VerticalDivider(
+              color: color,
+              thickness: 1,
+              width: width,
+            ),
+          this[i],
+        ],
+      ];
+}

@@ -1,15 +1,14 @@
+import 'package:app_ui/src/theme/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:app_ui/src/theme/data/data.dart';
 
-export 'data/app_bar.dart';
-export 'data/button.dart';
+export 'data/app_icons.dart';
 export 'data/colors.dart';
-export 'data/font_weight.dart';
 export 'data/data.dart';
+export 'data/font_weight.dart';
 export 'data/typography.dart';
-export 'utils/utils.dart';
 export 'responsive_theme.dart';
+export 'utils/utils.dart';
 
 class AppTheme extends InheritedWidget {
   const AppTheme({

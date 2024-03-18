@@ -1,0 +1,29 @@
+name: app_translations
+description: "Used for localization in a Flutter App"
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+  flutter: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Used for localization
+  slang: ^3.30.1
+  slang_flutter: ^3.30.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  slang_build_runner: ^3.30.0
+  flutter_lints: ^3.0.1
+  melos: ^5.1.0
+  build_runner: ^2.4.8
+
+flutter:
+  assets:
+    - assets/i18n/
