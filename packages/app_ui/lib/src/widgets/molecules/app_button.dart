@@ -114,15 +114,15 @@ class _ButtonType extends StatelessWidget {
     final btnTextColor = textColor ?? context.colorScheme.white;
     final defaultButtonStyle = ButtonStyle(
       splashFactory: InkSparkle.splashFactory,
-      backgroundColor: MaterialStateProperty.all(backgroundColor ?? primaryColor),
-      shape: MaterialStateProperty.all(
+      backgroundColor: WidgetStateProperty.all(backgroundColor ?? primaryColor),
+      shape: WidgetStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: isRounded
               ? BorderRadius.circular(AppBorderRadius.big44)
               : BorderRadius.circular(AppBorderRadius.xsmall4),
         ),
       ),
-      minimumSize: MaterialStateProperty.all(const Size(100, 50)),
+      minimumSize: WidgetStateProperty.all(const Size(100, 50)),
     );
 
     return switch (buttonType) {
@@ -167,19 +167,19 @@ class _ButtonType extends StatelessWidget {
           style: buttonStyle != null
               ? buttonStyle?.copyWith(
                   splashFactory: InkSparkle.splashFactory,
-                  backgroundColor: MaterialStatePropertyAll(
+                  backgroundColor: WidgetStatePropertyAll(
                     backgroundColor ?? context.colorScheme.primary50,
                   ),
-                  side: MaterialStateProperty.all(
+                  side: WidgetStateProperty.all(
                     BorderSide(color: textColor ?? context.colorScheme.primary100),
                   ),
                 )
               : defaultButtonStyle.copyWith(
                   splashFactory: InkSparkle.splashFactory,
-                  backgroundColor: MaterialStatePropertyAll(
+                  backgroundColor: WidgetStatePropertyAll(
                     backgroundColor ?? context.colorScheme.primary50,
                   ),
-                  side: MaterialStateProperty.all(
+                  side: WidgetStateProperty.all(
                     BorderSide(color: textColor ?? context.colorScheme.primary100),
                   ),
                 ),
