@@ -1,4 +1,4 @@
-package com.example.boilerplate
+package com.cavin.boilerplate
 
 import io.flutter.embedding.android.FlutterActivity
 

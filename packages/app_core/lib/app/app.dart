@@ -14,7 +14,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 ///
 /// * Initialization of [AppRouter]
 // ignore: comment_references
-/// * Setup of [Slang] for the localization
+/// * Setup of [Slang](https://pub.dev/packages/slang) for the localization
 /// * Setup of [ErrorWidget.builder] in case of any error in debug and release mode
 /// * Setting up [Theme] along with [ThemeBloc] so that the user can change
 /// the theme from anywhere in the App.
@@ -48,7 +48,7 @@ class _AppState extends State<App> {
               colorMode: themeMode,
               child: MaterialApp.router(
                 routerConfig: _appRouter.config(),
-                title: 'CRM App',
+                title: 'Boilerplate App',
                 locale: TranslationProvider.of(context).flutterLocale,
                 supportedLocales: AppLocaleUtils.supportedLocales,
                 localizationsDelegates: GlobalMaterialLocalizations.delegates,

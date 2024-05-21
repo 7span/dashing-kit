@@ -2,43 +2,35 @@
 part of 'home_bloc.dart';
 
 class HomeState extends Equatable {
-  final List<PostModel> postsList;
-  final bool hasReachedMax;
+  final HomeEntity homeData;
   final ApiStatus status;
   const HomeState._({
-    this.postsList = const <PostModel>[],
-    this.hasReachedMax = false,
+    this.homeData = const HomeEntity(),
     this.status = ApiStatus.initial,
   });
 
   const HomeState.initial() : this._(status: ApiStatus.initial);
   const HomeState.loading() : this._(status: ApiStatus.loading);
-  const HomeState.loaded(List<PostModel> postList, bool hasReachedMax)
+  const HomeState.loaded(HomeEntity homeData)
       : this._(
           status: ApiStatus.loaded,
-          postsList: postList,
-          hasReachedMax: hasReachedMax,
+          homeData: homeData,
         );
   const HomeState.error() : this._(status: ApiStatus.error);
 
   HomeState copyWith({
-    ApiStatus? status,
-    List<PostModel>? postsList,
+    HomeEntity? homeData,
     bool? hasReachedMax,
+    ApiStatus? status,
   }) {
     return HomeState._(
+      homeData: homeData ?? this.homeData,
       status: status ?? this.status,
-      postsList: postsList ?? this.postsList,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{'postsList': postsList.map((e) => e.toJson()).toList()};
-  }
-
   @override
-  List<Object?> get props => [postsList, hasReachedMax, status];
+  List<Object?> get props => [homeData, status];
 
   @override
   bool get stringify => true;

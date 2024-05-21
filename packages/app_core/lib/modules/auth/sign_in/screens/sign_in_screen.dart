@@ -13,7 +13,7 @@ import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:formz/formz.dart';
 
 @RoutePage()
-class SignInPage extends StatefulWidget implements AutoRouteWrapper {
+class SignInPage extends StatelessWidget implements AutoRouteWrapper {
   const SignInPage({super.key});
 
   @override
@@ -35,11 +35,6 @@ class SignInPage extends StatefulWidget implements AutoRouteWrapper {
     );
   }
 
-  @override
-  State<SignInPage> createState() => _SignInPageState();
-}
-
-class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +65,7 @@ class _SignInPageState extends State<SignInPage> {
                 VSpace.large24(),
                 const SlideAndFadeAnimationWrapper(
                   delay: 100,
-                  child: FlutterLogo(size: 100),
+                  child: Center(child: FlutterLogo(size: 100)),
                 ),
                 VSpace.xxlarge40(),
                 VSpace.large24(),
@@ -118,8 +113,7 @@ class _EmailInput extends StatelessWidget {
           initialValue: state.email.value,
           label: context.t.email,
           keyboardType: TextInputType.emailAddress,
-          key: const Key('loginForm_emailInput_textField'),
-          onChanged: (username) => context.read<SignInBloc>().add(SignInEmailChanged(username)),
+          onChanged: (email) => context.read<SignInBloc>().add(SignInEmailChanged(email)),
           errorText: state.email.displayError != null ? context.t.common_validation_email : null,
           autofillHints: const [AutofillHints.email],
         );
@@ -138,9 +132,8 @@ class _PasswordInput extends StatelessWidget {
           initialValue: state.password.value,
           label: context.t.password,
           isObscureText: state.obscureText,
-          key: const Key('loginForm_passwordInput_textField'),
           textInputAction: TextInputAction.done,
-          onChanged: (password) => context.read<SignInBloc>().add(SignInEmailChanged(password)),
+          onChanged: (password) => context.read<SignInBloc>().add(SignInPasswordChanged(password)),
           errorText:
               state.password.displayError != null ? context.t.common_validation_password : null,
           autofillHints: const [AutofillHints.password],
@@ -157,7 +150,6 @@ class _LoginButton extends StatelessWidget {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         return AppButton(
-          padding: EdgeInsets.zero,
           isLoading: state.status.isInProgress,
           text: context.t.sign_in,
           onPressed: () {
@@ -176,7 +168,6 @@ class _CreateAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppButton(
-      padding: EdgeInsets.zero,
       buttonType: ButtonType.outlined,
       textColor: context.colorScheme.primary500,
       backgroundColor: context.colorScheme.white,

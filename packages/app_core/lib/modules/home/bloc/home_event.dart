@@ -8,9 +8,6 @@ sealed class HomeEvent extends Equatable {
 }
 
 final class HomeGetPostEvent extends HomeEvent {
-  const HomeGetPostEvent();
-}
-
-final class HomeDeletePostEvent extends HomeEvent {
-  const HomeDeletePostEvent();
+  const HomeGetPostEvent(this.campaignId);
+  final int campaignId;
 }

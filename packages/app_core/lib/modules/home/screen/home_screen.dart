@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
         lazy: false,
         create: (context) => HomeBloc(
           repository: RepositoryProvider.of<HomeRepository>(context),
-        )..safeAdd(const HomeGetPostEvent()),
+        )..safeAdd(const HomeGetPostEvent(1)),
         child: this,
       ),
     );
@@ -47,15 +47,15 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
             case ApiStatus.loaded:
               return ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: state.postsList.length + 1,
+                itemCount: state.homeData.reminderEntity?.length ?? 0 + 1,
                 controller: scrollController,
                 itemBuilder: (context, index) {
-                  if (index == state.postsList.length) {
+                  if (index == state.homeData.reminderEntity?.length) {
                     //showing loader at the bottom of list
                     return const Center(child: CircularProgressIndicator());
                   }
                   return InkWell(
-                    onTap: () => context.read<HomeBloc>().add(const HomeDeletePostEvent()),
+                    onTap: () {},
                     child: Container(
                       height: 80,
                       width: double.infinity,
@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        state.postsList[index].title ?? '',
+                        state.homeData.reminderEntity?[index]?.title ?? '',
                         style: context.textTheme?.title,
                       ),
                     ),
@@ -87,6 +87,6 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
 
   @override
   void onEndScroll() {
-    context.read<HomeBloc>().add(const HomeGetPostEvent());
+    context.read<HomeBloc>().add(const HomeGetPostEvent(1));
   }
 }

@@ -16,7 +16,6 @@ import 'package:app_core/app/observers/app_bloc_observer.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 // import 'package:app_core/firebase_options.dart';
 // import 'package:firebase_core/firebase_core.dart';
-// import 'package:leak_tracker/leak_tracker.dart';
 
 /// This function is one of the core function that should be run before we even
 /// reach to the [MaterialApp] This function initializes the following:
@@ -48,16 +47,20 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   // enableLeakTracking();
   initializeSingletons();
   AppConfig.setEnvConfig(env);
-  await getIt<IHiveService>().init();
 
-  ///setting up the GraphQL configurations
-  await openApiClient.init(isApiCacheEnabled: false, baseURL: AppConfig.baseApiUrl);
+  await Future.wait([
+    getIt<IHiveService>().init(),
+
+    ///setting up the GraphQL configurations
+    openApiClient.init(isApiCacheEnabled: false, baseURL: AppConfig.baseApiUrl),
+    closeApiClient.init(isApiCacheEnabled: false, baseURL: AppConfig.baseApiUrl),
+  ]);
 
   /// If the user has already logged in, then set the authorization token for the Closed API endpoint
-  // getIt<IHiveService>().getAccessToken().fold(
-  //       () => null,
-  //       (token) => closeApiClient.setAuthorizationToken(token, AppConfig.baseApiUrl),
-  //     );
+  getIt<IHiveService>().getAccessToken().fold(
+        () => null,
+        (token) => closeApiClient.setAuthorizationToken(token, AppConfig.baseApiUrl),
+      );
 
   Bloc.observer = getIt<AppBlocObserver>();
 

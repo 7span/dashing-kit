@@ -1,10 +1,10 @@
 // ignore_for_file: one_member_abstracts
 
 import 'package:api_client/api_client.dart';
-// import 'package:app_core/app/helpers/injection.dart';
+import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/repository-utils/repository_utils.dart';
-import 'package:app_core/modules/home/model/post_model.dart';
-import 'package:dio/dio.dart';
+import 'package:app_core/modules/home/entity/home_entity.dart';
+import 'package:app_core/modules/home/model/home_model.dart';
 import 'package:fpdart/fpdart.dart';
 
 /// This is the abstract representation of the HomeRepository
@@ -12,41 +12,35 @@ abstract interface class IHomeRepository {
   /// This functions returns TaskEither. In this, Task is indicating that this function
   /// is returning Future and Either is indicating that the function can either
   /// successfully return a value or return a Failure Object.
-  TaskEither<Failure, List<PostModel>> fetchPosts({required int page});
+  TaskEither<Failure, HomeEntity> getHomeScreenData(int campaignId);
 }
 
 /// This repository contains the implementation for [IHomeRepository]
 class HomeRepository implements IHomeRepository {
   @override
-  TaskEither<Failure, List<PostModel>> fetchPosts({required int page}) =>
-      mappingRequest('posts', page);
+  TaskEither<Failure, HomeEntity> getHomeScreenData(int campaignId) => mappingRequest(campaignId);
 
   /// This mapping request function is basically a wrapper around all of the function
   ///  that makes API requests and handles the validation logic and Failure handling
-  TaskEither<Failure, List<PostModel>> mappingRequest(String url, int page) =>
-      makefetchPostsRequest(url, page)
-          .chainEither(RepositoryUtils.checkStatusCode)
-          .chainEither(mapToList)
-          .chainEither(
-            (r) => RepositoryUtils.mapToModel(
-              () => r.map((e) => PostModel.fromJson(e as Map<String, dynamic>)).toList(),
-            ),
+  TaskEither<Failure, HomeEntity> mappingRequest(int campaignId) =>
+      makefetchPostsRequest(campaignId).chainEither(
+        (r) {
+          return RepositoryUtils.mapToModel(() => HomeData.fromJson(r)).map(
+            (model) {
+              return HomeEntity(reminderEntity: model.reminders?.data);
+            },
           );
+        },
+      );
 
-  TaskEither<Failure, Response> makefetchPostsRequest(String url, int page) {
-    return TaskEither.left(APIFailure());
-    // return openApiClient.request(
-    //   request: 'url',
-    // );
-  }
-
-  /// This function is responsible for converting the repose to the dynamic list
-  /// which can also return Failure in case of any casting Error. That's why it
-  /// returns Either instead of List<dynamic>
-  Either<Failure, List<dynamic>> mapToList(Response response) {
-    return Either<Failure, List<dynamic>>.safeCast(
-      response.data,
-      (error) => ModelConversionFailure(error: error),
-    );
-  }
+  TaskEither<Failure, Map<String, dynamic>> makefetchPostsRequest(int campaignId) =>
+      closeApiClient.request(
+        request: 'Assets.graphql.getHomeData',
+        variables: {
+          'page': 1,
+          'ticketsAndRemindersCount': 4,
+          'quickReplyCount': 2,
+          'campaignId': campaignId,
+        },
+      );
 }

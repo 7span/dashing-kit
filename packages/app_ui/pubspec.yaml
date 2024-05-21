@@ -11,18 +11,18 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_spinkit: ^5.2.0
-  skeletonizer: ^1.1.0
+  flutter_spinkit: ^5.2.1
+  skeletonizer: ^1.1.1
   timeago: ^3.6.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^3.0.2
   very_good_analysis:
     ^5.1.0
     # For generating code
-  build_runner: ^2.4.8
+  build_runner: ^2.4.9
 
   # For generating assets code
   flutter_gen: ^5.4.0
