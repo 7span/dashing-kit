@@ -22,7 +22,7 @@ class AppDropDownWidget extends StatelessWidget {
   final String label;
   final List<AppDropDownModel> items;
   final String? Function(AppDropDownModel?)? validator;
-  final dynamic Function(AppDropDownModel)? onChanged;
+  final dynamic Function(AppDropDownModel?)? onChanged;
   final AppDropDownModel? initialItem;
   final Color? backgroundColor;
   final double? borderRadius;
@@ -54,13 +54,13 @@ class AppDropDownWidget extends StatelessWidget {
               ),
             ),
           ),
-          hintBuilder: (context, hint) {
+          hintBuilder: (context, hint, _) {
             return AppText.s(
               text: 'Select',
               color: context.colorScheme.grey400,
             );
           },
-          headerBuilder: (context, selectedItem) {
+          headerBuilder: (context, selectedItem, _) {
             return AppText.s(
               text: selectedItem.name,
               color: selectedItem.color,

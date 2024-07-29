@@ -93,6 +93,9 @@ dev_dependencies:
   envied_generator: ^0.5.4
   melos: ^5.3.0
 
+  # For enabling crashlytics
+  firebase_crashlytics: ^4.0.3
+
 flutter_gen:
   output: lib/gen/
   line_length: 80

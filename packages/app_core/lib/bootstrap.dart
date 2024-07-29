@@ -1,6 +1,12 @@
 import 'dart:async';
 
 import 'package:api_client/api_client.dart';
+import 'package:app_core/app/config/app_config.dart';
+import 'package:app_core/app/enum.dart';
+import 'package:app_core/app/helpers/injection.dart';
+import 'package:app_core/app/observers/app_bloc_observer.dart';
+import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
+import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:flutter/foundation.dart';
@@ -9,11 +15,6 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:app_core/app/config/app_config.dart';
-import 'package:app_core/app/enum.dart';
-import 'package:app_core/app/helpers/injection.dart';
-import 'package:app_core/app/observers/app_bloc_observer.dart';
-import 'package:app_core/core/data/services/hive.service.dart';
 // import 'package:app_core/firebase_options.dart';
 // import 'package:firebase_core/firebase_core.dart';
 
@@ -67,6 +68,10 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   // MemoryAllocations.instance.addListener((ObjectEvent event) {
   //   dispatchObjectEvent(event.toMap());
   // });
+
+  /// Initialize firebase crashlytics
+  FirebaseCrashlyticsService.init();
+
   runApp(await builder());
 }
 
