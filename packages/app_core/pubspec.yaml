@@ -7,7 +7,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ">=3.5.0-323.1.beta <4.0.0"
 
 dependencies:
   flutter:
@@ -59,7 +59,7 @@ dependencies:
   # Image picker
   image_picker: ^1.0.7
   permission_handler: ^11.3.1
-  device_info_plus: ^10.0.1
+  device_info_plus: ^10.1.0
   image_cropper: ^5.0.1
   cached_network_image: ^3.3.1
   flutter_svg: ^2.0.10+1
@@ -93,8 +93,9 @@ dev_dependencies:
   envied_generator: ^0.5.4
   melos: ^5.3.0
 
-  # For enabling crashlytics
+  # For Firebase
   firebase_crashlytics: ^4.0.3
+  firebase_core: ^3.2.0
 
 flutter_gen:
   output: lib/gen/

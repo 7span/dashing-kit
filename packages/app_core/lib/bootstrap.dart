@@ -9,6 +9,7 @@ import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_translations/app_translations.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -68,6 +69,18 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   // MemoryAllocations.instance.addListener((ObjectEvent event) {
   //   dispatchObjectEvent(event.toMap());
   // });
+
+  /// Initialize firebase
+  await Firebase.initializeApp(
+    name: 'BoilerplateV2',
+    options: FirebaseOptions(
+      apiKey: AppConfig.firebaseAPIKey,
+      appId: AppConfig.firebaseAppId,
+      messagingSenderId: AppConfig.firebaseMessagingSenderId,
+      projectId: AppConfig.firebaseProjectId,
+      iosBundleId: AppConfig.iosBundleId,
+    ),
+  );
 
   /// Initialize firebase crashlytics
   FirebaseCrashlyticsService.init();
