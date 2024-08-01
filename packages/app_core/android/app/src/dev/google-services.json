@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "974977335054",
+    "project_id": "boilerplate-v2-62509",
+    "storage_bucket": "boilerplate-v2-62509.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974977335054:android:94895574fd4b0ac759e15f",
+        "android_client_info": {
+          "package_name": "com.flutter.boilerplate.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjVlRv3OI_mFicacaY0MZQ4y6dLYLGL5s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
