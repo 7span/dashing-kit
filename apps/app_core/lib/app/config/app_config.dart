@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:app_core/app/enum.dart';
 import 'package:envied/envied.dart';
 import 'package:fpdart/fpdart.dart';
