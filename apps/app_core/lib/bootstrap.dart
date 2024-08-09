@@ -9,6 +9,7 @@ import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_translations/app_translations.dart';
+// ignore: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,9 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 
-// import 'package:app_core/firebase_options.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:app_core/firebase_options.dart' as firebase_prod;
+import 'package:app_core/firebase_options_development.dart' as firebase_dev;
+import 'package:app_core/firebase_options_staging.dart' as firebase_staging;
 
 /// This function is one of the core function that should be run before we even
 /// reach to the [MaterialApp] This function initializes the following:
@@ -72,14 +74,11 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
 
   /// Initialize firebase
   await Firebase.initializeApp(
-    name: 'BoilerplateV2',
-    options: FirebaseOptions(
-      apiKey: AppConfig.firebaseAPIKey,
-      appId: AppConfig.firebaseAppId,
-      messagingSenderId: AppConfig.firebaseMessagingSenderId,
-      projectId: AppConfig.firebaseProjectId,
-      iosBundleId: AppConfig.iosBundleId,
-    ),
+    options: switch (env) {
+      Env.development => firebase_dev.DefaultFirebaseOptions.currentPlatform,
+      Env.staging => firebase_staging.DefaultFirebaseOptions.currentPlatform,
+      Env.production => firebase_prod.DefaultFirebaseOptions.currentPlatform,
+    },
   );
 
   /// Initialize firebase crashlytics

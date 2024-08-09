@@ -3,30 +3,30 @@ description: "A new Flutter package project."
 version: 0.0.1
 
 environment:
-  sdk: ">=3.5.0-323.1.beta <4.0.0"
+  sdk: ">=3.5.0-323.2.beta <4.0.0"
   flutter: ">=3.0.0 <4.0.0"
 
 dependencies:
-  animated_custom_dropdown: ^3.0.0
+  animated_custom_dropdown: ^3.1.1
   equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_spinkit: ^5.2.1
-  skeletonizer: ^1.1.1
-  timeago: ^3.6.1
+  skeletonizer: ^1.4.2
+  timeago: ^3.7.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.2
+  flutter_lints: ^4.0.0
   very_good_analysis:
-    ^5.1.0
+    ^6.0.0
     # For generating code
-  build_runner: ^2.4.9
+  build_runner: ^2.4.12
 
   # For generating assets code
-  flutter_gen: ^5.4.0
-  flutter_gen_runner: ^5.4.0
+  flutter_gen: ^5.6.0
+  flutter_gen_runner: ^5.6.0
   flutter_svg: ^2.0.10+1
 
 # For information on the generic Dart part of this file, see the
