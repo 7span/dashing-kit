@@ -54,24 +54,24 @@ final class AppConfig {
 
 @Envied(path: '.env.dev')
 abstract class EnvDev {
-  @EnviedField(varName: 'BASE_API_URL', obfuscate: true)
+  @EnviedField(varName: 'ENV_BASE_API_URL', obfuscate: true)
   static final String ENV_BASE_API_URL = _EnvDev.ENV_BASE_API_URL;
-  @EnviedField(varName: 'ENV', obfuscate: true)
+  @EnviedField(varName: 'ENV_NAME', obfuscate: true)
   static final String ENV_NAME = _EnvDev.ENV_NAME;
 }
 
 @Envied(path: '.env.staging')
 abstract class EnvStaging {
-  @EnviedField(varName: 'BASE_API_URL', obfuscate: true)
+  @EnviedField(varName: 'ENV_BASE_API_URL', obfuscate: true)
   static final String ENV_BASE_API_URL = _EnvStaging.ENV_BASE_API_URL;
-  @EnviedField(varName: 'ENV', obfuscate: true)
+  @EnviedField(varName: 'ENV_NAME', obfuscate: true)
   static final String ENV_NAME = _EnvStaging.ENV_NAME;
 }
 
 @Envied(path: '.env.prod')
 abstract class EnvProd {
-  @EnviedField(varName: 'BASE_API_URL', obfuscate: true)
+  @EnviedField(varName: 'ENV_BASE_API_URL', obfuscate: true)
   static final String ENV_BASE_API_URL = _EnvProd.ENV_BASE_API_URL;
-  @EnviedField(varName: 'ENV', obfuscate: true)
+  @EnviedField(varName: 'ENV_NAME', obfuscate: true)
   static final String ENV_NAME = _EnvProd.ENV_NAME;
 }
