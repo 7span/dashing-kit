@@ -7,7 +7,7 @@ packages:
 scripts:
   analyze:
     run: |
-      melos exec -c 5 -- \
+      melos exec -c 10 -- \
         dart analyze . --fatal-infos
 
   build-runner:
