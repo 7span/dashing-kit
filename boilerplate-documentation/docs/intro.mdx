@@ -18,18 +18,22 @@ your code much more faster ⚡
 
 
 ### What you'll need 🤔
-  - You shoulud be using the **latest** Flutter version which is in the stable condition. You can download 
-    the latest version by clicking on the links below. As of now, the latest version of Flutter 
-    is **3.13.9**.
+  - You should be using the **latest** Flutter **beta** version. You can download the latest beta version by 
+  writing these command in the terminal.
 
-  <Tabs>
+  ```bash
+  flutter channel beta
+  flutter upgrade
+  ```
+
+  {/* <Tabs>
         <TabItem value="apple-intel" label="Mac with Intel Chip" default>
               <a href="https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.16-stable.zip">Download for Intel</a>
               </TabItem>
     <TabItem value="apple-silicon" label="Mac with Apple Silicon Chip">
             <a href="https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.16-stable.zip">Download for Apple Silicon</a>
               </TabItem>
-          </Tabs>    
+          </Tabs>     */}
 
 
 ### IDE extensions ↸
@@ -58,28 +62,37 @@ Here's the list of some popular packages on [**pub.dev**](https://www.pub.dev):
   - [**flutter_bloc**](https://pub.dev/packages/flutter_bloc)
   - [**bloc_concurrency**](https://pub.dev/packages/bloc_concurrency)
   - [**hydrated_bloc**](https://pub.dev/packages/hydrated_bloc)
+
 - Dependency Injection 💉
   - [**get_it**](https://pub.dev/packages/get_it)
+
 - Routing 🛣️
   - [**auto_route**](https://pub.dev/packages/auto_route)
   - [**auto_route_generator**](https://pub.dev/packages/auto_route_generator)
+
 - For managing the **environment configs** 🛠️
   - [**envied**](https://pub.dev/packages/envied_flutter)
   - [**envied_generator**](https://pub.dev/packages/envied_generator)
+
 - Secure Local Storage 📍
   - [**hive**](https://pub.dev/packages/hive)
   - [**hive_flutter**](https://pub.dev/packages/hive_flutter)
   - [**hive_generator**](https://pub.dev/packages/hive_generator)
+
 - Form Validations ✅
   - [**flutter_form_bloc**](https://pub.dev/packages/flutter_form_bloc)
+
 - Functional Programming 👨‍💻
   - [**fpdart**](https://pub.dev/packages/fpdart)
+
 - Generating Assets Files 👓
   - [**flutter_gen**](https://pub.dev/packages/flutter_gen)
+
 - Lints ☑️
   - [**very_good_analysis**](https://pub.dev/packages/very_good_analysis)
+
 - Localization 🗺️
-  - [**easy_localization**](https://pub.dev/packages/easy_localization)
+  - [**slang**](https://pub.dev/packages/slang)
 
 :::caution
 You should be knowing most of the things about these packages in order to move further.
@@ -92,7 +105,7 @@ To create a new project using the **Boilerplate**, follow the steps below:
 1. Clone the **Github Repository** of the Boilerplate by running the command below:
 
 ```bash
-git clone https://github.com/cavin-7span/bloc_boilerplate.git
+git clone https://github.com/7span/flutter-boilerplate-v2.git
 ```
 :::warning
 This repository is private as of now so in case of any issue. You can reach out to 
@@ -103,20 +116,13 @@ You can type this command into **Command Prompt**, **Powershell**, **Terminal**,
 
 2. After you clone the repository, you'll have to setup the environment variables. To setup that, you can follow this [link](https://cavin-7span.github.io/Dash-Docs/docs/tutorial-basics/configuring-environment-variables) for the complete tutorial on this.
 
-3. After that, create new folders in the **assets** folders if any of this does not exists in this:
-  - images
-  - l10n
-  - icons
-  - fonts
-
-
-4. Run the below command to configure the code generation files:
+3. Run the below command to configure the code generation files:
 
 ```bash
 dart run build_runner build
 ```
 
-5. At last, run this command to get all the packages:
+4. At last, run this command to get all the packages:
 
 ```bash
 flutter pub get
@@ -127,7 +133,7 @@ flutter pub get
 Launch your app by either through your IDE or by running the command below:
 
 ```bash
-flutter run -t lib/main_development.dart
+flutter run -t apps/lib/main_development.dart --falvour development
 ```
 
 - `flutter pub get`:  Installs the neccessary dependencies for your project ⬇️
@@ -143,4 +149,4 @@ We invite contributions from the whole team. Please review the Contributing to B
 
 ## Opening issues
 
-Please open an issue in the main [cavin-7span/bloc_boilerplate](https://github.com/cavin-7span/bloc_boilerplate/issues) issue tracker if you encounter any bugs or have enhancement suggestions for this toolkit. Issues should follow the Issue hygiene guidelines and will be triaged by the Dash team with the appropriate labels and priority.
+Please open an issue in the main [cavin-7span/bloc_boilerplate](https://github.com/7span/flutter-boilerplate-v2/issues) issue tracker if you encounter any bugs or have enhancement suggestions for this toolkit. Issues should follow the Issue hygiene guidelines and will be triaged by the Dash team with the appropriate labels and priority.

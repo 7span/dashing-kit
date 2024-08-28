@@ -50,7 +50,7 @@ dependencies:
   get_it: ^7.7.0
 
   #Routing
-  auto_route: ^9.2.0
+  auto_route: ^9.2.1+1
 
   # functional programming
   fpdart: ^1.1.0
@@ -59,10 +59,10 @@ dependencies:
   # Image picker
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
-  device_info_plus: ^10.1.1
-  image_cropper: ^8.0.1
-  cached_network_image: ^3.4.0
-  flutter_svg: ^2.0.10
+  device_info_plus: ^10.1.2
+  image_cropper: ^8.0.2
+  cached_network_image: ^3.4.1
+  flutter_svg: ^2.0.10+1
   top_snackbar_flutter: ^3.1.0
   formz: ^0.7.0
 
@@ -90,7 +90,7 @@ dev_dependencies:
   very_good_analysis: ^6.0.0
 
   # For generating env files
-  envied_generator: ^0.5.4
+  envied_generator: ^0.5.4+1
 
   # For Firebase
   firebase_crashlytics: ^4.0.4
