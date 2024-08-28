@@ -213,7 +213,7 @@ Example of using a button:
 
 ```dart
 AppButton(
-    text: LocaleKeys.login.tr(),
+    text: context.t.login,
     onPressed:(){},
     isExpanded: true,
     isEnabled: false,
