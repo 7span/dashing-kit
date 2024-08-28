@@ -1,21 +1,22 @@
 echo "Generating env config files"
 
 cat <<EOT >> apps/app_core/.env.dev
-    BASE_API_URL=https://jsonplaceholder.typicode.com/ 
-    ENV=Development
+ENV_BASE_API_URL=https://jsonplaceholder.typicode.com/ 
+ENV_NAME=Development
 EOT
 
 
 cat <<EOT >> apps/app_core/.env.prod
-    BASE_API_URL=https://jsonplaceholder.typicode.com/ 
-    ENV=Development
+ENV_BASE_API_URL=https://jsonplaceholder.typicode.com/ 
+ENV_NAME=Development
 EOT
 
 cat <<EOT >> apps/app_core/.env.staging
-    BASE_API_URL=https://jsonplaceholder.typicode.com/ 
-    ENV=Development
+ENV_BASE_API_URL=https://jsonplaceholder.typicode.com/ 
+ENV_NAME=Development
 EOT
 
+melos bs
 
 echo "Generate build runner files"
 melos run build-runner
