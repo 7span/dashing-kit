@@ -5,7 +5,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ">=3.5.0-323.2.beta <4.0.0"
 
 dependencies:
   flutter:
@@ -15,7 +15,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   husky: ^0.1.7
-  melos: ^5.1.0
+  melos: ^6.1.0
 
 lint_staged:
   "lib/**.dart": dart format -l 120 && dart analyze --fatal-infos --fatal-warnings

@@ -1,15 +1,13 @@
 name: boilerplate-application-melos
 
 packages:
-  - packages/api_client
-  - packages/app_core
-  - packages/app_ui
-  - packages/app_translations
+  - packages/**
+  - apps/**
 
 scripts:
   analyze:
     run: |
-      melos exec -c 5 -- \
+      melos exec -c 10 -- \
         dart analyze . --fatal-infos
 
   build-runner:
@@ -42,8 +40,10 @@ scripts:
       flutter: true
       dirExists: lib
       scope: app_core
-    exec: flutter build apk -t lib/main_development.dart
+    exec: flutter build apk -t lib/main_development.dart --flavor production
 
   format:
     description: Formats the files
-    exec: dart format . --line-length 100
+    run: |
+      melos exec -c 10 -- \
+        dart format . --line-length 100 --output=none && dart fix --apply --code=require_trailing_commas

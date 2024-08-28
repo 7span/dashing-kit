@@ -1,0 +1,112 @@
+name: app_core
+description: A new Flutter project.
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.5.0-323.2.beta <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Translation package for localization
+  app_translations: ^0.0.1
+
+  # App UI Package
+  app_ui: ^0.0.1
+
+  # API Client Package
+  api_client: ^0.0.1
+
+  # internationalization
+  timeago: ^3.7.0
+
+  # environment management
+  envied: ^0.5.4+1
+
+  # secure local storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Class comparison and form validation
+  equatable: ^2.0.5
+
+  # Utils
+  logger: ^2.4.0
+  path_provider: ^2.1.4
+
+  # State management and dependency injection
+  flutter_bloc: ^8.1.6
+  bloc_concurrency: ^0.2.5
+  hydrated_bloc: ^9.1.5
+  get_it: ^7.7.0
+
+  #Routing
+  auto_route: ^9.2.0
+
+  # functional programming
+  fpdart: ^1.1.0
+  data_connection_checker_nulls: ^0.0.2
+
+  # Image picker
+  image_picker: ^1.1.2
+  permission_handler: ^11.3.1
+  device_info_plus: ^10.1.2
+  image_cropper: ^8.0.2
+  cached_network_image: ^3.4.1
+  flutter_svg: ^2.0.10+1
+  top_snackbar_flutter: ^3.1.0
+  formz: ^0.7.0
+
+  # For Firebase
+  firebase_crashlytics: ^4.1.0
+  firebase_core: ^3.4.0
+
+dependency_overrides:
+  web: ^1.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+  # Usage: flutter packages pub run dependency_validator
+  dependency_validator: ^4.1.0
+
+  # For generating code
+  build_runner: ^2.4.12
+
+  # For generating assets code
+  flutter_gen: ^5.7.0
+  flutter_gen_runner: ^5.7.0
+
+  # For generating routes
+  auto_route_generator: ^9.0.0
+
+  # For generating hive model adaptors
+  hive_generator: ^2.0.1
+  very_good_analysis: ^6.0.0
+
+  # For generating env files
+  envied_generator: ^0.5.4+1
+
+flutter_gen:
+  output: lib/gen/
+  line_length: 80
+
+  integrations:
+    flutter_svg: true
+    rive: true
+    lottie: true
+
+flutter:
+  uses-material-design: true

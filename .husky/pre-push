@@ -2,4 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 melos run analyze
+if git diff --quiet --exit-code . ; then echo 'No changes in files'; else git commit -am 'Dart format'; fi
 melos run format

@@ -54,7 +54,7 @@ Make sure that your Screen's name is either ending with `Page` or `Screen`. (E.g
 
 ```java jsx title="app_router.dart" {12}
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
-class AppRouter extends _$AppRouter {
+class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
@@ -72,7 +72,7 @@ class AppRouter extends _$AppRouter {
 4. Finally, run the `build_runner` command to generate the routes.
 
 ```zsh
-dart run build_runner build
+melos run build-runner
 ```
 
 :::info

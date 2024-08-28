@@ -12,21 +12,21 @@ description: What's included in this boilerplate 🌟
 
 Out of the box 📦, Boilerplate includes:
 
-- ✅ [Run Configuration](run) - Integrated run configurations for **VS-Code** and **Android Studio** so that users can run the app directly without having to configure anything
+- ✅ [Run Configuration](https://developer.android.com/studio/run/rundebugconfig) - Integrated run configurations for **VS-Code** and **Android Studio** so that users can run the app directly without having to configure anything
 - ✅ [Environments Configs](https://pub.dev/packages/envied) - Multiple environment support for development, staging, and production
 - ✅ [Navigator 2.0](https://pub.dev/packages/auto_route) - Integrated Auto Route for implementing the 
 Navigator 2.0 functionality.
 - ✅ [BLoC](https://pub.dev/packages/flutter_bloc) - Integrated bloc architecture for scalable, testable code which offers a clear separation between business logic and presentation
 - ✅ [Logging](https://pub.dev/packages/logger) - Integrated logger package for extensible logging to capture uncaught Flutter and Dart Exceptions
 - ✅ [Authentication](https://pub.dev/packages/hive) - Built-in authentication flow using BLoC and Hive
-- ✅ [GitHub Templates](github.com) - Built-in GitHub templates for creating issues and PR's(Pull Request)
-- ✅ [Pagination](pagination) - Integrated pagination along with API and repositories
-- ✅ [Theme](pagination) - Implemented themes support along with its BLoC that users can use to switch between themes
-- ✅ [Extensions](extension) - Implemented custom utility extension that can boost the workflow of the developer
+- ✅ [GitHub Templates](https://github.com/7span/flutter-boilerplate-v2) - Built-in GitHub templates for creating issues and PR's(Pull Request)
+- ✅ [Pagination](https://github.com/7span/flutter-boilerplate-v2) - Integrated pagination along with API and repositories
+- ✅ [Theme](https://github.com/7span/flutter-boilerplate-v2) - Implemented themes support along with its BLoC that users can use to switch between themes
+- ✅ [Extensions](https://github.com/7span/flutter-boilerplate-v2) - Implemented custom utility extension that can boost the workflow of the developer
 - ✅ [Localization](https://pub.dev/packages/easy_localization) - Integrated localization support out of the box
 
 
-### File and Folder Structure 📁
+<!-- ### File and Folder Structure 📁
 
 Here's the complete folder structure of the boilerplate:
 
@@ -35,93 +35,88 @@ Here's the complete folder structure of the boilerplate:
 │   ├── pull_request_template.md
 │   └── ISSUE_TEMPLATE
 │       ├── bug_report.md
-│       └── feature_request.md
+│       ├── feature_request.md
+│       ├── refactor.md
+│       └── documentation.md
 ├── .idea
 │   └── runConfigurations
-│       ├── development.xml
-│       └── production.xml
 ├── .vscode
 │   ├── extensions.json
 │   └── launch.json
-├── android
-├── assets
-│   ├── fonts
-│   ├── icons
-│   ├── images
-│   └── l10n
-├── ios
-├── lib
-│   ├── app
-│   │   ├── config
-│   │   ├── helpers
-│   │   ├── observers
-│   │   ├── routes
-│   │   ├── themes
-│   │   ├── app.dart
-│   │   └── enum.dart
-│   ├── core
-│   │   ├── data
-│   │   │   ├── model
-│   │   │   │   └── user_model.dart
-│   │   │   ├── repository
-│   │   │   └── service
-│   │   │       ├── auth_service.dart
-│   │   │       └── network_helper_service.dart
-│   │   ├── domain
-│   │   │   └── bloc
-│   │   │       ├── theme_bloc.dart
-│   │   │       └── failure.dart
-│   │   └── presentation
-│   │       ├── screens
-│   │       │   └── error_screen.dart
-│   │       └── widgets
-│   │           ├── app_button.dart
-│   │           ├── custom_app_bar.dart
-│   │           └── optimized_list_view.dart
-│   ├── gen
-│   ├── modules
-│   │   └── splash
-│   │       └── splash_screen.dart
-│   │   ├── auth
-│   │   │   ├── repository
-│   │   │   ├── models
-│   │   │   ├── signin
-│   │   │   │   ├── bloc
-│   │   │   │   │   └── login_bloc.dart
-│   │   │   │   └── screens
-│   │   │   │       └── login_screen.dart
-│   │   │   ├── signup
-│   │   ├── home
-│   │   │   ├── bloc
-│   │   │   │   ├── home_event.bloc.dart
-│   │   │   │   ├── home_state.bloc.dart
-│   │   │   │   └── home.bloc.dart
-│   │   │   │── model
-│   │   │   │   └── post_model.dart
-│   │   │   ├── repository
-│   │   │   │   └── home_repository.dart
-│   │   │   ├── screen
-│   │   │   │   └── home_screen.dart
-│   │   └── profile
-│   │       ├── bloc
-│   │       │   ├── profile_bloc.dart
-│   │       │   ├── profile_state.dart
-│   │       │   └── profile_event.dart
-│   │       │── model
-│   │       ├── repository
-│   │       ├── screen
-│   │       │   └── profile_screen.dart
-│   │       └── bottom_navigation_bar.dart
-│   ├── bootstrap.dart
-│   ├── main_development.dart
-│   ├── main_production.dart
-├── web
-├── .gitignore
-├── analysis_options.yaml
-├── pubspec.lock
-├── pubspec.yaml
-└── README.md
-```
+├── apps
+│   └── app_core
+        ├── android
+        ├── ios
+        ├── lib
+        │   ├── app
+        │   │   ├── config
+        │   │   ├── helpers
+        │   │   ├── observers
+        │   │   ├── routes
+        │   │   ├── app.dart
+        │   │   └── enum.dart
+        │   ├── core
+        │   │   ├── data
+        │   │   │   ├── model
+        │   │   │   │   └── user_model.dart
+        │   │   │   ├── repository-utils
+        │   │   │   └── service
+        │   │   │       ├── firebase_crashlytics_service.dart
+        │   │   │       ├── hive.service.dart
+        │   │   │       └── network_helper_service.dart
+        │   │   ├── domain
+        │   │   │   ├── validators
+        │   │   │   └── bloc
+        │   │   │       └── theme_bloc.dart
+        │   │   └── presentation
+        │   │       ├── screens
+        │   │       │   └── error_screen.dart
+        │   │       └── widgets
+        │   │           ├── app_snackbar.dart
+        │   ├── gen
+        │   ├── modules
+        │   │   └── splash
+        │   │       └── splash_screen.dart
+        │   │   ├── auth
+        │   │   │   ├── repository
+        │   │   │   ├── models
+        │   │   │   ├── signin
+        │   │   │   │   ├── bloc
+        │   │   │   │   │   └── login_bloc.dart
+        │   │   │   │   └── screens
+        │   │   │   │       └── login_screen.dart
+        │   │   │   ├── signup
+        │   │   ├── home
+        │   │   │   ├── bloc
+        │   │   │   │   ├── home_event.bloc.dart
+        │   │   │   │   ├── home_state.bloc.dart
+        │   │   │   │   └── home.bloc.dart
+        │   │   │   │── model
+        │   │   │   │   └── post_model.dart
+        │   │   │   ├── repository
+        │   │   │   │   └── home_repository.dart
+        │   │   │   ├── screen
+        │   │   │   │   └── home_screen.dart
+        │   │   └── profile
+        │   │       ├── bloc
+        │   │       │   ├── profile_bloc.dart
+        │   │       │   ├── profile_state.dart
+        │   │       │   └── profile_event.dart
+        │   │       │── model
+        │   │       ├── repository
+        │   │       ├── screen
+        │   │       │   └── profile_screen.dart
+        │   │       └── bottom_navigation_bar.dart
+        │   ├── bootstrap.dart
+        │   ├── main_development.dart
+        │   ├── main_production.dart
+        ├── web
+        ├── .gitignore
+        ├── analysis_options.yaml
+        ├── pubspec.lock
+        ├── pubspec.yaml
+        └── README.md
+``` -->
 
 ### Some things to know about the boilerplate 📕
 
@@ -145,9 +140,9 @@ VSpace.xsmall()
 
 ### 2. Localization 🔠
 
-Localization is configured by default in the boilerplate. So you just need to add the key-value pair of the localization keys inside `l10n` folder that is located inside the assets.
+Localization is configured by default in the boilerplate. So you just need to add the key-value pair of the localization keys inside `app_translations` package.
 
-1. Add a key-value pair like this in the `l10n` folder:
+1. Add a key-value pair like this in the `i18n` folder:
 
 ```json
 {
@@ -158,14 +153,14 @@ Localization is configured by default in the boilerplate. So you just need to ad
 2. After you add the key-value pairs, run the command below to generate the corresponding code:
 
 ```bash
-flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -O ./lib/gen -S assets/l10n
+melos run locale-gen
 ```
 
 
 3. After you run the command, you can use the key in the boilerplate like this:
 
 ```dart
-Text(LocaleKeys.login.tr())
+Text(context.t.login)
 ```
 
 You can learn more about the **naming conventions** of the localization keys by this [Blog](https://phrase.com/blog/posts/ruby-lessons-learned-naming-and-managing-rails-i18n-keys/)
@@ -206,7 +201,7 @@ Assets.images.demo.image()
 To use assets like the code above, follow the steps:
 
 1. Add the assets in the assets folder 🤷
-2. Run the build runner command: `dart run build_runner build`
+2. Run the build runner command: `melos run asset-gen`
 3. Now you can use assets in the boilerplate like shown above
 
 
@@ -218,15 +213,9 @@ Example of using a button:
 
 ```dart
 AppButton(
-    text: LocaleKeys.login.tr(),
+    text: context.t.login,
     onPressed:(){},
     isExpanded: true,
     isEnabled: false,
 )
 ```
-
-
-
-:::warning
-After you clone the boilerplate, you will see an error 🚨 for the **Environemt Variables**. To resolve it, look up to the next documentation of configuring the environment variables
-:::

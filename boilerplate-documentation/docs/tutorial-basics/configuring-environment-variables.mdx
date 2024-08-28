@@ -11,7 +11,7 @@ We're using [`envied`](https://pub.dev/packages/envied) package for the environm
 
 To configure environment variables inside your Flutter project, Follow the steps below:
 
-1. Create 2 files at the **root level** of your project and name like this:
+1. Create 2 files in **app_core** package name it like this:
     - `.env.dev`
     - `.env.prod`
 
@@ -87,10 +87,9 @@ if (AppConfig.environment==Env.development) {
 
 
 :::tip
-If you're changing the content of the `.env` files after you configure them, then make sure to run these commands in sequence:
+If you're changing the content of the `.env` files after you configure them, then make sure to run this command:
 
 ```zsh
-dart run build_runner clean
-dart run build_runner build -d
+melos run build-runner
 ```
 :::
