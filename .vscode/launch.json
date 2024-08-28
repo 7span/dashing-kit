@@ -8,14 +8,22 @@
             "name": "Launch development",
             "request": "launch",
             "type": "dart",
-            "program": "packages/app_core/lib/main_development.dart"
+            "program": "apps/app_core/lib/main_development.dart",
+            "args": [
+                "--flavor",
+                "development"
+            ]
         },
         {
             "name": "Launch development in Release",
             "request": "launch",
             "type": "dart",
-            "program": "packages/app_core/lib/main_development.dart",
+            "program": "apps/app_core/lib/main_development.dart",
             "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "development"
+            ],
         },
         {
             "name": "Launch development in Profile",
@@ -28,8 +36,12 @@
             "name": "Launch production in Debug",
             "request": "launch",
             "type": "dart",
-            "program": "packages/app_core/lib/main_production.dart",
+            "program": "apps/app_core/lib/main_production.dart",
             "flutterMode": "debug",
+            "args": [
+                "--flavor",
+                "production"
+            ],
         },
         {
             "name": "Launch production in Profile",
