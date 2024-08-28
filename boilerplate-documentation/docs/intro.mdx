@@ -114,7 +114,17 @@ This repository is private as of now so in case of any issue. You can reach out 
 
 You can type this command into **Command Prompt**, **Powershell**, **Terminal**, or any other **integrated terminal** of your code editor.
 
-2. After you clone the repository, you'll have to setup the environment variables. To setup that, you can follow this [link](https://cavin-7span.github.io/Dash-Docs/docs/tutorial-basics/configuring-environment-variables) for the complete tutorial on this.
+2. Just run this command in the terminal, it will setup:
+- Environment Configuration
+- Assets and Locale Configurations
+- Git Hooks
+- Default Firebase Configurations
+
+```bash
+sh scripts/setup.sh
+```
+
+{/* 2. After you clone the repository, you'll have to setup the environment variables. To setup that, you can follow this [link](https://cavin-7span.github.io/Dash-Docs/docs/tutorial-basics/configuring-environment-variables) for the complete tutorial on this.
 
 3. Run the below command to configure the code generation files:
 
@@ -126,14 +136,14 @@ dart run build_runner build
 
 ```bash
 flutter pub get
-```
+``` */}
 
 ## Launch your App
 
 Launch your app by either through your IDE or by running the command below:
 
 ```bash
-flutter run -t apps/lib/main_development.dart --falvour development
+flutter run -t apps/app_core/lib/main_development.dart --flavor development
 ```
 
 - `flutter pub get`:  Installs the neccessary dependencies for your project ⬇️

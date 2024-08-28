@@ -26,3 +26,6 @@ melos run asset-gen
 
 echo "Generate locale files"
 melos run locale-gen
+
+echo "Enabling Git Hooks"
+dart run husky install
