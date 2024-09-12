@@ -100,6 +100,9 @@ final class ApiClient {
                 ),
               );
               return result;
+            case RequestType.get:
+            case RequestType.put:
+              throw Exception('Not implemented');
           }
         },
         APIFailure.new,
