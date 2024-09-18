@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/core/domain/validators/login_validators.dart';
 import 'package:equatable/equatable.dart';
@@ -8,6 +9,7 @@ import 'package:formz/formz.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'sign_in_event.dart';
+
 part 'sign_in_state.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
@@ -18,6 +20,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInPasswordChanged>(_onPasswordChanged);
     on<SignInSubmitted>(_onSubmitted);
   }
+
   final IAuthRepository _authenticationRepository;
 
   void _onEmailChanged(SignInEmailChanged event, Emitter<SignInState> emit) {
@@ -57,8 +60,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       final loginEither = await _authenticationRepository
           .login(
-            state.email.value.trim(),
-            state.password.value.trim(),
+            AuthRequestModel(
+              email: state.email.value.trim(),
+              password: state.password.value.trim(),
+            ),
           )
           .run();
 

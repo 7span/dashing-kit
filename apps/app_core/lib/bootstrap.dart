@@ -52,6 +52,11 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   initializeSingletons();
   AppConfig.setEnvConfig(env);
 
+  await RestApiClient.instance.init(
+    baseURL: AppConfig.baseApiUrl,
+    isApiCacheEnabled: false,
+  );
+
   await Future.wait([
     getIt<IHiveService>().init(),
 
@@ -63,7 +68,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   /// If the user has already logged in, then set the authorization token for the Closed API endpoint
   getIt<IHiveService>().getAccessToken().fold(
         () => null,
-        (token) => closeApiClient.setAuthorizationToken(token, AppConfig.baseApiUrl),
+        RestApiClient.setAuthorizationToken,
       );
 
   Bloc.observer = getIt<AppBlocObserver>();

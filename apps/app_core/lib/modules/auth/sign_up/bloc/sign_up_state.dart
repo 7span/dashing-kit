@@ -1,0 +1,47 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+part of 'sign_up_bloc.dart';
+
+final class SignUpState extends Equatable {
+  const SignUpState({
+    this.status = FormzSubmissionStatus.initial,
+    this.email = const EmailValidator.pure(),
+    this.name =  const NameValidator.pure(),
+    this.password = const PasswordValidator.pure(),
+    this.confirmPassword = const ConfirmPasswordValidator.pure(),
+    this.isValid = false,
+    this.obscureText = true,
+  });
+
+  SignUpState copyWith({
+    EmailValidator? email,
+    NameValidator? name,
+    EmailValidator? forgotPasswordEmail,
+    PasswordValidator? password,
+    ConfirmPasswordValidator? confirmPassword,
+    bool? isValid,
+    bool? obscureText,
+    FormzSubmissionStatus? status,
+    int? forgotPasswordBottomSheetPage,
+  }) {
+    return SignUpState(
+      email: email ?? this.email,
+      name: name ?? this.name,
+      password: password ?? this.password,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
+      isValid: isValid ?? this.isValid,
+      status: status ?? this.status,
+      obscureText: obscureText ?? this.obscureText,
+    );
+  }
+
+  final FormzSubmissionStatus status;
+  final EmailValidator email;
+  final NameValidator name;
+  final PasswordValidator password;
+  final ConfirmPasswordValidator confirmPassword;
+  final bool isValid;
+  final bool obscureText;
+
+  @override
+  List<Object> get props => [status,name, email, password,confirmPassword, isValid, obscureText];
+}

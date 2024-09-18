@@ -1,3 +1,4 @@
+import 'package:app_core/modules/auth/sign_up/screens/sign_up_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:app_core/app/routes/route_guards/auth_guard.dart';
 import 'package:app_core/modules/auth/sign_in/screens/sign_in_screen.dart';
@@ -19,6 +20,7 @@ class AppRouter extends RootStackRouter {
           guards: [AuthGuard()],
         ),
         AutoRoute(page: SignInRoute.page),
+        AutoRoute(page: SignUpRoute.page),
         AutoRoute(
           page: BottomNavigationBarRoute.page,
           children: [

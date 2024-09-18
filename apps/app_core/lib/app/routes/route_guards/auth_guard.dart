@@ -7,7 +7,7 @@ class AuthGuard extends AutoRouteGuard {
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     // the navigation is paused until resolver.next() is called with either
     // true to resume/continue navigation or false to abort navigation
-    if (resolver.isLoggedIn) {
+    if (resolver.isAccessed) {
       // if user is authenticated we continue
       resolver.next();
     } else {

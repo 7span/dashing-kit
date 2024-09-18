@@ -9,7 +9,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 extension GetUserDataExtension on BuildContext {
   String get username => getIt<IHiveService>().getUserData().fold<String>(
         (_) => '',
-        (model) => model[0].name,
+        (model) => model[0].email,
       );
 }
 
@@ -18,6 +18,8 @@ extension GetUsernameExtension on NavigationResolver {
         (_) => false,
         (model) => model.isNotEmpty,
       );
+
+  bool get isAccessed => getIt<IHiveService>().getAccessToken().isSome();
 }
 
 extension AddEventSafe<Event, State> on Bloc<Event, State> {
