@@ -9,7 +9,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 extension GetUserDataExtension on BuildContext {
   String get username => getIt<IHiveService>().getUserData().fold<String>(
         (_) => '',
-        (model) => model[0].email,
+        (model) => model[0].name,
       );
 }
 

@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:convert';
 
 part 'user_model.g.dart';
 
@@ -9,47 +8,42 @@ part 'user_model.g.dart';
 @HiveType(typeId: 0)
 class UserModel extends HiveObject {
   UserModel({
-    required this.firstName,
-    required this.lastName,
+    required this.name,
     required this.email,
-    required this.profilePicUrl,
     required this.id,
+    required this.profilePicUrl,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      firstName: map['first_name'] as String,
-      lastName: map['last_name'] as String,
+      name: map['name'] as String,
       email: map['email'] as String,
-      profilePicUrl: map['profilePicUrl'] as String,
       id: map['id'] as int,
+      profilePicUrl: map['profilePicUrl'] as String,
     );
   }
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @HiveField(1)
-  final String firstName;
+  final String name;
 
   @HiveField(2)
-  final String lastName;
+  final String email;
 
   @HiveField(3)
-  final String email;
+  final int id;
 
   @HiveField(4)
   final String profilePicUrl;
 
-  @HiveField(5)
-  final int id;
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'first_name': firstName,
-      'last_name': lastName,
+      'name': name,
       'email': email,
-      'profilePicUrl': profilePicUrl,
       'id': id,
+      'profilePicUrl': profilePicUrl,
     };
   }
 

@@ -7,7 +7,6 @@ import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/core/domain/validators/login_validators.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:formz/formz.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -60,7 +59,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   FutureOr<void> _onConfirmPasswordChanged(SignUpConfirmPasswordChanged event, Emitter<SignUpState> emit) {
     final confirmPassword = ConfirmPasswordValidator.dirty(password: event.password,value: event.confirmPassword);
-debugPrint('CONF PASS ::: ${confirmPassword.value}');
     emit(
       state.copyWith(
         confirmPassword: confirmPassword,
