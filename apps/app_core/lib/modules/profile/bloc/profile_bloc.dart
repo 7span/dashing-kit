@@ -9,7 +9,7 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({required IAuthRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
-        super(ProfileState()) {
+        super(const ProfileState()) {
     on<Logout>(_logout);
   }
 

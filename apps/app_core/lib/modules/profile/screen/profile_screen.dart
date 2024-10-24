@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
             type: SnackbarType.failed,
           );
         } else if (state.apiStatus == ApiStatus.loaded) {
-          await context.router.replace(SignInRoute());
+          await context.router.replace(const SignInRoute());
         }
       },
       builder: (context, state) {
@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
               onPressed: state.apiStatus == ApiStatus.loading
                   ? () {}
                   : () async {
-                      context.read<ProfileBloc>().add(Logout());
+                      context.read<ProfileBloc>().add(const Logout());
                     },
               text: 'Logout',
             ),
@@ -43,6 +43,7 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
     );
   }
 
+  @override
   Widget wrappedRoute(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [

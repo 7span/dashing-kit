@@ -43,27 +43,25 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
         listenWhen: (previous, current) =>
             previous.status != current.status || previous.apiStatus != current.apiStatus,
         listener: (context, state) async {
-          if (state.status.isFailure) {
-            showAppSnackbar(
-              context,
-              'Invalid username or password',
-              type: SnackbarType.failed,
-            );
-          } else if (state.status.isSuccess) {
-            showAppSnackbar(
-              context,
-              context.t.sign_in_successful,
-            );
-            await context.replaceRoute(const BottomNavigationBarRoute());
-          }
           if (state.apiStatus == ApiStatus.error) {
             showAppSnackbar(
               context,
               state.errorMessage,
               type: SnackbarType.failed,
             );
-          } else if (state.apiStatus == ApiStatus.loaded) {
-            await context.router.replaceAll([BottomNavigationBarRoute()]);
+          }
+          if (state.status.isFailure) {
+            showAppSnackbar(
+              context,
+              'Invalid username or password',
+              type: SnackbarType.failed,
+            );
+          } else if (state.status.isSuccess || state.apiStatus == ApiStatus.loaded) {
+            showAppSnackbar(
+              context,
+              context.t.sign_in_successful,
+            );
+            await context.replaceRoute(const BottomNavigationBarRoute());
           }
         },
         child: SingleChildScrollView(
@@ -107,9 +105,9 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
                 ),
                 VSpace.large24(),
                 SlideAndFadeAnimationWrapper(
-                  delay: 700,
+                  delay: 600,
                   child: _SignInWithGoogleButton(),
-                )
+                ),
               ],
             ),
           ),
@@ -204,12 +202,12 @@ class _SignInWithGoogleButton extends StatelessWidget {
         return AppButton(
           onPressed: state.apiStatus == ApiStatus.loading
               ? () {}
-              : () => context.read<SignInBloc>().add(SignInWithGoogleTaped()),
+              : () => context.read<SignInBloc>().add(const SignInWithGoogleTaped()),
           buttonType: ButtonType.outlined,
           backgroundColor: Colors.blue.withOpacity(0.6),
           textWidget: state.apiStatus == ApiStatus.loading
-              ? Center(child: AppLoadingIndicator())
-              : AppText.s(
+              ? const Center(child: AppLoadingIndicator())
+              : const AppText.s(
                   text: 'Sign In With Google',
                   color: Colors.black,
                 ),

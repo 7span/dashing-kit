@@ -87,17 +87,28 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         if (isSignInSuccess) {
           emit(state.copyWith(apiStatus: ApiStatus.loaded));
         } else {
-          emit(state.copyWith(
-              apiStatus: ApiStatus.error, errorMessage: 'Could not sign in with Google'));
+          emit(
+            state.copyWith(
+              apiStatus: ApiStatus.error,
+              errorMessage: 'Could not sign in with Google',
+            ),
+          );
         }
       } else {
-        emit(state.copyWith(
-            apiStatus: ApiStatus.error, errorMessage: 'Please check your internet connection'));
+        emit(
+          state.copyWith(
+            apiStatus: ApiStatus.error,
+            errorMessage: 'Please check your internet connection',
+          ),
+        );
       }
     } catch (e) {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           apiStatus: ApiStatus.error,
-          errorMessage: 'Something went wrong! please try again later'));
+          errorMessage: 'Something went wrong! please try again later',
+        ),
+      );
     }
   }
 }

@@ -32,4 +32,3 @@ final class SignInSubmitted extends SignInEvent {
 final class SignInWithGoogleTaped extends SignInEvent {
   const SignInWithGoogleTaped();
 }
-

@@ -60,8 +60,8 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<bool> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      final googleUser = await GoogleSignIn().signIn();
+      final googleAuth = await googleUser?.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
@@ -78,8 +78,8 @@ class AuthRepository implements IAuthRepository {
             id: 1,
             profilePicUrl: 'profilePicUrl',
           );
-          getIt<IHiveService>().setAccessToken(userUid).run();
-          getIt<IHiveService>().setUserData(userModel).run();
+          await getIt<IHiveService>().setAccessToken(userUid).run();
+          await getIt<IHiveService>().setUserData(userModel).run();
         }
       } else {
         return false;
