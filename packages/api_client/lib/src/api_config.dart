@@ -101,6 +101,7 @@ final class ApiClient {
               );
               return result;
             case RequestType.get:
+            case RequestType.post:
             case RequestType.put:
               throw Exception('Not implemented');
           }

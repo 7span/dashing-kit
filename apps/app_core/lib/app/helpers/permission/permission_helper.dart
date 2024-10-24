@@ -25,7 +25,7 @@ class PermissionsHelper {
   ) async {
     final permissionsToAsk = _mapRuntimePermissions(permissions);
 
-    // Request permissions
+    /// Request permissions
     final statuses = await permissionsToAsk.request();
 
     return _mapResult(statuses);

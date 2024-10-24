@@ -4,6 +4,7 @@ enum RequestType {
   mutation,
   get,
   put,
+  post,
 }
 
 /// Used in state class for emitting the status of the API

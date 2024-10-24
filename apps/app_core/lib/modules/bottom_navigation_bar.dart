@@ -9,23 +9,23 @@ class BottomNavigationBarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
-      // list of your tab routes
-      // routes used here must be declared as children
-      // routes of /dashboard
+      /// list of your tab routes
+      /// routes used here must be declared as children
+      /// routes of /dashboard
       routes: const [
         HomeRoute(),
         ProfileRoute(),
       ],
       transitionBuilder: (context, child, animation) => FadeTransition(
         opacity: animation,
-        // the passed child is technically our animated selected-tab page
+        /// the passed child is technically our animated selected-tab page
         child: child,
       ),
       builder: (context, child) {
-        // obtain the scoped TabsRouter controller using context
+        /// obtain the scoped TabsRouter controller using context
         final tabsRouter = AutoTabsRouter.of(context);
-        // Here we're building our Scaffold inside of AutoTabsRouter
-        // to access the tabsRouter controller provided in this context
+        /// Here we're building our Scaffold inside of AutoTabsRouter
+        /// to access the tabsRouter controller provided in this context
         return Scaffold(
           body: child,
           bottomNavigationBar: BottomNavigationBar(

@@ -33,7 +33,7 @@ enum HiveKeys {
   final String value;
 }
 
-///Permissions enum
+/// Permissions enum
 enum MediaPermission {
   camera,
   photo,

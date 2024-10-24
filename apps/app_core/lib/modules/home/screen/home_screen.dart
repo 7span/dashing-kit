@@ -45,34 +45,18 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
                 child: CircularProgressIndicator(),
               );
             case ApiStatus.loaded:
-              return ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: state.homeData.reminderEntity?.length ?? 0 + 1,
-                controller: scrollController,
-                itemBuilder: (context, index) {
-                  if (index == state.homeData.reminderEntity?.length) {
-                    //showing loader at the bottom of list
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 80,
-                      width: double.infinity,
-                      margin: const EdgeInsets.all(Insets.small12),
-                      padding: const EdgeInsets.all(Insets.small12),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: context.colorScheme.foreground,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        state.homeData.reminderEntity?[index]?.title ?? '',
-                        style: context.textTheme?.title,
-                      ),
-                    ),
-                  );
-                },
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(width: double.maxFinite,),
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(state.homeData.avatar ?? ''),
+                    radius: 100,
+                  ),
+                  AppText.XL(text: state.homeData.name,),
+                  AppText.L(text: state.homeData.email,),
+                  AppText.xs(text: state.homeData.role,),
+                ],
               );
             case ApiStatus.initial:
               return const SizedBox.shrink();

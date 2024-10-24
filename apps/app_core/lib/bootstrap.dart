@@ -9,7 +9,6 @@ import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_translations/app_translations.dart';
-// ignore: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -44,13 +43,18 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
         kIsWeb ? HydratedStorage.webStorageDirectory : await getApplicationDocumentsDirectory(),
   );
 
-  //! Should be removed in future
+  ///! Should be removed in future
   if (NetWorkInfoService.instance.connectionStatus == ConnectionStatus.online) {
     await HydratedBloc.storage.clear();
   }
   // enableLeakTracking();
   initializeSingletons();
   AppConfig.setEnvConfig(env);
+
+  await RestApiClient.instance.init(
+    baseURL: AppConfig.baseApiUrl,
+    isApiCacheEnabled: false,
+  );
 
   await Future.wait([
     getIt<IHiveService>().init(),
@@ -63,7 +67,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   /// If the user has already logged in, then set the authorization token for the Closed API endpoint
   getIt<IHiveService>().getAccessToken().fold(
         () => null,
-        (token) => closeApiClient.setAuthorizationToken(token, AppConfig.baseApiUrl),
+        RestApiClient.setAuthorizationToken,
       );
 
   Bloc.observer = getIt<AppBlocObserver>();
