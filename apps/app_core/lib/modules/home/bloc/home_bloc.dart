@@ -34,14 +34,14 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   @override
   HomeState? fromJson(Map<String, dynamic> json) {
     return null;
-    // return HomeState.loaded(
-    //   List<Plan>.from(
-    //     (json['postsList'] as List<dynamic>)
-    //         .map<Plan>((json) => Plan.fromJson(json as Map<String, dynamic>))
-    //         .toList(),
-    //   ),
-    //   true,
-    // );
+    /// return HomeState.loaded(
+    ///   List<Plan>.from(
+    ///     (json['postsList'] as List<dynamic>)
+    ///         .map<Plan>((json) => Plan.fromJson(json as Map<String, dynamic>))
+    ///         .toList(),
+    ///   ),
+    ///   true,
+    /// );
   }
 
   @override
@@ -49,7 +49,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     switch (state.status) {
       case ApiStatus.loaded:
       case ApiStatus.empty:
-      // return state.toJson();
+      /// return state.toJson();
       case ApiStatus.initial:
       case ApiStatus.loading:
       case ApiStatus.error:

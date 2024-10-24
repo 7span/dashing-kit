@@ -1,9 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_positional_boolean_parameters
 part of 'home_bloc.dart';
 
 class HomeState extends Equatable {
-  final HomeModel homeData;
-  final ApiStatus status;
   const HomeState._({
     this.homeData = const HomeModel(),
     this.status = ApiStatus.initial,
@@ -17,6 +14,8 @@ class HomeState extends Equatable {
           homeData: homeData,
         );
   const HomeState.error() : this._(status: ApiStatus.error);
+  final HomeModel homeData;
+  final ApiStatus status;
 
   HomeState copyWith({
     HomeModel? homeData,
