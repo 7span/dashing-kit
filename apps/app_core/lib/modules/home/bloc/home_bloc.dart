@@ -34,6 +34,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   @override
   HomeState? fromJson(Map<String, dynamic> json) {
     return null;
+
+    /// OR return old data, when state is empty.
+
     /// return HomeState.loaded(
     ///   List<Plan>.from(
     ///     (json['postsList'] as List<dynamic>)

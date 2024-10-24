@@ -51,6 +51,7 @@ class AuthRepository implements IAuthRepository {
     RestApiClient.setAuthorizationToken(authResponseModel.authToken!);
 
     /// To save UserDetailsModel in Local Hive
+
     /// final updatedModel = UserModel(
     ///  name: authResponseModel.userDetails?.firstName ?? '',
     ///   email: authResponseModel.userDetails?.email ?? '',
