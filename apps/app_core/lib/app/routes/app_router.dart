@@ -16,11 +16,11 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           initial: true,
           page: SplashRoute.page,
-          guards: [AuthGuard()],
         ),
         AutoRoute(page: SignInRoute.page),
         AutoRoute(
           page: BottomNavigationBarRoute.page,
+          guards: [AuthGuard()],
           children: [
             AutoRoute(page: HomeRoute.page),
             AutoRoute(page: ProfileRoute.page),

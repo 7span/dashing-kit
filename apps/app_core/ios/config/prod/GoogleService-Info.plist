@@ -2,18 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>971758003871-0if0qbnsjp9nk8th36g1gnd935qlpon2.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.971758003871-0if0qbnsjp9nk8th36g1gnd935qlpon2</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>971758003871-2rkeuj53g4vn1j2l0onn68hqfuvl1s78.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAHgUpQzGtcP8oVQFQlNVlQwMIBW2GLr30</string>
+	<string>AIzaSyCeUXHUOQtdItkvX9TsSBD0faG2XaXKPQI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>974977335054</string>
+	<string>971758003871</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.flutter.boilerplate.app</string>
 	<key>PROJECT_ID</key>
-	<string>boilerplate-v2-62509</string>
+	<string>boilerplate-v2-c7080</string>
 	<key>STORAGE_BUCKET</key>
-	<string>boilerplate-v2-62509.appspot.com</string>
+	<string>boilerplate-v2-c7080.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:974977335054:ios:837ae79e418c40b559e15f</string>
+	<string>1:971758003871:ios:a94194864dc7dd2891e4aa</string>
 </dict>
 </plist>

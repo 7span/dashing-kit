@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:api_client/api_client.dart';
+import 'package:app_core/app/enum.dart';
+import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/core/domain/validators/login_validators.dart';
 import 'package:equatable/equatable.dart';
@@ -17,6 +20,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInEmailChanged>(_onEmailChanged);
     on<SignInPasswordChanged>(_onPasswordChanged);
     on<SignInSubmitted>(_onSubmitted);
+    on<SignInWithGoogleTaped>(_onSignInWithGoogleTaped);
   }
   final IAuthRepository _authenticationRepository;
 
@@ -69,6 +73,31 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         },
         (success) => emit(state.copyWith(status: FormzSubmissionStatus.success)),
       );
+    }
+  }
+
+  Future<void> _onSignInWithGoogleTaped(
+    SignInWithGoogleTaped event,
+    Emitter<SignInState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(apiStatus: ApiStatus.loading));
+      if (NetWorkInfoService.instance.isConnected == ConnectionStatus.online) {
+        final isSignInSuccess = await _authenticationRepository.signInWithGoogle();
+        if (isSignInSuccess) {
+          emit(state.copyWith(apiStatus: ApiStatus.loaded));
+        } else {
+          emit(state.copyWith(
+              apiStatus: ApiStatus.error, errorMessage: 'Could not sign in with Google'));
+        }
+      } else {
+        emit(state.copyWith(
+            apiStatus: ApiStatus.error, errorMessage: 'Please check your internet connection'));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+          apiStatus: ApiStatus.error,
+          errorMessage: 'Something went wrong! please try again later'));
     }
   }
 }

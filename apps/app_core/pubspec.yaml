@@ -7,7 +7,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.5.0-323.2.beta <4.0.0"
+  sdk: ^3.5.0
 
 dependencies:
   flutter:
@@ -69,6 +69,10 @@ dependencies:
   # For Firebase
   firebase_crashlytics: ^4.1.0
   firebase_core: ^3.4.0
+  firebase_auth: ^5.3.1
+
+  # Social Sign In
+  google_sign_in: ^6.2.1
 
 dependency_overrides:
   web: ^1.0.0

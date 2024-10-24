@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element
 
+import 'package:api_client/api_client.dart';
 import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/sign_in/bloc/sign_in_bloc.dart';
@@ -39,7 +40,8 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<SignInBloc, SignInState>(
-        listenWhen: (previous, current) => previous.status != current.status,
+        listenWhen: (previous, current) =>
+            previous.status != current.status || previous.apiStatus != current.apiStatus,
         listener: (context, state) async {
           if (state.status.isFailure) {
             showAppSnackbar(
@@ -53,6 +55,15 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
               context.t.sign_in_successful,
             );
             await context.replaceRoute(const BottomNavigationBarRoute());
+          }
+          if (state.apiStatus == ApiStatus.error) {
+            showAppSnackbar(
+              context,
+              state.errorMessage,
+              type: SnackbarType.failed,
+            );
+          } else if (state.apiStatus == ApiStatus.loaded) {
+            await context.router.replaceAll([BottomNavigationBarRoute()]);
           }
         },
         child: SingleChildScrollView(
@@ -94,6 +105,11 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
                   delay: 600,
                   child: _CreateAccountButton(),
                 ),
+                VSpace.large24(),
+                SlideAndFadeAnimationWrapper(
+                  delay: 700,
+                  child: _SignInWithGoogleButton(),
+                )
               ],
             ),
           ),
@@ -145,6 +161,7 @@ class _PasswordInput extends StatelessWidget {
 
 class _LoginButton extends StatelessWidget {
   const _LoginButton();
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
@@ -165,6 +182,7 @@ class _LoginButton extends StatelessWidget {
 
 class _CreateAccountButton extends StatelessWidget {
   const _CreateAccountButton();
+
   @override
   Widget build(BuildContext context) {
     return AppButton(
@@ -174,6 +192,30 @@ class _CreateAccountButton extends StatelessWidget {
       text: 'Sign Up',
       onPressed: () {},
       isExpanded: true,
+    );
+  }
+}
+
+class _SignInWithGoogleButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignInBloc, SignInState>(
+      builder: (context, state) {
+        return AppButton(
+          onPressed: state.apiStatus == ApiStatus.loading
+              ? () {}
+              : () => context.read<SignInBloc>().add(SignInWithGoogleTaped()),
+          buttonType: ButtonType.outlined,
+          backgroundColor: Colors.blue.withOpacity(0.6),
+          textWidget: state.apiStatus == ApiStatus.loading
+              ? Center(child: AppLoadingIndicator())
+              : AppText.s(
+                  text: 'Sign In With Google',
+                  color: Colors.black,
+                ),
+          isExpanded: true,
+        );
+      },
     );
   }
 }

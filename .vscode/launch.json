@@ -23,14 +23,14 @@
             "args": [
                 "--flavor",
                 "development"
-            ],
+            ]
         },
         {
             "name": "Launch development in Profile",
             "request": "launch",
             "type": "dart",
             "program": "packages/app_core/lib/main_development.dart",
-            "flutterMode": "profile",
+            "flutterMode": "profile"
         },
         {
             "name": "Launch production in Debug",
@@ -41,21 +41,21 @@
             "args": [
                 "--flavor",
                 "production"
-            ],
+            ]
         },
         {
             "name": "Launch production in Profile",
             "request": "launch",
             "type": "dart",
             "program": "packages/app_core/lib/main_production.dart",
-            "flutterMode": "profile",
+            "flutterMode": "profile"
         },
         {
             "name": "Launch production in Release",
             "request": "launch",
             "type": "dart",
             "program": "packages/app_core/lib/main_production.dart",
-            "flutterMode": "release",
+            "flutterMode": "release"
         }
     ]
 }
