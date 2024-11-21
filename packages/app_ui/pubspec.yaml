@@ -9,7 +9,7 @@ environment:
 dependencies:
   animated_custom_dropdown: ^3.1.1
   cached_network_image: ^3.4.1
-  equatable: ^2.0.5
+  equatable: ^2.0.6
   flutter:
     sdk: flutter
   flutter_blurhash: ^0.8.2
@@ -21,16 +21,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
   very_good_analysis:
     ^6.0.0
     # For generating code
-  build_runner: ^2.4.12
+  build_runner: ^2.4.13
 
   # For generating assets code
-  flutter_gen: ^5.6.0
-  flutter_gen_runner: ^5.6.0
-  flutter_svg: ^2.0.10+1
+  flutter_gen: ^5.8.0
+  flutter_gen_runner: ^5.8.0
+  flutter_svg: ^2.0.15
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

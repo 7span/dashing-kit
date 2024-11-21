@@ -7,7 +7,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.5.0-323.2.beta <4.0.0"
+  sdk: ^3.6.0-216.1.beta
 
 dependencies:
   flutter:
@@ -30,45 +30,45 @@ dependencies:
   timeago: ^3.7.0
 
   # environment management
-  envied: ^0.5.4+1
+  envied: ^1.0.0
 
   # secure local storage
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 
   # Class comparison and form validation
-  equatable: ^2.0.5
+  equatable: ^2.0.6
 
   # Utils
-  logger: ^2.4.0
-  path_provider: ^2.1.4
+  logger: ^2.5.0
+  path_provider: ^2.1.5
 
   # State management and dependency injection
   flutter_bloc: ^8.1.6
   bloc_concurrency: ^0.2.5
   hydrated_bloc: ^9.1.5
-  get_it: ^7.7.0
+  get_it: ^8.0.2
 
   #Routing
-  auto_route: ^9.2.0
+  auto_route: ^9.2.2
 
   # functional programming
-  fpdart: ^1.1.0
+  fpdart: ^1.1.1
   data_connection_checker_nulls: ^0.0.2
 
   # Image picker
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
-  device_info_plus: ^10.1.2
+  device_info_plus: ^11.1.1
   image_cropper: ^8.0.2
   cached_network_image: ^3.4.1
-  flutter_svg: ^2.0.10+1
+  flutter_svg: ^2.0.15
   top_snackbar_flutter: ^3.1.0
-  formz: ^0.7.0
+  formz: ^0.8.0
 
   # For Firebase
-  firebase_crashlytics: ^4.1.0
-  firebase_core: ^3.4.0
+  firebase_crashlytics: ^4.1.5
+  firebase_core: ^3.8.0
 
 dependency_overrides:
   web: ^1.0.0
@@ -77,17 +77,17 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
   # Usage: flutter packages pub run dependency_validator
   dependency_validator: ^4.1.0
 
   # For generating code
-  build_runner: ^2.4.12
+  build_runner: ^2.4.13
 
   # For generating assets code
-  flutter_gen: ^5.7.0
-  flutter_gen_runner: ^5.7.0
+  flutter_gen: ^5.8.0
+  flutter_gen_runner: ^5.8.0
 
   # For generating routes
   auto_route_generator: ^9.0.0
@@ -97,7 +97,7 @@ dev_dependencies:
   very_good_analysis: ^6.0.0
 
   # For generating env files
-  envied_generator: ^0.5.4+1
+  envied_generator: ^1.0.0
 
 flutter_gen:
   output: lib/gen/

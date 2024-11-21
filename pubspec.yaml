@@ -15,7 +15,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   husky: ^0.1.7
-  melos: ^6.1.0
+  melos: ^6.2.0
 
 lint_staged:
   "lib/**.dart": dart format -l 120 && dart analyze --fatal-infos --fatal-warnings
