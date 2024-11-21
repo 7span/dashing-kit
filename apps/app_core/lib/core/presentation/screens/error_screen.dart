@@ -49,24 +49,17 @@ class _ErrorContent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Assets.images.errorIllustration.image(),
-                  Text(
-                    kDebugMode ? details.summary.toString() : 'Oups! Something went wrong!',
+                  AppText.L(
+                    text: kDebugMode ? details.summary.toString() : 'Oups! Something went wrong!',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: kDebugMode ? errorColor : primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 21,
-                    ),
+                    color: kDebugMode ? errorColor : primaryColor,
                   ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    kDebugMode
+                  VSpace.medium16(),
+                  const AppText.paragraph(
+                    text: kDebugMode
                         ? 'https://docs.flutter.dev/testing/errors'
                         : "We encountered an error and we've notified our engineering team about it. Sorry for the inconvenience caused.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
                   ),
                 ],
               ),
