@@ -40,7 +40,7 @@ scripts:
       flutter: true
       dirExists: lib
       scope: app_core
-    exec: flutter build apk -t lib/main_development.dart --flavor production
+    exec: flutter build apk -t lib/main_production.dart --flavor production
 
   build-bundle:
     description: Builds the Bundle File
