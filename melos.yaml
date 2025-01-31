@@ -42,6 +42,18 @@ scripts:
       scope: app_core
     exec: flutter build apk -t lib/main_development.dart --flavor production
 
+  build-bundle:
+    description: Builds the Bundle File
+    packageFilters:
+      scope: app_core
+    exec: flutter build appbundle -t lib/main_production.dart
+
+  go-ios-go:
+    description: Removes Podfile.lock & Pods Directory & Installs PodFile
+    packageFilters:
+      scope: app_core
+    exec: cd ios && rm -rf Pods && rm -rf Podfile.lock && pod install --repo-update
+
   format:
     description: Formats the files
     run: |
