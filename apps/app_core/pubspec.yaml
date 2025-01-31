@@ -26,6 +26,9 @@ dependencies:
   # API Client Package
   api_client: ^0.0.1
 
+  # App Subscription Package
+  app_subscription: ^0.0.1
+
   # internationalization
   timeago: ^3.7.0
 
@@ -99,6 +102,9 @@ dev_dependencies:
   # For generating env files
   envied_generator: ^0.5.4+1
 
+  flutter_launcher_icons: ^0.14.3
+
+
 flutter_gen:
   output: lib/gen/
   line_length: 80
@@ -110,3 +116,7 @@ flutter_gen:
 
 flutter:
   uses-material-design: true
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/icons/app_logo/montra_logo.png"

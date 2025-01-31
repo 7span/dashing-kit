@@ -8,6 +8,7 @@ import 'package:app_core/app/observers/app_bloc_observer.dart';
 import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
+import 'package:app_subscription/app_subscription_api.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -103,5 +104,6 @@ void initializeSingletons() {
     ..registerLazySingleton(ApiClient.new, instanceName: 'open')
     ..registerLazySingleton(ApiClient.new, instanceName: 'close')
     ..registerSingleton(AppBlocObserver())
-    ..registerSingleton<IHiveService>(const HiveService());
+    ..registerSingleton<IHiveService>(const HiveService())
+    ..registerSingleton(CustomInAppPurchase());
 }
