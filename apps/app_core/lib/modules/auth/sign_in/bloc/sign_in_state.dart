@@ -1,10 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'sign_in_bloc.dart';
 
 final class SignInState extends Equatable {
   const SignInState({
     this.status = FormzSubmissionStatus.initial,
-    this.email = const EmailValidator.pure(),
+
+    /// Used for reqres.in mock api (eve.holt@reqres.in)
+    this.email = const EmailValidator.pure('eve.holt@reqres.in'),
     this.password = const PasswordValidator.pure(),
     this.isValid = false,
     this.obscureText = true,

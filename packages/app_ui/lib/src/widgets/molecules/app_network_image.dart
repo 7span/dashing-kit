@@ -83,18 +83,20 @@ class _AppNetworkImageState extends State<AppNetworkImage> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: widget.shape == BoxShape.circle
-          ? BorderRadius.circular(1000)
-          : BorderRadius.circular(widget.borderRadius),
+      borderRadius:
+          widget.shape == BoxShape.circle
+              ? BorderRadius.circular(1000)
+              : BorderRadius.circular(widget.borderRadius),
 
       /// Here we've set height width to 68 as per Figma's design
       child: OctoImage.fromSet(
         width: widget.imageWidth,
         height: widget.imageHeight,
         fit: BoxFit.cover,
-        image: widget.imageSource == AppImageSource.network
-            ? CachedNetworkImageProvider(widget.imageUrl ?? '')
-            : MemoryImage(widget.imageFile!.readAsBytesSync()),
+        image:
+            widget.imageSource == AppImageSource.network
+                ? CachedNetworkImageProvider(widget.imageUrl ?? '')
+                : MemoryImage(widget.imageFile!.readAsBytesSync()),
         octoSet: blurHash(
           widget.blurHashURL,
           widget.initials,
@@ -155,12 +157,7 @@ OctoErrorBuilder blurHashErrorBuilder({
 }
 
 class _PlaceHolderWidget extends StatelessWidget {
-  const _PlaceHolderWidget({
-    super.key,
-    this.initials,
-    this.mediaType,
-    this.placeHolderBackgroundColor,
-  });
+  const _PlaceHolderWidget({this.initials, this.mediaType, this.placeHolderBackgroundColor});
 
   final String? initials;
   final AppMediaType? mediaType;
@@ -174,9 +171,10 @@ class _PlaceHolderWidget extends StatelessWidget {
         color: placeHolderBackgroundColor ?? context.colorScheme.primary500,
         borderRadius: BorderRadius.circular(AppBorderRadius.xsmall4),
       ),
-      child: mediaType != null && mediaType == AppMediaType.doc
-          ? const AppText.base(text: 'PDF')
-          : AppText.base(text: initials?.toUpperCase() ?? 'N/A'),
+      child:
+          mediaType != null && mediaType == AppMediaType.doc
+              ? const AppText.base(text: 'PDF')
+              : AppText.base(text: initials?.toUpperCase() ?? 'N/A'),
     );
   }
 }

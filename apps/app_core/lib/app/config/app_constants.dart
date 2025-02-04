@@ -1,5 +1,5 @@
-class AppConstants{
-  static const login = '/auth/login/';
-  static const signup = '/users/';
+class AppConstants {
+  static const login = 'login';
+  static const signup = 'register';
   static const profile = '/auth/profile/';
 }

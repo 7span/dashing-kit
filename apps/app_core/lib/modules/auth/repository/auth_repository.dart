@@ -4,11 +4,11 @@ import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/app_constants.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/repository-utils/repository_utils.dart';
+import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/model/auth_response_model.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
-import 'package:app_core/core/data/services/hive.service.dart';
+import 'package:fpdart/fpdart.dart';
 
 /// This repository contains the contract for login and logout function
 abstract interface class IAuthRepository {
@@ -27,9 +27,7 @@ class AuthRepository implements IAuthRepository {
   const AuthRepository();
 
   @override
-  TaskEither<Failure, Unit> login(
-    AuthRequestModel authRequestModel,
-  ) =>
+  TaskEither<Failure, Unit> login(AuthRequestModel authRequestModel) =>
       makeLoginRequest(authRequestModel)
           .chainEither(RepositoryUtils.checkStatusCode)
           .chainEither(
@@ -44,6 +42,7 @@ class AuthRepository implements IAuthRepository {
         requestType: RequestType.post,
         path: AppConstants.login,
         body: authRequestModel.toMap(),
+        options: Options(headers: {'Content-Type': 'application/json'}),
       );
 
   TaskEither<Failure, Unit> saveUserToLocal(AuthResponseModel authResponseModel) {
@@ -64,22 +63,21 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  TaskEither<Failure, AuthResponseModel> signup(
-      AuthRequestModel authRequestModel,
-      ) =>
+  TaskEither<Failure, AuthResponseModel> signup(AuthRequestModel authRequestModel) =>
       makeSignUpRequest(authRequestModel)
           .chainEither(RepositoryUtils.checkStatusCode)
           .chainEither(
             (r) => RepositoryUtils.mapToModel(
               () => AuthResponseModel.fromMap(r.data as Map<String, dynamic>),
-        ),
-      );
+            ),
+          );
 
   TaskEither<Failure, Response> makeSignUpRequest(AuthRequestModel authRequestModel) =>
       RestApiClient.request(
         requestType: RequestType.post,
         path: AppConstants.signup,
         body: authRequestModel.toMap(),
+        options: Options(headers: {'Content-Type': 'application/json'}),
       );
 
   @override

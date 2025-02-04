@@ -7,7 +7,6 @@ linter:
     always_specify_types: false
     avoid_print: true
     always_use_package_imports: true
-    package_api_docs: true
 
 analyzer:
   errors:

@@ -1,0 +1,2 @@
+/Users/bhavikmaradiya/StudioProjects/flutter-boilerplate-v2/apps/app_core/android/app/.cxx/Debug/2h1a2d6z/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/bhavikmaradiya/StudioProjects/flutter-boilerplate-v2/apps/app_core/android/app/.cxx/Debug/2h1a2d6z/armeabi-v7a/CMakeFiles/rebuild_cache.dir

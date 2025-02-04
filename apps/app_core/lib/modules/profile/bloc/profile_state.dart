@@ -1,10 +1,14 @@
 part of 'profile_bloc.dart';
 
-abstract class ProfileState extends Equatable {
-  const ProfileState();
+class ProfileState extends Equatable {
+  const ProfileState({this.isLoggedOut = false});
+
+  final bool isLoggedOut;
+
+  ProfileState copyWith({bool? isLoggedOut}) {
+    return ProfileState(isLoggedOut: isLoggedOut ?? this.isLoggedOut);
+  }
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [isLoggedOut];
 }
-
-class ProfileInitial extends ProfileState {}
