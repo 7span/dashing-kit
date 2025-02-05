@@ -120,5 +120,4 @@ linux/flutter/*
 /ios/config/prod/GoogleService-Info.plist
 /ios/config/staging/GoogleService-Info.plist
 /ios/Runner/Info.plist
-/ios/Podfile
 /ios/Podfile.lock
