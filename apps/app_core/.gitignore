@@ -5,9 +5,11 @@
 *.swp
 .DS_Store
 .atom/
+.build/
 .buildlog/
 .history
 .svn/
+.swiftpm/
 migrate_working_dir/
 
 # IntelliJ related
@@ -114,3 +116,9 @@ linux/flutter/*
 *.env.g.dart
 *.g.dart
 *.gen.dart
+/ios/config/dev/GoogleService-Info.plist
+/ios/config/prod/GoogleService-Info.plist
+/ios/config/staging/GoogleService-Info.plist
+/ios/Runner/Info.plist
+/ios/Podfile
+/ios/Podfile.lock
