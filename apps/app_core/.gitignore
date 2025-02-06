@@ -121,3 +121,6 @@ linux/flutter/*
 /ios/config/staging/GoogleService-Info.plist
 /ios/Runner/Info.plist
 /ios/Podfile.lock
+/android/app/src/dev/google-services.json
+/android/app/src/prod/google-services.json
+/android/app/src/staging/google-services.json

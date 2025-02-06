@@ -58,23 +58,23 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    
+
     flavorDimensions "default"
     productFlavors {
-        production {
+        prod {
             dimension "default"
-            resValue "string", "app_name", "Core App"
+            manifestPlaceholders = [appLabel: "Core App"]
         }
-        development {
+        dev {
             dimension "default"
             applicationIdSuffix ".development"
-            resValue "string", "app_name", "Core App QA"
+            manifestPlaceholders = [appLabel: "Core App Dev"]
             versionNameSuffix ".dev"
         }
         staging {
             dimension "default"
             applicationIdSuffix ".staging"
-            resValue "string", "app_name", "Core App Staging"
+            manifestPlaceholders = [appLabel: "Core App Staging"]
             versionNameSuffix ".staging"
         }
     }
