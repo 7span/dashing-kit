@@ -1,0 +1,8 @@
+{
+  "label": "In-App Products",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "These are the steps to add in-app products in Google Play Console."
+  }
+}
