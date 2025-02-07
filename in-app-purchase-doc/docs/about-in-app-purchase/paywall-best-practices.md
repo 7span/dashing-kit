@@ -18,7 +18,11 @@ Here are some points about tips and rules, to improve paywall designs as well av
 
 :::
 
-### 1. Tips for paywall design
+### 1. Platform specific rules for paywalls.
+
+- Refer official [Guidelines](https://developer.apple.com/design/human-interface-guidelines/in-app-purchase) to integrate In-App Purchase in Apple.
+
+### 2. Tips for paywall design
 
 - Present essential information in a clean, easy-to-read format.
 - Keep paywall UI simple and intuitive.
