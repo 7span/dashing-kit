@@ -8,7 +8,7 @@ sidebar_position: 5
 
 ### Paywall is screen or part of user interface to restrict/guide user about paid plans and features.
 Building effective paywall UI is as important as implementing In-App Purchase flow.
-Here are some points about tips and rules, to improve paywall designs as well avoid hustle while getting final approvals from respective platform.
+Here are some points about tips to improve paywall designs as well avoid hustle while getting final approvals from respective platform.
 
 :::info Types of paywalls
 
@@ -18,11 +18,7 @@ Here are some points about tips and rules, to improve paywall designs as well av
 
 :::
 
-### 1. Platform specific rules for paywalls.
-
-- Refer official [Guidelines](https://developer.apple.com/design/human-interface-guidelines/in-app-purchase) to integrate In-App Purchase in Apple.
-
-### 2. Tips for paywall design
+###  Tips for paywall design
 
 - Present essential information in a clean, easy-to-read format.
 - Keep paywall UI simple and intuitive.
@@ -33,11 +29,11 @@ Here are some points about tips and rules, to improve paywall designs as well av
 - Provide trial transparency.
 - Offer a money-back guarantee that makes user feel safe while spending.
 - Adjust paywall placement,for example, interrupting the user flow to show paywalls is bad practice.
+- Avoid dark patterns or designs as these can lead to negative user feedback, higher refund requests, or even compliance issues.
 
-For more tips refer this [blog](https://qonversion.io/blog/paywall-design-uiux-examples/).
 
-:::tip Pre-built paywall solutions
-
-- You can use paywalls by [RevenueCat](https://www.revenuecat.com/feature/paywalls/) or [Qonversion](https://qonversion.io/paywall-gallery?) like resources for no-code paywalls.
-
+:::tip Other references
+- For more tips refer this [blog](https://qonversion.io/blog/paywall-design-uiux-examples/).
+- For paywall and in-app purchase instructions for **Apple** platform read official [Guidelines](https://developer.apple.com/design/human-interface-guidelines/in-app-purchase).
+- You can refer paywalls designs from [RevenueCat](https://www.revenuecat.com/feature/paywalls/), [Qonversion](https://qonversion.io/paywall-gallery?) or popular application such as ChatGPT, Spotify, Hotstar  for no-code paywalls.
 ::: 
