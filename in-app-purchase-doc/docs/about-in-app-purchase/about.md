@@ -16,3 +16,10 @@ sidebar_position: 1
 - 📈 Subscription Growth – Subscription-based apps (like Netflix, Tinder, and YouTube Premium) account for over 90% of IAP revenue on the App Store.
 - 🌎 Regional Trends – China, the U.S., and Japan are the top three markets for in-app purchases, contributing to more than half of global app revenue.
 
+:::tip FYI
+
+- **In-app purchase** and **Apple Pay** are different technologies.
+- Use in-app purchase to sell virtual goods in your app, such as premium content for your app and subscriptions for digital content.
+- Use Apple Pay in your app to sell physical goods like groceries, clothing, and appliances;
+
+::: 
