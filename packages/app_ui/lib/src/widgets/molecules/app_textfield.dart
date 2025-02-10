@@ -7,7 +7,6 @@ class AppTextField extends StatefulWidget {
     required this.label,
     super.key,
     this.textInputAction = TextInputAction.next,
-    this.isObscureText = false,
     this.showLabel = true,
     this.hintText,
     this.keyboardType,
@@ -21,13 +20,13 @@ class AppTextField extends StatefulWidget {
     this.contentPadding,
     this.autofillHints,
     this.hintTextBelowTextField,
-  }) : isPasswordField = false;
+  })  : isPasswordField = false,
+        isObscureText = false;
 
   const AppTextField.password({
     required this.label,
     super.key,
     this.textInputAction = TextInputAction.next,
-    this.isObscureText = true,
     this.showLabel = true,
     this.hintText,
     this.keyboardType,
@@ -41,7 +40,8 @@ class AppTextField extends StatefulWidget {
     this.autofillHints,
     this.hintTextBelowTextField,
     this.contentPadding,
-  }) : isPasswordField = true;
+  })  : isPasswordField = true,
+        isObscureText = true;
 
   final String label;
   final String? initialValue;

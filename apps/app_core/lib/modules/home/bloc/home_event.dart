@@ -7,7 +7,10 @@ sealed class HomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class HomeGetPostEvent extends HomeEvent {
-  const HomeGetPostEvent(this.campaignId);
-  final int campaignId;
+final class FetchUsersEvent extends HomeEvent {
+  const FetchUsersEvent();
+}
+
+final class LoadMoreUsersEvent extends HomeEvent {
+  const LoadMoreUsersEvent();
 }

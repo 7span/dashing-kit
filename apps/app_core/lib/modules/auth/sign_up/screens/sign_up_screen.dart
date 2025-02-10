@@ -1,13 +1,13 @@
 import 'package:app_core/core/domain/validators/confirm_password_validator.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
+import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/auth/sign_up/bloc/sign_up_bloc.dart';
 import 'package:app_translations/app_translations.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:app_ui/app_ui.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:formz/formz.dart';
 
 @RoutePage()
@@ -17,15 +17,14 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(create: (context) => const AuthRepository()),
-      ],
+      providers: [RepositoryProvider(create: (context) => const AuthRepository())],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => SignUpBloc(
-              authenticationRepository: RepositoryProvider.of<AuthRepository>(context),
-            ),
+            create:
+                (context) => SignUpBloc(
+                  authenticationRepository: RepositoryProvider.of<AuthRepository>(context),
+                ),
           ),
         ],
         child: this,
@@ -43,14 +42,11 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
           if (state.status.isFailure) {
             showAppSnackbar(
               context,
-              'Invalid username or password',
+              context.t.invalid_password_username,
               type: SnackbarType.failed,
             );
           } else if (state.status.isSuccess) {
-            showAppSnackbar(
-              context,
-              context.t.sign_up_successful,
-            );
+            showAppSnackbar(context, context.t.sign_up_successful);
             await context.maybePop();
           }
         },
@@ -73,30 +69,15 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
                   child: AppText.XL(text: context.t.sign_up),
                 ),
                 VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 300,
-                  child: _NameInput(),
-                ),
+                SlideAndFadeAnimationWrapper(delay: 300, child: _NameInput()),
                 VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 300,
-                  child: _EmailInput(),
-                ),
+                SlideAndFadeAnimationWrapper(delay: 300, child: _EmailInput()),
                 VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 400,
-                  child: _PasswordInput(),
-                ),
+                SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
                 VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 400,
-                  child: _ConfirmPasswordInput(),
-                ),
+                SlideAndFadeAnimationWrapper(delay: 400, child: _ConfirmPasswordInput()),
                 VSpace.large24(),
-                const SlideAndFadeAnimationWrapper(
-                  delay: 600,
-                  child: _CreateAccountButton(),
-                ),
+                const SlideAndFadeAnimationWrapper(delay: 600, child: _CreateAccountButton()),
               ],
             ),
           ),
@@ -152,7 +133,6 @@ class _PasswordInput extends StatelessWidget {
         return AppTextField.password(
           initialValue: state.password.value,
           label: context.t.password,
-          isObscureText: state.obscureText,
           textInputAction: TextInputAction.done,
           onChanged: (password) => context.read<SignUpBloc>().add(SignUpPasswordChanged(password)),
           errorText:
@@ -173,17 +153,18 @@ class _ConfirmPasswordInput extends StatelessWidget {
         return AppTextField.password(
           initialValue: state.confirmPassword.value,
           label: context.t.confirm_password,
-          isObscureText: state.obscureText,
           textInputAction: TextInputAction.done,
-          onChanged: (password) => context.read<SignUpBloc>().add(
+          onChanged:
+              (password) => context.read<SignUpBloc>().add(
                 SignUpConfirmPasswordChanged(
                   confirmPassword: password,
                   password: state.password.value,
                 ),
               ),
-          errorText: state.confirmPassword.error == ConfirmPasswordValidationError.invalid
-              ? context.t.common_validation_confirm_password
-              : null,
+          errorText:
+              state.confirmPassword.error == ConfirmPasswordValidationError.invalid
+                  ? context.t.common_validation_confirm_password
+                  : null,
           autofillHints: const [AutofillHints.password],
         );
       },

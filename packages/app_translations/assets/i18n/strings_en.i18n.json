@@ -17,5 +17,19 @@
     "sign_up": "Sign Up",
     "sign_up_successful": "Sign Up Successful",
     "name": "Name",
-    "common_validation_name": "Please enter name"
+    "common_validation_name": "Please enter name",
+    "update_password": "Update Password",
+    "update": "Update",
+    "update_successful": "Update Successful",
+    "failed_to_update": "Failed to update!",
+    "invalid_password_username": "Invalid username or password",
+    "homepage_title": "Home screen",
+    "logout": "Logout",
+    "users": "Users",
+    "profile": "Profile",
+    "something_went_wrong": "Oups! Something went wrong!",
+    "error_screen_msg": "We encountered an error and we've notified our engineering team about it. Sorry for the inconvenience caused.",
+    "user_error": "Failed to fetch users",
+    "empty_msg": "No users found!"
+
 }

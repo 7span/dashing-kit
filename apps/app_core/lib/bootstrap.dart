@@ -8,6 +8,9 @@ import 'package:app_core/app/observers/app_bloc_observer.dart';
 import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
+import 'package:app_core/firebase_options.dart' as firebase_prod;
+import 'package:app_core/firebase_options_development.dart' as firebase_dev;
+import 'package:app_core/firebase_options_staging.dart' as firebase_staging;
 import 'package:app_translations/app_translations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -15,10 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
-
-import 'package:app_core/firebase_options.dart' as firebase_prod;
-import 'package:app_core/firebase_options_development.dart' as firebase_dev;
-import 'package:app_core/firebase_options_staging.dart' as firebase_staging;
 
 /// This function is one of the core function that should be run before we even
 /// reach to the [MaterialApp] This function initializes the following:
@@ -33,7 +32,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   ///  Initializing localizations
-  LocaleSettings.useDeviceLocale();
+  await LocaleSettings.useDeviceLocale();
 
   /// Initialzing realtime network info service
   NetWorkInfoService.instance.init();
@@ -51,10 +50,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   initializeSingletons();
   AppConfig.setEnvConfig(env);
 
-  await RestApiClient.instance.init(
-    baseURL: AppConfig.baseApiUrl,
-    isApiCacheEnabled: false,
-  );
+  await RestApiClient.instance.init(baseURL: AppConfig.baseApiUrl, isApiCacheEnabled: false);
 
   await Future.wait([
     getIt<IHiveService>().init(),
@@ -65,10 +61,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   ]);
 
   /// If the user has already logged in, then set the authorization token for the Closed API endpoint
-  getIt<IHiveService>().getAccessToken().fold(
-        () => null,
-        RestApiClient.setAuthorizationToken,
-      );
+  getIt<IHiveService>().getAccessToken().fold(() => null, RestApiClient.setAuthorizationToken);
 
   Bloc.observer = getIt<AppBlocObserver>();
 
@@ -95,11 +88,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
 void initializeSingletons() {
   getIt
     ..registerSingleton<Logger>(
-      Logger(
-        filter: ProductionFilter(),
-        printer: PrettyPrinter(),
-        output: ConsoleOutput(),
-      ),
+      Logger(filter: ProductionFilter(), printer: PrettyPrinter(), output: ConsoleOutput()),
     )
     ..registerLazySingleton(ApiClient.new, instanceName: 'open')
     ..registerLazySingleton(ApiClient.new, instanceName: 'close')
