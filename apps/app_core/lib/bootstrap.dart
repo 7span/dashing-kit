@@ -71,6 +71,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
 
   /// Initialize firebase
   await Firebase.initializeApp(
+    name: 'Boilerplate-v2',
     options: switch (env) {
       Env.development => firebase_dev.DefaultFirebaseOptions.currentPlatform,
       Env.staging => firebase_staging.DefaultFirebaseOptions.currentPlatform,
