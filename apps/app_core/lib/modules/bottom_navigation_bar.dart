@@ -10,12 +10,14 @@ class BottomNavigationBarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
+
       /// list of your tab routes
       /// routes used here must be declared as children
       /// routes of /dashboard
       routes: const [HomeRoute(), ProfileRoute()],
       transitionBuilder:
-          (context, child, animation) => FadeTransition(
+          (context, child, animation) =>
+          FadeTransition(
             opacity: animation,
 
             /// the passed child is technically our animated selected-tab page
@@ -29,12 +31,21 @@ class BottomNavigationBarScreen extends StatelessWidget {
         /// to access the tabsRouter controller provided in this context
         return Scaffold(
           body: child,
-          bottomNavigationBar: BottomNavigationBar(
+          bottomNavigationBar:
+          context.topRouteMatch.meta['hideNavBar'] == true
+              ? null
+              : BottomNavigationBar(
             currentIndex: tabsRouter.activeIndex,
             onTap: tabsRouter.setActiveIndex,
             items: [
-              BottomNavigationBarItem(icon: const Icon(Icons.list), label: context.t.users),
-              BottomNavigationBarItem(icon: const Icon(Icons.person), label: context.t.profile),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.list),
+                label: context.t.users,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.person),
+                label: context.t.profile,
+              ),
             ],
           ),
         );

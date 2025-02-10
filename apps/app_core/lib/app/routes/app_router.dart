@@ -15,20 +15,26 @@ part 'app_router.gr.dart';
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
+    AutoRoute(initial: true, page: SplashRoute.page, guards: [AuthGuard()]),
+    AutoRoute(page: SignInRoute.page),
+    AutoRoute(
+      page: BottomNavigationBarRoute.page,
+      children: [
+        AutoRoute(page: HomeRoute.page),
         AutoRoute(
-          initial: true,
-          page: SplashRoute.page,
-          guards: [AuthGuard()],
-        ),
-        AutoRoute(page: SignInRoute.page),
-        AutoRoute(page: ChangePasswordRoute.page),
-        AutoRoute(
-          page: BottomNavigationBarRoute.page,
+          page: const EmptyShellRoute('account'),
+          path: 'account',
           children: [
-            AutoRoute(page: HomeRoute.page),
             AutoRoute(page: ProfileRoute.page),
+            AutoRoute(
+              page: ChangePasswordRoute.page,
+              path: 'change-password',
+              meta: const {'hideNavBar': true},
+            ),
           ],
         ),
-        AutoRoute(page: SignUpRoute.page),
-      ];
+      ],
+    ),
+    AutoRoute(page: SignUpRoute.page),
+  ];
 }

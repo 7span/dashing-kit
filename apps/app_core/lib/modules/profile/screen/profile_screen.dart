@@ -17,6 +17,8 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const AppNetworkImage(initials: "bm", shape: BoxShape.circle),
+            const SizedBox(height: 10),
             LogoutButtonWidget(
               onLogout: () async {
                 if (context.mounted) {
@@ -57,7 +59,10 @@ class LogoutButtonWidget extends StatelessWidget {
             return builder?.call(context) ??
                 AppButton(
                   text: context.t.logout,
-                  onPressed: () => context.read<ProfileBloc>().add(UserProfileLogoutEvent()),
+                  onPressed:
+                      () => context.read<ProfileBloc>().add(
+                        UserProfileLogoutEvent(),
+                      ),
                 );
           },
         ),

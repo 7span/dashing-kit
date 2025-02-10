@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'profile_event.dart';
+
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
@@ -11,7 +12,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<UserProfileLogoutEvent>(_onLogout);
   }
 
-  Future<void> _onLogout(UserProfileLogoutEvent event, Emitter<ProfileState> emit) async {
+  Future<void> _onLogout(
+    UserProfileLogoutEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
     await getIt<IHiveService>().clearData().run();
     emit(state.copyWith(isLoggedOut: true));
   }

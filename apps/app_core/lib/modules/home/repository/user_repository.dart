@@ -15,10 +15,16 @@ abstract interface class UserRepository {
 class MockUserRepository implements UserRepository {
   @override
   TaskEither<Failure, UserListModel> fetchUsers({required int page}) {
-    return TaskEither.tryCatch(() async => _fetchUsers(page: page, limit: 5), APIFailure.new);
+    return TaskEither.tryCatch(
+      () async => _fetchUsers(page: page, limit: 5),
+      APIFailure.new,
+    );
   }
 
-  Future<UserListModel> _fetchUsers({required int page, required int limit}) async {
+  Future<UserListModel> _fetchUsers({
+    required int page,
+    required int limit,
+  }) async {
     await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
 
     // Mock data: Each page fetches [limit] users
@@ -87,7 +93,9 @@ class MockUserRepository implements UserRepository {
 
     final startIndex = (page - 1) * limit;
     final paginatedData =
-        startIndex >= allUsers.length ? <String>[] : allUsers.skip(startIndex).take(limit).toList();
+        startIndex >= allUsers.length
+            ? <String>[]
+            : allUsers.skip(startIndex).take(limit).toList();
     return UserListModel()
       ..page = page
       ..perPage = limit
