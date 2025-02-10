@@ -80,6 +80,10 @@ class _AppNetworkImageState extends State<AppNetworkImage> {
     }
   }
 
+  bool get isValidImage =>
+      (widget.imageUrl ?? '').trim().isNotEmpty ||
+      (widget.imageFile?.path ?? '').trim().isNotEmpty;
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -89,21 +93,30 @@ class _AppNetworkImageState extends State<AppNetworkImage> {
               : BorderRadius.circular(widget.borderRadius),
 
       /// Here we've set height width to 68 as per Figma's design
-      child: OctoImage.fromSet(
-        width: widget.imageWidth,
-        height: widget.imageHeight,
-        fit: BoxFit.cover,
-        image:
-            widget.imageSource == AppImageSource.network
-                ? CachedNetworkImageProvider(widget.imageUrl ?? '')
-                : MemoryImage(widget.imageFile!.readAsBytesSync()),
-        octoSet: blurHash(
-          widget.blurHashURL,
-          widget.initials,
-          mediaType,
-          placeHolderBackgroundColor: widget.placeHolderBackgroundColor,
-        ),
-      ),
+      child:
+          isValidImage
+              ? OctoImage.fromSet(
+                width: widget.imageWidth,
+                height: widget.imageHeight,
+                fit: BoxFit.cover,
+                image:
+                    widget.imageSource == AppImageSource.network
+                        ? CachedNetworkImageProvider(widget.imageUrl ?? '')
+                        : MemoryImage(widget.imageFile!.readAsBytesSync()),
+                octoSet: blurHash(
+                  widget.blurHashURL,
+                  widget.initials,
+                  mediaType,
+                  placeHolderBackgroundColor: widget.placeHolderBackgroundColor,
+                ),
+              )
+              : _PlaceHolderWidget(
+                initials: widget.initials,
+                mediaType: mediaType,
+                imageWidth: widget.imageWidth,
+                imageHeight: widget.imageHeight,
+                placeHolderBackgroundColor: widget.placeHolderBackgroundColor,
+              ),
     );
   }
 }
@@ -131,8 +144,15 @@ OctoSet blurHash(
 
 /// If the user has not provided the [hash], then show the normal placeholder instead of Blurred
 /// Preview of the Image
-OctoPlaceholderBuilder blurHashPlaceholderBuilder(String? hash, String? initials, {BoxFit? fit}) {
-  return (context) => hash != null ? BlurHash(hash: hash) : _PlaceHolderWidget(initials: initials);
+OctoPlaceholderBuilder blurHashPlaceholderBuilder(
+  String? hash,
+  String? initials, {
+  BoxFit? fit,
+}) {
+  return (context) =>
+      hash != null
+          ? BlurHash(hash: hash)
+          : _PlaceHolderWidget(initials: initials);
 }
 
 /// The error builder is same as the Placeholder Builder
@@ -157,7 +177,16 @@ OctoErrorBuilder blurHashErrorBuilder({
 }
 
 class _PlaceHolderWidget extends StatelessWidget {
-  const _PlaceHolderWidget({this.initials, this.mediaType, this.placeHolderBackgroundColor});
+  const _PlaceHolderWidget({
+    this.initials,
+    this.mediaType,
+    this.placeHolderBackgroundColor,
+    this.imageHeight,
+    this.imageWidth,
+  });
+
+  final double? imageHeight;
+  final double? imageWidth;
 
   final String? initials;
   final AppMediaType? mediaType;
@@ -166,11 +195,10 @@ class _PlaceHolderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: imageHeight,
+      width: imageWidth,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: placeHolderBackgroundColor ?? context.colorScheme.primary500,
-        borderRadius: BorderRadius.circular(AppBorderRadius.xsmall4),
-      ),
+      color: placeHolderBackgroundColor ?? context.colorScheme.primary500,
       child:
           mediaType != null && mediaType == AppMediaType.doc
               ? const AppText.base(text: 'PDF')

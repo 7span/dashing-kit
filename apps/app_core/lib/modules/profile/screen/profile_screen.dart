@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const AppNetworkImage(initials: "bm", shape: BoxShape.circle),
+            const AppNetworkImage(initials: 'bm', shape: BoxShape.circle),
             const SizedBox(height: 10),
             LogoutButtonWidget(
               onLogout: () async {
