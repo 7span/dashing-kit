@@ -18,6 +18,8 @@ extension GetUsernameExtension on NavigationResolver {
         (_) => false,
         (model) => model.isNotEmpty,
       );
+
+  bool get isAccessed => getIt<IHiveService>().getAccessToken().isSome();
 }
 
 extension AddEventSafe<Event, State> on Bloc<Event, State> {

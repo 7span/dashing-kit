@@ -3,6 +3,7 @@
     "sign_in_successful": "Sign In Successful",
     "email": "Email",
     "password": "Password",
+    "confirm_password": "Confirm Password",
     "create_account": "Create Account",
     "forgot_password": "Forgot Password?",
     "having_issues": "Having Issues",
@@ -11,5 +12,10 @@
     "auth_text_no_account": "Don't have an account yet?",
     "common_text_something_went_wrong": "Please check your credentials and try again",
     "common_validation_email": "Please enter valid email",
-    "common_validation_password": "Please enter valid password"
+    "common_validation_password": "Please enter valid password",
+    "common_validation_confirm_password": "Please enter same password",
+    "sign_up": "Sign Up",
+    "sign_up_successful": "Sign Up Successful",
+    "name": "Name",
+    "common_validation_name": "Please enter name"
 }

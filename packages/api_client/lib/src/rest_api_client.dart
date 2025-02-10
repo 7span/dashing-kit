@@ -80,6 +80,13 @@ final class RestApiClient {
                 options: options,
                 data: body,
               );
+            case RequestType.post:
+              return dio.post(
+                path,
+                queryParameters: queryParameters,
+                options: options,
+                data: body,
+              );
             case RequestType.put:
               return dio.put(
                 path,

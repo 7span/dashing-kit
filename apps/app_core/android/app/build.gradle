@@ -45,7 +45,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.flutter.boilerplate.app"
         minSdkVersion flutter.minSdkVersion
-        compileSdkVersion 34
+        compileSdkVersion 35
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -58,23 +58,23 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    
+
     flavorDimensions "default"
     productFlavors {
-        production {
+        prod {
             dimension "default"
-            resValue "string", "app_name", "Core App"
+            manifestPlaceholders = [appLabel: "Core App"]
         }
-        development {
+        dev {
             dimension "default"
             applicationIdSuffix ".development"
-            resValue "string", "app_name", "Core App QA"
+            manifestPlaceholders = [appLabel: "Core App Dev"]
             versionNameSuffix ".dev"
         }
         staging {
             dimension "default"
             applicationIdSuffix ".staging"
-            resValue "string", "app_name", "Core App Staging"
+            manifestPlaceholders = [appLabel: "Core App Staging"]
             versionNameSuffix ".staging"
         }
     }

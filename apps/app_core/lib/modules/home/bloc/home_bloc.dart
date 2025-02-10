@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:api_client/api_client.dart';
-import 'package:app_core/modules/home/entity/home_entity.dart';
+import 'package:app_core/app/config/app_constants.dart';
+import 'package:app_core/modules/home/model/home_model.dart';
 import 'package:app_core/modules/home/repository/home_repository.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
@@ -22,7 +23,8 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     HomeGetPostEvent event,
     Emitter<HomeState> emit,
   ) async {
-    final fetchHomeScreenDataEither = await repository.getHomeScreenData(event.campaignId).run();
+    emit(const HomeState.loading());
+    final fetchHomeScreenDataEither = await repository.getNowPlayingMovies(AppConstants.profile).run();
     fetchHomeScreenDataEither.fold(
       (error) => emit(const HomeState.error()),
       (result) => emit(HomeState.loaded(result)),
@@ -32,14 +34,17 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   @override
   HomeState? fromJson(Map<String, dynamic> json) {
     return null;
-    // return HomeState.loaded(
-    //   List<Plan>.from(
-    //     (json['postsList'] as List<dynamic>)
-    //         .map<Plan>((json) => Plan.fromJson(json as Map<String, dynamic>))
-    //         .toList(),
-    //   ),
-    //   true,
-    // );
+
+    /// OR return old data, when state is empty.
+
+    /// return HomeState.loaded(
+    ///   List<Plan>.from(
+    ///     (json['postsList'] as List<dynamic>)
+    ///         .map<Plan>((json) => Plan.fromJson(json as Map<String, dynamic>))
+    ///         .toList(),
+    ///   ),
+    ///   true,
+    /// );
   }
 
   @override
@@ -47,7 +52,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     switch (state.status) {
       case ApiStatus.loaded:
       case ApiStatus.empty:
-      // return state.toJson();
+      /// return state.toJson();
       case ApiStatus.initial:
       case ApiStatus.loading:
       case ApiStatus.error:

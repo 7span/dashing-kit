@@ -1,5 +1,6 @@
 import 'package:api_client/api_client.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:dio/dio.dart';
 
 class RepositoryUtils {
   static Either<Failure, T> mapToModel<T>(
@@ -11,5 +12,12 @@ class RepositoryUtils {
           error: error,
           stackTrace: stackTrace,
         ),
+      );
+
+  static Either<Failure, Response> checkStatusCode(Response response) =>
+      Either<Failure, Response>.fromPredicate(
+        response,
+            (response) => response.statusCode!.getStatusCodeEnum.isSuccess,
+            APIFailure.new,
       );
 }
