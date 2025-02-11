@@ -62,6 +62,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '971758003871',
     projectId: 'boilerplate-v2-c7080',
     storageBucket: 'boilerplate-v2-c7080.appspot.com',
-    iosBundleId: 'com.flutter.boilerplate.app.development',
+    iosBundleId: 'com.flutter.boilerplate.demo.app.development',
   );
 }

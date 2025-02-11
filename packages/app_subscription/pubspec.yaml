@@ -11,7 +11,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #For android
   in_app_purchase: ^3.2.0
+
+  #For iOS
+  in_app_purchase_storekit: ^0.3.21
+
   equatable: ^2.0.7
 
 dev_dependencies:
