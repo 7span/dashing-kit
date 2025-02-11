@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 ---
 
-# Create In-App Product Into App Store Connect
+# Consumable In-App Product
 
 - Open App Store Connect and open application you want to add in-app purchase. On left slider slide down to **Distribution > Monetization > In-App Purchases**.
 
@@ -16,11 +16,14 @@ sidebar_position: 2
 - Give a Reference Name. The reference name will be used on App Store Connect and in Sales and Trends reports. It won't be displayed on the App Store.
 - Entre Product ID and hit **create**.
 
-:::danger Note that...
+:::danger Take care
 
-- After you use a Product ID for one product, it can’t be used again, even if the product is deleted.
+- You can’t change or reuse a **Product ID** after the product has been created.
+- Also on deleting product you can not use same **Product ID**.
 
 :::
+
+![create_ios_product](/img/create-ios-product/create_ios_product_17.png)
 
 ![create_ios_product](/img/create-ios-product/create_ios_product_3.png)
 
@@ -52,6 +55,10 @@ sidebar_position: 2
 
 ![create_ios_product](/img/create-ios-product/create_ios_product_10.png)
 
+- You can set different prices for different countries and regions.
+
+![create_ios_product](/img/create-ios-product/create_ios_product_19.png)
+
 ![create_ios_product](/img/create-ios-product/create_ios_product_11.png)
 
 ![create_ios_product](/img/create-ios-product/create_ios_product_12.png)
@@ -64,7 +71,8 @@ sidebar_position: 2
 
 ![create_ios_product](/img/create-ios-product/create_ios_product_13.png)
 
-- In Distribution section, the product status might yet showing Missing Metadata. For creating basic in-app product in App Store Connect, that is test-able and can be used for developing dubugging purpose, we have to upload a screenshot of an application.
+- In Distribution section, the product status might yet showing **Missing Metadata**. 
+- For creating basic in-app product in App Store Connect, that is test-able and can be used for developing dubugging purpose, we have to upload a screenshot of an application.
 
 ![create_ios_product](/img/create-ios-product/create_ios_product_4.png)
 
@@ -72,7 +80,7 @@ sidebar_position: 2
 
 ![create_ios_product](/img/create-ios-product/create_ios_product_14.png)
 
-- Status must be showing as Ready to Submit.
+- Status must be showing as **Ready to Submit**.
 
 :::danger
 - Once you’ve uploaded a screenshot, you can update it but can not remove it.
