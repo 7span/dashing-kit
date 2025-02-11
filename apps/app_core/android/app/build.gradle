@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 
 android {
-    namespace "com.flutter.boilerplate.app"
+    namespace "com.flutter.boilerplate.demo.app"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -43,9 +43,9 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.flutter.boilerplate.app"
+        applicationId "com.flutter.boilerplate.demo.app"
         minSdkVersion flutter.minSdkVersion
-        compileSdkVersion 34
+        compileSdkVersion 35
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

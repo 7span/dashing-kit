@@ -87,7 +87,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   );
 
   /// Initialize firebase crashlytics
-  FirebaseCrashlyticsService.init();
+  // FirebaseCrashlyticsService.init();
 
   runApp(await builder());
 }

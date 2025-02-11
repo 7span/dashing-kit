@@ -62,7 +62,7 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
             spacing: Insets.xsmall8,
             children: [
               _PurchasePlanCard(
-                label: 'On Time Buy',
+                label: 'Consumable',
                 iconData: Icons.diamond,
                 description: 'Get 50 Gems worth, INR 100',
                 onTap: () async {
@@ -73,15 +73,26 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
                 },
               ),
               _PurchasePlanCard(
-                label: 'Premium Subscription',
-                iconData: Icons.currency_bitcoin,
-                description: 'unlimited Gems worth, INR 1000',
+                label: 'Non-consumable',
+                iconData: Icons.diamond,
+                description: 'Get 100 Gems worth, INR 200',
                 onTap: () async {
-                  await context
-                      .read<SubscriptionCubit>()
-                      .purchaseSubscription(context, 'yearly_subscription');
+                  await context.read<SubscriptionCubit>().purchaseSubscription(
+                        context,
+                        SubscriptionUtils.subscriptionProductId[1],
+                      );
                 },
               ),
+              // _PurchasePlanCard(
+              //   label: 'Premium Subscription',
+              //   iconData: Icons.currency_bitcoin,
+              //   description: 'unlimited Gems worth, INR 1000',
+              //   onTap: () async {
+              //     await context
+              //         .read<SubscriptionCubit>()
+              //         .purchaseSubscription(context, 'yearly_subscription');
+              //   },
+              // ),
             ],
           ),
         ),
