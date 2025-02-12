@@ -59,3 +59,10 @@ scripts:
     run: |
       melos exec -c 10 -- \
         dart format . --line-length 100 --output=none && dart fix --apply --code=require_trailing_commas
+
+  go-ios-go:
+    description: Removes Podfile.lock & Pods Directory & Installs PodFile
+    packageFilters:
+      scope:
+        - app_core
+    exec: cd ios && rm -rf Pods && rm -rf Podfile.lock && pod install --repo-update

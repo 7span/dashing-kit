@@ -4,8 +4,10 @@ part of 'sign_up_bloc.dart';
 final class SignUpState extends Equatable {
   const SignUpState({
     this.status = FormzSubmissionStatus.initial,
-    this.email = const EmailValidator.pure(),
-    this.name =  const NameValidator.pure(),
+
+    /// Used for reqres.in mock api (eve.holt@reqres.in)
+    this.email = const EmailValidator.pure('eve.holt@reqres.in'),
+    this.name = const NameValidator.pure(),
     this.password = const PasswordValidator.pure(),
     this.confirmPassword = const ConfirmPasswordValidator.pure(),
     this.isValid = false,
@@ -43,5 +45,5 @@ final class SignUpState extends Equatable {
   final bool obscureText;
 
   @override
-  List<Object> get props => [status,name, email, password,confirmPassword, isValid, obscureText];
+  List<Object> get props => [status, name, email, password, confirmPassword, isValid, obscureText];
 }

@@ -1,36 +1,26 @@
 part of 'home_bloc.dart';
 
 class HomeState extends Equatable {
-  const HomeState._({
-    this.homeData = const HomeModel(),
+  const HomeState({
     this.status = ApiStatus.initial,
+    this.users = const [],
+    this.hasReachedMax = false,
   });
 
-  const HomeState.initial() : this._(status: ApiStatus.initial);
-  const HomeState.loading() : this._(status: ApiStatus.loading);
-  const HomeState.loaded(HomeModel homeData)
-      : this._(
-          status: ApiStatus.loaded,
-          homeData: homeData,
-        );
-  const HomeState.error() : this._(status: ApiStatus.error);
-  final HomeModel homeData;
   final ApiStatus status;
+  final List<Data> users; // The currently loaded users
+  final bool hasReachedMax; // Whether all pages are loaded
 
-  HomeState copyWith({
-    HomeModel? homeData,
-    bool? hasReachedMax,
-    ApiStatus? status,
-  }) {
-    return HomeState._(
-      homeData: homeData ?? this.homeData,
+  /// Copy the state with new values.
+
+  @override
+  List<Object?> get props => [status, users, hasReachedMax];
+
+  HomeState copyWith({ApiStatus? status, List<Data>? users, bool? hasReachedMax}) {
+    return HomeState(
       status: status ?? this.status,
+      users: users ?? this.users,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
-
-  @override
-  List<Object?> get props => [homeData, status];
-
-  @override
-  bool get stringify => true;
 }

@@ -10,6 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.backgroundColor,
     this.leading,
+    this.centerTitle,
     this.bottom,
     this.automaticallyImplyLeading = false,
     this.scrolledUnderElevation = 0,
@@ -23,6 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool automaticallyImplyLeading;
   final double scrolledUnderElevation;
   final PreferredSizeWidget? bottom;
+  final bool? centerTitle;
 
   @override
   Widget build(BuildContext context) => AppBar(
@@ -39,6 +41,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
         actions: actions,
+        centerTitle: centerTitle,
         titleSpacing: 0,
         scrolledUnderElevation: scrolledUnderElevation,
         backgroundColor: backgroundColor ?? context.colorScheme.white,

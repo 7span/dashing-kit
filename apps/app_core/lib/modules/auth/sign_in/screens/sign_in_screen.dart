@@ -2,14 +2,14 @@
 
 import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
+import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/auth/sign_in/bloc/sign_in_bloc.dart';
 import 'package:app_translations/app_translations.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:app_ui/app_ui.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:formz/formz.dart';
 
 @RoutePage()
@@ -19,15 +19,14 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(create: (context) => const AuthRepository()),
-      ],
+      providers: [RepositoryProvider(create: (context) => const AuthRepository())],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => SignInBloc(
-              authenticationRepository: RepositoryProvider.of<AuthRepository>(context),
-            ),
+            create:
+                (context) => SignInBloc(
+                  authenticationRepository: RepositoryProvider.of<AuthRepository>(context),
+                ),
           ),
         ],
         child: this,
@@ -44,14 +43,11 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
           if (state.status.isFailure) {
             showAppSnackbar(
               context,
-              'Invalid username or password',
+              context.t.invalid_password_username,
               type: SnackbarType.failed,
             );
           } else if (state.status.isSuccess) {
-            showAppSnackbar(
-              context,
-              context.t.sign_in_successful,
-            );
+            showAppSnackbar(context, context.t.sign_in_successful);
             await context.replaceRoute(const BottomNavigationBarRoute());
           }
         },
@@ -74,26 +70,14 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
                   child: AppText.XL(text: context.t.sign_in),
                 ),
                 VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 300,
-                  child: _EmailInput(),
-                ),
+                SlideAndFadeAnimationWrapper(delay: 300, child: _EmailInput()),
                 VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 400,
-                  child: _PasswordInput(),
-                ),
+                SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
                 VSpace.medium16(),
                 VSpace.xxlarge40(),
-                const SlideAndFadeAnimationWrapper(
-                  delay: 500,
-                  child: _LoginButton(),
-                ),
+                const SlideAndFadeAnimationWrapper(delay: 500, child: _LoginButton()),
                 VSpace.large24(),
-                const SlideAndFadeAnimationWrapper(
-                  delay: 600,
-                  child: _CreateAccountButton(),
-                ),
+                const SlideAndFadeAnimationWrapper(delay: 600, child: _CreateAccountButton()),
               ],
             ),
           ),
@@ -131,7 +115,6 @@ class _PasswordInput extends StatelessWidget {
         return AppTextField.password(
           initialValue: state.password.value,
           label: context.t.password,
-          isObscureText: state.obscureText,
           textInputAction: TextInputAction.done,
           onChanged: (password) => context.read<SignInBloc>().add(SignInPasswordChanged(password)),
           errorText:
@@ -145,6 +128,7 @@ class _PasswordInput extends StatelessWidget {
 
 class _LoginButton extends StatelessWidget {
   const _LoginButton();
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
@@ -165,6 +149,7 @@ class _LoginButton extends StatelessWidget {
 
 class _CreateAccountButton extends StatelessWidget {
   const _CreateAccountButton();
+
   @override
   Widget build(BuildContext context) {
     return AppButton(
