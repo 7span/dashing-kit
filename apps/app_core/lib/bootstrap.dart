@@ -11,6 +11,7 @@ import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_core/firebase_options.dart' as firebase_prod;
 import 'package:app_core/firebase_options_development.dart' as firebase_dev;
 import 'package:app_core/firebase_options_staging.dart' as firebase_staging;
+import 'package:app_subscription/app_subscription_api.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';

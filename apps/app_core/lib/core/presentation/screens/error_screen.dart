@@ -16,13 +16,12 @@ class ErrorScreen extends StatelessWidget {
   final FlutterErrorDetails details;
 
   @override
-  Widget build(BuildContext context) =>
-      onRefresh != null
-          ? RefreshIndicator(
-            onRefresh: onRefresh!,
-            child: _ErrorContent(details: details),
-          )
-          : _ErrorContent(details: details);
+  Widget build(BuildContext context) => onRefresh != null
+      ? RefreshIndicator(
+          onRefresh: onRefresh!,
+          child: _ErrorContent(details: details),
+        )
+      : _ErrorContent(details: details);
 }
 
 class _ErrorContent extends StatelessWidget {
@@ -46,19 +45,17 @@ class _ErrorContent extends StatelessWidget {
                 children: [
                   Assets.images.errorIllustration.image(),
                   AppText.L(
-                    text:
-                        kDebugMode
-                            ? details.summary.toString()
-                            : context.t.something_went_wrong,
+                    text: kDebugMode
+                        ? details.summary.toString()
+                        : context.t.something_went_wrong,
                     textAlign: TextAlign.center,
                     color: kDebugMode ? errorColor : primaryColor,
                   ),
                   VSpace.medium16(),
                   AppText.paragraph(
-                    text:
-                        kDebugMode
-                            ? 'https://docs.flutter.dev/testing/errors'
-                            : context.t.error_screen_msg,
+                    text: kDebugMode
+                        ? 'https://docs.flutter.dev/testing/errors'
+                        : context.t.error_screen_msg,
                     textAlign: TextAlign.center,
                   ),
                 ],
