@@ -39,12 +39,7 @@ final class RestApiClient {
     }
 
     /// Adding Dio logger in order to print API responses beautifully
-    dio.interceptors.add(
-      PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-      ),
-    );
+    dio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true));
     return unit;
   }
 
@@ -69,39 +64,22 @@ final class RestApiClient {
     Map<String, dynamic>? queryParameters,
     Options? options,
     Object? body,
-  }) =>
-      TaskEither.tryCatch(
-        () async {
-          switch (requestType) {
-            case RequestType.get:
-              return dio.get(
-                path,
-                queryParameters: queryParameters,
-                options: options,
-                data: body,
-              );
-            case RequestType.post:
-              return dio.post(
-                path,
-                queryParameters: queryParameters,
-                options: options,
-                data: body,
-              );
-            case RequestType.put:
-              return dio.put(
-                path,
-                queryParameters: queryParameters,
-                options: Options(contentType: 'image/jpg'),
-                data: body,
-              );
-            case RequestType.query:
-            case RequestType.mutation:
-              throw Exception('can\'t use query / mutation in REST');
-          }
-        },
-        (error, stackTrace) => APIFailure(
-          error,
-          stackTrace,
-        ),
-      );
+  }) => TaskEither.tryCatch(() async {
+    switch (requestType) {
+      case RequestType.get:
+        return dio.get(path, queryParameters: queryParameters, options: options, data: body);
+      case RequestType.post:
+        return dio.post(path, queryParameters: queryParameters, options: options, data: body);
+      case RequestType.put:
+        return dio.put(
+          path,
+          queryParameters: queryParameters,
+          options: Options(contentType: 'image/jpg'),
+          data: body,
+        );
+      case RequestType.query:
+      case RequestType.mutation:
+        throw Exception('can\'t use query / mutation in REST');
+    }
+  }, (error, stackTrace) => APIFailure(error, stackTrace));
 }

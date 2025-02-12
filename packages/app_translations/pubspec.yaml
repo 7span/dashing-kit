@@ -4,7 +4,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ">=3.7.0-323.1.beta <4.0.0"
   flutter: ">=3.0.0 <4.0.0"
 
 dependencies:
@@ -12,17 +12,17 @@ dependencies:
     sdk: flutter
 
   # Used for localization
-  slang: ^3.31.1
-  slang_flutter: ^3.31.0
+  slang: ^4.4.1
+  slang_flutter: ^4.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  slang_build_runner: ^3.31.0
-  flutter_lints: ^4.0.0
-  melos: ^6.1.0
-  build_runner: ^2.4.12
+  slang_build_runner: ^4.4.2
+  flutter_lints: ^5.0.0
+  melos: ^6.3.2
+  build_runner: ^2.4.14
 
 flutter:
   assets:
