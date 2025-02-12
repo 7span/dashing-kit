@@ -18,15 +18,16 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
   Widget wrappedRoute(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (context) => const AuthRepository())
+        RepositoryProvider(create: (context) => const AuthRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => SignUpBloc(
-              authenticationRepository:
-                  RepositoryProvider.of<AuthRepository>(context),
-            ),
+            create:
+                (context) => SignUpBloc(
+                  authenticationRepository:
+                      RepositoryProvider.of<AuthRepository>(context),
+                ),
           ),
         ],
         child: this,
@@ -76,13 +77,19 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
                 SlideAndFadeAnimationWrapper(delay: 300, child: _EmailInput()),
                 VSpace.large24(),
                 SlideAndFadeAnimationWrapper(
-                    delay: 400, child: _PasswordInput()),
+                  delay: 400,
+                  child: _PasswordInput(),
+                ),
                 VSpace.large24(),
                 SlideAndFadeAnimationWrapper(
-                    delay: 400, child: _ConfirmPasswordInput()),
+                  delay: 400,
+                  child: _ConfirmPasswordInput(),
+                ),
                 VSpace.large24(),
                 const SlideAndFadeAnimationWrapper(
-                    delay: 600, child: _CreateAccountButton()),
+                  delay: 600,
+                  child: _CreateAccountButton(),
+                ),
               ],
             ),
           ),
@@ -102,11 +109,12 @@ class _NameInput extends StatelessWidget {
           initialValue: state.name.value,
           label: context.t.name,
           keyboardType: TextInputType.name,
-          onChanged: (name) =>
-              context.read<SignUpBloc>().add(SignUpNameChanged(name)),
-          errorText: state.name.displayError != null
-              ? context.t.common_validation_name
-              : null,
+          onChanged:
+              (name) => context.read<SignUpBloc>().add(SignUpNameChanged(name)),
+          errorText:
+              state.name.displayError != null
+                  ? context.t.common_validation_name
+                  : null,
         );
       },
     );
@@ -123,11 +131,13 @@ class _EmailInput extends StatelessWidget {
           initialValue: state.email.value,
           label: context.t.email,
           keyboardType: TextInputType.emailAddress,
-          onChanged: (email) =>
-              context.read<SignUpBloc>().add(SignUpEmailChanged(email)),
-          errorText: state.email.displayError != null
-              ? context.t.common_validation_email
-              : null,
+          onChanged:
+              (email) =>
+                  context.read<SignUpBloc>().add(SignUpEmailChanged(email)),
+          errorText:
+              state.email.displayError != null
+                  ? context.t.common_validation_email
+                  : null,
           autofillHints: const [AutofillHints.email],
         );
       },
@@ -145,11 +155,14 @@ class _PasswordInput extends StatelessWidget {
           initialValue: state.password.value,
           label: context.t.password,
           textInputAction: TextInputAction.done,
-          onChanged: (password) =>
-              context.read<SignUpBloc>().add(SignUpPasswordChanged(password)),
-          errorText: state.password.displayError != null
-              ? context.t.common_validation_password
-              : null,
+          onChanged:
+              (password) => context.read<SignUpBloc>().add(
+                SignUpPasswordChanged(password),
+              ),
+          errorText:
+              state.password.displayError != null
+                  ? context.t.common_validation_password
+                  : null,
           autofillHints: const [AutofillHints.password],
         );
       },
@@ -161,23 +174,26 @@ class _ConfirmPasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen: (previous, current) =>
-          previous.confirmPassword != current.confirmPassword,
+      buildWhen:
+          (previous, current) =>
+              previous.confirmPassword != current.confirmPassword,
       builder: (context, state) {
         return AppTextField.password(
           initialValue: state.confirmPassword.value,
           label: context.t.confirm_password,
           textInputAction: TextInputAction.done,
-          onChanged: (password) => context.read<SignUpBloc>().add(
+          onChanged:
+              (password) => context.read<SignUpBloc>().add(
                 SignUpConfirmPasswordChanged(
                   confirmPassword: password,
                   password: state.password.value,
                 ),
               ),
-          errorText: state.confirmPassword.error ==
-                  ConfirmPasswordValidationError.invalid
-              ? context.t.common_validation_confirm_password
-              : null,
+          errorText:
+              state.confirmPassword.error ==
+                      ConfirmPasswordValidationError.invalid
+                  ? context.t.common_validation_confirm_password
+                  : null,
           autofillHints: const [AutofillHints.password],
         );
       },
