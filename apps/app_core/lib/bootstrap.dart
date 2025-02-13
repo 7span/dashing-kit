@@ -5,7 +5,6 @@ import 'package:app_core/app/config/app_config.dart';
 import 'package:app_core/app/enum.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/app/observers/app_bloc_observer.dart';
-import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_core/firebase_options.dart' as firebase_prod;
