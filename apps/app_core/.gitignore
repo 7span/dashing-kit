@@ -116,10 +116,9 @@ linux/flutter/*
 *.env.g.dart
 *.g.dart
 *.gen.dart
-/ios/config/dev/GoogleService-Info.plist
-/ios/config/prod/GoogleService-Info.plist
-/ios/config/staging/GoogleService-Info.plist
-/ios/Runner/Info.plist
+#/ios/config/dev/GoogleService-Info.plist
+#/ios/config/prod/GoogleService-Info.plist
+#/ios/config/staging/GoogleService-Info.plist
 /ios/Podfile.lock
 /android/app/src/dev/google-services.json
 /android/app/src/prod/google-services.json
