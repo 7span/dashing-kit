@@ -1,0 +1,8 @@
+{
+  "label": "CI/CD in Flutter Apps",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn the basic configurations of CI/CD in Flutter apps"
+  }
+}
