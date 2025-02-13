@@ -6,6 +6,6 @@ class SubscriptionUtils {
     'basic_plan',
     'basic_plus_plan',
     'premium_plan',
-    'yearly_subscription'
+    'yearly_subscription',
   ];
 }
