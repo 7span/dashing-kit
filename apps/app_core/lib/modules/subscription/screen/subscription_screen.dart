@@ -96,8 +96,6 @@ class _PurchasePlanCard extends StatelessWidget {
     required this.iconData,
     required this.onTap,
     required this.description,
-    // ignore: unused_element
-    super.key,
   });
 
   final String label;
