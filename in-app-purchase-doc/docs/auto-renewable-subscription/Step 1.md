@@ -4,6 +4,12 @@ sidebar_position: 1
 
 ## Create subscription group in App store connect
 
+:::info Auto-renewable subscriptions
+- Auto-renewable subscriptions provide access to content, services, or premium features in your app on an ongoing basis.
+- They automatically renew at the end of their duration until the user chooses to cancel. 
+- Subscriptions are available on iOS, iPadOS, macOS, tvOS, visionOS, and watchOS.
+:::
+
 - To create subscription group, go to application you want to add subscription group in. 
 - Go to **App Store connect** > **App** > **Monetization** > **Subscriptions**.
 
@@ -11,7 +17,7 @@ sidebar_position: 1
 
 ![create_subscription_ios](/img/create-subscription-ios/create_subscription_ios_2.png)
 
-- Now go to Subscription group section and click on **Create**. 
+- Now go to Subscription group section under Auto-Renewable Subscription section and click on **Create**. 
 
 ![create_subscription_ios](/img/create-subscription-ios/create_subscription_ios_3.png)
 
