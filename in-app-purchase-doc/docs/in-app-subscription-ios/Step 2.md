@@ -43,9 +43,17 @@ sidebar_position: 2
 
 ![create_subscription_ios](/img/create-subscription-ios/create_subscription_ios_13.png)
 
-- Now add basic data for subscription with **Localization**.
+- Now add basic data like Localization, Display name and Description for subscription.
 
 ![create_subscription_ios](/img/create-subscription-ios/create_subscription_ios_14.png)
 
+- Also we have to add **Screenshot** and **Review notes** in _Review Information_ section to generate minimal subscription setup fot testing.
 
+:::danger Note
+- Change the **Screenshot** and **Review notes** once you want to submit for review.
+- Once you’ve uploaded a screenshot, you can update it but can not remove it.
+:::
 
+![create_subscription_ios](/img/create-subscription-ios/create_subscription_ios_15.png)
+
+- Tap on **Save** and we have completed subscription details.

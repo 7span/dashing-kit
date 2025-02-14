@@ -4,7 +4,8 @@ sidebar_position: 1
 
 ## Create subscription group in App store connect
 
-- To create subscription group, go to application you want to add subscription group in **App Store connect** > **Monetization** > **Subscriptions**.
+- To create subscription group, go to application you want to add subscription group in. 
+- Go to **App Store connect** > **App** > **Monetization** > **Subscriptions**.
 
 ![create_subscription_ios](/img/create-subscription-ios/create_subscription_ios_1.png)
 

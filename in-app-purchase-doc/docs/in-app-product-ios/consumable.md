@@ -83,6 +83,7 @@ sidebar_position: 1
 - Status must be showing as **Ready to Submit**.
 
 :::danger
+- Change the **Screenshot** and **Review notes** once you want to submit for review.
 - Once you’ve uploaded a screenshot, you can update it but can not remove it.
 :::
 
