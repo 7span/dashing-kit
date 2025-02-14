@@ -1,3 +1,9 @@
+---
+sidebar_position: 3
+---
+
+## Add Localization to subscription
+
 - Subscription status is still showing **Missing Metadata** as we have not added **Localization**.
 
 ![create_subscription_ios](/img/create-subscription-ios/create_subscription_ios_16.png)
@@ -23,5 +29,3 @@
 - If you have noticed, now Subscription status has changed from **Missing Metadata** to **Ready to Submit**. 🥳
 
 ![create_subscription_ios](/img/create-subscription-ios/create_subscription_ios_20.png)
-
-- We are all set to submit subscription in review.
