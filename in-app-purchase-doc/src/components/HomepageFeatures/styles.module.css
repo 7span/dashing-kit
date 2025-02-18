@@ -8,4 +8,6 @@
 .featureSvg {
   height: 200px;
   width: 200px;
+  object-fit: contain;
+  margin: 0 auto;
 }

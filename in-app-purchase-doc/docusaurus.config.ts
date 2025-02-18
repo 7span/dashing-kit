@@ -6,7 +6,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'In-App Purchase guide',
-  tagline: 'End-to-end guide',
+  tagline: 'Your Ultimate Resource',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
