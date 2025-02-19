@@ -71,7 +71,7 @@ const config: Config = {
       title: 'In-App Purchase guide',
       logo: {
         alt: 'In-App Purchase guide Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       items: [
         {
