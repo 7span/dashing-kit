@@ -5,7 +5,10 @@ class SubscriptionUtils {
   static List<String> subscriptionProductId = [
     'basic_plan',
     'basic_plus_plan',
-    'premium_plan',
-    'yearly_subscription',
+    'premium_excess',
+    'weekly_pro_plan',
+    'monthly_pro_plan',
+    'halt_year_pro_plan',
+    'yearly_pro_plan',
   ];
 }
