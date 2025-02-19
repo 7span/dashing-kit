@@ -11,7 +11,7 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'General purpose',
+    title: 'General Purpose',
     Svg: require('@site/static/img/front_page_image_1.svg').default,
     description: (
       <>
@@ -20,7 +20,7 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-      title: 'Built for Seamless Monetization',
+      title: 'Built For Seamless Monetization',
       Svg: require('@site/static/img/front_page_image_2.svg').default,
       description: (
         <>
