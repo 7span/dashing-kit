@@ -1,6 +1,6 @@
 {
-  "label": "Flutter in-app purchases",
-  "position": 6,
+  "label": "Flutter IAP on Android",
+  "position": 8,
   "link": {
     "type": "generated-index",
     "description": "In-app product purchase flow for Flutter application"

@@ -24,7 +24,7 @@ const FeatureList: FeatureItem[] = [
       Svg: require('@site/static/img/front_page_image_2.svg').default,
       description: (
         <>
-           Follow best practices, common rules, and essential steps to maximize revenue.
+           Get to know everything about in-app purchase, best practices, common rules, and essential steps to maximize revenue.
         </>
       ),
     },

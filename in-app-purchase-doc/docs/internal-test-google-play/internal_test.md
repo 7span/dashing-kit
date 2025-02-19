@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 ---
 
-## Release Application In Internal Testing
+# Release Application In Internal Testing
 
 :::info Internal test release
 - To enable In-App product creation, uploading at least one APK file of the application is required.

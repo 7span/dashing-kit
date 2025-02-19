@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-## Create Application in Google Play Console
+# Create Application in Google Play Console
 
 - Tap the **create app** button in home tab of Google Play console.
 
