@@ -118,15 +118,11 @@ const config: Config = {
           ],
         },
         {
-          title: 'Contributor',
+          title: 'Made with 💙',
           items: [
             {
-              label: 'Milan Sureliya',
-              href: 'https://bento.me/milansurelia',
-            },
-            {
-              label: 'Cavin Macwan',
-              href: 'https://bento.me/cavin',
+              label: 'Have Feedbacks?',
+              href: 'https://capricious-mirror-f0d.notion.site/19e78e36475c801db7f9dc6cf2751f20?pvs=105',
             },
           ],
         },
