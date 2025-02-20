@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.flutter.boilerplate.demo.app"
+    namespace = "com.flutter.boilerplate.app"
     compileSdk = 35
     ndkVersion = "27.0.12077973"
 
@@ -22,7 +22,7 @@ android {
     sourceSets["main"].java.srcDirs("src/main/kotlin")
 
     defaultConfig {
-        applicationId = "com.flutter.boilerplate.demo.app"
+        applicationId = "com.flutter.boilerplate.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
