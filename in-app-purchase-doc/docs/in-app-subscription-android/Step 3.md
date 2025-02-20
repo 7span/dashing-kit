@@ -32,6 +32,18 @@ sidebar_position: 3
 - Add values for **Billing period, Grace period, Account hold period, Customer base plan & offer changes** and **Resubscribe**.
 - To know about these parameters visit official documentation by Google Play console [here](https://support.google.com/googleplay/android-developer/answer/12154973#base_plan_attributes).
 
+:::note grace period account hold period
+- A grace period is the time granted to a user when a renewal payment is declined. 
+- The **recommended** grace period is of **3 days** to prevent misuse of the subscription.
+- Also Google Play sends notifications to users during a grace period.
+:::
+
+:::note account hold period
+- The account hold period is the time after the grace period when the user loses access to the subscription, and if payment is not made, the subscription expires.
+- The **recommended** account holding period is of **15 days**.
+- The difference between **grace period** and **account hold period** is that during account hold, you should block the access to your premium content. During grace period, you can allow the user to view it.
+:::
+
 ![add_subscription](/img/add-subscription/add_subscription_10.png)
 ![add_subscription](/img/add-subscription/add_subscription_11.png)
 
