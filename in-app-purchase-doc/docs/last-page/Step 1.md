@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Closing Notes
 
+![thank_you](/img/thank_you_page.jpeg)
+
 ### Thank You! 
 
 🎉🙏 Thank you for taking the time to go through this documentation.📔 We hope it has provided you with a clear and comprehensive understanding of In-App Purchases 💵 and Subscription Management on both iOS and Android.📱
