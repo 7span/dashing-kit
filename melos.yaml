@@ -48,6 +48,12 @@ scripts:
       scope: app_core
     exec: flutter build appbundle -t lib/main_production.dart
 
+  build-ipa:
+    description: Builds the ipa for ios
+    packageFilters:
+      scope: app_core
+    exec: flutter build ipa -t lib/main_production.dart --flavor prod
+
   go-ios-go:
     description: Removes Podfile.lock & Pods Directory & Installs PodFile
     packageFilters:
