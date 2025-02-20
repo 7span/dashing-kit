@@ -70,7 +70,7 @@ dependencies:
   formz: ^0.7.0
 
   # For Firebase
-  firebase_crashlytics: ^4.1.0
+#  firebase_crashlytics: ^4.1.0
   firebase_core: ^3.4.0
 
 dependency_overrides:

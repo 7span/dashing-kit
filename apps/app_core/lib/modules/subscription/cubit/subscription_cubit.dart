@@ -15,10 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'subscription_state.dart';
 
 class SubscriptionCubit extends Cubit<SubscriptionState> {
-  SubscriptionCubit(
-    this.repository,
-    this.context,
-  ) : super(const SubscriptionState()) {
+  SubscriptionCubit(this.repository, this.context)
+    : super(const SubscriptionState()) {
     repository.init(context);
     listenToPurchaseStream(context);
   }
@@ -32,62 +30,49 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
   }
 
   Future<void> listenToPurchaseStream(BuildContext context) async {
-    _inAppPurchase.getPurchaseStream().listen(
-      (purchaseDetails) async {
-        if (purchaseDetails.status == PurchaseStatus.pending) {
-        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-          await _inAppPurchase.completePendingPurchases();
-          Platform.isIOS
+    _inAppPurchase.getPurchaseStream().listen((purchaseDetails) async {
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+      } else if (purchaseDetails.status == PurchaseStatus.purchased) {
+        await _inAppPurchase.completePendingPurchases();
+        Platform.isIOS
               ? await repository
                   .verifyPaymentForIOS(
-                    purchaseToken: purchaseDetails.verificationData.serverVerificationData,
+                    purchaseToken:
+                        purchaseDetails.verificationData.serverVerificationData,
                   )
                   .run()
               : await repository
                   .verifyPaymentForAndroid(
                     productId: purchaseDetails.productID,
-                    purchaseToken: purchaseDetails.verificationData.serverVerificationData,
+                    purchaseToken:
+                        purchaseDetails.verificationData.serverVerificationData,
                   )
                   .run()
-            ..fold(
-              (l) => emit(
-                state.copyWith(status: SubscriptionStateStatus.purchaseFailed),
-              ),
-              (r) => emit(
-                state.copyWith(
-                  status: SubscriptionStateStatus.purchaseSuccess,
-                ),
-              ),
-            );
-        } else if (purchaseDetails.status == PurchaseStatus.canceled) {
-          emit(
-            state.copyWith(
-              status: SubscriptionStateStatus.purchaseCancelled,
+          ..fold(
+            (l) => emit(
+              state.copyWith(status: SubscriptionStateStatus.purchaseFailed),
+            ),
+            (r) => emit(
+              state.copyWith(status: SubscriptionStateStatus.purchaseSuccess),
             ),
           );
-        } else if (purchaseDetails.status == PurchaseStatus.error) {
-          flog(
-            'purchase details in the error state: ${purchaseDetails.error}',
-          );
-          emit(state.copyWith(status: SubscriptionStateStatus.purchaseFailed));
-        } else if (purchaseDetails.status == PurchaseStatus.restored) {
-          emit(
-            state.copyWith(status: SubscriptionStateStatus.purchaseRestored),
-          );
-        }
-      },
-    );
+      } else if (purchaseDetails.status == PurchaseStatus.canceled) {
+        emit(state.copyWith(status: SubscriptionStateStatus.purchaseCancelled));
+      } else if (purchaseDetails.status == PurchaseStatus.error) {
+        flog('purchase details in the error state: ${purchaseDetails.error}');
+        emit(state.copyWith(status: SubscriptionStateStatus.purchaseFailed));
+      } else if (purchaseDetails.status == PurchaseStatus.restored) {
+        emit(state.copyWith(status: SubscriptionStateStatus.purchaseRestored));
+      }
+    });
   }
 
   Future<void> getPlans(BuildContext context, List<String> productIds) async {
     emit(state.copyWith(status: SubscriptionStateStatus.loading));
     final getPlansEither = await repository.getPlans(context, productIds).run();
     getPlansEither.fold(
-      (_) => emit(
-        state.copyWith(
-          status: SubscriptionStateStatus.getPlansError,
-        ),
-      ),
+      (_) =>
+          emit(state.copyWith(status: SubscriptionStateStatus.getPlansError)),
       (plans) {
         flog('plans are these : ${plans.length} , ${plans.first.id}');
         emit(
@@ -100,20 +85,26 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     );
   }
 
+  /// Purchase non-consumable products or subscriptions
   Future<void> purchaseSubscription(BuildContext context, String planId) async {
     emit(state.copyWith(status: SubscriptionStateStatus.purchaseLoading));
 
-    final purchaseSubscriptionEither = await repository
-        .buyNonConsumable(
-          productDetails: state.plans.firstWhere((plan) => plan.id == planId),
-          oldProductId: state.currentPlan?.plan?.productId,
-          userSubscription: UserSubscription(
-            oldSubscriptionId: state.currentPlan?.plan?.productId,
-            subscriptionPurchaseToken: state.currentPlan?.subscriptionPurchaseToken,
-            subscriptionTransactionId: state.currentPlan?.subscriptionTransactionId,
-          ),
-        )
-        .run();
+    final purchaseSubscriptionEither =
+        await repository
+            .buyNonConsumable(
+              productDetails: state.plans.firstWhere(
+                (plan) => plan.id == planId,
+              ),
+              oldProductId: state.currentPlan?.plan?.productId,
+              userSubscription: UserSubscription(
+                oldSubscriptionId: state.currentPlan?.plan?.productId,
+                subscriptionPurchaseToken:
+                    state.currentPlan?.subscriptionPurchaseToken,
+                subscriptionTransactionId:
+                    state.currentPlan?.subscriptionTransactionId,
+              ),
+            )
+            .run();
 
     purchaseSubscriptionEither.fold(
       (l) {
@@ -132,16 +123,15 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     return state.plans.firstWhere((plan) => plan.id == productId);
   }
 
+  /// To buy consumable products
   Future<void> purchaseCredit(BuildContext context, String productId) async {
     final plan = getCreditPlan(productId);
-    final purchaseCreditsEither = await repository.buyConsumable(context, plan).run();
+    final purchaseCreditsEither =
+        await repository.buyConsumable(context, plan).run();
 
     purchaseCreditsEither.fold(
-      (l) => emit(
-        state.copyWith(
-          status: SubscriptionStateStatus.purchaseFailed,
-        ),
-      ),
+      (l) =>
+          emit(state.copyWith(status: SubscriptionStateStatus.purchaseFailed)),
       (r) {
         debugPrint('Buy credits succeeded');
         // emit(state.copyWith(status: SubscriptionStateStatus.purchaseSuccess));
@@ -156,7 +146,9 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
       case PlanType.basic:
         return state.plans.firstWhere((plan) => plan.id == 'basic_plan');
       case PlanType.premium:
-        return state.plans.firstWhere((plan) => plan.id == 'yearly_subscription');
+        return state.plans.firstWhere(
+          (plan) => plan.id == 'yearly_subscription',
+        );
     }
   }
 

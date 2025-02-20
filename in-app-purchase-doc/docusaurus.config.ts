@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'In-App Purchase guide',
-  tagline: 'End-to-end guide',
+  title: 'In-App Purchase Guide',
+  tagline: 'Your Ultimate Resource',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -71,7 +71,7 @@ const config: Config = {
       title: 'In-App Purchase guide',
       logo: {
         alt: 'In-App Purchase guide Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       items: [
         {
@@ -118,15 +118,11 @@ const config: Config = {
           ],
         },
         {
-          title: 'Contributor',
+          title: 'Made with 💙',
           items: [
             {
-              label: 'Milan Sureliya',
-              href: 'https://bento.me/milansurelia',
-            },
-            {
-              label: 'Cavin Macwan',
-              href: 'https://bento.me/cavin',
+              label: 'Have Feedbacks?',
+              href: 'https://capricious-mirror-f0d.notion.site/19e78e36475c801db7f9dc6cf2751f20?pvs=105',
             },
           ],
         },

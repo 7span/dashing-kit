@@ -4,9 +4,9 @@ sidebar_position: 1
 
 # Common practices for In-App Purchase flow.
 
-![meme](/img/about-in-app-purchase/funny.png)
+![Common practice - 1](/img/about-in-app-purchase/funny.png)
 
-### 1. Naming conventions for productID and SubscriptionID
+### Naming conventions for productID and SubscriptionID
 
 - A product identifier is a string used to uniquely identify every product you wish to sell from your application. 
 It is a string identifier that can only contain alphanumeric (A-Z, a-z, 0-9), underscore (_), and period (.) characters. You can use any sequence of these characters for your identifier.

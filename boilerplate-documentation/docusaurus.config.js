@@ -66,7 +66,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'In-App Purchase guide',
+        title: 'In-App Purchase Guide',
         logo: {
           alt: 'In-App Purchase guide Logo',
           src: 'img/logo.svg',

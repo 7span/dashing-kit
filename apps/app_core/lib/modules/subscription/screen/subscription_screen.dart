@@ -17,13 +17,11 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
     return RepositoryProvider(
       create: (context) => SubscriptionRepository(),
       child: BlocProvider(
-        create: (context) => SubscriptionCubit(
-          RepositoryProvider.of<SubscriptionRepository>(context),
-          context,
-        )..getPlans(
-            context,
-            SubscriptionUtils.subscriptionProductId,
-          ),
+        create:
+            (context) => SubscriptionCubit(
+              RepositoryProvider.of<SubscriptionRepository>(context),
+              context,
+            )..getPlans(context, SubscriptionUtils.subscriptionProductId),
         child: this,
       ),
     );
@@ -58,31 +56,36 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
             centerTitle: true,
             title: const Text('Purchase Plans'),
           ),
-          body: Column(
-            spacing: Insets.xsmall8,
-            children: [
-              _PurchasePlanCard(
-                label: 'On Time Buy',
-                iconData: Icons.diamond,
-                description: 'Get 50 Gems worth, INR 100',
-                onTap: () async {
-                  await context.read<SubscriptionCubit>().purchaseCredit(
-                        context,
-                        SubscriptionUtils.subscriptionProductId[0],
-                      );
-                },
-              ),
-              _PurchasePlanCard(
-                label: 'Premium Subscription',
-                iconData: Icons.currency_bitcoin,
-                description: 'unlimited Gems worth, INR 1000',
-                onTap: () async {
-                  await context
-                      .read<SubscriptionCubit>()
-                      .purchaseSubscription(context, 'yearly_subscription');
-                },
-              ),
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              spacing: Insets.xsmall8,
+              children: [
+                _PurchasePlanCard(
+                  label: 'Consumable',
+                  iconData: Icons.diamond,
+                  description: 'Basic Gem purchase',
+                  onTap: () async {
+                    await context.read<SubscriptionCubit>().purchaseCredit(
+                      context,
+                      SubscriptionUtils.subscriptionProductId[0],
+                    );
+                  },
+                ),
+                _PurchasePlanCard(
+                  label: 'Non-Renewing Subscription',
+                  iconData: Icons.currency_bitcoin,
+                  description: '3-Month Exam Prep Access',
+                  onTap: () async {
+                    await context
+                        .read<SubscriptionCubit>()
+                        .purchaseSubscription(
+                          context,
+                          SubscriptionUtils.subscriptionProductId[2],
+                        );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -120,18 +123,11 @@ class _PurchasePlanCard extends StatelessWidget {
               spacing: Insets.medium16,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText.XL(
-                  text: label,
-                  maxLines: 2,
-                ),
+                AppText.L(text: label, maxLines: 2),
                 Icon(iconData, size: Insets.xxlarge40),
               ],
             ),
-            Row(
-              children: [
-                AppText.sSemiBold(text: description),
-              ],
-            ),
+            Row(children: [AppText.sSemiBold(text: description)]),
           ],
         ),
       ),

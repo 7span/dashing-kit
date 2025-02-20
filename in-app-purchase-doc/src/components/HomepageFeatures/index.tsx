@@ -11,35 +11,33 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'General Purpose',
+    Svg: require('@site/static/img/front_page_image_1.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        A guide for both developers implementing IAP and clients managing app monetization.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
-  },
+      title: 'Built For Seamless Monetization',
+      Svg: require('@site/static/img/front_page_image_2.svg').default,
+      description: (
+        <>
+           Get to know everything about in-app purchase, best practices, common rules, and essential steps to maximize revenue.
+        </>
+      ),
+    },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'End-to-End Store Integration',
+    Svg: require('@site/static/img/front_page_image_3.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+       Learn how to configure products, subscriptions, and internal testing for both Google Play & App Store.
       </>
     ),
   },
+
 ];
 
 function Feature({title, Svg, description}: FeatureItem) {
