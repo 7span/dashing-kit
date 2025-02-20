@@ -1,0 +1,8 @@
+{
+  "label": "About In-App Purchase",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Here is Your Ultimate Resource about in-app purchase before jumping into implementation"
+  }
+}

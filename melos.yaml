@@ -40,17 +40,28 @@ scripts:
       flutter: true
       dirExists: lib
       scope: app_core
-    exec: flutter build apk -t lib/main_development.dart --flavor production
+    exec: flutter build apk -t lib/main_production.dart --flavor production
+
+  build-bundle:
+    description: Builds the Bundle File
+    packageFilters:
+      scope: app_core
+    exec: flutter build appbundle -t lib/main_production.dart
+
+  build-ipa:
+    description: Builds the ipa for ios
+    packageFilters:
+      scope: app_core
+    exec: flutter build ipa -t lib/main_production.dart --flavor prod
+
+  go-ios-go:
+    description: Removes Podfile.lock & Pods Directory & Installs PodFile
+    packageFilters:
+      scope: app_core
+    exec: cd ios && rm -rf Pods && rm -rf Podfile.lock && pod install --repo-update
 
   format:
     description: Formats the files
     run: |
       melos exec -c 10 -- \
         dart format . --line-length 100 --output=none && dart fix --apply --code=require_trailing_commas
-
-  go-ios-go:
-    description: Removes Podfile.lock & Pods Directory & Installs PodFile
-    packageFilters:
-      scope:
-        - app_core
-    exec: cd ios && rm -rf Pods && rm -rf Podfile.lock && pod install --repo-update

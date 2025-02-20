@@ -1,3 +1,5 @@
+import 'package:app_core/app/helpers/logger_helper.dart';
+import 'package:app_subscription/app_subscription_api.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_ui/app_ui.dart';
@@ -12,10 +14,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late final CustomInAppPurchase customInAppPurchase;
+
   @override
   void initState() {
-    navigate();
+    handleSubscription();
     super.initState();
+  }
+
+  Future<void> handleSubscription() async {
+    customInAppPurchase = CustomInAppPurchase();
+    customInAppPurchase.init();
+    await customInAppPurchase.completePendingPurchases();
+    await navigate();
   }
 
   Future<void> navigate() async {
@@ -31,5 +42,16 @@ class _SplashScreenState extends State<SplashScreen> {
         child: FlutterLogo(size: 40),
       ),
     );
+  }
+
+  Future<void> disposeSubscription() async {
+    await customInAppPurchase.dispose();
+  }
+
+  @override
+  void dispose() {
+    flog('dispose of splash');
+    disposeSubscription();
+    super.dispose();
   }
 }
