@@ -85,6 +85,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     );
   }
 
+  /// Purchase non-consumable products or subscriptions
   Future<void> purchaseSubscription(BuildContext context, String planId) async {
     emit(state.copyWith(status: SubscriptionStateStatus.purchaseLoading));
 
@@ -122,6 +123,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     return state.plans.firstWhere((plan) => plan.id == productId);
   }
 
+  /// To buy consumable products
   Future<void> purchaseCredit(BuildContext context, String productId) async {
     final plan = getCreditPlan(productId);
     final purchaseCreditsEither =

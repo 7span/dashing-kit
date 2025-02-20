@@ -72,19 +72,6 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
                   },
                 ),
                 _PurchasePlanCard(
-                  label: 'Non-consumable',
-                  iconData: Icons.diamond,
-                  description: 'Plus Gem purchase',
-                  onTap: () async {
-                    await context
-                        .read<SubscriptionCubit>()
-                        .purchaseSubscription(
-                          context,
-                          SubscriptionUtils.subscriptionProductId[1],
-                        );
-                  },
-                ),
-                _PurchasePlanCard(
                   label: 'Non-Renewing Subscription',
                   iconData: Icons.currency_bitcoin,
                   description: '3-Month Exam Prep Access',
@@ -94,58 +81,6 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
                         .purchaseSubscription(
                           context,
                           SubscriptionUtils.subscriptionProductId[2],
-                        );
-                  },
-                ),
-                _PurchasePlanCard(
-                  label: 'Renewing Subscription',
-                  iconData: Icons.currency_bitcoin,
-                  description: 'Weekly Subscription for newsletter',
-                  onTap: () async {
-                    await context
-                        .read<SubscriptionCubit>()
-                        .purchaseSubscription(
-                          context,
-                          SubscriptionUtils.subscriptionProductId[3],
-                        );
-                  },
-                ),
-                _PurchasePlanCard(
-                  label: 'Renewing Subscription',
-                  iconData: Icons.currency_bitcoin,
-                  description: 'Monthly subscription for newsletter',
-                  onTap: () async {
-                    await context
-                        .read<SubscriptionCubit>()
-                        .purchaseSubscription(
-                          context,
-                          SubscriptionUtils.subscriptionProductId[4],
-                        );
-                  },
-                ),
-                _PurchasePlanCard(
-                  label: 'Renewing Subscription',
-                  iconData: Icons.currency_bitcoin,
-                  description: '6-Month subscription for newsletter',
-                  onTap: () async {
-                    await context
-                        .read<SubscriptionCubit>()
-                        .purchaseSubscription(
-                          context,
-                          SubscriptionUtils.subscriptionProductId[5],
-                        );
-                  },
-                ),
-                _PurchasePlanCard(
-                  label: 'Renewing Subscription',
-                  iconData: Icons.currency_bitcoin,
-                  description: 'Yearly subscription for newsletter',
-                  onTap: () async {
-                    await context
-                        .read<SubscriptionCubit>()
-                        .purchaseSubscription(
-                          context,
-                          SubscriptionUtils.subscriptionProductId[6],
                         );
                   },
                 ),
