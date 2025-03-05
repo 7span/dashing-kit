@@ -56,3 +56,6 @@ linux/flutter/*
 
 # FVM Version Cache
 .fvm/
+/pubspec.lock
+/apps/app_core/android/app/.cxx/
+/packages/app_subscription/pubspec.lock
