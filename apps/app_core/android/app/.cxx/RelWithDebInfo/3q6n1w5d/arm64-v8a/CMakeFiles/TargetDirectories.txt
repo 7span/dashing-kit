@@ -1,2 +1,0 @@
-/Users/avniprajapati/StudioProjects/in_app_purchase_boilerplate/apps/app_core/android/app/.cxx/RelWithDebInfo/3q6n1w5d/arm64-v8a/CMakeFiles/edit_cache.dir
-/Users/avniprajapati/StudioProjects/in_app_purchase_boilerplate/apps/app_core/android/app/.cxx/RelWithDebInfo/3q6n1w5d/arm64-v8a/CMakeFiles/rebuild_cache.dir

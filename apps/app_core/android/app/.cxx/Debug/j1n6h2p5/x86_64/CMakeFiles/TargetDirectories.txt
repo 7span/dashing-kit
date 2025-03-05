@@ -1,2 +1,0 @@
-/Users/avniprajapati/StudioProjects/in_app_purchase_boilerplate/apps/app_core/android/app/.cxx/Debug/j1n6h2p5/x86_64/CMakeFiles/edit_cache.dir
-/Users/avniprajapati/StudioProjects/in_app_purchase_boilerplate/apps/app_core/android/app/.cxx/Debug/j1n6h2p5/x86_64/CMakeFiles/rebuild_cache.dir
