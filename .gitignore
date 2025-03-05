@@ -59,3 +59,5 @@ linux/flutter/*
 /pubspec.lock
 /apps/app_core/android/app/.cxx/
 /packages/app_subscription/pubspec.lock
+/apps/app_core/macos/Flutter/ephemeral/Flutter-Generated.xcconfig
+/apps/app_core/macos/Flutter/ephemeral/flutter_export_environment.sh
