@@ -3,14 +3,17 @@ description: "A new Flutter package project."
 version: 0.0.1
 
 environment:
-  sdk: ">=3.7.0-323.1.beta <4.0.0"
+  sdk: ">=3.8.0-70.0.dev <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  onesignal_flutter: ^5.2.9
+  onesignal_flutter: ^5.3.0
+
+dependency_overrides: 
+  source_gen: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,4 @@
-# melos_managed_dependency_overrides: api_client,app_translations,app_ui,web,app_subscription
+# melos_managed_dependency_overrides: api_client,app_translations,app_ui,web,app_subscription,intl,source_gen,dart_style
 dependency_overrides:
   api_client:
     path: ../../packages/api_client
@@ -8,4 +8,7 @@ dependency_overrides:
     path: ../../packages/app_translations
   app_ui:
     path: ../../packages/app_ui
+  dart_style: ^3.0.1
+  intl: ^0.20.2
+  source_gen: ^2.0.0
   web: ^1.0.0

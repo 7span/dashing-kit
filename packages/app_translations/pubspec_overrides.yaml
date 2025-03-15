@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: intl,source_gen
+dependency_overrides:
+  intl: ^0.20.2
+  source_gen: ^2.0.0

@@ -2,14 +2,17 @@ name: boilerplate_melos_project
 description: Boilerplate project
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+2
+version: 1.0.0+3
 
 environment:
-  sdk: ">=3.7.0-323.1.beta <4.0.0"
+  sdk: ">=3.8.0-70.0.dev <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+
+dependency_overrides: 
+  source_gen: ^2.0.0
 
 dev_dependencies:
   flutter_test:
