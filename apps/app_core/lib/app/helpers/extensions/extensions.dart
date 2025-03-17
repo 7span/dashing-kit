@@ -1,23 +1,21 @@
+// ignore_for_file: comment_references
+
 import 'package:auto_route/auto_route.dart';
 import 'package:app_core/app/enum.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:flutter/material.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 extension GetUserDataExtension on BuildContext {
-  String get username => getIt<IHiveService>().getUserData().fold<String>(
-        (_) => '',
-        (model) => model[0].name,
-      );
+  String get username =>
+      getIt<IHiveService>().getUserData().fold<String>((_) => '', (model) => model[0].name);
 }
 
 extension GetUsernameExtension on NavigationResolver {
-  bool get isLoggedIn => getIt<IHiveService>().getUserData().fold<bool>(
-        (_) => false,
-        (model) => model.isNotEmpty,
-      );
+  bool get isLoggedIn =>
+      getIt<IHiveService>().getUserData().fold<bool>((_) => false, (model) => model.isNotEmpty);
 
   bool get isAccessed => getIt<IHiveService>().getAccessToken().isSome();
 }

@@ -14,7 +14,7 @@ import 'package:app_subscription/app_subscription_api.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 
 /// This function is one of the core function that should be run before we even

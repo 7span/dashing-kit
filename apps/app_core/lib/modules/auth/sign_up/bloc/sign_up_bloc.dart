@@ -7,8 +7,8 @@ import 'package:app_core/core/domain/validators/name_validator.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';

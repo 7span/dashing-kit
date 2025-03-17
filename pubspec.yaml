@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-dependency_overrides: 
+dependency_overrides:
   source_gen: ^2.0.0
 
 dev_dependencies:
@@ -21,4 +21,4 @@ dev_dependencies:
   melos: ^6.3.2
   flutter_lints: ^5.0.0
 lint_staged:
-  "lib/**.dart": dart format -l 120 && dart analyze --fatal-infos --fatal-warnings
+  "lib/**.dart": dart format -l 70 && dart analyze --fatal-infos --fatal-warnings

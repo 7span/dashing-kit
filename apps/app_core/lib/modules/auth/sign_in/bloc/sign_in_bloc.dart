@@ -5,8 +5,8 @@ import 'package:app_core/core/domain/validators/login_validators.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';
@@ -23,7 +23,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   // ignore: unused_field
   final IAuthRepository _authenticationRepository;
 
-  void _onEmailChanged(SignInEmailChanged event, Emitter<SignInState> emit) {
+  void _onEmailChanged(
+    SignInEmailChanged event,
+    Emitter<SignInState> emit,
+  ) {
     final email = EmailValidator.dirty(event.email);
     emit(
       state.copyWith(
@@ -76,8 +79,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           log('failure: $failure');
           emit(state.copyWith(status: FormzSubmissionStatus.failure));
         },
-        (success) =>
-            emit(state.copyWith(status: FormzSubmissionStatus.success)),
+        (success) => emit(
+          state.copyWith(status: FormzSubmissionStatus.success),
+        ),
       );
     }
   }
