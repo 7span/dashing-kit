@@ -3,7 +3,7 @@ description: "A new Flutter package project."
 version: 0.0.1
 
 environment:
-  sdk: ^3.8.0-70.0.dev
+  sdk: ^3.7.2
   flutter: ">=1.17.0"
 
 dependencies:
@@ -17,10 +17,6 @@ dependencies:
 #  in_app_purchase_storekit: ^0.3.21
 
   equatable: ^2.0.7
-
-dependency_overrides: 
-  source_gen: ^2.0.0
-
 
 dev_dependencies:
   flutter_test:

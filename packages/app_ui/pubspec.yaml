@@ -3,7 +3,7 @@ description: "A new Flutter package project."
 version: 0.0.1
 
 environment:
-  sdk: ">=3.8.0-70.0.dev <4.0.0"
+  sdk: ">=3.7.2 <4.0.0"
   flutter: ">=3.0.0 <4.0.0"
 
 dependencies:
@@ -34,9 +34,6 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
-dependency_overrides: 
-  source_gen: ^2.0.0
 
 flutter_gen:
   assets:
