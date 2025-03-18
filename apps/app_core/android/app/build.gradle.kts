@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.flutter.boilerplate.app"
     compileSdk = 35
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "29.0.13113456 rc1"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -40,18 +40,18 @@ android {
     productFlavors {
         create("prod") {
             dimension = "default"
-            resValue("string", "app_name", "Core App")
+            manifestPlaceholders["appLabel"] = "Core App"
         }
         create("dev") {
             dimension = "default"
             applicationIdSuffix = ".development"
-            resValue("string", "app_name", "Core App QA")
+            manifestPlaceholders["appLabel"] = "Core App QA"
             versionNameSuffix = ".dev"
         }
         create("stg") {
             dimension = "default"
             applicationIdSuffix = ".staging"
-            resValue("string", "app_name", "Core App Staging")
+            manifestPlaceholders["appLabel"] = "Core App Staging"
             versionNameSuffix = ".staging"
         }
     }
