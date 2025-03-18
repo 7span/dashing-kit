@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:api_client/api_client.dart';
 import 'package:app_core/core/domain/validators/login_validators.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
+import 'package:app_core/modules/auth/model/auth_response_model.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +20,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInEmailChanged>(_onEmailChanged);
     on<SignInPasswordChanged>(_onPasswordChanged);
     on<SignInSubmitted>(_onSubmitted);
+    on<SignInWithGoogleTaped>(_onSignInWithGoogleTaped);
   }
 
   // ignore: unused_field
@@ -84,5 +87,32 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         ),
       );
     }
+  }
+
+  Future<void> _onSignInWithGoogleTaped(
+    SignInWithGoogleTaped event,
+    Emitter<SignInState> emit,
+  ) async {
+    emit(state.copyWith(apiStatus: ApiStatus.loading));
+    final socialLoginEither =
+        await _authenticationRepository
+            .socialLogin(requestModel: event.requestModel)
+            .run();
+    socialLoginEither.fold(
+      (error) => emit(
+        state.copyWith(
+          errorMessage: error.message,
+          apiStatus: ApiStatus.error,
+        ),
+      ),
+      (result) async {
+        emit(
+          state.copyWith(
+            responseModel: result,
+            apiStatus: ApiStatus.loaded,
+          ),
+        );
+      },
+    );
   }
 }

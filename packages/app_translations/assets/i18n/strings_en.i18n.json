@@ -32,5 +32,8 @@
     "user_error": "Failed to fetch users",
     "empty_msg": "No users found!",
     "no_internet_connection": "No Internet Connection",
-    "no_internet_connection_text": "Please check your internet connection and try again"
+    "no_internet_connection_text": "Please check your internet connection and try again",
+    "operation_cancelled": "Operation cancelled by user",
+    "continue_with_apple": "Continue with Apple",
+    "continue_with_google": "Continue with Google"
 }

@@ -1,6 +1,6 @@
-// ignore_for_file: unused_element
-
+import 'package:api_client/api_client.dart';
 import 'package:app_core/app/routes/app_router.dart';
+import 'package:app_core/core/data/services/google_auth_helper.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/auth/sign_in/bloc/sign_in_bloc.dart';
@@ -44,15 +44,20 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
     return Scaffold(
       body: BlocListener<SignInBloc, SignInState>(
         listenWhen:
-            (previous, current) => previous.status != current.status,
+            (previous, current) =>
+                previous.status != current.status ||
+                previous.apiStatus != current.apiStatus,
+
         listener: (context, state) async {
-          if (state.status.isFailure) {
+          if (state.status.isFailure ||
+              state.apiStatus == ApiStatus.error) {
             showAppSnackbar(
               context,
-              context.t.invalid_password_username,
+              state.errorMessage,
               type: SnackbarType.failed,
             );
-          } else if (state.status.isSuccess) {
+          } else if (state.status.isSuccess ||
+              state.apiStatus == ApiStatus.loaded) {
             showAppSnackbar(context, context.t.sign_in_successful);
             await context.replaceRoute(
               const BottomNavigationBarRoute(),
@@ -99,6 +104,16 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
                 const SlideAndFadeAnimationWrapper(
                   delay: 600,
                   child: _CreateAccountButton(),
+                ),
+                VSpace.large24(),
+                const SlideAndFadeAnimationWrapper(
+                  delay: 600,
+                  child: _ContinueWithGoogleButton(),
+                ),
+                VSpace.large24(),
+                const SlideAndFadeAnimationWrapper(
+                  delay: 600,
+                  child: _ContinueWithAppleButton(),
                 ),
               ],
             ),
@@ -196,6 +211,64 @@ class _CreateAccountButton extends StatelessWidget {
       onPressed: () {
         context.pushRoute(const SignUpRoute());
       },
+      isExpanded: true,
+    );
+  }
+}
+
+class _ContinueWithGoogleButton extends StatelessWidget {
+  const _ContinueWithGoogleButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignInBloc, SignInState>(
+      builder: (context, state) {
+        return AppButton(
+          buttonType: ButtonType.outlined,
+          textColor: context.colorScheme.primary900,
+          backgroundColor: Colors.transparent,
+          text: context.t.continue_with_google,
+          icon: Assets.icons.icGmail.svg(),
+          onPressed:
+              state.apiStatus == ApiStatus.loading
+                  ? () {}
+                  : () => _loginWithGoogle(context),
+          isExpanded: true,
+        );
+      },
+    );
+  }
+
+  void _loginWithGoogle(BuildContext context) {
+    GoogleAuthInHelper.signIn(context).then((value) {
+      if (context.mounted) {
+        GoogleAuthInHelper.getUserInfo(context).then((requestModel) {
+          if (requestModel != null) {
+            ///After google sign in, use this for storing user data in backend
+            if (context.mounted) {
+              context.read<SignInBloc>().add(
+                SignInWithGoogleTaped(requestModel: requestModel),
+              );
+            }
+          }
+        });
+      }
+    });
+  }
+}
+
+class _ContinueWithAppleButton extends StatelessWidget {
+  const _ContinueWithAppleButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return AppButton(
+      buttonType: ButtonType.outlined,
+      textColor: context.colorScheme.primary900,
+      backgroundColor: Colors.transparent,
+      text: context.t.continue_with_apple,
+      icon: Icon(Icons.apple, color: context.colorScheme.black),
+      onPressed: () {},
       isExpanded: true,
     );
   }

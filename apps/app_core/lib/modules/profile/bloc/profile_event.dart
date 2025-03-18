@@ -2,9 +2,11 @@ part of 'profile_bloc.dart';
 
 abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
-class UserProfileLogoutEvent extends ProfileEvent {}
+final class Logout extends ProfileEvent {
+  const Logout();
+
+  @override
+  List<Object?> get props => [];
+}
