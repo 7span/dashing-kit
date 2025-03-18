@@ -40,21 +40,12 @@ class _AppState extends State<App> {
   final _connectivityService = ConnectivityService();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     /// Refer this link for the localization package:
     /// https://pub.dev/packages/slang
     return TranslationProvider(
       child: MultiBlocProvider(
-        providers: [
-          BlocProvider<ThemeBloc>(
-            create: (BuildContext context) => ThemeBloc(),
-          ),
-        ],
+        providers: providers,
         child: Builder(
           builder: (context) {
             return BlocBuilder<ThemeBloc, AppThemeColorMode>(
@@ -104,6 +95,7 @@ class _AppState extends State<App> {
   @override
   void dispose() {
     NetWorkInfoService.instance.dispose();
+    _connectivityService.dispose();
     super.dispose();
   }
 }

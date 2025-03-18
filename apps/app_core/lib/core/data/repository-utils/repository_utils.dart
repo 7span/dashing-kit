@@ -1,6 +1,5 @@
 import 'package:api_client/api_client.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:fpdart/fpdart.dart';
 
 class RepositoryUtils {
@@ -17,9 +16,6 @@ class RepositoryUtils {
   ) => Either<Failure, Response>.fromPredicate(
     response,
     (response) => response.statusCode!.getStatusCodeEnum.isSuccess,
-    (failure) {
-      debugPrint('failure.statusCode${failure.statusCode}');
-      return failure.statusCode == 112 ? APIFailure() : APIFailure();
-    },
+    APIFailure.new,
   );
 }
