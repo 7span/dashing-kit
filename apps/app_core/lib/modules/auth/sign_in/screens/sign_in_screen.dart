@@ -19,13 +19,18 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: [RepositoryProvider(create: (context) => const AuthRepository())],
+      providers: [
+        RepositoryProvider(
+          create: (context) => const AuthRepository(),
+        ),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create:
                 (context) => SignInBloc(
-                  authenticationRepository: RepositoryProvider.of<AuthRepository>(context),
+                  authenticationRepository:
+                      RepositoryProvider.of<AuthRepository>(context),
                 ),
           ),
         ],
@@ -38,7 +43,8 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<SignInBloc, SignInState>(
-        listenWhen: (previous, current) => previous.status != current.status,
+        listenWhen:
+            (previous, current) => previous.status != current.status,
         listener: (context, state) async {
           if (state.status.isFailure) {
             showAppSnackbar(
@@ -48,11 +54,15 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
             );
           } else if (state.status.isSuccess) {
             showAppSnackbar(context, context.t.sign_in_successful);
-            await context.replaceRoute(const BottomNavigationBarRoute());
+            await context.replaceRoute(
+              const BottomNavigationBarRoute(),
+            );
           }
         },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Insets.large24,
+          ),
           child: AutofillGroup(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,14 +80,26 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
                   child: AppText.XL(text: context.t.sign_in),
                 ),
                 VSpace.large24(),
-                SlideAndFadeAnimationWrapper(delay: 300, child: _EmailInput()),
+                SlideAndFadeAnimationWrapper(
+                  delay: 300,
+                  child: _EmailInput(),
+                ),
                 VSpace.large24(),
-                SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
+                SlideAndFadeAnimationWrapper(
+                  delay: 400,
+                  child: _PasswordInput(),
+                ),
                 VSpace.medium16(),
                 VSpace.xxlarge40(),
-                const SlideAndFadeAnimationWrapper(delay: 500, child: _LoginButton()),
+                const SlideAndFadeAnimationWrapper(
+                  delay: 500,
+                  child: _LoginButton(),
+                ),
                 VSpace.large24(),
-                const SlideAndFadeAnimationWrapper(delay: 600, child: _CreateAccountButton()),
+                const SlideAndFadeAnimationWrapper(
+                  delay: 600,
+                  child: _CreateAccountButton(),
+                ),
               ],
             ),
           ),
@@ -91,14 +113,21 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
-      buildWhen: (previous, current) => previous.email != current.email,
+      buildWhen:
+          (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return AppTextField(
           initialValue: state.email.value,
           label: context.t.email,
           keyboardType: TextInputType.emailAddress,
-          onChanged: (email) => context.read<SignInBloc>().add(SignInEmailChanged(email)),
-          errorText: state.email.displayError != null ? context.t.common_validation_email : null,
+          onChanged:
+              (email) => context.read<SignInBloc>().add(
+                SignInEmailChanged(email),
+              ),
+          errorText:
+              state.email.displayError != null
+                  ? context.t.common_validation_email
+                  : null,
           autofillHints: const [AutofillHints.email],
         );
       },
@@ -110,15 +139,22 @@ class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
-      buildWhen: (previous, current) => previous.password != current.password,
+      buildWhen:
+          (previous, current) =>
+              previous.password != current.password,
       builder: (context, state) {
         return AppTextField.password(
           initialValue: state.password.value,
           label: context.t.password,
           textInputAction: TextInputAction.done,
-          onChanged: (password) => context.read<SignInBloc>().add(SignInPasswordChanged(password)),
+          onChanged:
+              (password) => context.read<SignInBloc>().add(
+                SignInPasswordChanged(password),
+              ),
           errorText:
-              state.password.displayError != null ? context.t.common_validation_password : null,
+              state.password.displayError != null
+                  ? context.t.common_validation_password
+                  : null,
           autofillHints: const [AutofillHints.password],
         );
       },
