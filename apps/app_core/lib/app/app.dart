@@ -46,45 +46,40 @@ class _AppState extends State<App> {
     return TranslationProvider(
       child: MultiBlocProvider(
         providers: providers,
-        child: Builder(
-          builder: (context) {
-            return BlocBuilder<ThemeBloc, AppThemeColorMode>(
-              builder: (
-                BuildContext context,
-                AppThemeColorMode themeMode,
-              ) {
-                return AppResponsiveTheme(
-                  colorMode: themeMode,
-                  child: MaterialApp.router(
-                    routerConfig: _appRouter.config(),
-                    title: 'Boilerplate App',
-                    locale:
-                        TranslationProvider.of(context).flutterLocale,
-                    supportedLocales: AppLocaleUtils.supportedLocales,
-                    localizationsDelegates:
-                        GlobalMaterialLocalizations.delegates,
-                    builder: (BuildContext context, Widget? widget) {
-                      ErrorWidget.builder = (details) {
-                        return ErrorScreen(details: details);
-                      };
-                      return Overlay(
-                        key: _connectivityService.overlayKey,
-                        initialEntries: [
-                          OverlayEntry(
-                            builder:
-                                (context) => ConnectivityWrapper(
-                                  connectivityService:
-                                      _connectivityService,
-                                  child: widget!,
-                                ),
-                          ),
-                        ],
-                      );
-                    },
-                    debugShowCheckedModeBanner: false,
-                  ),
-                );
-              },
+        child: BlocBuilder<ThemeBloc, AppThemeColorMode>(
+          builder: (
+            BuildContext context,
+            AppThemeColorMode themeMode,
+          ) {
+            return AppResponsiveTheme(
+              colorMode: themeMode,
+              child: MaterialApp.router(
+                routerConfig: _appRouter.config(),
+                title: 'Boilerplate App',
+                locale: TranslationProvider.of(context).flutterLocale,
+                supportedLocales: AppLocaleUtils.supportedLocales,
+                localizationsDelegates:
+                    GlobalMaterialLocalizations.delegates,
+                builder: (BuildContext context, Widget? widget) {
+                  ErrorWidget.builder = (details) {
+                    return ErrorScreen(details: details);
+                  };
+                  return Overlay(
+                    key: _connectivityService.overlayKey,
+                    initialEntries: [
+                      OverlayEntry(
+                        builder:
+                            (context) => ConnectivityWrapper(
+                              connectivityService:
+                                  _connectivityService,
+                              child: widget!,
+                            ),
+                      ),
+                    ],
+                  );
+                },
+                debugShowCheckedModeBanner: false,
+              ),
             );
           },
         ),

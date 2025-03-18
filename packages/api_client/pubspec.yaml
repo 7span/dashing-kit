@@ -19,8 +19,6 @@ dependencies:
   path_provider: ^2.1.5
   pretty_dio_logger: ^1.4.0
 
-dependency_overrides: 
-  source_gen: ^2.0.0
 
 dev_dependencies:
   flutter_test:

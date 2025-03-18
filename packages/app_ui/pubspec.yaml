@@ -35,9 +35,6 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
-dependency_overrides: 
-  source_gen: ^2.0.0
-
 flutter_gen:
   assets:
     outputs:

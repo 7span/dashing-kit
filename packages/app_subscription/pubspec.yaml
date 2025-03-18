@@ -18,10 +18,6 @@ dependencies:
 
   equatable: ^2.0.7
 
-dependency_overrides: 
-  source_gen: ^2.0.0
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
