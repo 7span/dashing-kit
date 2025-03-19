@@ -54,8 +54,8 @@ analyzer:
     dead_code: info
     todo: info
     invalid_annotation_target: ignore
-    document_ignores: ignore
     avoid_catches_without_on_clauses: ignore
+    document_ignores: ignore
 
   exclude:
     - "**.g.dart"
