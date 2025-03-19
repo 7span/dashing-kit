@@ -11,7 +11,7 @@
             "program": "apps/app_core/lib/main_development.dart",
             "args": [
                 "--flavor",
-                "development"
+                "dev"
             ]
         },
         {
