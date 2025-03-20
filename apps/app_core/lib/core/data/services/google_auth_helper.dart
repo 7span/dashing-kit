@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+/// Refer this link for the google sign in package:
+/// https://pub.dev/packages/google_sign_in
 class GoogleAuthInHelper {
   factory GoogleAuthInHelper() {
     return _googleSignInHelper;

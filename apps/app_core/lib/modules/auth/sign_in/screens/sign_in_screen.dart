@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/routes/app_router.dart';
+import 'package:app_core/core/data/services/apple_auth_helper.dart';
 import 'package:app_core/core/data/services/google_auth_helper.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
@@ -110,11 +113,13 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
                   delay: 600,
                   child: _ContinueWithGoogleButton(),
                 ),
+
                 VSpace.large24(),
-                const SlideAndFadeAnimationWrapper(
-                  delay: 600,
-                  child: _ContinueWithAppleButton(),
-                ),
+                if (Platform.isIOS)
+                  const SlideAndFadeAnimationWrapper(
+                    delay: 600,
+                    child: _ContinueWithAppleButton(),
+                  ),
               ],
             ),
           ),
@@ -268,8 +273,20 @@ class _ContinueWithAppleButton extends StatelessWidget {
       backgroundColor: Colors.transparent,
       text: context.t.continue_with_apple,
       icon: Icon(Icons.apple, color: context.colorScheme.black),
-      onPressed: () {},
+      onPressed: () => _loginWithApple(context),
       isExpanded: true,
     );
+  }
+
+  void _loginWithApple(BuildContext context) {
+    AppleAuthHelper.signIn(context).then((requestModel) {
+      if (requestModel != null) {
+        if (context.mounted) {
+          context.read<SignInBloc>().add(
+            SignInWithGoogleTaped(requestModel: requestModel),
+          );
+        }
+      }
+    });
   }
 }
