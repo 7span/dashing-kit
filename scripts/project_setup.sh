@@ -82,10 +82,7 @@ if [[ "$CHANGE_PACKAGE" == "y" || "$CHANGE_PACKAGE" == "Y" ]]; then
   read REMOVE_FIREBASE_CONFIG
 
   if [[ "$REMOVE_FIREBASE_CONFIG" == "y" || "$REMOVE_FIREBASE_CONFIG" == "Y" ]]; then
-    echo "Removing firebase configuration from the app"
-    echo "You can add the firebase configuration later"
-    cd apps/app_core
-    
+    sh scripts/remove_firebase.sh
   fi
 
 fi
