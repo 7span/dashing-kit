@@ -5,11 +5,11 @@ class AuthResponseModel {
     return AuthResponseModel(
       authToken: map['token'] as String?,
       message: map['message'] as String?,
-      id: map['id'] as int?,
+      id: map['id'] as String?,
     );
   }
 
   String? authToken;
   String? message;
-  int? id;
+  String? id;
 }

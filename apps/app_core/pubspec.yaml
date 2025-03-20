@@ -29,6 +29,9 @@ dependencies:
   # App Subscription Package
   app_subscription: ^0.0.1
 
+  #App Notification Package
+  app_notification_service: ^0.0.1
+
   # internationalization
   timeago: ^3.7.0
 

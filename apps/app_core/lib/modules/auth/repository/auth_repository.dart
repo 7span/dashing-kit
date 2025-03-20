@@ -47,7 +47,7 @@ class AuthRepository implements IAuthRepository {
 
   TaskEither<Failure, Unit> saveUserToLocal(AuthResponseModel authResponseModel) {
     /// Sets Access Token received by api success.
-    RestApiClient.setAuthorizationToken(authResponseModel.authToken!);
+    RestApiClient.setAuthorizationToken(authResponseModel.authToken ?? '');
 
     /// To save UserDetailsModel in Local Hive
 
@@ -59,7 +59,7 @@ class AuthRepository implements IAuthRepository {
     /// );
     /// getIt<IHiveService>().setUserData(updatedModel).run();
 
-    return getIt<IHiveService>().setAccessToken(authResponseModel.authToken!);
+    return getIt<IHiveService>().setAccessToken(authResponseModel.authToken ?? '');
   }
 
   @override
