@@ -72,6 +72,22 @@ fi
 
 if [[ "$CHANGE_PACKAGE" == "y" || "$CHANGE_PACKAGE" == "Y" ]]; then
   echo "Package name changed from $OLD_PACKAGE to $PACKAGE_NAME"
+  echo "Since you've changed the package name, you'll need to create new firebase project and update the google-services.json file"
+  echo "You can still run the app if you remove the firebase configuration from the app"
+  echo "======================================"
+  echo ""
+  echo ""
+  echo ""
+  echo "Do you want to remove the firebase configuration from the app? (y/n): "
+  read REMOVE_FIREBASE_CONFIG
+
+  if [[ "$REMOVE_FIREBASE_CONFIG" == "y" || "$REMOVE_FIREBASE_CONFIG" == "Y" ]]; then
+    echo "Removing firebase configuration from the app"
+    echo "You can add the firebase configuration later"
+    cd apps/app_core
+    
+  fi
+
 fi
 
 if [[ "$CHANGE_APP_LOGO" == "y" || "$CHANGE_APP_LOGO" == "Y" ]]; then
