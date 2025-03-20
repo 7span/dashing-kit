@@ -92,6 +92,8 @@ dev_dependencies:
   # For generating code
   build_runner: ^2.4.15
 
+  change_app_package_name: ^1.5.0
+
   # For generating assets code
   flutter_gen: ^5.10.0
   flutter_gen_runner: ^5.10.0
@@ -122,4 +124,6 @@ flutter:
 
 flutter_launcher_icons:
   android: "launcher_icon"
-  image_path: "assets/icons/app_logo/montra_logo.png"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "../../packages/app_ui/assets/images/logo.png"

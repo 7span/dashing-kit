@@ -11,7 +11,7 @@
             "program": "apps/app_core/lib/main_development.dart",
             "args": [
                 "--flavor",
-                "development"
+                "dev"
             ]
         },
         {
@@ -22,7 +22,7 @@
             "flutterMode": "release",
             "args": [
                 "--flavor",
-                "development"
+                "dev"
             ],
         },
         {
@@ -31,6 +31,10 @@
             "type": "dart",
             "program": "packages/app_core/lib/main_development.dart",
             "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "dev"
+            ],
         },
         {
             "name": "Launch production in Debug",
@@ -40,7 +44,7 @@
             "flutterMode": "debug",
             "args": [
                 "--flavor",
-                "production"
+                "prod"
             ],
         },
         {
@@ -49,6 +53,10 @@
             "type": "dart",
             "program": "packages/app_core/lib/main_production.dart",
             "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "prod"
+            ],
         },
         {
             "name": "Launch production in Release",
@@ -56,6 +64,11 @@
             "type": "dart",
             "program": "packages/app_core/lib/main_production.dart",
             "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "prod"
+            ],
+
         }
     ]
 }
