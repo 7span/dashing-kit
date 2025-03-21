@@ -7,13 +7,16 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter/material.dart';
 
 class OneSignalService implements NotificationServiceInterface {
-  /// Singleton instance
-  static final OneSignalService _instance = OneSignalService._internal();
   factory OneSignalService() => _instance;
+
   OneSignalService._internal();
 
+  /// Singleton instance
+  static final OneSignalService _instance =
+      OneSignalService._internal();
+
   bool _isInitialized = false;
-  String? _appId;
+  String? appId;
 
   /// This will return us the device specific id that can be used in login and sign up API
   @override
@@ -26,10 +29,11 @@ class OneSignalService implements NotificationServiceInterface {
   @override
   Future<void> init(String appId, {bool shouldLog = true}) async {
     if (_isInitialized) return;
-
-    _appId = appId;
+    this.appId = appId;
     await OneSignal.consentRequired(true);
-    await OneSignal.consentGiven(false); // Default to false until user grants consent
+    await OneSignal.consentGiven(
+      false,
+    ); // Default to false until user grants consent
 
     if (Platform.isIOS) {
       await OneSignal.Location.setShared(false);
@@ -62,8 +66,8 @@ class OneSignalService implements NotificationServiceInterface {
         return AlertDialog(
           title: const Text('Enable Notifications'),
           content: const Text(
-              'We would like to send you notifications for important updates, alerts, and messages. '
-                  'Would you like to enable notifications?'
+            'We would like to send you notifications for important updates, alerts, and messages. '
+            'Would you like to enable notifications?',
           ),
           actions: <Widget>[
             TextButton(
@@ -87,7 +91,9 @@ class OneSignalService implements NotificationServiceInterface {
   }
 
   /// Request notification permission with consent dialog
-  Future<bool> requestNotificationPermissionWithConsent(BuildContext context) async {
+  Future<bool> requestNotificationPermissionWithConsent(
+    BuildContext context,
+  ) async {
     try {
       // First check if permission is already granted
       if (OneSignal.Notifications.permission) {
@@ -106,7 +112,8 @@ class OneSignalService implements NotificationServiceInterface {
       await OneSignal.consentGiven(true);
 
       // Request actual permission
-      final isGranted = await OneSignal.Notifications.requestPermission(true);
+      final isGranted = await OneSignal
+          .Notifications.requestPermission(true);
       log('Permission request result: $isGranted');
       return isGranted;
     } catch (e) {
@@ -118,38 +125,37 @@ class OneSignalService implements NotificationServiceInterface {
   @override
   Future<bool> requestNotificationPermission() async {
     try {
-      // This method should be called after consent is given
       if (!OneSignal.Notifications.permission) {
-        final isGranted = await OneSignal.Notifications.requestPermission(true);
-        log('Permission request: $isGranted');
+        final isGranted = await OneSignal
+            .Notifications.requestPermission(true);
+        log('Notifications Permission request: $isGranted');
         return isGranted;
       } else {
-        log('Permission already granted');
+        log('Notifications Permission already granted');
         return true;
       }
     } catch (e) {
-      log('Permission request error: $e');
+      log('Notifications Permission request error: $e');
       return false;
     }
   }
 
   @override
   void listenForNotification() {
-    OneSignal.Notifications.addClickListener(
-          (event) {
-        final data = event.notification.additionalData;
-        final notificationEventModel = NotificationObserverEvent(
-          title: event.notification.title,
-          body: event.notification.body,
-          data: data,
-        );
-        notificationObserverStream.sink.add(notificationEventModel);
-      },
-    );
+    OneSignal.Notifications.addClickListener((event) {
+      final data = event.notification.additionalData;
+      final notificationEventModel = NotificationObserverEvent(
+        title: event.notification.title,
+        body: event.notification.body,
+        data: data,
+      );
+      notificationObserverStream.sink.add(notificationEventModel);
+    });
   }
 
   @override
-  Stream<NotificationObserverEvent> get listenForNotifications => notificationObserverStream.stream;
+  Stream<NotificationObserverEvent> get listenForNotifications =>
+      notificationObserverStream.stream;
 
   @override
   void dispose() {
@@ -163,5 +169,6 @@ class OneSignalService implements NotificationServiceInterface {
 
   /// This stream is used for listening notifications from the app side
   @override
-  StreamController<NotificationObserverEvent> notificationObserverStream = StreamController.broadcast();
+  StreamController<NotificationObserverEvent>
+  notificationObserverStream = StreamController.broadcast();
 }

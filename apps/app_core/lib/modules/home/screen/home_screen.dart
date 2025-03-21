@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/helpers/extensions/extensions.dart';
 import 'package:app_core/app/helpers/injection.dart';
@@ -23,9 +25,9 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
       child: BlocProvider<HomeBloc>(
         lazy: false,
         create:
-            (context) => HomeBloc(
-              repository: context.read<ApiUserRepository>(),
-            )..safeAdd(const FetchUsersEvent()),
+            (context) =>
+                HomeBloc(repository: context.read<ApiUserRepository>())
+                  ..safeAdd(const FetchUsersEvent()),
         child: this,
       ),
     );
@@ -40,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       getIt<NotificationServiceInterface>();
   bool _hasRequestedPermission = false;
   bool _didInitialCheck = false;
+
   // @override
   // void initState() {
   //   super.initState();
@@ -53,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!_didInitialCheck) {
       _didInitialCheck = true;
       // Use Future.microtask to schedule this after the current build completes
-      Future.microtask(() => _setupNotifications());
+      Future.microtask(_setupNotifications);
     }
   }
 
@@ -63,23 +66,35 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!_hasRequestedPermission) {
       // Cast to OneSignalService to access the consent dialog method
       final service = _notificationService as OneSignalService;
-      final hasPermission = await service
-          .requestNotificationPermissionWithConsent(context);
+      final hasPermission = await service.requestNotificationPermissionWithConsent(
+        context,
+      );
       setState(() {
         _hasRequestedPermission = true;
       });
       if (hasPermission) {
         // Maybe show a success snackbar or toast
+        await getNotificationPlayerId();
         if (!mounted) {
           return;
         }
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Notifications enabled successfully!'),
-          ),
+          const SnackBar(content: Text('Notifications enabled successfully!')),
         );
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getNotificationPlayerId();
+  }
+
+  Future<void> getNotificationPlayerId() async {
+    final playerId =
+        await getIt<NotificationServiceInterface>().getNotificationSubscriptionId();
+    log(playerId);
   }
 
   @override
@@ -98,9 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 switch (state.status) {
                   case ApiStatus.initial:
                   case ApiStatus.loading:
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   case ApiStatus.loaded:
                     return _ListWidget(
                       hasReachedMax: state.hasReachedMax,
@@ -142,10 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _ListWidget extends StatefulWidget {
-  const _ListWidget({
-    required this.hasReachedMax,
-    required this.users,
-  });
+  const _ListWidget({required this.hasReachedMax, required this.users});
 
   final bool hasReachedMax;
   final List<Data> users;
@@ -154,26 +164,20 @@ class _ListWidget extends StatefulWidget {
   State<_ListWidget> createState() => _ListWidgetState();
 }
 
-class _ListWidgetState extends State<_ListWidget>
-    with PaginationService {
+class _ListWidgetState extends State<_ListWidget> with PaginationService {
   @override
   Widget build(BuildContext context) {
     return AppRefreshIndicator(
-      onRefresh:
-          () async =>
-              context.read<HomeBloc>().add(const FetchUsersEvent()),
+      onRefresh: () async => context.read<HomeBloc>().add(const FetchUsersEvent()),
       child: ListView.builder(
         controller: scrollController,
-        itemCount:
-            widget.users.length + (widget.hasReachedMax ? 0 : 1),
+        itemCount: widget.users.length + (widget.hasReachedMax ? 0 : 1),
         itemBuilder: (context, index) {
           if (index >= widget.users.length) {
             return const Center(child: CircularProgressIndicator());
           }
           return Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: Insets.xxxxlarge80,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: Insets.xxxxlarge80),
             child: Text(
               "${widget.users[index].firstName ?? ''} ${widget.users[index].lastName ?? ''}",
             ),

@@ -91,9 +91,9 @@ Future<void> bootstrap(
   final notificationService = getIt<NotificationServiceInterface>();
   await notificationService.init(
     switch (env) {
-      Env.development => 'appID',
-      Env.staging => 'appID',
-      Env.production => 'appID',
+      Env.development => AppConfig.oneSignalAppId,
+      Env.staging => AppConfig.oneSignalAppId,
+      Env.production => AppConfig.oneSignalAppId,
     },
     shouldLog: env != Env.production,
   );
