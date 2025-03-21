@@ -1,4 +1,3 @@
-import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,16 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 /// Refer this link for the google sign in package:
 /// https://pub.dev/packages/google_sign_in
-class GoogleAuthInHelper {
-  factory GoogleAuthInHelper() {
-    return _googleSignInHelper;
-  }
-
-  GoogleAuthInHelper._();
-
-  static final GoogleAuthInHelper _googleSignInHelper =
-      GoogleAuthInHelper._();
-
+class GoogleAuthHelper {
   static final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: <String>[
       'email',
@@ -24,7 +14,11 @@ class GoogleAuthInHelper {
     ],
   );
 
-  static Future<UserCredential?> signIn(BuildContext context) async {
+  static Future<UserCredential?> signIn(
+    BuildContext context, {
+    VoidCallback? onSuccess,
+    void Function(Exception exception)? onError,
+  }) async {
     debugPrint('GoogleSignIn signIn');
 
     try {
@@ -32,30 +26,34 @@ class GoogleAuthInHelper {
 
       if (googleUser == null) {
         if (context.mounted) {
-          throw Exception(context.t.operation_cancelled);
+          final exception = Exception(context.t.operation_cancelled);
+          if (onError != null) {
+            onError(exception);
+          }
+          return null;
         }
       }
 
-      // Obtain the auth details from the request
       final googleAuth = await googleUser?.authentication;
 
-      // Create a new credential
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
 
-      // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithCredential(
-        credential,
-      );
+      final userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+
+      if (onSuccess != null) {
+        onSuccess();
+      }
+
+      return userCredential;
     } catch (error) {
       debugPrint('GoogleSignIn error: $error');
-      if (context.mounted) {
-        showAppSnackbar(
-          context,
-          error.toString(),
-          type: SnackbarType.failed,
+      if (context.mounted && onError != null) {
+        onError(
+          error is Exception ? error : Exception(error.toString()),
         );
       }
     }

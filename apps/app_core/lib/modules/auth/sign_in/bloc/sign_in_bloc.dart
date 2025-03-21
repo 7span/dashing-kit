@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:api_client/api_client.dart';
 import 'package:app_core/core/domain/validators/login_validators.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/model/auth_response_model.dart';
@@ -93,7 +92,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     SignInWithGoogleTaped event,
     Emitter<SignInState> emit,
   ) async {
-    emit(state.copyWith(apiStatus: ApiStatus.loading));
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     final socialLoginEither =
         await _authenticationRepository
             .socialLogin(requestModel: event.requestModel)
@@ -102,14 +101,14 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       (error) => emit(
         state.copyWith(
           errorMessage: error.message,
-          apiStatus: ApiStatus.error,
+          status: FormzSubmissionStatus.failure,
         ),
       ),
       (result) async {
         emit(
           state.copyWith(
             responseModel: result,
-            apiStatus: ApiStatus.loaded,
+            status: FormzSubmissionStatus.success,
           ),
         );
       },

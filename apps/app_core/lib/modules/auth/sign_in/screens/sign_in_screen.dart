@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:api_client/api_client.dart';
 import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/core/data/services/apple_auth_helper.dart';
 import 'package:app_core/core/data/services/google_auth_helper.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
+import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/auth/sign_in/bloc/sign_in_bloc.dart';
 import 'package:app_translations/app_translations.dart';
@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 @RoutePage()
 class SignInPage extends StatelessWidget implements AutoRouteWrapper {
@@ -47,20 +48,16 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
     return Scaffold(
       body: BlocListener<SignInBloc, SignInState>(
         listenWhen:
-            (previous, current) =>
-                previous.status != current.status ||
-                previous.apiStatus != current.apiStatus,
+            (previous, current) => previous.status != current.status,
 
         listener: (context, state) async {
-          if (state.status.isFailure ||
-              state.apiStatus == ApiStatus.error) {
+          if (state.status.isFailure) {
             showAppSnackbar(
               context,
               state.errorMessage,
               type: SnackbarType.failed,
             );
-          } else if (state.status.isSuccess ||
-              state.apiStatus == ApiStatus.loaded) {
+          } else if (state.status.isSuccess) {
             showAppSnackbar(context, context.t.sign_in_successful);
             await context.replaceRoute(
               const BottomNavigationBarRoute(),
@@ -234,8 +231,9 @@ class _ContinueWithGoogleButton extends StatelessWidget {
           backgroundColor: Colors.transparent,
           text: context.t.continue_with_google,
           icon: Assets.icons.icGmail.svg(),
+          isLoading: state.status.isInProgress,
           onPressed:
-              state.apiStatus == ApiStatus.loading
+              state.status.isInProgress
                   ? () {}
                   : () => _loginWithGoogle(context),
           isExpanded: true,
@@ -245,18 +243,39 @@ class _ContinueWithGoogleButton extends StatelessWidget {
   }
 
   void _loginWithGoogle(BuildContext context) {
-    GoogleAuthInHelper.signIn(context).then((value) {
-      if (context.mounted) {
-        GoogleAuthInHelper.getUserInfo(context).then((requestModel) {
-          if (requestModel != null) {
-            ///After google sign in, use this for storing user data in backend
-            if (context.mounted) {
-              context.read<SignInBloc>().add(
-                SignInWithGoogleTaped(requestModel: requestModel),
-              );
-            }
-          }
-        });
+    GoogleAuthHelper.signIn(
+      context,
+      onSuccess: () {
+        if (context.mounted) {
+          showAppSnackbar(context, context.t.sign_in_successful);
+        }
+      },
+      onError: (error) {
+        if (context.mounted) {
+          showAppSnackbar(
+            context,
+            error.toString(),
+            type: SnackbarType.failed,
+          );
+        }
+      },
+    ).then((userCredential) {
+      if (userCredential != null && context.mounted) {
+        final user = userCredential.user;
+        if (user != null) {
+          final requestModel = AuthRequestModel(
+            name: user.displayName,
+            email: user.email,
+            provider: 'google',
+            providerId: user.uid,
+            providerToken: user.uid,
+            oneSignalPlayerId: 'playerId if onesignal is integrated',
+          );
+
+          context.read<SignInBloc>().add(
+            SignInWithGoogleTaped(requestModel: requestModel),
+          );
+        }
       }
     });
   }
@@ -279,13 +298,35 @@ class _ContinueWithAppleButton extends StatelessWidget {
   }
 
   void _loginWithApple(BuildContext context) {
-    AppleAuthHelper.signIn(context).then((requestModel) {
-      if (requestModel != null) {
+    AppleAuthHelper.signIn(
+      context,
+      onSuccess: () {
         if (context.mounted) {
-          context.read<SignInBloc>().add(
-            SignInWithGoogleTaped(requestModel: requestModel),
-          );
+          showAppSnackbar(context, context.t.sign_in_successful);
         }
+      },
+      onError: (error) {
+        if (context.mounted) {
+          if (error.code == AuthorizationErrorCode.canceled) {
+            showAppSnackbar(
+              context,
+              context.t.operation_cancelled,
+              type: SnackbarType.failed,
+            );
+          } else {
+            showAppSnackbar(
+              context,
+              error.message,
+              type: SnackbarType.failed,
+            );
+          }
+        }
+      },
+    ).then((requestModel) {
+      if (requestModel != null && context.mounted) {
+        context.read<SignInBloc>().add(
+          SignInWithGoogleTaped(requestModel: requestModel),
+        );
       }
     });
   }

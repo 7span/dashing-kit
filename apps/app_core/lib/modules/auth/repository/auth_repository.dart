@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:api_client/api_client.dart';
-import 'package:app_core/app/config/app_constants.dart';
+import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
@@ -56,7 +56,7 @@ class AuthRepository implements IAuthRepository {
     AuthRequestModel authRequestModel,
   ) => RestApiClient.request(
     requestType: RequestType.post,
-    path: AppConstants.login,
+    path: ApiEndpoints.login,
     body: authRequestModel.toMap(),
     options: Options(headers: {'Content-Type': 'application/json'}),
   );
@@ -100,7 +100,7 @@ class AuthRepository implements IAuthRepository {
     AuthRequestModel authRequestModel,
   ) => RestApiClient.request(
     requestType: RequestType.post,
-    path: AppConstants.signup,
+    path: ApiEndpoints.signup,
     body: authRequestModel.toMap(),
     options: Options(headers: {'Content-Type': 'application/json'}),
   );
@@ -145,7 +145,7 @@ class AuthRepository implements IAuthRepository {
   }) {
     return RestApiClient.request(
       requestType: RequestType.post,
-      path: AppConstants.socialLogin,
+      path: ApiEndpoints.socialLogin,
       body: requestModel.toSocialSignInMap(),
     );
   }

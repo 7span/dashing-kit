@@ -7,7 +7,6 @@ final class SignInState extends Equatable {
     this.password = const PasswordValidator.pure(),
     this.isValid = false,
     this.obscureText = true,
-    this.apiStatus = ApiStatus.initial,
     this.errorMessage = '',
     this.responseModel,
   });
@@ -17,7 +16,6 @@ final class SignInState extends Equatable {
   final PasswordValidator password;
   final bool isValid;
   final bool obscureText;
-  final ApiStatus apiStatus;
   final String errorMessage;
   final AuthResponseModel? responseModel;
 
@@ -28,7 +26,6 @@ final class SignInState extends Equatable {
     password,
     isValid,
     obscureText,
-    apiStatus,
     errorMessage,
     responseModel,
   ];
@@ -39,7 +36,6 @@ final class SignInState extends Equatable {
     PasswordValidator? password,
     bool? isValid,
     bool? obscureText,
-    ApiStatus? apiStatus,
     AuthResponseModel? responseModel,
     String? errorMessage,
   }) {
@@ -49,7 +45,6 @@ final class SignInState extends Equatable {
       password: password ?? this.password,
       isValid: isValid ?? this.isValid,
       obscureText: obscureText ?? this.obscureText,
-      apiStatus: apiStatus ?? this.apiStatus,
       errorMessage: errorMessage ?? this.errorMessage,
       responseModel: responseModel ?? this.responseModel,
     );
