@@ -39,7 +39,7 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return CommonScaffoldWidget(
+    return AppScaffoldWidget(
       appBar: AppBar(),
       body: BlocListener<SignUpBloc, SignUpState>(
         listenWhen:

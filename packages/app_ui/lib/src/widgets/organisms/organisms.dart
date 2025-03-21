@@ -1,1 +1,1 @@
-export 'common_scaffold_widget.dart';
+export 'app_scaffold_widget.dart';

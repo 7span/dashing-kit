@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const CommonScaffoldWidget(
+    return const AppScaffoldWidget(
       body: Center(child: FlutterLogo(size: 40)),
     );
   }

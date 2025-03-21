@@ -59,7 +59,7 @@ class SubscriptionScreen extends StatelessWidget
           }
           flog('status in listen of subscription: ${state.status}');
         },
-        child: CommonScaffoldWidget(
+        child: AppScaffoldWidget(
           appBar: AppBar(
             centerTitle: true,
             title: const Text('Purchase Plans'),

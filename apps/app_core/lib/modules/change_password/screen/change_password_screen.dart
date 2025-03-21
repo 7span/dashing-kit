@@ -19,7 +19,7 @@ class ChangePasswordScreen extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return CommonScaffoldWidget(
+    return AppScaffoldWidget(
       appBar: AppBar(),
       body: BlocListener<ChangePasswordBloc, ChangePasswordState>(
         listenWhen: (prev, current) => prev.status != current.status,

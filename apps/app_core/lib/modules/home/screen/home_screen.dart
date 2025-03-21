@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return CommonScaffoldWidget(
+    return AppScaffoldWidget(
       appBar: AppBar(title: Text(context.t.homepage_title)),
       body: Column(
         children: [

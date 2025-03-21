@@ -28,7 +28,7 @@ class BottomNavigationBarScreen extends StatelessWidget {
 
         /// Here we're building our Scaffold inside of AutoTabsRouter
         /// to access the tabsRouter controller provided in this context
-        return CommonScaffoldWidget(
+        return AppScaffoldWidget(
           body: child,
           bottomNavigationBar:
               context.topRouteMatch.meta['hideNavBar'] == true
