@@ -43,7 +43,7 @@ class ProfileScreen extends StatelessWidget
         }
       },
       builder: (context, state) {
-        return Scaffold(
+        return AppScaffoldWidget(
           body: Center(
             child: AppButton(
               isLoading: state.apiStatus == ApiStatus.loading,

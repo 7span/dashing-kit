@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffoldWidget(
       appBar: AppBar(title: Text(context.t.homepage_title)),
       body: Column(
         children: [
@@ -30,7 +30,9 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
                 switch (state.status) {
                   case ApiStatus.initial:
                   case ApiStatus.loading:
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
                   case ApiStatus.loaded:
                     return _ListWidget(
                       hasReachedMax: state.hasReachedMax,
@@ -77,9 +79,9 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
       child: BlocProvider<HomeBloc>(
         lazy: false,
         create:
-            (context) =>
-                HomeBloc(repository: context.read<ApiUserRepository>())
-                  ..safeAdd(const FetchUsersEvent()),
+            (context) => HomeBloc(
+              repository: context.read<ApiUserRepository>(),
+            )..safeAdd(const FetchUsersEvent()),
         child: this,
       ),
     );
@@ -87,7 +89,10 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
 }
 
 class _ListWidget extends StatefulWidget {
-  const _ListWidget({required this.hasReachedMax, required this.users});
+  const _ListWidget({
+    required this.hasReachedMax,
+    required this.users,
+  });
 
   final bool hasReachedMax;
   final List<Data> users;
@@ -96,21 +101,26 @@ class _ListWidget extends StatefulWidget {
   State<_ListWidget> createState() => _ListWidgetState();
 }
 
-class _ListWidgetState extends State<_ListWidget> with PaginationService {
+class _ListWidgetState extends State<_ListWidget>
+    with PaginationService {
   @override
   Widget build(BuildContext context) {
     return AppRefreshIndicator(
       onRefresh:
-          () async => context.read<HomeBloc>().add(const FetchUsersEvent()),
+          () async =>
+              context.read<HomeBloc>().add(const FetchUsersEvent()),
       child: ListView.builder(
         controller: scrollController,
-        itemCount: widget.users.length + (widget.hasReachedMax ? 0 : 1),
+        itemCount:
+            widget.users.length + (widget.hasReachedMax ? 0 : 1),
         itemBuilder: (context, index) {
           if (index >= widget.users.length) {
             return const Center(child: CircularProgressIndicator());
           }
           return Container(
-            padding: const EdgeInsets.symmetric(vertical: Insets.xxxxlarge80),
+            padding: const EdgeInsets.symmetric(
+              vertical: Insets.xxxxlarge80,
+            ),
             child: Text(
               "${widget.users[index].firstName ?? ''} ${widget.users[index].lastName ?? ''}",
             ),
