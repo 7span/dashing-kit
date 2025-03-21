@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
+class SubscriptionScreen extends StatelessWidget
+    implements AutoRouteWrapper {
   const SubscriptionScreen({super.key});
 
   @override
@@ -21,7 +22,10 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
             (context) => SubscriptionCubit(
               RepositoryProvider.of<SubscriptionRepository>(context),
               context,
-            )..getPlans(context, SubscriptionUtils.subscriptionProductId),
+            )..getPlans(
+              context,
+              SubscriptionUtils.subscriptionProductId,
+            ),
         child: this,
       ),
     );
@@ -43,15 +47,19 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
         }
       },
       child: BlocListener<SubscriptionCubit, SubscriptionState>(
-        listenWhen: (previous, current) => previous.status != current.status,
+        listenWhen:
+            (previous, current) => previous.status != current.status,
         listener: (context, state) {
-          if (state.status == SubscriptionStateStatus.purchaseSuccess) {
+          if (state.status ==
+              SubscriptionStateStatus.purchaseSuccess) {
             showAppSnackbar(context, 'Purchase Successfully');
-            context.read<SubscriptionCubit>().getAndSetActivePlanOfUser();
+            context
+                .read<SubscriptionCubit>()
+                .getAndSetActivePlanOfUser();
           }
           flog('status in listen of subscription: ${state.status}');
         },
-        child: Scaffold(
+        child: CommonScaffoldWidget(
           appBar: AppBar(
             centerTitle: true,
             title: const Text('Purchase Plans'),
@@ -65,10 +73,12 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
                   iconData: Icons.diamond,
                   description: 'Basic Gem purchase',
                   onTap: () async {
-                    await context.read<SubscriptionCubit>().purchaseCredit(
-                      context,
-                      SubscriptionUtils.subscriptionProductId[0],
-                    );
+                    await context
+                        .read<SubscriptionCubit>()
+                        .purchaseCredit(
+                          context,
+                          SubscriptionUtils.subscriptionProductId[0],
+                        );
                   },
                 ),
                 _PurchasePlanCard(

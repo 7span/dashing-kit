@@ -1,8 +1,8 @@
 import 'package:app_core/app/helpers/logger_helper.dart';
-import 'package:app_subscription/app_subscription_api.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:app_core/app/routes/app_router.dart';
+import 'package:app_subscription/app_subscription_api.dart';
 import 'package:app_ui/app_ui.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -37,10 +37,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: FlutterLogo(size: 40),
-      ),
+    return const CommonScaffoldWidget(
+      body: Center(child: FlutterLogo(size: 40)),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:app_core/core/data/services/connectivity_service.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class ConnectivityWrapper extends StatefulWidget {
@@ -25,7 +26,7 @@ class ConnectivityWrapperState extends State<ConnectivityWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: widget.child);
+    return CommonScaffoldWidget(body: widget.child);
   }
 
   @override
