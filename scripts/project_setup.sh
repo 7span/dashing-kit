@@ -54,7 +54,6 @@ if [[ "$CHANGE_APP_LOGO" == "y" || "$CHANGE_APP_LOGO" == "Y" || "$CHANGE_APP_LOG
 
   if [[ "$CONTINUE" == "y" || "$CONTINUE" == "Y" || "$CONTINUE" == "yes" ]]; then
     cd apps/app_core
-    dart run flutter_launcher_icons:generate
     dart run flutter_launcher_icons
   else
     echo "Operation cancelled by user"
@@ -72,6 +71,8 @@ fi
 
 if [[ "$CHANGE_PACKAGE" == "y" || "$CHANGE_PACKAGE" == "Y" ]]; then
   echo "Package name changed from $OLD_PACKAGE to $PACKAGE_NAME"
+  echo "Since you've changed the package name, you'll need to re-configure your firebase project and update the google-services.json file"
+
 fi
 
 if [[ "$CHANGE_APP_LOGO" == "y" || "$CHANGE_APP_LOGO" == "Y" ]]; then

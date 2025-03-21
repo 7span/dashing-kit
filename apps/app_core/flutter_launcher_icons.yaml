@@ -18,15 +18,15 @@ flutter_launcher_icons:
 
   web:
     generate: false
-    image_path: "path/to/image.png"
+    image_path: "../../packages/app_ui/assets/images/logo.png"
     background_color: "#hexcode"
     theme_color: "#hexcode"
 
   windows:
     generate: false
-    image_path: "path/to/image.png"
+    image_path: "../../packages/app_ui/assets/images/logo.png"
     icon_size: 48 # min:48, max:256, default: 48
 
   macos:
     generate: false
-    image_path: "path/to/image.png"
+    image_path: "../../packages/app_ui/assets/images/logo.png"
