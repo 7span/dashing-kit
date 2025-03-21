@@ -1,49 +1,59 @@
 #!/bin/zsh
 
+# Display current working directory for debugging
+echo "Current working directory:"
+pwd
+
+
+# Change to the project root if not already there
+if [ ! -d "apps/app_core/android" ]; then
+  cd "$(dirname "$0")/../../.." || exit
+fi
+
+cd apps/app_core/ || exit
 # Paths to relevant files
-SETTINGS_GRADLE="apps/app_core/android/settings.gradle"
-BUILD_GRADLE_PROJECT="apps/app_core/android/build.gradle"
-BUILD_GRADLE_APP="apps/app_core/android/app/build.gradle"
+SETTINGS_GRADLE="android/settings.gradle.kts"
+BUILD_GRADLE_PROJECT="android/build.gradle.kts"
+BUILD_GRADLE_APP="android/app/build.gradle.kts"
+DART_FILE="lib/bootstrap.dart"
+
+# Function to safely run sed only if the file exists
+safe_sed() {
+  if [ -f "$1" ]; then
+    sed -i '' "$2" "$1"
+  else
+    echo "❗ Error: File not found - $1"
+  fi
+}
+
+# Function to check if a file exists and print an error if it doesn't
+check_file_exists() {
+  if [ ! -f "$1" ]; then
+    echo "❗ Error: File not found - $1"
+  fi
+}
 
 echo "Removing Firebase references..."
 
-# Remove Firebase plugin from settings.gradle
-sed -i '' '/id("com.google.gms.google-services")/d' "$SETTINGS_GRADLE"
+# Check if files exist before attempting to modify them
+check_file_exists "$SETTINGS_GRADLE"
+check_file_exists "$BUILD_GRADLE_PROJECT"
+check_file_exists "$BUILD_GRADLE_APP"
 
-# Remove Firebase dependencies and plugins from app/build.gradle
-sed -i '' '/id("com.google.gms.google-services")/d' "$BUILD_GRADLE_APP"
-sed -i '' '/implementation("com.google.firebase/d' "$BUILD_GRADLE_APP"
+# Remove Firebase references from Gradle files
+safe_sed "$SETTINGS_GRADLE" '/id("com.google.gms.google-services")/d'
+safe_sed "$BUILD_GRADLE_APP" '/id("com.google.gms.google-services")/d'
+safe_sed "$BUILD_GRADLE_APP" '/implementation("com.google.firebase/d'
+safe_sed "$BUILD_GRADLE_APP" '/platform("com.google.firebase:firebase-bom:/d'
+safe_sed "$BUILD_GRADLE_PROJECT" '/com.google.gms.google-services/d'
 
-# Remove Firebase BOM dependency
-sed -i '' '/platform("com.google.firebase:firebase-bom:/d' "$BUILD_GRADLE_APP"
-
-# Remove Firebase references in build.gradle (Project level)
-sed -i '' '/com.google.gms.google-services/d' "$BUILD_GRADLE_PROJECT"
-
-# Clean up potential empty lines left behind
+# Clean up potential empty lines
 echo "Cleaning up empty lines..."
-sed -i '' '/^$/d' "$SETTINGS_GRADLE"
-sed -i '' '/^$/d' "$BUILD_GRADLE_PROJECT"
-sed -i '' '/^$/d' "$BUILD_GRADLE_APP"
+safe_sed "$SETTINGS_GRADLE" '/^$/d'
+safe_sed "$BUILD_GRADLE_PROJECT" '/^$/d'
+safe_sed "$BUILD_GRADLE_APP" '/^$/d'
 
-echo "Firebase references successfully removed!"
+echo "Removing Firebase references from Dart file..."
 
-
-# Path to the Dart file
-DART_FILE="apps/app_core/lib/bootstrap.dart"
-
-echo "Removing Firebase references..."
-
-# Remove Firebase-related imports
-sed -i '' '/firebase_options/d' "$DART_FILE"
-sed -i '' '/firebase_core/d' "$DART_FILE"
-
-# Remove Firebase initialization logic
-sed -i '' '/Firebase.initializeApp/d' "$DART_FILE"
-sed -i '' '/FirebaseCrashlyticsService.init/d' "$DART_FILE"
-
-# Clean up potential empty lines left behind
-echo "Cleaning up empty lines..."
-sed -i '' '/^$/d' "$DART_FILE"
-
-echo "Firebase references successfully removed!"
+# Remove Firebase references from Dart file
+sh scripts/remove_firebase_from_dart_file.sh
