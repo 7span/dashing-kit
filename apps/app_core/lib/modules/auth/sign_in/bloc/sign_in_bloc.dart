@@ -18,6 +18,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInEmailChanged>(_onEmailChanged);
     on<SignInPasswordChanged>(_onPasswordChanged);
     on<SignInSubmitted>(_onSubmitted);
+    on<SignInWithGoogleTaped>(_onSignInWithGoogleTaped);
   }
 
   // ignore: unused_field
@@ -84,5 +85,27 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         ),
       );
     }
+  }
+
+  Future<void> _onSignInWithGoogleTaped(
+    SignInWithGoogleTaped event,
+    Emitter<SignInState> emit,
+  ) async {
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    final socialLoginEither =
+        await _authenticationRepository
+            .socialLogin(requestModel: event.requestModel)
+            .run();
+    socialLoginEither.fold(
+      (error) => emit(
+        state.copyWith(
+          errorMessage: error.message,
+          status: FormzSubmissionStatus.failure,
+        ),
+      ),
+      (result) async {
+        emit(state.copyWith(status: FormzSubmissionStatus.success));
+      },
+    );
   }
 }
