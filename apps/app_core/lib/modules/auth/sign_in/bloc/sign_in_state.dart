@@ -8,7 +8,6 @@ final class SignInState extends Equatable {
     this.isValid = false,
     this.obscureText = true,
     this.errorMessage = '',
-    this.responseModel,
   });
 
   final FormzSubmissionStatus status;
@@ -17,7 +16,6 @@ final class SignInState extends Equatable {
   final bool isValid;
   final bool obscureText;
   final String errorMessage;
-  final AuthResponseModel? responseModel;
 
   @override
   List<Object?> get props => [
@@ -27,7 +25,6 @@ final class SignInState extends Equatable {
     isValid,
     obscureText,
     errorMessage,
-    responseModel,
   ];
 
   SignInState copyWith({
@@ -36,7 +33,7 @@ final class SignInState extends Equatable {
     PasswordValidator? password,
     bool? isValid,
     bool? obscureText,
-    AuthResponseModel? responseModel,
+
     String? errorMessage,
   }) {
     return SignInState(
@@ -46,7 +43,6 @@ final class SignInState extends Equatable {
       isValid: isValid ?? this.isValid,
       obscureText: obscureText ?? this.obscureText,
       errorMessage: errorMessage ?? this.errorMessage,
-      responseModel: responseModel ?? this.responseModel,
     );
   }
 }

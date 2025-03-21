@@ -232,10 +232,7 @@ class _ContinueWithGoogleButton extends StatelessWidget {
           text: context.t.continue_with_google,
           icon: Assets.icons.icGmail.svg(),
           isLoading: state.status.isInProgress,
-          onPressed:
-              state.status.isInProgress
-                  ? () {}
-                  : () => _loginWithGoogle(context),
+          onPressed: () => _loginWithGoogle(context),
           isExpanded: true,
         );
       },
@@ -286,14 +283,19 @@ class _ContinueWithAppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppButton(
-      buttonType: ButtonType.outlined,
-      textColor: context.colorScheme.primary900,
-      backgroundColor: Colors.transparent,
-      text: context.t.continue_with_apple,
-      icon: Icon(Icons.apple, color: context.colorScheme.black),
-      onPressed: () => _loginWithApple(context),
-      isExpanded: true,
+    return BlocBuilder<SignInBloc, SignInState>(
+      builder: (context, state) {
+        return AppButton(
+          buttonType: ButtonType.outlined,
+          textColor: context.colorScheme.primary900,
+          backgroundColor: Colors.transparent,
+          text: context.t.continue_with_apple,
+          icon: Icon(Icons.apple, color: context.colorScheme.black),
+          onPressed: () => _loginWithApple(context),
+          isLoading: state.status == FormzSubmissionStatus.success,
+          isExpanded: true,
+        );
+      },
     );
   }
 

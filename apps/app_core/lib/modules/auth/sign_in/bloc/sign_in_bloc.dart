@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:app_core/core/domain/validators/login_validators.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
-import 'package:app_core/modules/auth/model/auth_response_model.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,12 +104,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         ),
       ),
       (result) async {
-        emit(
-          state.copyWith(
-            responseModel: result,
-            status: FormzSubmissionStatus.success,
-          ),
-        );
+        emit(state.copyWith(status: FormzSubmissionStatus.success));
       },
     );
   }

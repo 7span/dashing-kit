@@ -1,4 +1,5 @@
 import 'package:api_client/api_client.dart';
+import 'package:app_core/core/data/services/google_auth_helper.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     try {
       emit(state.copyWith(apiStatus: ApiStatus.loading));
+      await GoogleAuthHelper.signOut();
       await _authenticationRepository.logout();
       emit(state.copyWith(apiStatus: ApiStatus.loaded));
     } catch (e) {

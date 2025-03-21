@@ -46,14 +46,10 @@ class ProfileScreen extends StatelessWidget
         return Scaffold(
           body: Center(
             child: AppButton(
-              onPressed:
-                  state.apiStatus == ApiStatus.loading
-                      ? () {}
-                      : () async {
-                        context.read<ProfileBloc>().add(
-                          const Logout(),
-                        );
-                      },
+              isLoading: state.apiStatus == ApiStatus.loading,
+              onPressed: () async {
+                context.read<ProfileBloc>().add(const Logout());
+              },
               text: 'Logout',
             ),
           ),

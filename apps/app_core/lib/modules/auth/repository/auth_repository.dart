@@ -8,7 +8,6 @@ import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/model/auth_response_model.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:fpdart/fpdart.dart';
 
 /// This repository contains the contract for login and logout function
@@ -35,8 +34,6 @@ abstract interface class IAuthRepository {
 /// that is given by the API Response
 class AuthRepository implements IAuthRepository {
   const AuthRepository();
-
-  static final firebaseAuthInstance = FirebaseAuth.instance;
 
   @override
   TaskEither<Failure, AuthResponseModel> login(
@@ -110,8 +107,6 @@ class AuthRepository implements IAuthRepository {
     try {
       await Future<void>.delayed(const Duration(seconds: 2));
 
-      ///Use this ifSignInWithGoogle is Integrated
-      await firebaseAuthInstance.signOut();
       //clear auth tokens from the local storage
       await getIt<IHiveService>().clearData().run();
       return true;
