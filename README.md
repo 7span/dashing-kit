@@ -39,7 +39,7 @@ Built with ❤️ using Google Codelab for a seamless learning experience.
 flutter run -t apps/app_core/lib/main_development.dart --flavor development
 ```
 
-> ✅ **Note:** To know more about `project set-up scripts` see the documentation.
+> ✅ **Note:** To know more about `project set-up scripts` see the [documentation](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#2).
 
 
 # 🤝 Contribution
