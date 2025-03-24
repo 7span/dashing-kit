@@ -1,6 +1,6 @@
 ## Flutter Boilerplate
 
-<!-- TODO: un-comment this : ![banner.png](banner.png) and add documentation link -->
+![banner.png](banner.png)
 
 ### ⚡ Jumpstart Development — Prebuilt structure for faster and customised launch.
 
@@ -24,7 +24,7 @@
 # 🗂️ Documentation
 
 Built with ❤️ using Google Codelab for a seamless learning experience.
-- Explore the step-by-step guide on [Google Codelab]().
+- Explore the step-by-step guide on [Google Codelab](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#0).
 
 # 🏁 Getting Started
 
