@@ -10,21 +10,21 @@
 
 # 📝 Features:
 
-- Leverages Melos for mono-repo structure. ⚙️
-- BLoC Architecture for scalable state management.🏗️
-- Navigator 2.0 Routing with auto_route for seamless navigation.🛣️
-- Pre-configured Environment Handling with envied for secure variables.🔐
+- Leverages melos for mono-repo structure. ⚙️
+- BLoC architecture for scalable state management.🏗️
+- Navigator 2.0 routing with auto_route for seamless navigation.🛣️
+- Pre-configured environment handling with envied for secure variables.🔐
 - Pre-set Firebase and flavor configuration for multi-environment support.🔥
-- One-click Setup with scripts to initialize the boilerplate in seconds. ⚡
-- Well-structured Documentation for easy onboarding.📖
-- Pre-defined Custom Widgets to speed up UI development. 🧱
-- Atomic Design Pattern for modular and maintainable UI.⚛️
-- Enhanced Features with built-in **app_notification**, **authentication module** and **app_subscription** packages. 🚀
+- One-click setup with scripts to initialize the boilerplate in seconds. ⚡
+- Well-structured documentation for easy onboarding.📖
+- Pre-defined custom widgets to speed up UI development. 🧱
+- **Atomic Design Pattern** for modular and maintainable UI.⚛️
+- Enhanced features with built-in [app_notification](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#13), [authentication module](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#14) and [app_subscription](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#15) packages. 🚀
 
 # 🗂️ Documentation
 
-Built with ❤️ using Google Codelab for a seamless learning experience.
-- Explore the step-by-step guide on [Google Codelab](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#0).
+Built with ❤️ using Codelab for a seamless learning experience.
+- Explore the step-by-step guide on [Codelab](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#0).
 
 # 🏁 Getting Started
 
@@ -54,4 +54,4 @@ or submit a pull request.
 
 # 📬 Contact
 
-For issues or suggestions, open an issue or reach out at cavin@7span.com
+For issues or suggestions, open an issue or reach out at dash@7span.com.
