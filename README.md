@@ -19,7 +19,7 @@
 - Well-structured Documentation for easy onboarding.📖
 - Pre-defined Custom Widgets to speed up UI development. 🧱
 - Atomic Design Pattern for modular and maintainable UI.⚛️
-- Enhanced Features with built-in app_notification and app_subscription packages. 🚀
+- Enhanced Features with built-in **app_notification**, **authentication module** and **app_subscription** packages. 🚀
 
 # 🗂️ Documentation
 
