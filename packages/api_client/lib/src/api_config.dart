@@ -17,7 +17,10 @@ final class ApiClient {
 
   ///initialize GraphQL for API calling. It is configurable to disable the
   ///cache by providing [isApiCacheEnabled] to false.
-  Future<Unit> init({required bool isApiCacheEnabled, required String baseURL}) async {
+  Future<Unit> init({
+    required bool isApiCacheEnabled,
+    required String baseURL,
+  }) async {
     final httpLink = HttpLink(baseURL);
     final AuthLink authLink = AuthLink(getToken: () async => null);
     Link link = authLink.concat(httpLink);
@@ -38,7 +41,9 @@ final class ApiClient {
   /// to listen for the stream for setting the Authentication token
   void setAuthorizationToken(String token, String baseURL) {
     final httpLink = HttpLink(baseURL);
-    final AuthLink authLink = AuthLink(getToken: () => 'Bearer $token');
+    final AuthLink authLink = AuthLink(
+      getToken: () => 'Bearer $token',
+    );
     Link link = authLink.concat(httpLink);
 
     graphQLClient = GraphQLClient(
@@ -55,20 +60,20 @@ final class ApiClient {
     required String request,
     RequestType requestType = RequestType.query,
     Map<String, dynamic>? variables,
-  }) =>
-      readGraphQLFile(request)
-          .flatMap<QueryResult<Object?>>(
-            (r) => doApiCall(
-              request: r,
-              variables: variables ?? {},
-              requestType: requestType,
-            ),
-          )
-          .chainEither(validateResponse)
-          .map(getResponseData);
+  }) => readGraphQLFile(request)
+      .flatMap<QueryResult<Object?>>(
+        (r) => doApiCall(
+          request: r,
+          variables: variables ?? {},
+          requestType: requestType,
+        ),
+      )
+      .chainEither(validateResponse)
+      .map(getResponseData);
 
   /// This function is responsible for reading the GraphQL from the assets
-  TaskEither<Failure, String> readGraphQLFile(String filePath) => TaskEither.tryCatch(
+  TaskEither<Failure, String> readGraphQLFile(String filePath) =>
+      TaskEither.tryCatch(
         () => rootBundle.loadString(filePath),
         (error, stackTrace) => RequestMakingFaliure(),
       );
@@ -79,44 +84,45 @@ final class ApiClient {
     required String request,
     RequestType requestType = RequestType.query,
     Map<String, dynamic>? variables,
-  }) =>
-      TaskEither.tryCatch(
-        () {
-          log('variables: $variables');
-          switch (requestType) {
-            case RequestType.query:
-              final result = graphQLClient.query(
-                QueryOptions(
-                  document: gql(request),
-                  variables: variables ?? {},
-                ),
-              );
-              return result;
-            case RequestType.mutation:
-              final result = graphQLClient.mutate(
-                MutationOptions(
-                  document: gql(request),
-                  variables: variables ?? {},
-                ),
-              );
-              return result;
-            case RequestType.get:
-            case RequestType.post:
-            case RequestType.put:
-              throw Exception('Not implemented');
-          }
-        },
-        APIFailure.new,
-      );
+  }) => TaskEither.tryCatch(() {
+    log('variables: $variables');
+    switch (requestType) {
+      case RequestType.query:
+        final result = graphQLClient.query(
+          QueryOptions(
+            document: gql(request),
+            variables: variables ?? {},
+          ),
+        );
+        return result;
+      case RequestType.mutation:
+        final result = graphQLClient.mutate(
+          MutationOptions(
+            document: gql(request),
+            variables: variables ?? {},
+          ),
+        );
+        return result;
+      case RequestType.get:
+      case RequestType.post:
+      case RequestType.delete:
+      case RequestType.put:
+        throw Exception('Not implemented');
+    }
+  }, APIFailure.new);
 
   /// Validate the response. Send error in case of exception
-  Either<Failure, QueryResult<Object?>> validateResponse(QueryResult<Object?> response) =>
-      Either.fromPredicate(
-        response,
-        (response) => response.exception == null,
-        (response) => ResponseValidationFailure(error: response.exception),
-      );
+  Either<Failure, QueryResult<Object?>> validateResponse(
+    QueryResult<Object?> response,
+  ) => Either.fromPredicate(
+    response,
+    (response) => response.exception == null,
+    (response) =>
+        ResponseValidationFailure(error: response.exception),
+  );
 
   /// Send response data after the sucessfull API call
-  Map<String, dynamic> getResponseData(QueryResult<Object?> response) => response.data!;
+  Map<String, dynamic> getResponseData(
+    QueryResult<Object?> response,
+  ) => response.data!;
 }

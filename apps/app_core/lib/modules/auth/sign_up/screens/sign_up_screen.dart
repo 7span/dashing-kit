@@ -1,3 +1,4 @@
+import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/core/domain/validators/confirm_password_validator.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
@@ -53,56 +54,46 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
             );
           } else if (state.status.isSuccess) {
             showAppSnackbar(context, context.t.sign_up_successful);
-            await context.maybePop();
+            await context.router.replaceAll([const HomeRoute()]);
           }
         },
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
             horizontal: Insets.large24,
           ),
-          child: AutofillGroup(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // VSpace.xxxxlarge80(),
-                VSpace.large24(),
-                const SlideAndFadeAnimationWrapper(
-                  delay: 100,
-                  child: Center(child: FlutterLogo(size: 100)),
-                ),
-                VSpace.xxlarge40(),
-                VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 200,
-                  child: AppText.XL(text: context.t.sign_up),
-                ),
-                VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 300,
-                  child: _NameInput(),
-                ),
-                VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 300,
-                  child: _EmailInput(),
-                ),
-                VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 400,
-                  child: _PasswordInput(),
-                ),
-                VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 400,
-                  child: _ConfirmPasswordInput(),
-                ),
-                VSpace.large24(),
-                const SlideAndFadeAnimationWrapper(
-                  delay: 600,
-                  child: _CreateAccountButton(),
-                ),
-              ],
-            ),
+          child: Column(
+            spacing: Insets.large24,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SlideAndFadeAnimationWrapper(
+                delay: 100,
+                child: Center(child: FlutterLogo(size: 100)),
+              ),
+              SlideAndFadeAnimationWrapper(
+                delay: 200,
+                child: AppText.XL(text: context.t.sign_up),
+              ),
+              SlideAndFadeAnimationWrapper(
+                delay: 300,
+                child: _NameInput(),
+              ),
+              SlideAndFadeAnimationWrapper(
+                delay: 300,
+                child: _EmailInput(),
+              ),
+              SlideAndFadeAnimationWrapper(
+                delay: 400,
+                child: _PasswordInput(),
+              ),
+              SlideAndFadeAnimationWrapper(
+                delay: 400,
+                child: _ConfirmPasswordInput(),
+              ),
+              const SlideAndFadeAnimationWrapper(
+                delay: 600,
+                child: _CreateAccountButton(),
+              ),
+            ],
           ),
         ),
       ),
