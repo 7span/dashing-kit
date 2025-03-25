@@ -12,20 +12,14 @@ import 'package:fpdart/fpdart.dart';
 
 /// This repository contains the contract for login and logout function
 abstract interface class IAuthRepository {
-  TaskEither<Failure, AuthResponseModel> login(
-    AuthRequestModel authRequestModel,
-  );
+  TaskEither<Failure, AuthResponseModel> login(AuthRequestModel authRequestModel);
 
-  TaskEither<Failure, AuthResponseModel> signup(
-    AuthRequestModel authRequestModel,
-  );
+  TaskEither<Failure, AuthResponseModel> signup(AuthRequestModel authRequestModel);
 
   Future<bool> logout();
 
   ///SOCIAL-LOGIN
-  TaskEither<Failure, AuthResponseModel> socialLogin({
-    required AuthRequestModel requestModel,
-  });
+  TaskEither<Failure, AuthResponseModel> socialLogin({required AuthRequestModel requestModel});
 }
 
 /// This class contains the implementation for login and logout functions.
@@ -36,33 +30,21 @@ class AuthRepository implements IAuthRepository {
   const AuthRepository();
 
   @override
-  TaskEither<Failure, AuthResponseModel> login(
-    AuthRequestModel authRequestModel,
-  ) => makeLoginRequest(authRequestModel)
+  TaskEither<Failure, AuthResponseModel> login(AuthRequestModel authRequestModel) => makeLoginRequest(authRequestModel)
       .chainEither(RepositoryUtils.checkStatusCode)
-      .chainEither(
-        (r) => RepositoryUtils.mapToModel(
-          () => AuthResponseModel.fromMap(
-            r.data as Map<String, dynamic>,
-          ),
-        ),
-      )
+      .chainEither((r) => RepositoryUtils.mapToModel(() => AuthResponseModel.fromMap(r.data as Map<String, dynamic>)))
       .flatMap(saveUserToLocal);
 
-  TaskEither<Failure, Response> makeLoginRequest(
-    AuthRequestModel authRequestModel,
-  ) => RestApiClient.request(
+  TaskEither<Failure, Response> makeLoginRequest(AuthRequestModel authRequestModel) => RestApiClient.request(
     requestType: RequestType.post,
     path: ApiEndpoints.login,
     body: authRequestModel.toMap(),
     options: Options(headers: {'Content-Type': 'application/json'}),
   );
 
-  TaskEither<Failure, AuthResponseModel> saveUserToLocal(
-    AuthResponseModel authResponseModel,
-  ) {
+  TaskEither<Failure, AuthResponseModel> saveUserToLocal(AuthResponseModel authResponseModel) {
     /// Sets Access Token received by api success.
-    RestApiClient.setAuthorizationToken(authResponseModel.authToken!);
+    RestApiClient.setAuthorizationToken(authResponseModel.authToken ?? '');
 
     /// To save UserDetailsModel in Local Hive
 
@@ -74,28 +56,16 @@ class AuthRepository implements IAuthRepository {
     /// );
     /// getIt<IHiveService>().setUserData(updatedModel).run();
 
-    getIt<IHiveService>().setAccessToken(
-      authResponseModel.authToken!,
-    );
+    getIt<IHiveService>().setAccessToken(authResponseModel.authToken ?? '');
     return TaskEither.right(authResponseModel);
   }
 
   @override
-  TaskEither<Failure, AuthResponseModel> signup(
-    AuthRequestModel authRequestModel,
-  ) => makeSignUpRequest(authRequestModel)
+  TaskEither<Failure, AuthResponseModel> signup(AuthRequestModel authRequestModel) => makeSignUpRequest(authRequestModel)
       .chainEither(RepositoryUtils.checkStatusCode)
-      .chainEither(
-        (r) => RepositoryUtils.mapToModel(
-          () => AuthResponseModel.fromMap(
-            r.data as Map<String, dynamic>,
-          ),
-        ),
-      );
+      .chainEither((r) => RepositoryUtils.mapToModel(() => AuthResponseModel.fromMap(r.data as Map<String, dynamic>)));
 
-  TaskEither<Failure, Response> makeSignUpRequest(
-    AuthRequestModel authRequestModel,
-  ) => RestApiClient.request(
+  TaskEither<Failure, Response> makeSignUpRequest(AuthRequestModel authRequestModel) => RestApiClient.request(
     requestType: RequestType.post,
     path: ApiEndpoints.signup,
     body: authRequestModel.toMap(),
@@ -118,26 +88,20 @@ class AuthRepository implements IAuthRepository {
 
   ///SOCIAL LOGIN
   @override
-  TaskEither<Failure, AuthResponseModel> socialLogin({
-    required AuthRequestModel requestModel,
-  }) => mappingSocialLoginRequest(requestModel: requestModel);
+  TaskEither<Failure, AuthResponseModel> socialLogin({required AuthRequestModel requestModel}) =>
+      mappingSocialLoginRequest(requestModel: requestModel);
 
-  TaskEither<Failure, AuthResponseModel> mappingSocialLoginRequest({
-    required AuthRequestModel requestModel,
-  }) => makeSocialLoginRequest(requestModel: requestModel)
-      .chainEither(RepositoryUtils.checkStatusCode)
-      .chainEither(
-        (response) => RepositoryUtils.mapToModel<AuthResponseModel>(
-          () => AuthResponseModel.fromMap(
-            response.data as Map<String, dynamic>,
-          ),
-        ),
-      )
-      .flatMap(saveUserToLocal);
+  TaskEither<Failure, AuthResponseModel> mappingSocialLoginRequest({required AuthRequestModel requestModel}) =>
+      makeSocialLoginRequest(requestModel: requestModel)
+          .chainEither(RepositoryUtils.checkStatusCode)
+          .chainEither(
+            (response) => RepositoryUtils.mapToModel<AuthResponseModel>(
+              () => AuthResponseModel.fromMap(response.data as Map<String, dynamic>),
+            ),
+          )
+          .flatMap(saveUserToLocal);
 
-  TaskEither<Failure, Response> makeSocialLoginRequest({
-    required AuthRequestModel requestModel,
-  }) {
+  TaskEither<Failure, Response> makeSocialLoginRequest({required AuthRequestModel requestModel}) {
     return RestApiClient.request(
       requestType: RequestType.post,
       path: ApiEndpoints.socialLogin,
