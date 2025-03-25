@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';
@@ -112,7 +110,7 @@ class AuthRepository implements IAuthRepository {
         return TaskEither<Failure, bool>.tryCatch(() async {
           await getIt<IHiveService>().clearData().run();
           return true;
-        }, (error, _) => APIFailure());
+        }, (error, _) => APIFailure(),);
       });
 
   TaskEither<Failure, Response> makeLogoutRequest() {

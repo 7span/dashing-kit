@@ -10,3 +10,10 @@ final class Logout extends ProfileEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class FetchProfileDetails extends ProfileEvent {
+  const FetchProfileDetails();
+
+  @override
+  List<Object?> get props => [];
+}
