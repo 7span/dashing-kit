@@ -76,6 +76,11 @@ dependencies:
   firebase_core: ^3.12.1
 
   connectivity_plus: ^6.1.3
+  firebase_auth: ^5.5.1
+
+  # Social Sign In
+  google_sign_in: ^6.3.0
+  sign_in_with_apple: ^6.1.4
 
 dependency_overrides:
   web: ^1.0.0

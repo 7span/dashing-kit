@@ -28,3 +28,8 @@ final class SignInPasswordChanged extends SignInEvent {
 final class SignInSubmitted extends SignInEvent {
   const SignInSubmitted();
 }
+
+final class SignInWithGoogleTaped extends SignInEvent {
+  const SignInWithGoogleTaped({required this.requestModel});
+  final AuthRequestModel requestModel;
+}

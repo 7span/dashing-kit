@@ -165,14 +165,12 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
-
       /// list of your tab routes
       /// routes used here must be declared as children
       /// routes of /dashboard
       routes: const [HomeRoute(), ProfileRoute()],
       transitionBuilder:
-          (context, child, animation) =>
-          FadeTransition(
+          (context, child, animation) => FadeTransition(
             opacity: animation,
 
             /// the passed child is technically our animated selected-tab page
@@ -184,7 +182,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
         /// Here we're building our Scaffold inside of AutoTabsRouter
         /// to access the tabsRouter controller provided in this context
-        return Scaffold(
+        return AppScaffoldWidget(
           body: child,
           bottomNavigationBar:
           context.topRouteMatch.meta['hideNavBar'] == true
