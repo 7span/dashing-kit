@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:convert';
 
@@ -15,8 +16,11 @@ class UserModel extends HiveObject {
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
+    if (kDebugMode) {
+      print('Meow : map aavo chhe : $map');
+    }
     return UserModel(
-      name: map['first_name'] as String,
+      name: map['name'] as String,
       email: map['email'] as String,
       id: map['id'] as int,
       profilePicUrl: map['avatar'] as String,

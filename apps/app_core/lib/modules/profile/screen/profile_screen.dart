@@ -3,7 +3,7 @@ import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/core/presentation/widgets/app_dialog.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
-import 'package:app_core/modules/profile/bloc/profile_bloc.dart';
+import 'package:app_core/modules/profile/bloc/profile_cubit.dart';
 import 'package:app_core/modules/profile/repository/profile_repository.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:auto_route/auto_route.dart';
@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class ProfileScreen extends StatelessWidget
-    implements AutoRouteWrapper {
+class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
   const ProfileScreen({super.key});
 
   @override
@@ -28,12 +27,10 @@ class ProfileScreen extends StatelessWidget
       ],
       child: BlocProvider(
         create:
-            (context) => ProfileBloc(
-              authenticationRepository:
-                  RepositoryProvider.of<AuthRepository>(context),
-              profileRepository:
-                  RepositoryProvider.of<ProfileRepository>(context),
-            )..add(const FetchProfileDetails()),
+            (context) => ProfileCubit(
+              RepositoryProvider.of<AuthRepository>(context),
+              RepositoryProvider.of<ProfileRepository>(context),
+            )..fetchProfileDetailsFromHive(),
         child: this,
       ),
     );
@@ -41,7 +38,7 @@ class ProfileScreen extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProfileBloc, ProfileState>(
+    return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) async {
         if (state.apiStatus == ApiStatus.error) {
           showAppSnackbar(
@@ -61,7 +58,11 @@ class ProfileScreen extends StatelessWidget
             child: Column(
               spacing: Insets.medium16,
               children: [
-                ProfileInfo(onEditTap: () {}),
+                ProfileInfo(
+                  onEditTap: () async {
+                    await context.pushRoute(const EditProfileRoute());
+                  },
+                ),
                 AppButton(
                   isLoading: state.apiStatus == ApiStatus.loading,
                   text: 'Logout',
@@ -80,9 +81,7 @@ class ProfileScreen extends StatelessWidget
                                 'Are you sure want to logout your account?',
                             onAction: (action) async {
                               if (action == DialogAction.positive) {
-                                context.read<ProfileBloc>().add(
-                                  const Logout(),
-                                );
+                                await context.read<ProfileCubit>().logout();
                               }
                               if (action == DialogAction.negative) {
                                 if (context.mounted) {
@@ -144,13 +143,13 @@ class ProfileScreen extends StatelessWidget
 }
 
 class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({ required this.onEditTap,super.key});
+  const ProfileInfo({required this.onEditTap, super.key});
 
   final VoidCallback onEditTap;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
+    return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -167,10 +166,7 @@ class ProfileInfo extends StatelessWidget {
                 AppText.L(text: state.userModel?.email),
               ],
             ),
-            IconButton(
-              onPressed: onEditTap,
-              icon: const Icon(Icons.edit),
-            ),
+            IconButton(onPressed: onEditTap, icon: const Icon(Icons.edit)),
           ],
         );
       },

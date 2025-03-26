@@ -45,8 +45,7 @@ class AuthRepository implements IAuthRepository {
             r.data as Map<String, dynamic>,
           ),
         ),
-      )
-      .flatMap(saveUserToLocal);
+      );
 
   TaskEither<Failure, Response> makeLoginRequest(
     AuthRequestModel authRequestModel,
@@ -110,7 +109,7 @@ class AuthRepository implements IAuthRepository {
         return TaskEither<Failure, bool>.tryCatch(() async {
           await getIt<IHiveService>().clearData().run();
           return true;
-        }, (error, _) => APIFailure(),);
+        }, (error, _) => APIFailure());
       });
 
   TaskEither<Failure, Response> makeLogoutRequest() {
