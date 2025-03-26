@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.flutter.boilerplate.app"
     compileSdk = 35
-//    ndkVersion = "29.0.13113456 rc1"
+    ndkVersion = "29.0.13113456 rc1"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
