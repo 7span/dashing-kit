@@ -7,7 +7,6 @@ abstract interface class NotificationServiceInterface {
   late final StreamController<NotificationObserverEvent> notificationObserverStream;
 
   Stream<NotificationObserverEvent> get listenForNotifications;
-
   Future<void> init(String appId, {bool shouldLog = true});
 
   Future<void> setData(NotificationUserModel model);

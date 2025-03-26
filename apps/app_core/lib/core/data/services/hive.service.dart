@@ -18,14 +18,23 @@ abstract interface class IHiveService {
   /// This function is used for setting the access token that a user gets from
   /// the API and store it in the local database.
   TaskEither<Failure, Unit> setAccessToken(String accessToken);
+
   TaskEither<Failure, Unit> setUserData(UserModel userModel);
+
   Option<String> getAccessToken();
+
   Task<Unit> clearData();
+
   Either<Failure, List<UserModel>> getUserData();
+
+  TaskEither<Failure, Unit> setPlayerId(String playerId);
+
+  Option<String> getPlayerId();
 }
 
 final class _Keys {
   static const accessToken = 'accessToken';
+  static const playerId = 'playerId';
 }
 
 /// This class is the implementation for [IHiveService]. In this implementation,
@@ -51,6 +60,7 @@ final class HiveService implements IHiveService {
 
     /// for saving token separately
     await Hive.openBox<String>(HiveKeys.userToken.value);
+    await Hive.openBox<String>(HiveKeys.userPlayerId.value);
     return unit;
   }
 
@@ -62,54 +72,53 @@ final class HiveService implements IHiveService {
   }
 
   @override
-  TaskEither<Failure, Unit> setAccessToken(String value) => TaskEither<Failure, Unit>.tryCatch(
-        () async {
-          final box = Hive.box<String>(HiveKeys.userToken.value);
-          await box.put(_Keys.accessToken, value);
-          return unit;
-        },
-        (error, stackTrace) => UserTokenSaveFailure(
-          error: error,
-          stackTrace: stackTrace,
-        ),
-      );
+  TaskEither<Failure, Unit> setAccessToken(String value) =>
+      TaskEither<Failure, Unit>.tryCatch(() async {
+        final box = Hive.box<String>(HiveKeys.userToken.value);
+        await box.put(_Keys.accessToken, value);
+        return unit;
+      }, (error, stackTrace) => UserTokenSaveFailure(error: error, stackTrace: stackTrace),);
 
   @override
-  TaskEither<Failure, Unit> setUserData(UserModel userModel) => TaskEither.tryCatch(
-        () async {
-          final box = Hive.box<UserModel>(HiveKeys.userData.value);
-          await box.add(userModel);
-          await userModel.save();
-          return unit;
-        },
-        (error, stackTrace) => UserSaveFailure(
-          error: error,
-          stackTrace: stackTrace,
-        ),
-      );
+  TaskEither<Failure, Unit> setUserData(UserModel userModel) => TaskEither.tryCatch(() async {
+    final box = Hive.box<UserModel>(HiveKeys.userData.value);
+    await box.add(userModel);
+    await userModel.save();
+    return unit;
+  }, (error, stackTrace) => UserSaveFailure(error: error, stackTrace: stackTrace),);
 
   @override
-  Either<Failure, List<UserModel>> getUserData() => Either.tryCatch(
-        () {
-          final box = Hive.box<UserModel>(HiveKeys.userData.value);
-          final data = box.values.toList();
-          if (data.isEmpty) {
-            // ignore: only_throw_errors
-            throw HiveFailure();
-          } else {
-            return data;
-          }
-        },
-        (error, stackStrace) => HiveFailure(),
-      );
+  Either<Failure, List<UserModel>> getUserData() => Either.tryCatch(() {
+    final box = Hive.box<UserModel>(HiveKeys.userData.value);
+    final data = box.values.toList();
+    if (data.isEmpty) {
+      // ignore: only_throw_errors
+      throw HiveFailure();
+    } else {
+      return data;
+    }
+  }, (error, stackStrace) => HiveFailure(),);
 
   @override
-  Task<Unit> clearData() => Task(
-        () async {
-          await Hive.box<UserModel>(HiveKeys.userData.value).clear();
-          await Hive.box<String>(HiveKeys.userToken.value).clear();
+  Task<Unit> clearData() => Task(() async {
+    await Hive.box<UserModel>(HiveKeys.userData.value).clear();
+    await Hive.box<String>(HiveKeys.userToken.value).clear();
+    await Hive.box<String>(HiveKeys.userPlayerId.value).clear();
+    return unit;
+  });
 
-          return unit;
-        },
-      );
+  @override
+  Option<String> getPlayerId() {
+    final box = Hive.box<String>(HiveKeys.userPlayerId.value);
+    final key = box.get(_Keys.playerId);
+    return key != null ? some(key) : none();
+  }
+
+  @override
+  TaskEither<Failure, Unit> setPlayerId(String playerId) =>
+      TaskEither<Failure, Unit>.tryCatch(() async {
+        final box = Hive.box<String>(HiveKeys.userPlayerId.value);
+        await box.put(_Keys.playerId, playerId);
+        return unit;
+      }, (error, stackTrace) => UserTokenSaveFailure(error: error, stackTrace: stackTrace),);
 }

@@ -11,6 +11,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 extension GetUserDataExtension on BuildContext {
   String get username =>
       getIt<IHiveService>().getUserData().fold<String>((_) => '', (model) => model[0].name);
+
+  bool get isPlayerIdSaved =>
+      getIt<IHiveService>().getPlayerId().fold(() => '', (model) => model).isNotEmpty;
+
+  String get playerId => getIt<IHiveService>().getPlayerId().fold(() => '', (model) => model);
 }
 
 extension GetUsernameExtension on NavigationResolver {
