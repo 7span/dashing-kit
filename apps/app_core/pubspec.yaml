@@ -79,6 +79,8 @@ dependencies:
   google_sign_in: ^6.3.0
   sign_in_with_apple: ^6.1.4
 
+  webview_flutter: ^4.10.0
+
 dependency_overrides:
   web: ^1.0.0
   source_gen: ^2.0.0
