@@ -12,10 +12,12 @@ import 'package:dio/dio.dart';
 
 abstract interface class IProfileRepository {
   TaskEither<Failure, UserModel> fetchProfileDetails();
+
   TaskEither<Failure, Response> editProfile({
     required String? name,
     required String? imageURL,
   });
+
   TaskEither<Failure, String> editProfileImage(File imageFile);
 }
 
