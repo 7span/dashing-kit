@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:api_client/api_client.dart';
+import 'package:app_core/app/enum.dart';
 import 'package:app_core/app/helpers/injection.dart';
+import 'package:app_core/app/helpers/permission/permission_helper.dart';
 import 'package:app_core/core/data/models/user_model.dart';
 import 'package:app_core/core/data/services/google_auth_helper.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
+import 'package:app_core/core/data/services/media.service.dart';
 import 'package:app_core/core/domain/validators/name_validator.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/profile/repository/profile_repository.dart';
@@ -10,6 +15,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 part 'profile_state.dart';
 
@@ -75,17 +82,13 @@ class ProfileCubit extends Cubit<ProfileState> {
           errorMessage: 'Could not find profile information',
         ),
       ),
-      (result) {
-        if (kDebugMode) {
-          print('UserModel Meow : ${result.name}');
-        }
-        emit(
-          state.copyWith(
-            apiStatus: ApiStatus.loaded,
-            userModel: result,
-          ),
-        );
-      },
+      (result) => emit(
+        state.copyWith(
+          apiStatus: ApiStatus.loaded,
+          userModel: result,
+          name: NameValidator.dirty(result.name),
+        ),
+      ),
     );
   }
 
@@ -99,6 +102,23 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
+  Future<void> onAddImageTap() async {
+    final permissionStatus = await Permission.mediaLibrary.status;
+    if (permissionStatus == PermissionStatus.granted) {
+      final image = await MediaService.instance.pickImage();
+      if (image != null) {
+        emit(state.copyWith(imageFile: image));
+      }
+    } else if (permissionStatus == PermissionStatus.denied) {
+      await PermissionsHelper().requestPermission(
+        MediaPermission.photo,
+      );
+    } else if (permissionStatus ==
+        PermissionStatus.permanentlyDenied) {
+      emit(state.copyWith(isPermissionDenied: true));
+    }
+  }
+
   Future<void> onEditTap() async {
     final nameValue = NameValidator.dirty(state.name.value);
     emit(
@@ -107,22 +127,46 @@ class ProfileCubit extends Cubit<ProfileState> {
         isValid: Formz.validate([nameValue]),
       ),
     );
-    if (state.isValid) {
-      emit(state.copyWith(editProfileStatus: ApiStatus.loading));
-      final makeEditProfileApi =
-          await _profileRepository
-              .editProfile(name: state.name.value)
-              .run();
-      makeEditProfileApi.fold(
-        (l) => emit(
-          state.copyWith(
-            errorMessage: 'Could not update profile',
-            apiStatus: ApiStatus.error,
-          ),
-        ),
-        (r) =>
-            emit(state.copyWith(editProfileStatus: ApiStatus.loaded)),
-      );
+
+    if (!state.isValid) return;
+
+    Future<Either<Failure, String?>> updateImage() async {
+      return state.imageFile != null
+          ? await _profileRepository
+              .editProfileImage(state.imageFile!)
+              .run()
+          : const Right(null);
     }
+
+    final imageEither = await updateImage();
+    imageEither.fold(
+      (l) => emit(
+        state.copyWith(
+          errorMessage: 'Could not update profile image',
+          apiStatus: ApiStatus.error,
+        ),
+      ),
+      (imageURL) async {
+        final profileEither =
+            await _profileRepository
+                .editProfile(
+                  name: state.name.value,
+                  imageURL: imageURL,
+                )
+                .run();
+        profileEither.fold(
+          (l) => emit(
+            state.copyWith(
+              errorMessage: 'Could not update profile',
+              apiStatus: ApiStatus.error,
+            ),
+          ),
+          (r) {
+            if (kDebugMode) print('Yeeaaayyyy');
+            emit(state.copyWith(editProfileStatus: ApiStatus.loaded));
+          },
+        );
+      },
+    );
   }
 }

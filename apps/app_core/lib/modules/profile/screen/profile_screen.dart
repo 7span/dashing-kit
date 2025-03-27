@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
+class ProfileScreen extends StatelessWidget
+    implements AutoRouteWrapper {
   const ProfileScreen({super.key});
 
   @override
@@ -58,15 +59,15 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
             child: Column(
               spacing: Insets.medium16,
               children: [
-                ProfileInfo(
-                  onEditTap: () async {
+                ProfileListTile(
+                  onTap: () async {
                     await context.pushRoute(const EditProfileRoute());
                   },
+                  title: 'My Profile',
                 ),
-                AppButton(
-                  isLoading: state.apiStatus == ApiStatus.loading,
-                  text: 'Logout',
-                  onPressed: () {
+                ProfileListTile(
+                  title: 'Logout',
+                  onTap: () {
                     showDialog<void>(
                       context: context,
                       useRootNavigator: false,
@@ -81,7 +82,9 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                                 'Are you sure want to logout your account?',
                             onAction: (action) async {
                               if (action == DialogAction.positive) {
-                                await context.read<ProfileCubit>().logout();
+                                await context
+                                    .read<ProfileCubit>()
+                                    .logout();
                               }
                               if (action == DialogAction.negative) {
                                 if (context.mounted) {
@@ -93,10 +96,9 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                     );
                   },
                 ),
-                AppButton(
-                  text: 'Delete Account',
-                  // isLoading: state.apiStatus == ApiStatus.loading,
-                  onPressed: () {
+                ProfileListTile(
+                  title: 'Delete Account',
+                  onTap: () {
                     showDialog<void>(
                       context: context,
                       useRootNavigator: false,
@@ -123,15 +125,9 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                     );
                   },
                 ),
-                AppButton(
-                  // isLoading: state.apiStatus == ApiStatus.loading,
-                  onPressed: () {},
-                  text: 'Change Password',
-                ),
-                AppButton(
-                  // isLoading: state.apiStatus == ApiStatus.loading,
-                  onPressed: () {},
-                  text: 'Profile',
+                ProfileListTile(
+                  title: 'Change Password',
+                  onTap: () {},
                 ),
               ],
             ),
@@ -142,34 +138,24 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
   }
 }
 
-class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({required this.onEditTap, super.key});
+class ProfileListTile extends StatelessWidget {
+  const ProfileListTile({
+    required this.title,
+    required this.onTap,
+    super.key,
+  });
 
-  final VoidCallback onEditTap;
+  final VoidCallback onTap;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
-      builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AppNetworkImage(
-              imageUrl: state.userModel?.profilePicUrl ?? '',
-              imageHeight: 70,
-            ),
-            Column(
-              spacing: Insets.medium16,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText.L(text: state.userModel?.name),
-                AppText.L(text: state.userModel?.email),
-              ],
-            ),
-            IconButton(onPressed: onEditTap, icon: const Icon(Icons.edit)),
-          ],
-        );
-      },
+    return ListTile(
+      title: AppText.L(text: title),
+      trailing: IconButton(
+        onPressed: onTap,
+        icon: const Icon(Icons.arrow_right_alt_outlined),
+      ),
     );
   }
 }

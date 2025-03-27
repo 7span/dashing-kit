@@ -13,8 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
 @RoutePage()
-class ChangePasswordScreen extends StatelessWidget
-    implements AutoRouteWrapper {
+class ChangePasswordScreen extends StatelessWidget implements AutoRouteWrapper {
   const ChangePasswordScreen({super.key});
 
   @override
@@ -25,20 +24,14 @@ class ChangePasswordScreen extends StatelessWidget
         listenWhen: (prev, current) => prev.status != current.status,
         listener: (_, state) async {
           if (state.status.isFailure) {
-            showAppSnackbar(
-              context,
-              context.t.failed_to_update,
-              type: SnackbarType.failed,
-            );
+            showAppSnackbar(context, context.t.failed_to_update, type: SnackbarType.failed);
           } else if (state.status.isSuccess) {
             showAppSnackbar(context, context.t.update_successful);
             await context.maybePop();
           }
         },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Insets.large24,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -55,20 +48,11 @@ class ChangePasswordScreen extends StatelessWidget
                 child: AppText.XL(text: context.t.update_password),
               ),
               VSpace.large24(),
-              SlideAndFadeAnimationWrapper(
-                delay: 400,
-                child: _PasswordInput(),
-              ),
+              SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
               VSpace.large24(),
-              SlideAndFadeAnimationWrapper(
-                delay: 400,
-                child: _ConfirmPasswordInput(),
-              ),
+              SlideAndFadeAnimationWrapper(delay: 400, child: _ConfirmPasswordInput()),
               VSpace.large24(),
-              const SlideAndFadeAnimationWrapper(
-                delay: 600,
-                child: _CreateAccountButton(),
-              ),
+              const SlideAndFadeAnimationWrapper(delay: 600, child: _CreateAccountButton()),
             ],
           ),
         ),
@@ -84,10 +68,7 @@ class ChangePasswordScreen extends StatelessWidget
         lazy: false,
         create:
             (context) => ChangePasswordBloc(
-              repository:
-                  RepositoryProvider.of<ChangePasswordRepository>(
-                    context,
-                  ),
+              repository: RepositoryProvider.of<ChangePasswordRepository>(context),
             ),
         child: this,
       ),
@@ -99,9 +80,7 @@ class _ConfirmPasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
-      buildWhen:
-          (previous, current) =>
-              previous.confirmPassword != current.confirmPassword,
+      buildWhen: (previous, current) => previous.confirmPassword != current.confirmPassword,
       builder: (context, state) {
         return AppTextField.password(
           initialValue: state.confirmPassword.value,
@@ -115,8 +94,7 @@ class _ConfirmPasswordInput extends StatelessWidget {
                 ),
               ),
           errorText:
-              state.confirmPassword.error ==
-                      ConfirmPasswordValidationError.invalid
+              state.confirmPassword.error == ConfirmPasswordValidationError.invalid
                   ? context.t.common_validation_confirm_password
                   : null,
           autofillHints: const [AutofillHints.password],
@@ -130,22 +108,16 @@ class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
-      buildWhen:
-          (previous, current) =>
-              previous.password != current.password,
+      buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return AppTextField.password(
           initialValue: state.password.value,
           label: context.t.password,
           textInputAction: TextInputAction.done,
           onChanged:
-              (password) => context.read<ChangePasswordBloc>().add(
-                OnPasswordChangeEvent(password),
-              ),
+              (password) => context.read<ChangePasswordBloc>().add(OnPasswordChangeEvent(password)),
           errorText:
-              state.password.displayError != null
-                  ? context.t.common_validation_password
-                  : null,
+              state.password.displayError != null ? context.t.common_validation_password : null,
           autofillHints: const [AutofillHints.password],
         );
       },
@@ -165,9 +137,7 @@ class _CreateAccountButton extends StatelessWidget {
           text: context.t.update,
           onPressed: () {
             TextInput.finishAutofillContext();
-            context.read<ChangePasswordBloc>().add(
-              const OnSubmitPasswordEvent(),
-            );
+            context.read<ChangePasswordBloc>().add(const OnSubmitPasswordEvent());
           },
           isExpanded: true,
         );

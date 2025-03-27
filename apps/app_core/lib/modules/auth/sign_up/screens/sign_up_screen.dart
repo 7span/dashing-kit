@@ -18,18 +18,13 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(
-          create: (context) => const AuthRepository(),
-        ),
-      ],
+      providers: [RepositoryProvider(create: (context) => const AuthRepository())],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create:
                 (context) => SignUpBloc(
-                  authenticationRepository:
-                      RepositoryProvider.of<AuthRepository>(context),
+                  authenticationRepository: RepositoryProvider.of<AuthRepository>(context),
                 ),
           ),
         ],
@@ -43,8 +38,7 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
     return AppScaffoldWidget(
       appBar: AppBar(),
       body: BlocListener<SignUpBloc, SignUpState>(
-        listenWhen:
-            (previous, current) => previous.status != current.status,
+        listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) async {
           if (state.status.isFailure) {
             showAppSnackbar(
@@ -58,9 +52,7 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
           }
         },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Insets.large24,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
           child: Column(
             spacing: Insets.large24,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,30 +61,12 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
                 delay: 100,
                 child: Center(child: FlutterLogo(size: 100)),
               ),
-              SlideAndFadeAnimationWrapper(
-                delay: 200,
-                child: AppText.XL(text: context.t.sign_up),
-              ),
-              SlideAndFadeAnimationWrapper(
-                delay: 300,
-                child: _NameInput(),
-              ),
-              SlideAndFadeAnimationWrapper(
-                delay: 300,
-                child: _EmailInput(),
-              ),
-              SlideAndFadeAnimationWrapper(
-                delay: 400,
-                child: _PasswordInput(),
-              ),
-              SlideAndFadeAnimationWrapper(
-                delay: 400,
-                child: _ConfirmPasswordInput(),
-              ),
-              const SlideAndFadeAnimationWrapper(
-                delay: 600,
-                child: _CreateAccountButton(),
-              ),
+              SlideAndFadeAnimationWrapper(delay: 200, child: AppText.XL(text: context.t.sign_up)),
+              SlideAndFadeAnimationWrapper(delay: 300, child: _NameInput()),
+              SlideAndFadeAnimationWrapper(delay: 300, child: _EmailInput()),
+              SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
+              SlideAndFadeAnimationWrapper(delay: 400, child: _ConfirmPasswordInput()),
+              const SlideAndFadeAnimationWrapper(delay: 600, child: _CreateAccountButton()),
             ],
           ),
         ),
@@ -105,21 +79,14 @@ class _NameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen:
-          (previous, current) => previous.email != current.email,
+      buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return AppTextField(
           initialValue: state.name.value,
           label: context.t.name,
           keyboardType: TextInputType.name,
-          onChanged:
-              (name) => context.read<SignUpBloc>().add(
-                SignUpNameChanged(name),
-              ),
-          errorText:
-              state.name.displayError != null
-                  ? context.t.common_validation_name
-                  : null,
+          onChanged: (name) => context.read<SignUpBloc>().add(SignUpNameChanged(name)),
+          errorText: state.name.displayError != null ? context.t.common_validation_name : null,
         );
       },
     );
@@ -130,21 +97,14 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen:
-          (previous, current) => previous.email != current.email,
+      buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return AppTextField(
           initialValue: state.email.value,
           label: context.t.email,
           keyboardType: TextInputType.emailAddress,
-          onChanged:
-              (email) => context.read<SignUpBloc>().add(
-                SignUpEmailChanged(email),
-              ),
-          errorText:
-              state.email.displayError != null
-                  ? context.t.common_validation_email
-                  : null,
+          onChanged: (email) => context.read<SignUpBloc>().add(SignUpEmailChanged(email)),
+          errorText: state.email.displayError != null ? context.t.common_validation_email : null,
           autofillHints: const [AutofillHints.email],
         );
       },
@@ -156,22 +116,15 @@ class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen:
-          (previous, current) =>
-              previous.password != current.password,
+      buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return AppTextField.password(
           initialValue: state.password.value,
           label: context.t.password,
           textInputAction: TextInputAction.done,
-          onChanged:
-              (password) => context.read<SignUpBloc>().add(
-                SignUpPasswordChanged(password),
-              ),
+          onChanged: (password) => context.read<SignUpBloc>().add(SignUpPasswordChanged(password)),
           errorText:
-              state.password.displayError != null
-                  ? context.t.common_validation_password
-                  : null,
+              state.password.displayError != null ? context.t.common_validation_password : null,
           autofillHints: const [AutofillHints.password],
         );
       },
@@ -183,9 +136,7 @@ class _ConfirmPasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen:
-          (previous, current) =>
-              previous.confirmPassword != current.confirmPassword,
+      buildWhen: (previous, current) => previous.confirmPassword != current.confirmPassword,
       builder: (context, state) {
         return AppTextField.password(
           initialValue: state.confirmPassword.value,
@@ -199,8 +150,7 @@ class _ConfirmPasswordInput extends StatelessWidget {
                 ),
               ),
           errorText:
-              state.confirmPassword.error ==
-                      ConfirmPasswordValidationError.invalid
+              state.confirmPassword.error == ConfirmPasswordValidationError.invalid
                   ? context.t.common_validation_confirm_password
                   : null,
           autofillHints: const [AutofillHints.password],

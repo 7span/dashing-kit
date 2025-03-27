@@ -24,6 +24,12 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
           );
         } else if (state.editProfileStatus == ApiStatus.loaded) {
           showAppSnackbar(context, 'Profile Edited successfully');
+        } else if ((state.isPermissionDenied ?? false) == true) {
+          showAppSnackbar(
+            context,
+            'Please unable media permission',
+            type: SnackbarType.failed,
+          );
         }
       },
       builder: (context, state) {
@@ -37,18 +43,39 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                       horizontal: Insets.medium16,
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       spacing: Insets.medium16,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                            AppBorderRadius.medium16,
-                          ),
-                          child: AppNetworkImage(
-                            imageUrl: state.userModel?.profilePicUrl,
-                            imageHeight: 120,
-                            imageWidth: 120,
-                          ),
+                        Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                AppBorderRadius.medium16,
+                              ),
+                              child:
+                                  state.imageFile != null
+                                      ? AppNetworkImage(
+                                        imageSource: AppImageSource.memory,
+                                        imageFile: state.imageFile,
+                                        imageHeight: 120,
+                                        imageWidth: 120,
+                                      )
+                                      : AppNetworkImage(
+                                        imageUrl:
+                                            state.userModel?.profilePicUrl,
+                                        imageHeight: 120,
+                                        imageWidth: 120,
+                                      ),
+                            ),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  context.read<ProfileCubit>().onAddImageTap();
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                         AppTextField(
                           label: 'Name',

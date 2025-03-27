@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'profile_cubit.dart';
 
 class ProfileState extends Equatable {
@@ -6,6 +7,8 @@ class ProfileState extends Equatable {
     this.editProfileStatus = ApiStatus.initial,
     this.errorMessage = '',
     this.userModel,
+    this.isPermissionDenied = false,
+    this.imageFile,
     this.shouldLogout = false,
     this.name = const NameValidator.pure(),
     this.isValid = false,
@@ -15,6 +18,8 @@ class ProfileState extends Equatable {
   final ApiStatus editProfileStatus;
   final String errorMessage;
   final UserModel? userModel;
+  final bool? isPermissionDenied;
+  final File? imageFile;
   final bool shouldLogout;
   final NameValidator name;
   final bool isValid;
@@ -25,6 +30,8 @@ class ProfileState extends Equatable {
     editProfileStatus,
     errorMessage,
     userModel,
+    isPermissionDenied,
+    imageFile,
     shouldLogout,
     name,
     isValid,
@@ -35,15 +42,19 @@ class ProfileState extends Equatable {
     ApiStatus? editProfileStatus,
     String? errorMessage,
     UserModel? userModel,
+    bool? isPermissionDenied,
+    File? imageFile,
     bool? shouldLogout,
     NameValidator? name,
     bool? isValid,
   }) {
     return ProfileState(
       apiStatus: apiStatus ?? this.apiStatus,
-      editProfileStatus: apiStatus ?? this.apiStatus,
+      editProfileStatus: editProfileStatus ?? this.editProfileStatus,
       errorMessage: errorMessage ?? this.errorMessage,
       userModel: userModel ?? this.userModel,
+      isPermissionDenied: isPermissionDenied ?? this.isPermissionDenied,
+      imageFile: imageFile ?? this.imageFile,
       shouldLogout: shouldLogout ?? this.shouldLogout,
       name: name ?? this.name,
       isValid: isValid ?? this.isValid,

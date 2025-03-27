@@ -1,21 +1,31 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/models/user_model.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
 
 abstract interface class IProfileRepository {
   TaskEither<Failure, UserModel> fetchProfileDetails();
-  TaskEither<Failure, Response> editProfile({required String name});
+  TaskEither<Failure, Response> editProfile({
+    required String? name,
+    required String? imageURL,
+  });
+  TaskEither<Failure, String> editProfileImage(File imageFile);
 }
 
 class ProfileRepository implements IProfileRepository {
   @override
   TaskEither<Failure, UserModel> fetchProfileDetails() {
-    return makeProfileRequest(requestType: RequestType.get).chainEither(
-      (response) => Either.right(
+    return makeProfileRequest(
+      requestType: RequestType.get,
+    ).chainEither((response) {
+      return Either.right(
         // UserModel.fromMap(
         //   response.data['data'] as Map<String, dynamic>,
         // ),
@@ -27,15 +37,18 @@ class ProfileRepository implements IProfileRepository {
           profilePicUrl:
               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0dmMkOgkOZvSJirdzzW7zcKnBmvfrIe_ghg&s',
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override
-  TaskEither<Failure, Response> editProfile({required String name}) {
+  TaskEither<Failure, Response> editProfile({
+    required String? name,
+    required String? imageURL,
+  }) {
     return makeProfileRequest(
       requestType: RequestType.put,
-      body: {'name': name},
+      body: {'name': name, 'image_url': imageURL},
     ).chainEither(Either.right);
   }
 
@@ -47,7 +60,7 @@ class ProfileRepository implements IProfileRepository {
   }) {
     final getUserDataFromHive = getIt<IHiveService>().getUserData();
     return getUserDataFromHive.fold(
-      (l) => TaskEither.left(APIFailure()), // Wrap in TaskEither.left
+      (l) => TaskEither.left(APIFailure()),
       (r) => RestApiClient.request(
         requestType: requestType,
         // path: '$ApiEndpoints.profile/${r.first.id}',
@@ -55,5 +68,17 @@ class ProfileRepository implements IProfileRepository {
         body: body,
       ),
     );
+  }
+
+  @override
+  TaskEither<Failure, String> editProfileImage(File imageFile) {
+    /// call Edit profile image API
+    return TaskEither.tryCatch(() async {
+      final randomInt = Random().nextInt(
+        100,
+      ); // Generates a random integer from 0 to 99
+      await Future.delayed(2.seconds);
+      return randomInt.toString();
+    }, (error, stackTrace) => APIFailure());
   }
 }
