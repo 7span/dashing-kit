@@ -45,7 +45,7 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffoldWidget(
+    return AppScaffold(
       body: BlocListener<SignInBloc, SignInState>(
         listenWhen:
             (previous, current) => previous.status != current.status,

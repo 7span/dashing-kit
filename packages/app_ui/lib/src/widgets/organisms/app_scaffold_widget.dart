@@ -1,8 +1,8 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
-class AppScaffoldWidget extends StatelessWidget {
-  const AppScaffoldWidget({
+class AppScaffold extends StatelessWidget {
+  const AppScaffold({
     super.key,
     this.appBar,
     this.backgroundColor,

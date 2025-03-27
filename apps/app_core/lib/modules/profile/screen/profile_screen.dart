@@ -52,7 +52,7 @@ class ProfileScreen extends StatelessWidget
         }
       },
       builder: (context, state) {
-        return AppScaffoldWidget(
+        return AppScaffold(
           appBar: const CustomAppBar(title: 'My Profile'),
           body: Padding(
             padding: const EdgeInsets.all(Insets.medium16),

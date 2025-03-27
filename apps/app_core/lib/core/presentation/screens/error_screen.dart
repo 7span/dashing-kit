@@ -10,7 +10,11 @@ import 'package:flutter/material.dart';
 /// This widget will show errors more neatly to the user and developer thus improving
 /// the developer experience.
 class ErrorScreen extends StatelessWidget {
-  const ErrorScreen({required this.details, this.onRefresh, super.key});
+  const ErrorScreen({
+    required this.details,
+    this.onRefresh,
+    super.key,
+  });
 
   final Future<void> Function()? onRefresh;
   final FlutterErrorDetails details;
@@ -18,7 +22,10 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       onRefresh != null
-          ? RefreshIndicator(onRefresh: onRefresh!, child: _ErrorContent(details: details))
+          ? RefreshIndicator(
+            onRefresh: onRefresh!,
+            child: _ErrorContent(details: details),
+          )
           : _ErrorContent(details: details);
 }
 
@@ -35,7 +42,7 @@ class _ErrorContent extends StatelessWidget {
         builder: (context) {
           final errorColor = context.colorScheme.error;
           final primaryColor = context.colorScheme.foreground;
-          return AppScaffoldWidget(
+          return AppScaffold(
             body: Padding(
               padding: const EdgeInsets.all(Insets.medium16),
               child: Column(
@@ -43,7 +50,10 @@ class _ErrorContent extends StatelessWidget {
                 children: [
                   Assets.images.errorIllustration.image(),
                   AppText.L(
-                    text: kDebugMode ? details.summary.toString() : context.t.something_went_wrong,
+                    text:
+                        kDebugMode
+                            ? details.summary.toString()
+                            : context.t.something_went_wrong,
                     textAlign: TextAlign.center,
                     color: kDebugMode ? errorColor : primaryColor,
                   ),
