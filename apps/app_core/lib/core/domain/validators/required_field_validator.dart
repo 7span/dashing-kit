@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 
-/// Use case :  final RequiredFieldValidator<DateTime?> dateValue;
+/// Use case :  `final RequiredFieldValidator<DateTime?> dateValue;`
 /// For more understanding refer this [blog](https://medium.com/@avniprajapati21101/ultimate-guide-on-form-validation-using-formz-in-flutter-part-1-5a938385b509)
 
 /// Generic Validator Error Enum
