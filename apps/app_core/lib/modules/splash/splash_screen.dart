@@ -37,9 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const AppScaffold(
-      body: Center(child: FlutterLogo(size: 40)),
-    );
+    return const AppScaffold(body: Center(child: FlutterLogo(size: 40)));
   }
 
   Future<void> disposeSubscription() async {

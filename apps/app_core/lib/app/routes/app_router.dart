@@ -18,17 +18,12 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(page: SubscriptionRoute.page),
-    AutoRoute(
-      initial: true,
-      page: SplashRoute.page,
-      guards: [AuthGuard()],
-      path: '/',
-    ),
+    AutoRoute(initial: true, page: SplashRoute.page, path: '/'),
     AutoRoute(page: SignInRoute.page),
     AutoRoute(
       page: BottomNavigationBarRoute.page,
       children: [
-        AutoRoute(page: HomeRoute.page),
+        AutoRoute(page: HomeRoute.page, guards: [AuthGuard()]),
         AutoRoute(
           page: const EmptyShellRoute('account'),
           path: 'account',
