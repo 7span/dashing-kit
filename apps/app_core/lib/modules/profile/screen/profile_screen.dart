@@ -144,11 +144,9 @@ class ProfileListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       title: AppText.L(text: title),
-      trailing: IconButton(
-        onPressed: onTap,
-        icon: const Icon(Icons.arrow_right_alt_outlined),
-      ),
+      trailing: const Icon(Icons.arrow_right_alt_outlined),
     );
   }
 }

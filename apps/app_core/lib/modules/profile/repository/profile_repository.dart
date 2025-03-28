@@ -92,11 +92,13 @@ class ProfileRepository implements IProfileRepository {
         }, (error, _) => APIFailure());
       });
 
-  TaskEither<Failure, Response> makeDeleteUserRequest() {
-    return RestApiClient.request(
-      requestType: RequestType.delete,
-      path: ApiEndpoints.logout,
-      // body: requestModel.toSocialSignInMap(),
-    );
-  }
+  TaskEither<Failure, Response> makeDeleteUserRequest() =>
+      getIt<IHiveService>().getUserData().fold(
+        (l) => TaskEither.left(APIFailure()),
+        (r) => RestApiClient.request(
+          requestType: RequestType.delete,
+          path: ApiEndpoints.logout,
+          body: {'id': r.first.id},
+        ),
+      );
 }

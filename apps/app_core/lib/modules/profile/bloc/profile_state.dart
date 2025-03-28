@@ -11,7 +11,6 @@ class ProfileState extends Equatable {
     this.userModel,
     this.isPermissionDenied = false,
     this.imageFile,
-
     this.name = const NameValidator.pure(),
     this.isValid = false,
   });
@@ -24,7 +23,6 @@ class ProfileState extends Equatable {
   final UserModel? userModel;
   final bool? isPermissionDenied;
   final File? imageFile;
-
   final NameValidator name;
   final bool isValid;
 

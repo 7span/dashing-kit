@@ -42,9 +42,7 @@ class AuthRepository implements IAuthRepository {
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
         (r) => RepositoryUtils.mapToModel(
-          () => AuthResponseModel.fromMap(
-            r.data as Map<String, dynamic>,
-          ),
+          () => AuthResponseModel.fromMap(r.data as Map<String, dynamic>),
         ),
       )
       .flatMap(saveUserToLocal);
@@ -62,12 +60,8 @@ class AuthRepository implements IAuthRepository {
     AuthResponseModel authResponseModel,
   ) {
     /// Sets Access Token received by api success.
-    RestApiClient.setAuthorizationToken(
-      authResponseModel.authToken ?? '',
-    );
-    getIt<IHiveService>().setAccessToken(
-      authResponseModel.authToken ?? '',
-    );
+    RestApiClient.setAuthorizationToken(authResponseModel.authToken ?? '');
+    getIt<IHiveService>().setAccessToken(authResponseModel.authToken ?? '');
 
     /// To save UserDetailsModel in Local Hive
 
@@ -89,9 +83,7 @@ class AuthRepository implements IAuthRepository {
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
         (r) => RepositoryUtils.mapToModel(
-          () => AuthResponseModel.fromMap(
-            r.data as Map<String, dynamic>,
-          ),
+          () => AuthResponseModel.fromMap(r.data as Map<String, dynamic>),
         ),
       )
       .flatMap(saveUserToLocal);
@@ -106,21 +98,22 @@ class AuthRepository implements IAuthRepository {
   );
 
   @override
-  TaskEither<Failure, bool> logout() =>
-      makeLogoutRequest().flatMap((response) {
-        return TaskEither<Failure, bool>.tryCatch(() async {
-          await getIt<IHiveService>().clearData().run();
-          return true;
-        }, (error, _) => APIFailure());
-      });
+  TaskEither<Failure, bool> logout() => makeLogoutRequest().flatMap((response) {
+    return TaskEither<Failure, bool>.tryCatch(() async {
+      await getIt<IHiveService>().clearData().run();
+      return true;
+    }, (error, _) => APIFailure());
+  });
 
-  TaskEither<Failure, Response> makeLogoutRequest() {
-    return RestApiClient.request(
-      requestType: RequestType.delete,
-      path: ApiEndpoints.logout,
-      // body: requestModel.toSocialSignInMap(),
-    );
-  }
+  TaskEither<Failure, Response> makeLogoutRequest() =>
+      getIt<IHiveService>().getUserData().fold(
+        (l) => TaskEither.left(APIFailure()),
+        (r) => RestApiClient.request(
+          requestType: RequestType.delete,
+          path: ApiEndpoints.logout,
+          body: {'id': r.first.id},
+        ),
+      );
 
   ///SOCIAL LOGIN
   @override
@@ -134,9 +127,8 @@ class AuthRepository implements IAuthRepository {
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
         (response) => RepositoryUtils.mapToModel<AuthResponseModel>(
-          () => AuthResponseModel.fromMap(
-            response.data as Map<String, dynamic>,
-          ),
+          () =>
+              AuthResponseModel.fromMap(response.data as Map<String, dynamic>),
         ),
       )
       .flatMap(saveUserToLocal);
