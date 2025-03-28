@@ -39,11 +39,11 @@ class AppRouter extends RootStackRouter {
               path: 'change-password',
               meta: const {'hideNavBar': true},
             ),
-            AutoRoute(page: EditProfileRoute.page, path: 'edit'),
           ],
         ),
       ],
     ),
     AutoRoute(page: SignUpRoute.page),
+    AutoRoute(page: EditProfileRoute.page),
   ];
 }

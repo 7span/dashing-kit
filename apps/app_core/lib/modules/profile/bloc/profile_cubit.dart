@@ -21,10 +21,8 @@ import 'package:permission_handler/permission_handler.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit(
-    this._authenticationRepository,
-    this._profileRepository,
-  ) : super(const ProfileState());
+  ProfileCubit(this._authenticationRepository, this._profileRepository)
+    : super(const ProfileState());
 
   final IAuthRepository _authenticationRepository;
   final IProfileRepository _profileRepository;
@@ -32,8 +30,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> logout() async {
     try {
       await GoogleAuthHelper.signOut();
-      final logoutEither =
-          await _authenticationRepository.logout().run();
+      final logoutEither = await _authenticationRepository.logout().run();
       logoutEither.fold(
         (l) => emit(
           state.copyWith(
@@ -62,12 +59,8 @@ class ProfileCubit extends Cubit<ProfileState> {
           errorMessage: 'Could not find profile information',
         ),
       ),
-      (r) => emit(
-        state.copyWith(
-          apiStatus: ApiStatus.loaded,
-          userModel: r.first,
-        ),
-      ),
+      (r) =>
+          emit(state.copyWith(apiStatus: ApiStatus.loaded, userModel: r.first)),
     );
   }
 
@@ -94,12 +87,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void onNameChange(String? name) {
     final nameValue = NameValidator.dirty(name ?? '');
-    emit(
-      state.copyWith(
-        name: nameValue,
-        isValid: Formz.validate([nameValue]),
-      ),
-    );
+    emit(state.copyWith(name: nameValue, isValid: Formz.validate([nameValue])));
   }
 
   Future<void> onAddImageTap() async {
@@ -110,31 +98,21 @@ class ProfileCubit extends Cubit<ProfileState> {
         emit(state.copyWith(imageFile: image));
       }
     } else if (permissionStatus == PermissionStatus.denied) {
-      await PermissionsHelper().requestPermission(
-        MediaPermission.photo,
-      );
-    } else if (permissionStatus ==
-        PermissionStatus.permanentlyDenied) {
+      await PermissionsHelper().requestPermission(MediaPermission.photo);
+    } else if (permissionStatus == PermissionStatus.permanentlyDenied) {
       emit(state.copyWith(isPermissionDenied: true));
     }
   }
 
   Future<void> onEditTap() async {
     final nameValue = NameValidator.dirty(state.name.value);
-    emit(
-      state.copyWith(
-        name: nameValue,
-        isValid: Formz.validate([nameValue]),
-      ),
-    );
+    emit(state.copyWith(name: nameValue, isValid: Formz.validate([nameValue])));
 
     if (!state.isValid) return;
 
     Future<Either<Failure, String?>> updateImage() async {
       return state.imageFile != null
-          ? await _profileRepository
-              .editProfileImage(state.imageFile!)
-              .run()
+          ? await _profileRepository.editProfileImage(state.imageFile!).run()
           : const Right(null);
     }
 
@@ -150,8 +128,13 @@ class ProfileCubit extends Cubit<ProfileState> {
         final profileEither =
             await _profileRepository
                 .editProfile(
-                  name: state.name.value,
-                  imageURL: imageURL,
+                  userModel: UserModel(
+                    name: state.name.value,
+                    email: (state.userModel?.email)!,
+                    id: (state.userModel?.id)!,
+                    profilePicUrl:
+                        imageURL ?? (state.userModel?.profilePicUrl)!,
+                  ),
                 )
                 .run();
         profileEither.fold(
