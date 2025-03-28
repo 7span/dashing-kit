@@ -5,6 +5,7 @@ import 'package:app_core/modules/auth/sign_up/screens/sign_up_screen.dart';
 import 'package:app_core/modules/bottom_navigation_bar.dart';
 import 'package:app_core/modules/change_password/screen/change_password_screen.dart';
 import 'package:app_core/modules/home/screen/home_screen.dart';
+import 'package:app_core/modules/profile/screen/edit_profile_screen.dart';
 import 'package:app_core/modules/profile/screen/profile_screen.dart';
 import 'package:app_core/modules/splash/splash_screen.dart';
 import 'package:app_core/modules/subscription/screen/subscription_screen.dart';
