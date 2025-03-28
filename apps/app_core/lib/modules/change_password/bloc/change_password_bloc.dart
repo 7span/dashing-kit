@@ -1,3 +1,4 @@
+import 'package:api_client/api_client.dart';
 import 'package:app_core/core/domain/validators/confirm_password_validator.dart';
 import 'package:app_core/core/domain/validators/login_validators.dart';
 import 'package:app_core/modules/change_password/bloc/change_password_event.dart';
@@ -66,13 +67,14 @@ class ChangePasswordBloc
     );
 
     if (state.isValid) {
-      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-      final result = await repository.changePassword().run();
+      emit(state.copyWith(apiStatus: ApiStatus.loading));
+      final result =
+          await repository
+              .changePassword(newPassword: state.password.value)
+              .run();
       result.fold(
-        (failure) =>
-            emit(state.copyWith(status: FormzSubmissionStatus.failure)),
-        (success) =>
-            emit(state.copyWith(status: FormzSubmissionStatus.success)),
+        (failure) => emit(state.copyWith(apiStatus: ApiStatus.error)),
+        (success) => emit(state.copyWith(apiStatus: ApiStatus.loaded)),
       );
     }
   }

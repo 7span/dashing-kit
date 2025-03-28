@@ -125,7 +125,12 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                     );
                   },
                 ),
-                ProfileListTile(title: 'Change Password', onTap: () {}),
+                ProfileListTile(
+                  title: 'Change Password',
+                  onTap: () async {
+                    await context.pushRoute(const ChangePasswordRoute());
+                  },
+                ),
               ],
             ),
           ),

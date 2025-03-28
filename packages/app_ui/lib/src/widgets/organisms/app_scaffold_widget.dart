@@ -9,7 +9,7 @@ class AppScaffold extends StatelessWidget {
     this.body,
     this.bottomNavigationBar,
     this.floatingActionButton,
-    this.resizeToAvoidBottomInset = false,
+    this.resizeToAvoidBottomInset = true,
   });
 
   final PreferredSizeWidget? appBar;
