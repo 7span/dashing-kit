@@ -29,6 +29,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> logout() async {
     try {
+      emit(state.copyWith(logoutApiStatus: ApiStatus.loading));
       await GoogleAuthHelper.signOut();
       final logoutEither = await _authenticationRepository.logout().run();
       logoutEither.fold(
@@ -38,7 +39,7 @@ class ProfileCubit extends Cubit<ProfileState> {
             errorMessage: 'Could not logout',
           ),
         ),
-        (r) => emit(state.copyWith(shouldLogout: true)),
+        (r) => emit(state.copyWith(logoutApiStatus: ApiStatus.loaded)),
       );
     } catch (e) {
       emit(
@@ -83,6 +84,30 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       ),
     );
+  }
+
+  Future<void> deleteUserAccount() async {
+    try {
+      emit(state.copyWith(deleteApiStatus: ApiStatus.loading));
+      await GoogleAuthHelper.signOut();
+      final logoutEither = await _profileRepository.deleteUser().run();
+      logoutEither.fold(
+        (l) => emit(
+          state.copyWith(
+            apiStatus: ApiStatus.error,
+            errorMessage: 'Could not delete account',
+          ),
+        ),
+        (r) => emit(state.copyWith(deleteApiStatus: ApiStatus.loaded)),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          apiStatus: ApiStatus.error,
+          errorMessage: 'Could not delete account',
+        ),
+      );
+    }
   }
 
   void onNameChange(String? name) {

@@ -16,6 +16,8 @@ abstract interface class IProfileRepository {
   TaskEither<Failure, Unit> editProfile({required UserModel userModel});
 
   TaskEither<Failure, String> editProfileImage(File imageFile);
+
+  TaskEither<Failure, bool> deleteUser();
 }
 
 class ProfileRepository implements IProfileRepository {
@@ -80,4 +82,21 @@ class ProfileRepository implements IProfileRepository {
     () async => Random().nextInt(100).toString(),
     (error, stackTrace) => APIFailure(),
   );
+
+  @override
+  TaskEither<Failure, bool> deleteUser() =>
+      makeDeleteUserRequest().flatMap((response) {
+        return TaskEither<Failure, bool>.tryCatch(() async {
+          await getIt<IHiveService>().clearData().run();
+          return true;
+        }, (error, _) => APIFailure());
+      });
+
+  TaskEither<Failure, Response> makeDeleteUserRequest() {
+    return RestApiClient.request(
+      requestType: RequestType.delete,
+      path: ApiEndpoints.logout,
+      // body: requestModel.toSocialSignInMap(),
+    );
+  }
 }

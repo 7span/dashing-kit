@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class ProfileScreen extends StatelessWidget
-    implements AutoRouteWrapper {
+class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
   const ProfileScreen({super.key});
 
   @override
@@ -47,7 +46,8 @@ class ProfileScreen extends StatelessWidget
             state.errorMessage,
             type: SnackbarType.failed,
           );
-        } else if (state.shouldLogout) {
+        } else if (state.deleteApiStatus == ApiStatus.loaded ||
+            state.logoutApiStatus == ApiStatus.loaded) {
           await context.router.replaceAll(const [SignInRoute()]);
         }
       },
@@ -82,9 +82,7 @@ class ProfileScreen extends StatelessWidget
                                 'Are you sure want to logout your account?',
                             onAction: (action) async {
                               if (action == DialogAction.positive) {
-                                await context
-                                    .read<ProfileCubit>()
-                                    .logout();
+                                await context.read<ProfileCubit>().logout();
                               }
                               if (action == DialogAction.negative) {
                                 if (context.mounted) {
@@ -113,7 +111,9 @@ class ProfileScreen extends StatelessWidget
                                 'Are you sure want to delete your account?',
                             onAction: (action) async {
                               if (action == DialogAction.positive) {
-                                await context.maybePop();
+                                await context
+                                    .read<ProfileCubit>()
+                                    .deleteUserAccount();
                               }
                               if (action == DialogAction.negative) {
                                 if (context.mounted) {
@@ -125,10 +125,7 @@ class ProfileScreen extends StatelessWidget
                     );
                   },
                 ),
-                ProfileListTile(
-                  title: 'Change Password',
-                  onTap: () {},
-                ),
+                ProfileListTile(title: 'Change Password', onTap: () {}),
               ],
             ),
           ),
@@ -139,11 +136,7 @@ class ProfileScreen extends StatelessWidget
 }
 
 class ProfileListTile extends StatelessWidget {
-  const ProfileListTile({
-    required this.title,
-    required this.onTap,
-    super.key,
-  });
+  const ProfileListTile({required this.title, required this.onTap, super.key});
 
   final VoidCallback onTap;
   final String title;

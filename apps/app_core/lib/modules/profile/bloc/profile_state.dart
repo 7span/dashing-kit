@@ -5,22 +5,26 @@ class ProfileState extends Equatable {
   const ProfileState({
     this.apiStatus = ApiStatus.initial,
     this.editProfileStatus = ApiStatus.initial,
+    this.deleteApiStatus = ApiStatus.initial,
+    this.logoutApiStatus = ApiStatus.initial,
     this.errorMessage = '',
     this.userModel,
     this.isPermissionDenied = false,
     this.imageFile,
-    this.shouldLogout = false,
+
     this.name = const NameValidator.pure(),
     this.isValid = false,
   });
 
   final ApiStatus apiStatus;
   final ApiStatus editProfileStatus;
+  final ApiStatus logoutApiStatus;
+  final ApiStatus deleteApiStatus;
   final String errorMessage;
   final UserModel? userModel;
   final bool? isPermissionDenied;
   final File? imageFile;
-  final bool shouldLogout;
+
   final NameValidator name;
   final bool isValid;
 
@@ -28,11 +32,12 @@ class ProfileState extends Equatable {
   List<Object?> get props => [
     apiStatus,
     editProfileStatus,
+    deleteApiStatus,
+    logoutApiStatus,
     errorMessage,
     userModel,
     isPermissionDenied,
     imageFile,
-    shouldLogout,
     name,
     isValid,
   ];
@@ -40,22 +45,24 @@ class ProfileState extends Equatable {
   ProfileState copyWith({
     ApiStatus? apiStatus,
     ApiStatus? editProfileStatus,
+    ApiStatus? logoutApiStatus,
+    ApiStatus? deleteApiStatus,
     String? errorMessage,
     UserModel? userModel,
     bool? isPermissionDenied,
     File? imageFile,
-    bool? shouldLogout,
     NameValidator? name,
     bool? isValid,
   }) {
     return ProfileState(
       apiStatus: apiStatus ?? this.apiStatus,
       editProfileStatus: editProfileStatus ?? this.editProfileStatus,
+      logoutApiStatus: logoutApiStatus ?? this.logoutApiStatus,
+      deleteApiStatus: deleteApiStatus ?? this.deleteApiStatus,
       errorMessage: errorMessage ?? this.errorMessage,
       userModel: userModel ?? this.userModel,
       isPermissionDenied: isPermissionDenied ?? this.isPermissionDenied,
       imageFile: imageFile ?? this.imageFile,
-      shouldLogout: shouldLogout ?? this.shouldLogout,
       name: name ?? this.name,
       isValid: isValid ?? this.isValid,
     );

@@ -12,7 +12,7 @@ import 'package:app_core/modules/bottom_navigation_bar.dart';
 
 part 'app_router.gr.dart';
 
-/// [Doc Link](abc)
+/// [Doc Link](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#6)
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends RootStackRouter {
   @override
