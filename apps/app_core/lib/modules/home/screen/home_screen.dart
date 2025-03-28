@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
                   case ApiStatus.initial:
                   case ApiStatus.loading:
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: AppCircularProgressIndicator(),
                     );
                   case ApiStatus.loaded:
                     return _ListWidget(
@@ -150,7 +150,9 @@ class _ListWidgetState extends State<_ListWidget>
             widget.users.length + (widget.hasReachedMax ? 0 : 1),
         itemBuilder: (context, index) {
           if (index >= widget.users.length) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: AppCircularProgressIndicator(),
+            );
           }
           return Container(
             padding: const EdgeInsets.symmetric(
