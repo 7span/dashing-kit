@@ -39,6 +39,11 @@ if [[ "$CHANGE_PACKAGE" == "y" || "$CHANGE_PACKAGE" == "Y" || "$CHANGE_PACKAGE" 
 
   cd ../..
   echo "Updated package name in $FILE"
+  
+  echo "Attention: now you have to update firebase configuration manually as it will not work. Refer documentation for further guidance."
+  
+  echo "⚠️ Attention: Firebase configuration will no longer work.📌 Please update the Firebase config manually following the guide."
+  echo "Documentation link : https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#4"
 fi
 
 # Prompt for the app logo
