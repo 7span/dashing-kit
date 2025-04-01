@@ -31,7 +31,7 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
             (context) => ProfileCubit(
               RepositoryProvider.of<AuthRepository>(context),
               RepositoryProvider.of<ProfileRepository>(context),
-            )..makeProfileDetailApi(),
+            )..fetchProfileDetail(),
         child: this,
       ),
     );

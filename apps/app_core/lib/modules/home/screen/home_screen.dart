@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
                 (context) => ProfileCubit(
                   context.read<AuthRepository>(),
                   context.read<ProfileRepository>(),
-                )..makeProfileDetailApi(),
+                )..fetchProfileDetail(),
           ),
         ],
 
