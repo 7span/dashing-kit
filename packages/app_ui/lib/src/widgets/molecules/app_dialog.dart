@@ -1,6 +1,8 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
+enum DialogAction { positive, negative }
+
 typedef OnAction = void Function(DialogAction action);
 typedef OnCancel = void Function();
 
@@ -40,15 +42,32 @@ class CustomAlertDialog extends StatelessWidget {
       backgroundColor: context.colorScheme.white,
       alignment: Alignment.center,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
       title:
           title != null
-              ? AppText(textAlign: TextAlign.center, text: title ?? '', fontSize: 20, color: context.colorScheme.black)
+              ? AppText(
+                textAlign: TextAlign.center,
+                text: title ?? '',
+                fontSize: 20,
+                color: context.colorScheme.black,
+              )
               : null,
-      titleTextStyle: context.textTheme?.title.copyWith(color: context.colorScheme.black),
+      titleTextStyle: context.textTheme?.title.copyWith(
+        color: context.colorScheme.black,
+      ),
       actionsPadding: const EdgeInsets.only(bottom: 20),
-      titlePadding: title != null ? const EdgeInsets.only(left: 10, right: 10, top: 20) : EdgeInsets.zero,
-      content: AppText(text: content ?? '', fontSize: 14, color: context.colorScheme.grey700, textAlign: TextAlign.center),
+      titlePadding:
+          title != null
+              ? const EdgeInsets.only(left: 10, right: 10, top: 20)
+              : EdgeInsets.zero,
+      content: AppText(
+        text: content ?? '',
+        fontSize: 14,
+        color: context.colorScheme.grey700,
+        textAlign: TextAlign.center,
+      ),
 
       contentPadding: EdgeInsets.only(
         left: Insets.small12,
@@ -109,11 +128,9 @@ class CustomAlertDialog extends StatelessWidget {
       throw ArgumentError("positiveText can't be null");
     }
 
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: isReverseButton ? actions.reversed.toList() : actions);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: isReverseButton ? actions.reversed.toList() : actions,
+    );
   }
-}
-
-enum DialogAction {
-  positive,
-  negative,
 }
