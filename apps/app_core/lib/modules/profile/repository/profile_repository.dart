@@ -24,21 +24,21 @@ class ProfileRepository implements IProfileRepository {
   @override
   TaskEither<Failure, UserModel> fetchProfileDetails() => makeProfileRequest(
     requestType: RequestType.get,
-  ).chainEither(
-    (response) => Either.right(
+  ).flatMap((r) {
+    return TaskEither.tryCatch(() async {
       // UserModel.fromMap(
       //   response.data['data'] as Map<String, dynamic>,
       // ),
       // API response : {id: 2, name: fuchsia rose, year: 2001, color: #C74375, pantone_value: 17-2031}
-      UserModel(
+      return UserModel(
         name: 'Travish',
         email: 'travish@gmail.com',
         id: 21,
         profilePicUrl:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0dmMkOgkOZvSJirdzzW7zcKnBmvfrIe_ghg&s',
-      ),
-    ),
-  );
+      );
+    }, (error, stackTrace) => APIFailure());
+  });
 
   @override
   TaskEither<Failure, Unit> editProfile({required UserModel userModel}) =>

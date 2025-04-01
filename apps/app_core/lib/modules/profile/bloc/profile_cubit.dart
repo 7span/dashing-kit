@@ -13,7 +13,6 @@ import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/profile/repository/profile_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -21,37 +20,37 @@ import 'package:permission_handler/permission_handler.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit(this._authenticationRepository, this._profileRepository)
-    : super(const ProfileState());
+  ProfileCubit(
+    this._authenticationRepository,
+    this._profileRepository,
+  ) : super(const ProfileState());
 
   final IAuthRepository _authenticationRepository;
   final IProfileRepository _profileRepository;
 
   Future<void> logout() async {
-    try {
-      emit(state.copyWith(logoutApiStatus: ApiStatus.loading));
-      await GoogleAuthHelper.signOut();
-      final logoutEither = await _authenticationRepository.logout().run();
-      logoutEither.fold(
-        (l) => emit(
+    await GoogleAuthHelper.signOut();
+    final logoutEither =
+        await _authenticationRepository.logout().run();
+    logoutEither.fold(
+      (l) {
+        emit(
           state.copyWith(
             apiStatus: ApiStatus.error,
             errorMessage: 'Could not logout',
+            profileActionStatus: ProfileActionStatus.logoutDone,
           ),
-        ),
-        (r) => emit(state.copyWith(logoutApiStatus: ApiStatus.loaded)),
-      );
-    } catch (e) {
-      emit(
+        );
+      },
+      (r) => emit(
         state.copyWith(
-          apiStatus: ApiStatus.error,
-          errorMessage: 'Could not logout',
+          profileActionStatus: ProfileActionStatus.logoutDone,
         ),
-      );
-    }
+      ),
+    );
   }
 
-  Future<void> fetchProfileDetailsFromHive() async {
+  void fetchProfileDetailsFromHive() {
     emit(state.copyWith(apiStatus: ApiStatus.loading));
     getIt<IHiveService>().getUserData().fold(
       (l) => emit(
@@ -60,8 +59,12 @@ class ProfileCubit extends Cubit<ProfileState> {
           errorMessage: 'Could not find profile information',
         ),
       ),
-      (r) =>
-          emit(state.copyWith(apiStatus: ApiStatus.loaded, userModel: r.first)),
+      (r) => emit(
+        state.copyWith(
+          apiStatus: ApiStatus.loaded,
+          userModel: r.first,
+        ),
+      ),
     );
   }
 
@@ -87,32 +90,32 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> deleteUserAccount() async {
-    try {
-      emit(state.copyWith(deleteApiStatus: ApiStatus.loading));
-      await GoogleAuthHelper.signOut();
-      final logoutEither = await _profileRepository.deleteUser().run();
-      logoutEither.fold(
-        (l) => emit(
-          state.copyWith(
-            apiStatus: ApiStatus.error,
-            errorMessage: 'Could not delete account',
-          ),
-        ),
-        (r) => emit(state.copyWith(deleteApiStatus: ApiStatus.loaded)),
-      );
-    } catch (e) {
-      emit(
+    await GoogleAuthHelper.signOut();
+    final logoutEither = await _profileRepository.deleteUser().run();
+    logoutEither.fold(
+      (l) => emit(
         state.copyWith(
           apiStatus: ApiStatus.error,
           errorMessage: 'Could not delete account',
+          profileActionStatus: ProfileActionStatus.accountDeleted,
         ),
-      );
-    }
+      ),
+      (r) => emit(
+        state.copyWith(
+          profileActionStatus: ProfileActionStatus.accountDeleted,
+        ),
+      ),
+    );
   }
 
   void onNameChange(String? name) {
     final nameValue = NameValidator.dirty(name ?? '');
-    emit(state.copyWith(name: nameValue, isValid: Formz.validate([nameValue])));
+    emit(
+      state.copyWith(
+        name: nameValue,
+        isValid: Formz.validate([nameValue]),
+      ),
+    );
   }
 
   Future<void> onAddImageTap() async {
@@ -123,21 +126,31 @@ class ProfileCubit extends Cubit<ProfileState> {
         emit(state.copyWith(imageFile: image));
       }
     } else if (permissionStatus == PermissionStatus.denied) {
-      await PermissionsHelper().requestPermission(MediaPermission.photo);
-    } else if (permissionStatus == PermissionStatus.permanentlyDenied) {
+      await PermissionsHelper().requestPermission(
+        MediaPermission.photo,
+      );
+    } else if (permissionStatus ==
+        PermissionStatus.permanentlyDenied) {
       emit(state.copyWith(isPermissionDenied: true));
     }
   }
 
   Future<void> onEditTap() async {
     final nameValue = NameValidator.dirty(state.name.value);
-    emit(state.copyWith(name: nameValue, isValid: Formz.validate([nameValue])));
+    emit(
+      state.copyWith(
+        name: nameValue,
+        isValid: Formz.validate([nameValue]),
+      ),
+    );
 
     if (!state.isValid) return;
 
     Future<Either<Failure, String?>> updateImage() async {
       return state.imageFile != null
-          ? await _profileRepository.editProfileImage(state.imageFile!).run()
+          ? await _profileRepository
+              .editProfileImage(state.imageFile!)
+              .run()
           : const Right(null);
     }
 
@@ -170,8 +183,12 @@ class ProfileCubit extends Cubit<ProfileState> {
             ),
           ),
           (r) {
-            if (kDebugMode) print('Yeeaaayyyy');
-            emit(state.copyWith(editProfileStatus: ApiStatus.loaded));
+            emit(
+              state.copyWith(
+                profileActionStatus:
+                    ProfileActionStatus.profileEdited,
+              ),
+            );
           },
         );
       },

@@ -1,12 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'profile_cubit.dart';
 
+enum ProfileActionStatus {
+  profileEdited,
+  logoutDone,
+  accountDeleted,
+  none,
+}
+
 class ProfileState extends Equatable {
   const ProfileState({
     this.apiStatus = ApiStatus.initial,
-    this.editProfileStatus = ApiStatus.initial,
-    this.deleteApiStatus = ApiStatus.initial,
-    this.logoutApiStatus = ApiStatus.initial,
+    this.profileActionStatus = ProfileActionStatus.none,
     this.errorMessage = '',
     this.userModel,
     this.isPermissionDenied = false,
@@ -16,9 +21,7 @@ class ProfileState extends Equatable {
   });
 
   final ApiStatus apiStatus;
-  final ApiStatus editProfileStatus;
-  final ApiStatus logoutApiStatus;
-  final ApiStatus deleteApiStatus;
+  final ProfileActionStatus profileActionStatus;
   final String errorMessage;
   final UserModel? userModel;
   final bool? isPermissionDenied;
@@ -29,9 +32,7 @@ class ProfileState extends Equatable {
   @override
   List<Object?> get props => [
     apiStatus,
-    editProfileStatus,
-    deleteApiStatus,
-    logoutApiStatus,
+    profileActionStatus,
     errorMessage,
     userModel,
     isPermissionDenied,
@@ -42,9 +43,7 @@ class ProfileState extends Equatable {
 
   ProfileState copyWith({
     ApiStatus? apiStatus,
-    ApiStatus? editProfileStatus,
-    ApiStatus? logoutApiStatus,
-    ApiStatus? deleteApiStatus,
+    ProfileActionStatus? profileActionStatus,
     String? errorMessage,
     UserModel? userModel,
     bool? isPermissionDenied,
@@ -54,12 +53,12 @@ class ProfileState extends Equatable {
   }) {
     return ProfileState(
       apiStatus: apiStatus ?? this.apiStatus,
-      editProfileStatus: editProfileStatus ?? this.editProfileStatus,
-      logoutApiStatus: logoutApiStatus ?? this.logoutApiStatus,
-      deleteApiStatus: deleteApiStatus ?? this.deleteApiStatus,
+      profileActionStatus:
+          profileActionStatus ?? this.profileActionStatus,
       errorMessage: errorMessage ?? this.errorMessage,
       userModel: userModel ?? this.userModel,
-      isPermissionDenied: isPermissionDenied ?? this.isPermissionDenied,
+      isPermissionDenied:
+          isPermissionDenied ?? this.isPermissionDenied,
       imageFile: imageFile ?? this.imageFile,
       name: name ?? this.name,
       isValid: isValid ?? this.isValid,

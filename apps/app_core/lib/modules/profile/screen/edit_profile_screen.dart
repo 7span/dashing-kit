@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
+class EditProfileScreen extends StatelessWidget
+    implements AutoRouteWrapper {
   const EditProfileScreen({super.key});
 
   @override
@@ -40,13 +41,14 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {
-        if (state.editProfileStatus == ApiStatus.error) {
+        if (state.apiStatus == ApiStatus.error) {
           showAppSnackbar(
             context,
             state.errorMessage,
             type: SnackbarType.failed,
           );
-        } else if (state.editProfileStatus == ApiStatus.loaded) {
+        } else if (state.profileActionStatus ==
+            ProfileActionStatus.profileEdited) {
           showAppSnackbar(context, 'Profile Edited successfully');
         } else if ((state.isPermissionDenied ?? false) == true) {
           showAppSnackbar(
@@ -58,12 +60,16 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: const AppText.L(text: 'Edit Profile')),
+          appBar: AppBar(
+            title: const AppText.L(text: 'Edit Profile'),
+          ),
           body:
               state.apiStatus == ApiStatus.loading
                   ? const Center(child: AppLoadingIndicator())
                   : const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Insets.medium16),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Insets.medium16,
+                    ),
                     child: Column(
                       spacing: Insets.medium16,
                       children: [
@@ -85,12 +91,16 @@ class _ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
-      buildWhen: (previous, current) => previous.imageFile != current.imageFile,
+      buildWhen:
+          (previous, current) =>
+              previous.imageFile != current.imageFile,
       builder: (context, state) {
         return Stack(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(AppBorderRadius.medium16),
+              borderRadius: BorderRadius.circular(
+                AppBorderRadius.medium16,
+              ),
               child:
                   state.imageFile != null
                       ? AppNetworkImage(
@@ -150,7 +160,7 @@ class _EditButton extends StatelessWidget {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         return AppButton(
-          isLoading: state.editProfileStatus == ApiStatus.loading,
+          isLoading: state.apiStatus == ApiStatus.loading,
           onPressed: () {
             context.read<ProfileCubit>().onEditTap();
           },

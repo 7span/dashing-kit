@@ -1,6 +1,5 @@
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/routes/app_router.dart';
-import 'package:app_core/core/presentation/widgets/app_dialog.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/profile/bloc/profile_cubit.dart';
@@ -46,8 +45,9 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
             state.errorMessage,
             type: SnackbarType.failed,
           );
-        } else if (state.deleteApiStatus == ApiStatus.loaded ||
-            state.logoutApiStatus == ApiStatus.loaded) {
+        } else if (state.profileActionStatus ==
+                ProfileActionStatus.logoutDone ||
+            state.profileActionStatus == ProfileActionStatus.accountDeleted) {
           await context.router.replaceAll(const [SignInRoute()]);
         }
       },
