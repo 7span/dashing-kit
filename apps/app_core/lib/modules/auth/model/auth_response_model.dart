@@ -1,15 +1,22 @@
 class AuthResponseModel {
-  AuthResponseModel({this.authToken, this.message, this.id});
+  AuthResponseModel({
+    required this.email,
+    required this.id,
+    this.name,
+    this.avatar,
+  });
 
   factory AuthResponseModel.fromMap(Map<String, dynamic> map) {
     return AuthResponseModel(
-      authToken: map['token'] as String?,
-      message: map['message'] as String?,
-      id: map['id'] as dynamic,
+      id: map['id'] as String,
+      email: map['email'] as String,
+      name: map['name'] as String?,
+      avatar: map['avatar'] as String?,
     );
   }
 
-  String? authToken;
-  String? message;
-  dynamic id;
+  String? name;
+  String id;
+  String email;
+  String? avatar;
 }
