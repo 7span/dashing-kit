@@ -35,5 +35,16 @@
   "no_internet_connection_text": "Please check your internet connection and try again",
   "operation_cancelled": "Operation cancelled by user",
   "continue_with_apple": "Continue with Apple",
-  "continue_with_google": "Continue with Google"
+  "continue_with_google": "Continue with Google",
+  "my_profile": "My Profile",
+  "logout_description": "Are you sure you want to logout?",
+  "yes": "Yes",
+  "no": "No",
+  "delete_account": "Delete Account",
+  "delete_my_account": "Delete My Account",
+  "delete_account_description": "Are you sure you want to delete your account?",
+  "change_password": "Change Password",
+  "edit_profile": "Edit Profile",
+  "profile_edit_success": "Profile Edited successfully",
+  "please_unable_media_permission": "Please unable media permission"
 }

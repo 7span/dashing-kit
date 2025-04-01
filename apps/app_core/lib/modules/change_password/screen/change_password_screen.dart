@@ -1,70 +1,57 @@
+import 'package:api_client/api_client.dart';
 import 'package:app_core/core/domain/validators/confirm_password_validator.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
-import 'package:app_core/modules/change_password/bloc/change_password_bloc.dart';
-import 'package:app_core/modules/change_password/bloc/change_password_event.dart';
-import 'package:app_core/modules/change_password/bloc/change_password_state.dart';
-import 'package:app_core/modules/change_password/repository/change_password_repository.dart';
+import 'package:app_core/modules/change_password/bloc/cubit/change_password_cubit.dart';
+import 'package:app_core/modules/profile/repository/profile_repository.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 
 @RoutePage()
-class ChangePasswordScreen extends StatelessWidget
-    implements AutoRouteWrapper {
+class ChangePasswordScreen extends StatelessWidget implements AutoRouteWrapper {
   const ChangePasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffoldWidget(
+    return AppScaffold(
       appBar: AppBar(),
-      body: BlocListener<ChangePasswordBloc, ChangePasswordState>(
-        listenWhen: (prev, current) => prev.status != current.status,
+      body: BlocListener<ChangePasswordCubit, ChangePasswordState>(
+        listenWhen: (prev, current) => prev.apiStatus != current.apiStatus,
         listener: (_, state) async {
-          if (state.status.isFailure) {
+          if (state.apiStatus == ApiStatus.error) {
             showAppSnackbar(
               context,
               context.t.failed_to_update,
               type: SnackbarType.failed,
             );
-          } else if (state.status.isSuccess) {
+          } else if (state.apiStatus == ApiStatus.loaded) {
             showAppSnackbar(context, context.t.update_successful);
-            await context.maybePop();
           }
         },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Insets.large24,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
           child: Column(
+            spacing: Insets.large24,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              VSpace.xxxxlarge80(),
-              VSpace.large24(),
+              // VSpace.xxlarge40(),
               const SlideAndFadeAnimationWrapper(
                 delay: 100,
                 child: Center(child: FlutterLogo(size: 100)),
               ),
               VSpace.xxlarge40(),
-              VSpace.large24(),
               SlideAndFadeAnimationWrapper(
                 delay: 200,
-                child: AppText.XL(text: context.t.update_password),
+                child: AppText.XL(text: context.t.change_password),
               ),
-              VSpace.large24(),
-              SlideAndFadeAnimationWrapper(
-                delay: 400,
-                child: _PasswordInput(),
-              ),
-              VSpace.large24(),
+              SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
               SlideAndFadeAnimationWrapper(
                 delay: 400,
                 child: _ConfirmPasswordInput(),
               ),
-              VSpace.large24(),
               const SlideAndFadeAnimationWrapper(
                 delay: 600,
                 child: _CreateAccountButton(),
@@ -78,16 +65,13 @@ class ChangePasswordScreen extends StatelessWidget
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return RepositoryProvider<ChangePasswordRepository>(
-      create: (_) => ChangePasswordRepository(),
-      child: BlocProvider<ChangePasswordBloc>(
+    return RepositoryProvider<ProfileRepository>(
+      create: (_) => ProfileRepository(),
+      child: BlocProvider<ChangePasswordCubit>(
         lazy: false,
         create:
-            (context) => ChangePasswordBloc(
-              repository:
-                  RepositoryProvider.of<ChangePasswordRepository>(
-                    context,
-                  ),
+            (context) => ChangePasswordCubit(
+              RepositoryProvider.of<ProfileRepository>(context),
             ),
         child: this,
       ),
@@ -98,7 +82,7 @@ class ChangePasswordScreen extends StatelessWidget
 class _ConfirmPasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
+    return BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
       buildWhen:
           (previous, current) =>
               previous.confirmPassword != current.confirmPassword,
@@ -108,12 +92,12 @@ class _ConfirmPasswordInput extends StatelessWidget {
           label: context.t.confirm_password,
           textInputAction: TextInputAction.done,
           onChanged:
-              (password) => context.read<ChangePasswordBloc>().add(
-                OnConfirmPasswordChangeEvent(
-                  confirmPassword: password,
-                  password: state.password.value,
-                ),
-              ),
+              (password) =>
+                  context.read<ChangePasswordCubit>().onConfirmPasswordChange(
+                    confirmPassword: password,
+                    password: state.password.value,
+                  ),
+
           errorText:
               state.confirmPassword.error ==
                       ConfirmPasswordValidationError.invalid
@@ -129,19 +113,18 @@ class _ConfirmPasswordInput extends StatelessWidget {
 class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
-      buildWhen:
-          (previous, current) =>
-              previous.password != current.password,
+    return BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
+      buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return AppTextField.password(
           initialValue: state.password.value,
           label: context.t.password,
           textInputAction: TextInputAction.done,
           onChanged:
-              (password) => context.read<ChangePasswordBloc>().add(
-                OnPasswordChangeEvent(password),
-              ),
+              (password) => context
+                  .read<ChangePasswordCubit>()
+                  .onPasswordChange(password),
+
           errorText:
               state.password.displayError != null
                   ? context.t.common_validation_password
@@ -158,16 +141,14 @@ class _CreateAccountButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
+    return BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
       builder: (context, state) {
         return AppButton(
-          isLoading: state.status.isInProgress,
+          isLoading: state.apiStatus == ApiStatus.loading,
           text: context.t.update,
           onPressed: () {
             TextInput.finishAutofillContext();
-            context.read<ChangePasswordBloc>().add(
-              const OnSubmitPasswordEvent(),
-            );
+            context.read<ChangePasswordCubit>().onSubmitPassword();
           },
           isExpanded: true,
         );

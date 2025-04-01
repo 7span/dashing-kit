@@ -8,7 +8,9 @@ class PermissionsHelper {
   /// Request single [permission]
   ///
   /// Returns true if the permission was granted. False otherwise
-  Future<PermissionResultData> requestPermission(MediaPermission permission) async {
+  Future<PermissionResultData> requestPermission(
+    MediaPermission permission,
+  ) async {
     final result = await requestPermissions([permission]);
     return result.values.toList()[0];
   }
@@ -31,7 +33,9 @@ class PermissionsHelper {
     return _mapResult(statuses);
   }
 
-  List<Permission> _mapRuntimePermissions(List<MediaPermission> runtimePermissions) {
+  List<Permission> _mapRuntimePermissions(
+    List<MediaPermission> runtimePermissions,
+  ) {
     final permissions = <Permission>[];
 
     final permissionMapper = RuntimePermissionMapper();
@@ -42,14 +46,17 @@ class PermissionsHelper {
     return permissions;
   }
 
-  Map<MediaPermission, PermissionResultData> _mapResult(Map<Permission, PermissionStatus> result) {
+  Map<MediaPermission, PermissionResultData> _mapResult(
+    Map<Permission, PermissionStatus> result,
+  ) {
     final resultMap = <MediaPermission, PermissionResultData>{};
     final permissionMapper = RuntimePermissionMapper();
     final permissionResultMapper = PermissionResultMapper();
 
     result.forEach((key, value) {
-      resultMap[permissionMapper.reverseMap(key)] =
-          PermissionResultData(result: permissionResultMapper.map(value));
+      resultMap[permissionMapper.reverseMap(key)] = PermissionResultData(
+        result: permissionResultMapper.map(value),
+      );
     });
 
     return resultMap;
@@ -93,7 +100,8 @@ class RuntimePermissionMapper extends BaseMapper<MediaPermission, Permission> {
   }
 }
 
-class PermissionResultMapper extends BaseMapper<PermissionStatus, PermissionResult> {
+class PermissionResultMapper
+    extends BaseMapper<PermissionStatus, PermissionResult> {
   @override
   PermissionResult map(PermissionStatus t) {
     if (t.isGranted) return PermissionResult.granted;

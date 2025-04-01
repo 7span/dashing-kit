@@ -5,6 +5,7 @@ enum RequestType {
   get,
   put,
   post,
+  delete,
 }
 
 /// Used in state class for emitting the status of the API

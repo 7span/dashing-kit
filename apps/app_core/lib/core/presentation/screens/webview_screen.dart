@@ -43,7 +43,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffoldWidget(
+    return AppScaffold(
       appBar: CustomAppBar(
         title: widget.title,
         automaticallyImplyLeading: true,
