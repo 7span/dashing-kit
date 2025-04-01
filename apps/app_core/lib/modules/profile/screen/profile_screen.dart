@@ -73,21 +73,17 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                       context: context,
                       useRootNavigator: false,
                       builder:
-                          (_) => CustomAlertDialog(
-                            buttonColor: context.colorScheme.error,
-                            showAction: false,
-                            positiveText: context.t.yes,
-                            negativeText: context.t.no,
+                          (_) => AppAlertDialog(
+                            rightText: context.t.yes,
+                            leftText: context.t.no,
                             title: context.t.logout,
                             content: context.t.logout_description,
-                            onAction: (action) async {
-                              if (action == DialogAction.positive) {
-                                await context.read<ProfileCubit>().logout();
-                              }
-                              if (action == DialogAction.negative) {
-                                if (context.mounted) {
-                                  await context.maybePop();
-                                }
+                            onRightOptionTap: () async {
+                              await context.read<ProfileCubit>().logout();
+                            },
+                            onLeftOptionTap: () async {
+                              if (context.mounted) {
+                                await context.maybePop();
                               }
                             },
                           ),
@@ -101,23 +97,19 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                       context: context,
                       useRootNavigator: false,
                       builder:
-                          (_) => CustomAlertDialog(
-                            buttonColor: context.colorScheme.error,
-                            showAction: false,
-                            positiveText: context.t.yes,
-                            negativeText: context.t.no,
+                          (_) => AppAlertDialog(
+                            rightText: context.t.yes,
+                            leftText: context.t.no,
                             title: context.t.delete_my_account,
                             content: context.t.delete_account_description,
-                            onAction: (action) async {
-                              if (action == DialogAction.positive) {
-                                await context
-                                    .read<ProfileCubit>()
-                                    .deleteUserAccount();
-                              }
-                              if (action == DialogAction.negative) {
-                                if (context.mounted) {
-                                  await context.maybePop();
-                                }
+                            onRightOptionTap: () async {
+                              await context
+                                  .read<ProfileCubit>()
+                                  .deleteUserAccount();
+                            },
+                            onLeftOptionTap: () async {
+                              if (context.mounted) {
+                                await context.maybePop();
                               }
                             },
                           ),
