@@ -4,6 +4,7 @@ import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/profile/bloc/profile_cubit.dart';
 import 'package:app_core/modules/profile/repository/profile_repository.dart';
+import 'package:app_translations/app_translations.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
       },
       builder: (context, state) {
         return AppScaffold(
-          appBar: const CustomAppBar(title: 'My Profile'),
+          appBar: CustomAppBar(title: context.t.my_profile),
           body: Padding(
             padding: const EdgeInsets.all(Insets.medium16),
             child: Column(
@@ -63,10 +64,10 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                   onTap: () async {
                     await context.pushRoute(const EditProfileRoute());
                   },
-                  title: 'My Profile',
+                  title: context.t.my_profile,
                 ),
                 ProfileListTile(
-                  title: 'Logout',
+                  title: context.t.logout,
                   onTap: () {
                     showDialog<void>(
                       context: context,
@@ -75,11 +76,10 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                           (_) => CustomAlertDialog(
                             buttonColor: context.colorScheme.error,
                             showAction: false,
-                            positiveText: 'yes',
-                            negativeText: 'No',
-                            title: 'Logout',
-                            content:
-                                'Are you sure want to logout your account?',
+                            positiveText: context.t.yes,
+                            negativeText: context.t.no,
+                            title: context.t.logout,
+                            content: context.t.logout_description,
                             onAction: (action) async {
                               if (action == DialogAction.positive) {
                                 await context.read<ProfileCubit>().logout();
@@ -95,7 +95,7 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                   },
                 ),
                 ProfileListTile(
-                  title: 'Delete Account',
+                  title: context.t.delete_account,
                   onTap: () {
                     showDialog<void>(
                       context: context,
@@ -104,11 +104,10 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                           (_) => CustomAlertDialog(
                             buttonColor: context.colorScheme.error,
                             showAction: false,
-                            positiveText: 'yes',
-                            negativeText: 'No',
-                            title: 'Delete My Account',
-                            content:
-                                'Are you sure want to delete your account?',
+                            positiveText: context.t.yes,
+                            negativeText: context.t.no,
+                            title: context.t.delete_my_account,
+                            content: context.t.delete_account_description,
                             onAction: (action) async {
                               if (action == DialogAction.positive) {
                                 await context
@@ -126,7 +125,7 @@ class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                   },
                 ),
                 ProfileListTile(
-                  title: 'Change Password',
+                  title: context.t.change_password,
                   onTap: () async {
                     await context.pushRoute(const ChangePasswordRoute());
                   },

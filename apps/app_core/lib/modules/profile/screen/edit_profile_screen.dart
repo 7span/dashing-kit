@@ -5,14 +5,14 @@ import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/profile/bloc/profile_cubit.dart';
 import 'package:app_core/modules/profile/repository/profile_repository.dart';
+import 'package:app_translations/app_translations.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class EditProfileScreen extends StatelessWidget
-    implements AutoRouteWrapper {
+class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
   const EditProfileScreen({super.key});
 
   @override
@@ -49,27 +49,23 @@ class EditProfileScreen extends StatelessWidget
           );
         } else if (state.profileActionStatus ==
             ProfileActionStatus.profileEdited) {
-          showAppSnackbar(context, 'Profile Edited successfully');
+          showAppSnackbar(context, context.t.profile_edit_success);
         } else if ((state.isPermissionDenied ?? false) == true) {
           showAppSnackbar(
             context,
-            'Please unable media permission',
+            context.t.please_unable_media_permission,
             type: SnackbarType.failed,
           );
         }
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            title: const AppText.L(text: 'Edit Profile'),
-          ),
+          appBar: AppBar(title: AppText.L(text: context.t.edit_profile)),
           body:
               state.apiStatus == ApiStatus.loading
                   ? const Center(child: AppLoadingIndicator())
                   : const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Insets.medium16,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: Insets.medium16),
                     child: Column(
                       spacing: Insets.medium16,
                       children: [
@@ -91,16 +87,12 @@ class _ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
-      buildWhen:
-          (previous, current) =>
-              previous.imageFile != current.imageFile,
+      buildWhen: (previous, current) => previous.imageFile != current.imageFile,
       builder: (context, state) {
         return Stack(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(
-                AppBorderRadius.medium16,
-              ),
+              borderRadius: BorderRadius.circular(AppBorderRadius.medium16),
               child:
                   state.imageFile != null
                       ? AppNetworkImage(
@@ -140,7 +132,7 @@ class _NameTextFiled extends StatelessWidget {
       buildWhen: (previous, current) => previous.name != current.name,
       builder: (context, state) {
         return AppTextField(
-          label: 'Name',
+          label: context.t.name,
           initialValue: state.userModel?.name,
           backgroundColor: context.colorScheme.primary100,
           onChanged: (value) {
@@ -165,7 +157,7 @@ class _EditButton extends StatelessWidget {
             context.read<ProfileCubit>().onEditTap();
           },
           isExpanded: true,
-          text: 'Edit Profile',
+          text: context.t.edit_profile,
         );
       },
     );
