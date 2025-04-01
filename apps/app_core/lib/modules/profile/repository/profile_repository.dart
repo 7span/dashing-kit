@@ -18,6 +18,8 @@ abstract interface class IProfileRepository {
   TaskEither<Failure, String> editProfileImage(File imageFile);
 
   TaskEither<Failure, bool> deleteUser();
+
+  TaskEither<Failure, Unit> changePassword({required String newPassword});
 }
 
 class ProfileRepository implements IProfileRepository {
@@ -99,6 +101,22 @@ class ProfileRepository implements IProfileRepository {
           requestType: RequestType.delete,
           path: ApiEndpoints.logout,
           body: {'id': r.first.id},
+        ),
+      );
+
+  @override
+  TaskEither<Failure, Unit> changePassword({required String newPassword}) =>
+      _updatePasswordRequest(
+        newPassword,
+      ).flatMap((r) => TaskEither.right(unit));
+
+  TaskEither<Failure, Response> _updatePasswordRequest(String newPassword) =>
+      getIt<IHiveService>().getUserData().fold(
+        (l) => TaskEither.left(APIFailure()),
+        (r) => RestApiClient.request(
+          requestType: RequestType.put,
+          path: '${ApiEndpoints.profile}/${r.first.id}',
+          body: {'id': r.first.id, 'password': newPassword},
         ),
       );
 }

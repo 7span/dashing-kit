@@ -1,7 +1,4 @@
-import 'package:api_client/api_client.dart';
-import 'package:app_core/core/domain/validators/confirm_password_validator.dart';
-import 'package:app_core/core/domain/validators/password_validator.dart';
-import 'package:equatable/equatable.dart';
+part of 'change_password_cubit.dart';
 
 final class ChangePasswordState extends Equatable {
   const ChangePasswordState({
