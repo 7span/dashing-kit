@@ -1,15 +1,15 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
-class AppScaffoldWidget extends StatelessWidget {
-  const AppScaffoldWidget({
+class AppScaffold extends StatelessWidget {
+  const AppScaffold({
     super.key,
     this.appBar,
     this.backgroundColor,
     this.body,
     this.bottomNavigationBar,
     this.floatingActionButton,
-    this.resizeToAvoidBottomInset = false,
+    this.resizeToAvoidBottomInset = true,
   });
 
   final PreferredSizeWidget? appBar;

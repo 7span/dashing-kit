@@ -3,7 +3,7 @@ part of 'sign_in_bloc.dart';
 final class SignInState extends Equatable {
   const SignInState({
     this.status = FormzSubmissionStatus.initial,
-    this.email = const EmailValidator.pure(),
+    this.email = const EmailValidator.pure('eve.holt@reqres.in'),
     this.password = const PasswordValidator.pure(),
     this.isValid = false,
     this.obscureText = true,

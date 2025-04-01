@@ -21,7 +21,10 @@ final class RestApiClient {
 
   ///initialize dio and Hive Cache for API. It is configurable to disable the
   ///cache by providing [isApiCacheEnabled] to false.
-  Future<Unit> init({required bool isApiCacheEnabled, required String baseURL}) async {
+  Future<Unit> init({
+    required bool isApiCacheEnabled,
+    required String baseURL,
+  }) async {
     baseAPIURL = baseURL;
     if (isApiCacheEnabled) {
       final dir = await getTemporaryDirectory();
@@ -39,7 +42,9 @@ final class RestApiClient {
     }
 
     /// Adding Dio logger in order to print API responses beautifully
-    dio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true));
+    dio.interceptors.add(
+      PrettyDioLogger(requestHeader: true, requestBody: true),
+    );
     return unit;
   }
 
@@ -67,9 +72,19 @@ final class RestApiClient {
   }) => TaskEither.tryCatch(() async {
     switch (requestType) {
       case RequestType.get:
-        return dio.get(path, queryParameters: queryParameters, options: options, data: body);
+        return dio.get(
+          path,
+          queryParameters: queryParameters,
+          options: options,
+          data: body,
+        );
       case RequestType.post:
-        return dio.post(path, queryParameters: queryParameters, options: options, data: body);
+        return dio.post(
+          path,
+          queryParameters: queryParameters,
+          options: options,
+          data: body,
+        );
       case RequestType.put:
         return dio.put(
           path,
@@ -77,6 +92,8 @@ final class RestApiClient {
           options: Options(contentType: 'image/jpg'),
           data: body,
         );
+      case RequestType.delete:
+        return dio.delete(path, data: body);
       case RequestType.query:
       case RequestType.mutation:
         throw Exception('can\'t use query / mutation in REST');

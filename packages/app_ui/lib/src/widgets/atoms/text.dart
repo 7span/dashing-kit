@@ -14,7 +14,7 @@ enum AppTextLevel {
   XL,
   L,
   brand,
-  regular10
+  regular10,
 }
 
 class AppText extends StatelessWidget {
@@ -176,7 +176,8 @@ class AppText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.maybeOf(context);
-    final color = this.color ??
+    final color =
+        this.color ??
         () {
           switch (level) {
             case AppTextLevel.regular10:

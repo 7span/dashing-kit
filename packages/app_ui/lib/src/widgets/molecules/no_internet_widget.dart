@@ -1,9 +1,15 @@
-import 'package:app_translations/app_translations.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class NoInternetWidget extends StatelessWidget {
-  const NoInternetWidget({super.key});
+  const NoInternetWidget({
+    required this.title,
+    required this.description,
+    super.key,
+  });
+
+  final String title;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +43,10 @@ class NoInternetWidget extends StatelessWidget {
                     ),
                   ),
                   VSpace.xsmall8(),
-                  AppText.xsSemiBold(
-                    text: context.t.no_internet_connection,
-                    fontSize: 20,
-                  ),
+                  AppText.xsSemiBold(text: title, fontSize: 20),
                   VSpace.xsmall8(),
                   AppText.subTitle10(
-                    text: context.t.no_internet_connection_text,
+                    text: description,
                     textAlign: TextAlign.center,
                     maxLines: 3,
                   ),

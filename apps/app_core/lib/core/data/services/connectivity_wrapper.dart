@@ -26,7 +26,7 @@ class ConnectivityWrapperState extends State<ConnectivityWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffoldWidget(body: widget.child);
+    return AppScaffold(body: widget.child);
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:graphql/client.dart';
+import 'package:dio/dio.dart';
+import 'package:graphql/client.dart' show OperationException;
 
 /// Here, we're creating an abstract class for Faliure, Because
 /// We can swap any kind of implementation that we want while
@@ -11,6 +12,7 @@ import 'package:graphql/client.dart';
 /// [ModelConversionFailure] -> Failure when converting the model to Dart Object
 sealed class Failure {
   Failure();
+
   String get message;
 }
 
@@ -28,9 +30,16 @@ class APIFailure extends Failure {
 
   @override
   String get message {
-    String? errorMessage;
+    if (error is Response) {
+      return (error as Response).data['message'];
+    } else {
+      return 'An error occured while calling the API';
+    }
+  }
 
-    return errorMessage ?? 'An error occurred';
+  @override
+  String toString() {
+    return 'APIFailure{error: $error, stackTrace: $stackTrace}';
   }
 }
 
@@ -40,11 +49,13 @@ class RequestMakingFaliure extends Failure {
     log(stackTrace.toString());
     log(error.toString());
   }
+
   final Object? error;
   final StackTrace? stackTrace;
 
   @override
-  String get message => 'There is some error in preparing the request';
+  String get message =>
+      'There is some error in preparing the request';
 }
 
 /// This failure represents that there's some problem in validating the response
@@ -53,13 +64,15 @@ class ResponseValidationFailure extends Failure {
     log(stackTrace.toString());
     log(error.toString());
   }
+
   final Object? error;
   final StackTrace? stackTrace;
 
   @override
-  String get message => error is OperationException
-      ? (error as OperationException).graphqlErrors[0].message
-      : 'There is some error in validating the API response';
+  String get message =>
+      error is OperationException
+          ? (error as OperationException).graphqlErrors[0].message
+          : 'There is some error in validating the API response';
 }
 
 /// This failure represents that there's some problem in parsing the
@@ -69,22 +82,22 @@ class ModelConversionFailure extends Failure {
     log(stackTrace.toString());
     log(error.toString());
   }
+
   final Object? error;
   final StackTrace? stackTrace;
 
   @override
-  String get message => 'The API data could not be parsed into the model';
+  String get message =>
+      'The API data could not be parsed into the model';
 }
 
 /// This failure is used when we're not able to write the userdata into the database
 class UserSaveFailure extends Failure {
-  UserSaveFailure({
-    this.error,
-    this.stackTrace,
-  }) {
+  UserSaveFailure({this.error, this.stackTrace}) {
     log(stackTrace.toString());
     log(error.toString());
   }
+
   final Object? error;
   final StackTrace? stackTrace;
 
@@ -93,13 +106,11 @@ class UserSaveFailure extends Failure {
 }
 
 class UserTokenSaveFailure extends Failure {
-  UserTokenSaveFailure({
-    this.error,
-    this.stackTrace,
-  }) {
+  UserTokenSaveFailure({this.error, this.stackTrace}) {
     log(stackTrace.toString());
     log(error.toString());
   }
+
   final Object? error;
   final StackTrace? stackTrace;
 
@@ -108,10 +119,7 @@ class UserTokenSaveFailure extends Failure {
 }
 
 class HiveFailure extends Failure {
-  HiveFailure({
-    this.error,
-    this.stackTrace,
-  }) {
+  HiveFailure({this.error, this.stackTrace}) {
     log(stackTrace.toString());
     log(error.toString());
   }
@@ -124,10 +132,7 @@ class HiveFailure extends Failure {
 }
 
 class UrlLaunchingFailure extends Failure {
-  UrlLaunchingFailure({
-    this.error,
-    this.stackTrace,
-  }) {
+  UrlLaunchingFailure({this.error, this.stackTrace}) {
     log(stackTrace.toString());
     log(error.toString());
   }
