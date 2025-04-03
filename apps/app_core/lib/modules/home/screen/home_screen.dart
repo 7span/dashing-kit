@@ -4,8 +4,8 @@ import 'package:app_core/app/helpers/mixins/pagination_mixin.dart';
 import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/home/bloc/home_bloc.dart';
-import 'package:app_core/modules/home/model/user_list_model.dart';
-import 'package:app_core/modules/home/repository/user_repository.dart';
+import 'package:app_core/modules/home/model/post_response_model.dart';
+import 'package:app_core/modules/home/repository/home_repository.dart';
 import 'package:app_core/modules/profile/bloc/profile_cubit.dart';
 import 'package:app_core/modules/profile/repository/profile_repository.dart';
 import 'package:app_translations/app_translations.dart';
@@ -15,14 +15,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
+class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
   const HomeScreen({super.key});
 
   @override
   Widget wrappedRoute(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (context) => ApiUserRepository()),
+        RepositoryProvider(create: (context) => HomeRepository()),
         RepositoryProvider(create: (context) => ProfileRepository()),
         RepositoryProvider(create: (context) => const AuthRepository()),
       ],
@@ -32,8 +32,8 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
             lazy: false,
             create:
                 (context) =>
-                    HomeBloc(repository: context.read<ApiUserRepository>())
-                      ..safeAdd(const FetchUsersEvent()),
+                    HomeBloc(repository: context.read<HomeRepository>())
+                      ..safeAdd(const FetchPostsEvent()),
           ),
           BlocProvider(
             create:
@@ -50,6 +50,25 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
   }
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with PaginationService {
+  late final ScrollController pageScrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    pageScrollController = scrollController;
+  }
+
+  @override
+  void dispose() {
+    pageScrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppBar(
@@ -61,26 +80,21 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
           Expanded(
             child: BlocBuilder<HomeBloc, HomeState>(
               buildWhen:
-                  (prev, current) =>
-                      prev.status != current.status ||
-                      prev.users.length != current.users.length,
+                  (previous, current) =>
+                      previous.apiStatus != current.apiStatus ||
+                      previous.postList.length != current.postList.length,
               builder: (context, state) {
-                switch (state.status) {
+                switch (state.apiStatus) {
                   case ApiStatus.initial:
                   case ApiStatus.loading:
                     return const Center(child: AppCircularProgressIndicator());
                   case ApiStatus.loaded:
                     return _ListWidget(
                       hasReachedMax: state.hasReachedMax,
-                      users: state.users,
+                      post: state.postList,
                     );
                   case ApiStatus.error:
-                    return Center(
-                      child: Text(
-                        context.t.user_error,
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    );
+                    return AppText.L(text: context.t.post_error);
                   case ApiStatus.empty:
                     return Center(child: Text(context.t.empty_msg));
                 }
@@ -90,6 +104,11 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
         ],
       ),
     );
+  }
+
+  @override
+  void onEndScroll() {
+    context.read<HomeBloc>().safeAdd(const LoadMorePostsEvent());
   }
 }
 
@@ -112,10 +131,10 @@ class ProfileImage extends StatelessWidget {
 }
 
 class _ListWidget extends StatefulWidget {
-  const _ListWidget({required this.hasReachedMax, required this.users});
+  const _ListWidget({required this.hasReachedMax, required this.post});
 
   final bool hasReachedMax;
-  final List<Data> users;
+  final List<PostResponseModel> post;
 
   @override
   State<_ListWidget> createState() => _ListWidgetState();
@@ -126,18 +145,18 @@ class _ListWidgetState extends State<_ListWidget> with PaginationService {
   Widget build(BuildContext context) {
     return AppRefreshIndicator(
       onRefresh:
-          () async => context.read<HomeBloc>().add(const FetchUsersEvent()),
+          () async => context.read<HomeBloc>().add(const FetchPostsEvent()),
       child: ListView.builder(
         controller: scrollController,
-        itemCount: widget.users.length + (widget.hasReachedMax ? 0 : 1),
+        itemCount: widget.post.length + (widget.hasReachedMax ? 0 : 1),
         itemBuilder: (context, index) {
-          if (index >= widget.users.length) {
+          if (index >= widget.post.length) {
             return const Center(child: AppCircularProgressIndicator());
           }
           return Container(
             padding: const EdgeInsets.symmetric(vertical: Insets.xxxxlarge80),
             child: Text(
-              "${widget.users[index].firstName ?? ''} ${widget.users[index].lastName ?? ''}",
+              "${widget.post[index].title ?? ''} ${widget.post[index].body ?? ''}",
             ),
           );
         },
@@ -147,6 +166,6 @@ class _ListWidgetState extends State<_ListWidget> with PaginationService {
 
   @override
   void onEndScroll() {
-    context.read<HomeBloc>().add(const LoadMoreUsersEvent());
+    context.read<HomeBloc>().add(const LoadMorePostsEvent());
   }
 }

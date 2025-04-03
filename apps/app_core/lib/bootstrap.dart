@@ -38,18 +38,27 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   initializeSingletons();
   AppConfig.setEnvConfig(env);
 
-  await RestApiClient.instance.init(baseURL: AppConfig.baseApiUrl, isApiCacheEnabled: false);
+  await RestApiClient.instance.init(
+    baseURL: AppConfig.baseApiUrl,
+    isApiCacheEnabled: false,
+  );
 
   await Future.wait([
     getIt<IHiveService>().init(),
 
     ///setting up the GraphQL configurations
     openApiClient.init(isApiCacheEnabled: false, baseURL: AppConfig.baseApiUrl),
-    closeApiClient.init(isApiCacheEnabled: false, baseURL: AppConfig.baseApiUrl),
+    closeApiClient.init(
+      isApiCacheEnabled: false,
+      baseURL: AppConfig.baseApiUrl,
+    ),
   ]);
 
   /// If the user has already logged in, then set the authorization token for the Closed API endpoint
-  getIt<IHiveService>().getAccessToken().fold(() => null, RestApiClient.setAuthorizationToken);
+  getIt<IHiveService>().getAccessToken().fold(
+    () => null,
+    RestApiClient.setAuthorizationToken,
+  );
 
   Bloc.observer = getIt<AppBlocObserver>();
 
@@ -76,7 +85,11 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
 void initializeSingletons() {
   getIt
     ..registerSingleton<Logger>(
-      Logger(filter: ProductionFilter(), printer: PrettyPrinter(), output: ConsoleOutput()),
+      Logger(
+        filter: ProductionFilter(),
+        printer: PrettyPrinter(),
+        output: ConsoleOutput(),
+      ),
     )
     ..registerLazySingleton(ApiClient.new, instanceName: 'open')
     ..registerLazySingleton(ApiClient.new, instanceName: 'close')
