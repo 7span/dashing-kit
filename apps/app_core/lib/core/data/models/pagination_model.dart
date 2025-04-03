@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 
 // ignore: must_be_immutable
 class PaginationModel extends Equatable {
-  PaginationModel({this.currentPage, this.hasMorePages, this.total});
+  const PaginationModel({this.currentPage, this.hasMorePages, this.total});
 
   factory PaginationModel.fromJson(dynamic json) {
     return PaginationModel(
@@ -13,9 +13,9 @@ class PaginationModel extends Equatable {
       total: json['total'] as int?,
     );
   }
-  int? currentPage;
-  bool? hasMorePages;
-  int? total;
+  final int? currentPage;
+  final bool? hasMorePages;
+  final int? total;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

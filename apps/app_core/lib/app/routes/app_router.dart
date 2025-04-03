@@ -24,8 +24,9 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: SignInRoute.page),
     AutoRoute(
       page: BottomNavigationBarRoute.page,
+      guards: [AuthGuard()],
       children: [
-        AutoRoute(page: HomeRoute.page, guards: [AuthGuard()]),
+        AutoRoute(page: HomeRoute.page),
         AutoRoute(
           page: const EmptyShellRoute('account'),
           path: 'account',
