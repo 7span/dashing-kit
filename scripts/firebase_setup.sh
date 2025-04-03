@@ -23,6 +23,19 @@ if [[ -z "$application_id" ]]; then
     exit 1
 fi
 
+# Check if flutterfire_cli is activated
+if ! flutterfire --version &> /dev/null; then
+    echo "❌ flutterfire_cli is not activated. Activating it now..."
+    dart pub global activate flutterfire_cli
+    if ! flutterfire --version &> /dev/null; then
+        echo "❌ Failed to activate flutterfire_cli. Please check your Dart setup."
+        exit 1
+    fi
+    echo "✅ flutterfire_cli activated successfully."
+else
+    echo "✅ flutterfire_cli is already activated."
+fi
+
 echo "-----------------------------------------------------"
 
 if [[ -z "${flavor}" ]]; then

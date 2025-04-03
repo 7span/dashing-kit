@@ -31,3 +31,14 @@ melos run locale-gen
 
 echo "Enabling Git Hooks"
 dart run husky install
+
+echo "Activating mason_cli"
+dart pub global activate mason_cli
+
+echo "Initialising mason"
+dart pub global activate mason
+mason init
+
+echo "Installing mason bricks"
+echo "bricks:\n  feature:\n    path: bricks/feature" > mason.yaml
+mason get feature
