@@ -74,6 +74,7 @@ dependencies:
 
   connectivity_plus: ^6.1.3
   firebase_auth: ^5.5.1
+  firebase_crashlytics: ^4.3.5
 
   # Social Sign In
   google_sign_in: ^6.3.0

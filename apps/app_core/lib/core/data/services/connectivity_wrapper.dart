@@ -13,8 +13,7 @@ class ConnectivityWrapper extends StatefulWidget {
   final ConnectivityService connectivityService;
 
   @override
-  ConnectivityWrapperState createState() =>
-      ConnectivityWrapperState();
+  ConnectivityWrapperState createState() => ConnectivityWrapperState();
 }
 
 class ConnectivityWrapperState extends State<ConnectivityWrapper> {
@@ -27,10 +26,5 @@ class ConnectivityWrapperState extends State<ConnectivityWrapper> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(body: widget.child);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
