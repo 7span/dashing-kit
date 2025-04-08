@@ -17,6 +17,7 @@ dependencies:
   octo_image: ^2.1.0
   skeletonizer: ^1.4.3
   timeago: ^3.7.0
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -31,7 +32,6 @@ dev_dependencies:
   flutter_gen: ^5.10.0
   flutter_gen_runner: ^5.8.0
   flutter_svg: ^2.0.17
-  url_launcher: ^6.3.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
