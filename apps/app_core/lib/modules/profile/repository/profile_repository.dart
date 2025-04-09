@@ -8,6 +8,7 @@ import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/models/user_model.dart';
 import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
+import 'package:app_notification_service/notification_service.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
 
@@ -98,15 +99,22 @@ class ProfileRepository implements IProfileRepository {
         }, (error, _) => APIFailure());
       });
 
-  TaskEither<Failure, Response> _makeDeleteUserRequest() =>
-      getIt<IHiveService>().getUserData().fold(
-        (l) => TaskEither.left(APIFailure()),
-        (r) => userApiClient.request(
-          requestType: RequestType.delete,
-          path: ApiEndpoints.logout,
-          body: {'id': r.first.id},
-        ),
-      );
+  TaskEither<Failure, Response>
+  _makeDeleteUserRequest() => _getNotificationId().flatMap(
+    (playerID) => userApiClient.request(
+      requestType: RequestType.delete,
+
+      /// You have to pass [playerID] as query parameter, while calling logout api
+      /// Mock api returns different id in response of authentication everytime.
+      /// Since Hive will store those same different ids, this api will not work.
+      path: ApiEndpoints.logout,
+    ),
+  );
+
+  TaskEither<Failure, String> _getNotificationId() => TaskEither.tryCatch(() {
+    return getIt<NotificationServiceInterface>()
+        .getNotificationSubscriptionId();
+  }, APIFailure.new);
 
   @override
   TaskEither<Failure, Unit> changePassword({required String newPassword}) =>
