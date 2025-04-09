@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:app_notification_service/notification_service.dart';
-import 'package:app_notification_service/src/notification_interface.dart';
-import 'package:app_notification_service/src/notification_observer_event.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class OneSignalService implements NotificationServiceInterface {
@@ -59,21 +57,20 @@ class OneSignalService implements NotificationServiceInterface {
 
   @override
   void listenForNotification() {
-    OneSignal.Notifications.addClickListener(
-          (event) {
-        final data = event.notification.additionalData;
-        final notificationEventModel = NotificationObserverEvent(
-          title: event.notification.title,
-          body: event.notification.body,
-          data: data,
-        );
-        notificationObserverStream.sink.add(notificationEventModel);
-      },
-    );
+    OneSignal.Notifications.addClickListener((event) {
+      final data = event.notification.additionalData;
+      final notificationEventModel = NotificationObserverEvent(
+        title: event.notification.title,
+        body: event.notification.body,
+        data: data,
+      );
+      notificationObserverStream.sink.add(notificationEventModel);
+    });
   }
 
   @override
-  Stream<NotificationObserverEvent> get listenForNotifications => notificationObserverStream.stream;
+  Stream<NotificationObserverEvent> get listenForNotifications =>
+      notificationObserverStream.stream;
 
   @override
   void dispose() {
@@ -87,5 +84,6 @@ class OneSignalService implements NotificationServiceInterface {
 
   /// This stream is used for listening notifications from the app side
   @override
-  StreamController<NotificationObserverEvent> notificationObserverStream = StreamController();
+  StreamController<NotificationObserverEvent> notificationObserverStream =
+      StreamController();
 }

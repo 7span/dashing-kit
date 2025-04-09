@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/helpers/extensions/extensions.dart';
 import 'package:app_core/app/helpers/mixins/pagination_mixin.dart';
@@ -101,22 +99,6 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
                     return Center(child: Text(context.t.empty_msg));
                 }
               },
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              AutoTabsRouter.of(context).setActiveIndex(1);
-            },
-            child: Container(
-              width: double.infinity,
-              color: context.colorScheme.primary500,
-              padding: const EdgeInsets.all(8),
-              child: const Center(
-                child: Text(
-                  'GO TO PROFILE',
-                  style: TextStyle(color: Colors.white, fontSize: 17),
-                ),
-              ),
             ),
           ),
         ],
