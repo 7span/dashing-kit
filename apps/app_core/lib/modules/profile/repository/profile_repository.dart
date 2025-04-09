@@ -72,7 +72,7 @@ class ProfileRepository implements IProfileRepository {
     Object? body,
   }) => getIt<IHiveService>().getUserData().fold(
     (l) => TaskEither.left(APIFailure()),
-    (r) => RestApiClient.request(
+    (r) => userApiClient.request(
       requestType: requestType,
       // path: '$ApiEndpoints.profile/${r.first.id}',
       path: '$ApiEndpoints.profile/${2}',
@@ -101,7 +101,7 @@ class ProfileRepository implements IProfileRepository {
   TaskEither<Failure, Response> _makeDeleteUserRequest() =>
       getIt<IHiveService>().getUserData().fold(
         (l) => TaskEither.left(APIFailure()),
-        (r) => RestApiClient.request(
+        (r) => userApiClient.request(
           requestType: RequestType.delete,
           path: ApiEndpoints.logout,
           body: {'id': r.first.id},
@@ -117,7 +117,7 @@ class ProfileRepository implements IProfileRepository {
   TaskEither<Failure, Response> _updatePasswordRequest(String newPassword) =>
       getIt<IHiveService>().getUserData().fold(
         (l) => TaskEither.left(APIFailure()),
-        (r) => RestApiClient.request(
+        (r) => userApiClient.request(
           requestType: RequestType.put,
           path: '${ApiEndpoints.profile}/${r.first.id}',
           body: {'id': r.first.id, 'password': newPassword},

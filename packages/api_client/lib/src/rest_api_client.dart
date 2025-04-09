@@ -11,13 +11,9 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 /// as an API Client. This class is responsible for making API requests and
 /// sending the response in case of success and error in case of API failure.
 final class RestApiClient {
-  factory RestApiClient() => instance;
+  RestApiClient();
 
-  RestApiClient._internal();
-
-  static final instance = RestApiClient._internal();
-
-  static String baseAPIURL = '';
+  String baseAPIURL = '';
 
   ///initialize dio and Hive Cache for API. It is configurable to disable the
   ///cache by providing [isApiCacheEnabled] to false.
@@ -26,6 +22,14 @@ final class RestApiClient {
     required String baseURL,
   }) async {
     baseAPIURL = baseURL;
+    dio = Dio(
+      BaseOptions(
+        baseUrl: baseAPIURL,
+        contentType: 'application/json',
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5),
+      ),
+    );
     if (isApiCacheEnabled) {
       final dir = await getTemporaryDirectory();
       final options = CacheOptions(
@@ -48,22 +52,23 @@ final class RestApiClient {
     return unit;
   }
 
-  static final dio = Dio(
-    BaseOptions(
-      baseUrl: baseAPIURL,
-      contentType: 'application/json',
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
-    ),
-  );
+  late final Dio dio;
+  //  final dio = Dio(
+  //   BaseOptions(
+  //     baseUrl: baseAPIURL,
+  //     contentType: 'application/json',
+  //     connectTimeout: const Duration(seconds: 5),
+  //     receiveTimeout: const Duration(seconds: 5),
+  //   ),
+  // );
 
-  static void setAuthorizationToken(String token) {
+  void setAuthorizationToken(String token) {
     dio.options.headers = {'Authorization': 'Bearer $token'};
   }
 
   /// With this function, users can make GET, POST, PUT, DELETE request using
   /// only single function.
-  static TaskEither<Failure, Response> request({
+  TaskEither<Failure, Response> request({
     required String path,
     RequestType requestType = RequestType.get,
     Map<String, dynamic>? queryParameters,

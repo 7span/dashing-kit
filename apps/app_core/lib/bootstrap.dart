@@ -38,26 +38,21 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   initializeSingletons();
   AppConfig.setEnvConfig(env);
 
-  await RestApiClient.instance.init(
+  await userApiClient.init(
+    baseURL: AppConfig.userApiUrl,
+    isApiCacheEnabled: false,
+  );
+  await baseApiClient.init(
     baseURL: AppConfig.baseApiUrl,
     isApiCacheEnabled: false,
   );
 
-  await Future.wait([
-    getIt<IHiveService>().init(),
-
-    ///setting up the GraphQL configurations
-    openApiClient.init(isApiCacheEnabled: false, baseURL: AppConfig.baseApiUrl),
-    closeApiClient.init(
-      isApiCacheEnabled: false,
-      baseURL: AppConfig.baseApiUrl,
-    ),
-  ]);
+  await getIt<IHiveService>().init();
 
   /// If the user has already logged in, then set the authorization token for the Closed API endpoint
   getIt<IHiveService>().getAccessToken().fold(
     () => null,
-    RestApiClient.setAuthorizationToken,
+    userApiClient.setAuthorizationToken,
   );
 
   Bloc.observer = getIt<AppBlocObserver>();
@@ -91,8 +86,8 @@ void initializeSingletons() {
         output: ConsoleOutput(),
       ),
     )
-    ..registerLazySingleton(ApiClient.new, instanceName: 'open')
-    ..registerLazySingleton(ApiClient.new, instanceName: 'close')
+    ..registerLazySingleton(RestApiClient.new, instanceName: 'user')
+    ..registerLazySingleton(RestApiClient.new, instanceName: 'base')
     ..registerSingleton(AppBlocObserver())
     ..registerSingleton<IHiveService>(const HiveService())
     ..registerSingleton(CustomInAppPurchase());

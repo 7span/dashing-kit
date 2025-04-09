@@ -3,6 +3,6 @@ import 'package:get_it/get_it.dart';
 
 final GetIt getIt = GetIt.instance;
 
-final openApiClient = getIt.get<ApiClient>(instanceName: 'open');
+final userApiClient = getIt.get<RestApiClient>(instanceName: 'user');
 
-final closeApiClient = getIt.get<ApiClient>(instanceName: 'close');
+final baseApiClient = getIt.get<RestApiClient>(instanceName: 'base');

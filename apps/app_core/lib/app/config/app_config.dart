@@ -16,6 +16,7 @@ final class AppConfig {
   const AppConfig();
   static String get environmentName => _getEnvironmentName;
   static String get baseApiUrl => _getBaseApiUrl;
+  static String get userApiUrl => _getUserApiUrl;
   static Env environment = Env.development;
 
   /// This variable is used to ensure that a user can setup the config only one time.
@@ -40,6 +41,17 @@ final class AppConfig {
     }
   }
 
+  static String get _getUserApiUrl {
+    switch (environment) {
+      case Env.development:
+        return EnvDev.USER_API_URL;
+      case Env.production:
+        return EnvProd.USER_API_URL;
+      case Env.staging:
+        return EnvStaging.USER_API_URL;
+    }
+  }
+
   static String get _getBaseApiUrl {
     switch (environment) {
       case Env.development:
@@ -54,6 +66,9 @@ final class AppConfig {
 
 @Envied(path: '.env.dev')
 abstract class EnvDev {
+  @EnviedField(varName: 'USER_API_URL', obfuscate: true)
+  static final String USER_API_URL = _EnvDev.USER_API_URL;
+
   @EnviedField(varName: 'BASE_API_URL', obfuscate: true)
   static final String BASE_API_URL = _EnvDev.BASE_API_URL;
 
@@ -63,8 +78,11 @@ abstract class EnvDev {
 
 @Envied(path: '.env.staging')
 abstract class EnvStaging {
+  @EnviedField(varName: 'USER_API_URL', obfuscate: true)
+  static final String USER_API_URL = _EnvStaging.USER_API_URL;
+
   @EnviedField(varName: 'BASE_API_URL', obfuscate: true)
-  static final String BASE_API_URL = _EnvDev.BASE_API_URL;
+  static final String BASE_API_URL = _EnvStaging.BASE_API_URL;
 
   @EnviedField(varName: 'ENV', obfuscate: true)
   static final String ENV_NAME = _EnvStaging.ENV_NAME;
@@ -72,8 +90,11 @@ abstract class EnvStaging {
 
 @Envied(path: '.env.prod')
 abstract class EnvProd {
+  @EnviedField(varName: 'USER_API_URL', obfuscate: true)
+  static final String USER_API_URL = _EnvProd.USER_API_URL;
+
   @EnviedField(varName: 'BASE_API_URL', obfuscate: true)
-  static final String BASE_API_URL = _EnvDev.BASE_API_URL;
+  static final String BASE_API_URL = _EnvProd.BASE_API_URL;
 
   @EnviedField(varName: 'ENV', obfuscate: true)
   static final String ENV_NAME = _EnvProd.ENV_NAME;

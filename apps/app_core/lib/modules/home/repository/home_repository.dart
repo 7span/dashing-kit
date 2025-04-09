@@ -2,6 +2,7 @@
 
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
+import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/modules/home/model/post_response_model.dart';
 import 'package:dio/dio.dart';
@@ -37,7 +38,7 @@ class HomeRepository implements IHomeRepository {
   }
 
   TaskEither<Failure, Response> makefetchPostsRequest(int page, int limit) {
-    return RestApiClient.request(
+    return baseApiClient.request(
       path: ApiEndpoints.posts,
       queryParameters: {'_page': page, '_limit': limit},
     );
