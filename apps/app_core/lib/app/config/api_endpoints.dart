@@ -4,4 +4,5 @@ class ApiEndpoints {
   static const profile = '/users';
   static const logout = 'api/users';
   static const socialLogin = '/auth/socialLogin/';
+  static const posts = '/posts';
 }

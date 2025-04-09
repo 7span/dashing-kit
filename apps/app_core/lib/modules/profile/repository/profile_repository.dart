@@ -6,6 +6,7 @@ import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/models/user_model.dart';
+import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
@@ -24,9 +25,9 @@ abstract interface class IProfileRepository {
 
 class ProfileRepository implements IProfileRepository {
   @override
-  TaskEither<Failure, UserModel> fetchProfileDetails() => makeProfileRequest(
+  TaskEither<Failure, UserModel> fetchProfileDetails() => _makeProfileRequest(
     requestType: RequestType.get,
-  ).flatMap((r) {
+  ).chainEither(RepositoryUtils.checkStatusCode).flatMap((r) {
     return TaskEither.tryCatch(() async {
       // UserModel.fromMap(
       //   response.data['data'] as Map<String, dynamic>,
@@ -44,32 +45,34 @@ class ProfileRepository implements IProfileRepository {
 
   @override
   TaskEither<Failure, Unit> editProfile({required UserModel userModel}) =>
-      makeProfileRequest(
-        requestType: RequestType.put,
-        body: {
-          'name': userModel.name,
-          'id': userModel.id,
-          'image_url': userModel.profilePicUrl,
-        },
-      ).flatMap(
-        (response) => getIt<IHiveService>().setUserData(
-          UserModel(
-            name: userModel.name,
-            email: userModel.email,
-            id: userModel.id,
-            profilePicUrl: userModel.profilePicUrl,
-          ),
-        ),
-      );
+      _makeProfileRequest(
+            requestType: RequestType.put,
+            body: {
+              'name': userModel.name,
+              'id': userModel.id,
+              'image_url': userModel.profilePicUrl,
+            },
+          )
+          .chainEither(RepositoryUtils.checkStatusCode)
+          .flatMap(
+            (response) => getIt<IHiveService>().setUserData(
+              UserModel(
+                name: userModel.name,
+                email: userModel.email,
+                id: userModel.id,
+                profilePicUrl: userModel.profilePicUrl,
+              ),
+            ),
+          );
 
   /// since we are using dummpy api it gives different user id while sign-up and making profile api.
   /// Therefore we are not using the same id stored in Hive.
-  TaskEither<Failure, Response> makeProfileRequest({
+  TaskEither<Failure, Response> _makeProfileRequest({
     required RequestType requestType,
     Object? body,
   }) => getIt<IHiveService>().getUserData().fold(
     (l) => TaskEither.left(APIFailure()),
-    (r) => RestApiClient.request(
+    (r) => userApiClient.request(
       requestType: requestType,
       // path: '$ApiEndpoints.profile/${r.first.id}',
       path: '$ApiEndpoints.profile/${2}',
@@ -86,18 +89,19 @@ class ProfileRepository implements IProfileRepository {
   );
 
   @override
-  TaskEither<Failure, bool> deleteUser() =>
-      makeDeleteUserRequest().flatMap((response) {
+  TaskEither<Failure, bool> deleteUser() => _makeDeleteUserRequest()
+      .chainEither(RepositoryUtils.checkStatusCode)
+      .flatMap((response) {
         return TaskEither<Failure, bool>.tryCatch(() async {
           await getIt<IHiveService>().clearData().run();
           return true;
         }, (error, _) => APIFailure());
       });
 
-  TaskEither<Failure, Response> makeDeleteUserRequest() =>
+  TaskEither<Failure, Response> _makeDeleteUserRequest() =>
       getIt<IHiveService>().getUserData().fold(
         (l) => TaskEither.left(APIFailure()),
-        (r) => RestApiClient.request(
+        (r) => userApiClient.request(
           requestType: RequestType.delete,
           path: ApiEndpoints.logout,
           body: {'id': r.first.id},
@@ -106,14 +110,14 @@ class ProfileRepository implements IProfileRepository {
 
   @override
   TaskEither<Failure, Unit> changePassword({required String newPassword}) =>
-      _updatePasswordRequest(
-        newPassword,
-      ).flatMap((r) => TaskEither.right(unit));
+      _updatePasswordRequest(newPassword)
+          .chainEither(RepositoryUtils.checkStatusCode)
+          .flatMap((r) => TaskEither.right(unit));
 
   TaskEither<Failure, Response> _updatePasswordRequest(String newPassword) =>
       getIt<IHiveService>().getUserData().fold(
         (l) => TaskEither.left(APIFailure()),
-        (r) => RestApiClient.request(
+        (r) => userApiClient.request(
           requestType: RequestType.put,
           path: '${ApiEndpoints.profile}/${r.first.id}',
           body: {'id': r.first.id, 'password': newPassword},

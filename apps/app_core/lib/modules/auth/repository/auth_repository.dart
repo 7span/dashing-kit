@@ -30,26 +30,25 @@ class AuthRepository implements IAuthRepository {
   const AuthRepository();
 
   @override
-  TaskEither<Failure, Unit> login(
-    AuthRequestModel authRequestModel,
-  ) => makeLoginRequest(authRequestModel)
-      .chainEither(RepositoryUtils.checkStatusCode)
-      .chainEither(
-        (response) => RepositoryUtils.mapToModel(() {
-          return AuthResponseModel.fromMap(
-            response.data as Map<String, dynamic>,
-          );
-        }),
-      )
-      .map((model) {
-        setAuthorizationHeader(model.id);
-        return model;
-      })
-      .flatMap(saveUserToLocal);
+  TaskEither<Failure, Unit> login(AuthRequestModel authRequestModel) =>
+      makeLoginRequest(authRequestModel)
+          .chainEither(RepositoryUtils.checkStatusCode)
+          .chainEither(
+            (response) => RepositoryUtils.mapToModel(() {
+              return AuthResponseModel.fromMap(
+                response.data as Map<String, dynamic>,
+              );
+            }),
+          )
+          .map((model) {
+            setAuthorizationHeader(model.id);
+            return model;
+          })
+          .flatMap(saveUserToLocal);
 
   TaskEither<Failure, Response> makeLoginRequest(
     AuthRequestModel authRequestModel,
-  ) => RestApiClient.request(
+  ) => userApiClient.request(
     requestType: RequestType.post,
     path: ApiEndpoints.login,
     body: authRequestModel.toMap(),
@@ -98,7 +97,7 @@ class AuthRepository implements IAuthRepository {
 
   TaskEither<Failure, Response> makeSignUpRequest(
     AuthRequestModel authRequestModel,
-  ) => RestApiClient.request(
+  ) => userApiClient.request(
     requestType: RequestType.post,
     path: ApiEndpoints.signup,
     body: authRequestModel.toMap(),
@@ -106,18 +105,17 @@ class AuthRepository implements IAuthRepository {
   );
 
   @override
-  TaskEither<Failure, bool> logout() =>
-      makeLogoutRequest().flatMap((response) {
-        return TaskEither<Failure, bool>.tryCatch(() async {
-          await getIt<IHiveService>().clearData().run();
-          return true;
-        }, (error, _) => APIFailure());
-      });
+  TaskEither<Failure, bool> logout() => makeLogoutRequest().flatMap((response) {
+    return TaskEither<Failure, bool>.tryCatch(() async {
+      await getIt<IHiveService>().clearData().run();
+      return true;
+    }, (error, _) => APIFailure());
+  });
 
   TaskEither<Failure, Response>
   makeLogoutRequest() => getIt<IHiveService>().getUserData().fold(
     (l) => TaskEither.left(APIFailure()),
-    (r) => RestApiClient.request(
+    (r) => userApiClient.request(
       requestType: RequestType.delete,
 
       /// Mock api returns different id in response of authentication everytime.
@@ -133,9 +131,8 @@ class AuthRepository implements IAuthRepository {
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
         (response) => RepositoryUtils.mapToModel<AuthResponseModel>(
-          () => AuthResponseModel.fromMap(
-            response.data as Map<String, dynamic>,
-          ),
+          () =>
+              AuthResponseModel.fromMap(response.data as Map<String, dynamic>),
         ),
       )
       .map((model) {
@@ -147,7 +144,7 @@ class AuthRepository implements IAuthRepository {
   TaskEither<Failure, Response> makeSocialLoginRequest({
     required AuthRequestModel requestModel,
   }) {
-    return RestApiClient.request(
+    return userApiClient.request(
       requestType: RequestType.post,
       path: ApiEndpoints.socialLogin,
       body: requestModel.toSocialSignInMap(),
@@ -155,11 +152,8 @@ class AuthRepository implements IAuthRepository {
   }
 
   TaskEither<Failure, Unit> setAuthorizationHeader(String token) =>
-      Either.tryCatch(
-        () {
-          RestApiClient.setAuthorizationToken(token);
-          return unit;
-        },
-        (error, stackTrace) => UserTokenSaveFailure(),
-      ).toTaskEither();
+      Either.tryCatch(() {
+        userApiClient.setAuthorizationToken(token);
+        return unit;
+      }, (error, stackTrace) => UserTokenSaveFailure()).toTaskEither();
 }

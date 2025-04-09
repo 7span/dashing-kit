@@ -86,7 +86,7 @@ class _{{name.pascalCase()}}ScreenState extends State<{{name.pascalCase()}}Scree
   }
 
   @override
-  Future<void> onEndScroll() async {
+  void onEndScroll() {
     context.read<{{name.pascalCase()}}Bloc>().safeAdd(const LoadMore{{name.pascalCase()}}Event());
   }
 }
