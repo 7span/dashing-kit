@@ -27,4 +27,10 @@ class ConnectivityWrapperState extends State<ConnectivityWrapper> {
   Widget build(BuildContext context) {
     return AppScaffold(body: widget.child);
   }
+
+  @override
+  void dispose() {
+    widget.connectivityService.dispose();
+    super.dispose();
+  }
 }
