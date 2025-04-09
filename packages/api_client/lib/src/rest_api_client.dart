@@ -11,18 +11,25 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 /// as an API Client. This class is responsible for making API requests and
 /// sending the response in case of success and error in case of API failure.
 final class RestApiClient {
-  factory RestApiClient() => instance;
+  RestApiClient();
 
-  RestApiClient._internal();
-
-  static final instance = RestApiClient._internal();
-
-  static String baseAPIURL = '';
+  String baseAPIURL = '';
 
   ///initialize dio and Hive Cache for API. It is configurable to disable the
   ///cache by providing [isApiCacheEnabled] to false.
-  Future<Unit> init({required bool isApiCacheEnabled, required String baseURL}) async {
+  Future<Unit> init({
+    required bool isApiCacheEnabled,
+    required String baseURL,
+  }) async {
     baseAPIURL = baseURL;
+    dio = Dio(
+      BaseOptions(
+        baseUrl: baseAPIURL,
+        contentType: 'application/json',
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5),
+      ),
+    );
     if (isApiCacheEnabled) {
       final dir = await getTemporaryDirectory();
       final options = CacheOptions(
@@ -39,26 +46,29 @@ final class RestApiClient {
     }
 
     /// Adding Dio logger in order to print API responses beautifully
-    dio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true));
+    dio.interceptors.add(
+      PrettyDioLogger(requestHeader: true, requestBody: true),
+    );
     return unit;
   }
 
-  static final dio = Dio(
-    BaseOptions(
-      baseUrl: baseAPIURL,
-      contentType: 'application/json',
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
-    ),
-  );
+  late final Dio dio;
+  //  final dio = Dio(
+  //   BaseOptions(
+  //     baseUrl: baseAPIURL,
+  //     contentType: 'application/json',
+  //     connectTimeout: const Duration(seconds: 5),
+  //     receiveTimeout: const Duration(seconds: 5),
+  //   ),
+  // );
 
-  static void setAuthorizationToken(String token) {
+  void setAuthorizationToken(String token) {
     dio.options.headers = {'Authorization': 'Bearer $token'};
   }
 
   /// With this function, users can make GET, POST, PUT, DELETE request using
   /// only single function.
-  static TaskEither<Failure, Response> request({
+  TaskEither<Failure, Response> request({
     required String path,
     RequestType requestType = RequestType.get,
     Map<String, dynamic>? queryParameters,
@@ -67,9 +77,19 @@ final class RestApiClient {
   }) => TaskEither.tryCatch(() async {
     switch (requestType) {
       case RequestType.get:
-        return dio.get(path, queryParameters: queryParameters, options: options, data: body);
+        return dio.get(
+          path,
+          queryParameters: queryParameters,
+          options: options,
+          data: body,
+        );
       case RequestType.post:
-        return dio.post(path, queryParameters: queryParameters, options: options, data: body);
+        return dio.post(
+          path,
+          queryParameters: queryParameters,
+          options: options,
+          data: body,
+        );
       case RequestType.put:
         return dio.put(
           path,
@@ -77,6 +97,8 @@ final class RestApiClient {
           options: Options(contentType: 'image/jpg'),
           data: body,
         );
+      case RequestType.delete:
+        return dio.delete(path, data: body);
       case RequestType.query:
       case RequestType.mutation:
         throw Exception('can\'t use query / mutation in REST');

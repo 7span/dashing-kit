@@ -9,8 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class SubscriptionScreen extends StatelessWidget
-    implements AutoRouteWrapper {
+class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
   const SubscriptionScreen({super.key});
 
   @override
@@ -19,13 +18,9 @@ class SubscriptionScreen extends StatelessWidget
       create: (context) => SubscriptionRepository(),
       child: BlocProvider(
         create:
-            (context) => SubscriptionCubit(
-              RepositoryProvider.of<SubscriptionRepository>(context),
-              context,
-            )..getPlans(
-              context,
-              SubscriptionUtils.subscriptionProductId,
-            ),
+            (context) =>
+                SubscriptionCubit(RepositoryProvider.of<SubscriptionRepository>(context), context)
+                  ..getPlans(context, SubscriptionUtils.subscriptionProductId),
         child: this,
       ),
     );
@@ -37,33 +32,23 @@ class SubscriptionScreen extends StatelessWidget
       onBackButtonPressed: () async {
         if (context.read<SubscriptionCubit>().state.status ==
             SubscriptionStateStatus.purchaseLoading) {
-          showAppSnackbar(
-            context,
-            'Please wait until we verify your subscription',
-          );
+          showAppSnackbar(context, 'Please wait until we verify your subscription');
           return true;
         } else {
           return false;
         }
       },
       child: BlocListener<SubscriptionCubit, SubscriptionState>(
-        listenWhen:
-            (previous, current) => previous.status != current.status,
+        listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
-          if (state.status ==
-              SubscriptionStateStatus.purchaseSuccess) {
+          if (state.status == SubscriptionStateStatus.purchaseSuccess) {
             showAppSnackbar(context, 'Purchase Successfully');
-            context
-                .read<SubscriptionCubit>()
-                .getAndSetActivePlanOfUser();
+            context.read<SubscriptionCubit>().getAndSetActivePlanOfUser();
           }
           flog('status in listen of subscription: ${state.status}');
         },
-        child: AppScaffoldWidget(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text('Purchase Plans'),
-          ),
+        child: AppScaffold(
+          appBar: AppBar(centerTitle: true, title: const Text('Purchase Plans')),
           body: SingleChildScrollView(
             child: Column(
               spacing: Insets.xsmall8,
@@ -73,12 +58,10 @@ class SubscriptionScreen extends StatelessWidget
                   iconData: Icons.diamond,
                   description: 'Basic Gem purchase',
                   onTap: () async {
-                    await context
-                        .read<SubscriptionCubit>()
-                        .purchaseCredit(
-                          context,
-                          SubscriptionUtils.subscriptionProductId[0],
-                        );
+                    await context.read<SubscriptionCubit>().purchaseCredit(
+                      context,
+                      SubscriptionUtils.subscriptionProductId[0],
+                    );
                   },
                 ),
                 _PurchasePlanCard(
@@ -86,12 +69,10 @@ class SubscriptionScreen extends StatelessWidget
                   iconData: Icons.currency_bitcoin,
                   description: '3-Month Exam Prep Access',
                   onTap: () async {
-                    await context
-                        .read<SubscriptionCubit>()
-                        .purchaseSubscription(
-                          context,
-                          SubscriptionUtils.subscriptionProductId[2],
-                        );
+                    await context.read<SubscriptionCubit>().purchaseSubscription(
+                      context,
+                      SubscriptionUtils.subscriptionProductId[2],
+                    );
                   },
                 ),
               ],

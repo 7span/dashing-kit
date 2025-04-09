@@ -1,8 +1,8 @@
-import 'dart:developer';
-
+// ignore_for_file: require_trailing_commas
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';
+import 'package:app_core/core/data/models/user_model.dart';
 import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
@@ -12,23 +12,17 @@ import 'package:fpdart/fpdart.dart';
 
 /// This repository contains the contract for login and logout function
 abstract interface class IAuthRepository {
-  TaskEither<Failure, AuthResponseModel> login(
-    AuthRequestModel authRequestModel,
-  );
+  TaskEither<Failure, Unit> login(AuthRequestModel authRequestModel);
 
-  TaskEither<Failure, AuthResponseModel> signup(
-    AuthRequestModel authRequestModel,
-  );
+  TaskEither<Failure, Unit> signup(AuthRequestModel authRequestModel);
 
-  Future<bool> logout();
+  TaskEither<Failure, bool> logout();
 
-  ///SOCIAL-LOGIN
-  TaskEither<Failure, AuthResponseModel> socialLogin({
+  TaskEither<Failure, Unit> socialLogin({
     required AuthRequestModel requestModel,
   });
 }
 
-/// This class contains the implementation for login and logout functions.
 // ignore: comment_references
 /// This repository connects with [IAuthService] for setting the data of the user
 /// that is given by the API Response
@@ -36,66 +30,74 @@ class AuthRepository implements IAuthRepository {
   const AuthRepository();
 
   @override
-  TaskEither<Failure, AuthResponseModel> login(
-    AuthRequestModel authRequestModel,
-  ) => makeLoginRequest(authRequestModel)
-      .chainEither(RepositoryUtils.checkStatusCode)
-      .chainEither(
-        (r) => RepositoryUtils.mapToModel(
-          () => AuthResponseModel.fromMap(
-            r.data as Map<String, dynamic>,
-          ),
-        ),
-      )
-      .flatMap(saveUserToLocal);
+  TaskEither<Failure, Unit> login(AuthRequestModel authRequestModel) =>
+      makeLoginRequest(authRequestModel)
+          .chainEither(RepositoryUtils.checkStatusCode)
+          .chainEither(
+            (response) => RepositoryUtils.mapToModel(() {
+              return AuthResponseModel.fromMap(
+                response.data as Map<String, dynamic>,
+              );
+            }),
+          )
+          .map((model) {
+            setAuthorizationHeader(model.id);
+            return model;
+          })
+          .flatMap(saveUserToLocal);
 
   TaskEither<Failure, Response> makeLoginRequest(
     AuthRequestModel authRequestModel,
-  ) => RestApiClient.request(
+  ) => userApiClient.request(
     requestType: RequestType.post,
     path: ApiEndpoints.login,
     body: authRequestModel.toMap(),
     options: Options(headers: {'Content-Type': 'application/json'}),
   );
 
-  TaskEither<Failure, AuthResponseModel> saveUserToLocal(
+  TaskEither<Failure, Unit> saveUserToLocal(
     AuthResponseModel authResponseModel,
-  ) {
-    /// Sets Access Token received by api success.
-    RestApiClient.setAuthorizationToken(authResponseModel.authToken ?? '');
-
-    /// To save UserDetailsModel in Local Hive
-
-    /// final updatedModel = UserModel(
-    ///  name: authResponseModel.userDetails?.firstName ?? '',
-    ///   email: authResponseModel.userDetails?.email ?? '',
-    ///   profilePicUrl: '',
-    ///   id: authResponseModel.userDetails?.id ?? 0,
-    /// );
-    /// getIt<IHiveService>().setUserData(updatedModel).run();
-
-    getIt<IHiveService>().setAccessToken(
-      authResponseModel.authToken!,
-    );
-    return TaskEither.right(authResponseModel);
-  }
-
-  @override
-  TaskEither<Failure, AuthResponseModel> signup(
-    AuthRequestModel authRequestModel,
-  ) => makeSignUpRequest(authRequestModel)
-      .chainEither(RepositoryUtils.checkStatusCode)
-      .chainEither(
-        (r) => RepositoryUtils.mapToModel(
-          () => AuthResponseModel.fromMap(
-            r.data as Map<String, dynamic>,
+  ) => getIt<IHiveService>()
+      .setAccessToken(authResponseModel.id)
+      .flatMap(
+        (r) => getIt<IHiveService>().setUserData(
+          UserModel(
+            name: 'user name',
+            email: 'user email',
+            profilePicUrl: '',
+            id: int.parse(authResponseModel.id),
           ),
         ),
       );
 
+  @override
+  TaskEither<Failure, Unit> signup(
+    AuthRequestModel authRequestModel,
+  ) => makeSignUpRequest(authRequestModel)
+      .chainEither(RepositoryUtils.checkStatusCode)
+      .chainEither(
+        (r) => RepositoryUtils.mapToModel(() {
+          /// as we are not getting proper response from mock api, we are directly returning AuthResponseModel
+          /// response : { "id": 4,"token": "QpwL5tke4Pnpja7X4" }
+          /// uncomment this code while api call integration
+          //   return AuthResponseModel.fromMap(
+          //   r.data as Map<String, dynamic>,
+          // );
+          return AuthResponseModel(
+            email: 'eve.holt@reqres.in',
+            id: (r.data as Map<String, dynamic>)['id'].toString(),
+          );
+        }),
+      )
+      .map((model) {
+        setAuthorizationHeader(model.id);
+        return model;
+      })
+      .flatMap(saveUserToLocal);
+
   TaskEither<Failure, Response> makeSignUpRequest(
     AuthRequestModel authRequestModel,
-  ) => RestApiClient.request(
+  ) => userApiClient.request(
     requestType: RequestType.post,
     path: ApiEndpoints.signup,
     body: authRequestModel.toMap(),
@@ -103,45 +105,55 @@ class AuthRepository implements IAuthRepository {
   );
 
   @override
-  Future<bool> logout() async {
-    try {
-      await Future<void>.delayed(const Duration(seconds: 2));
-
-      //clear auth tokens from the local storage
+  TaskEither<Failure, bool> logout() => makeLogoutRequest().flatMap((response) {
+    return TaskEither<Failure, bool>.tryCatch(() async {
       await getIt<IHiveService>().clearData().run();
       return true;
-    } catch (error) {
-      log(error.toString());
-      return false;
-    }
-  }
+    }, (error, _) => APIFailure());
+  });
 
-  ///SOCIAL LOGIN
+  TaskEither<Failure, Response>
+  makeLogoutRequest() => getIt<IHiveService>().getUserData().fold(
+    (l) => TaskEither.left(APIFailure()),
+    (r) => userApiClient.request(
+      requestType: RequestType.delete,
+
+      /// Mock api returns different id in response of authentication everytime.
+      /// Since Hive will store those same different ids, this api will not work.
+      path: '${ApiEndpoints.logout}/${r.first.id}',
+    ),
+  );
+
   @override
-  TaskEither<Failure, AuthResponseModel> socialLogin({
-    required AuthRequestModel requestModel,
-  }) => mappingSocialLoginRequest(requestModel: requestModel);
-
-  TaskEither<Failure, AuthResponseModel> mappingSocialLoginRequest({
+  TaskEither<Failure, Unit> socialLogin({
     required AuthRequestModel requestModel,
   }) => makeSocialLoginRequest(requestModel: requestModel)
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
         (response) => RepositoryUtils.mapToModel<AuthResponseModel>(
-          () => AuthResponseModel.fromMap(
-            response.data as Map<String, dynamic>,
-          ),
+          () =>
+              AuthResponseModel.fromMap(response.data as Map<String, dynamic>),
         ),
       )
+      .map((model) {
+        setAuthorizationHeader(model.id);
+        return model;
+      })
       .flatMap(saveUserToLocal);
 
   TaskEither<Failure, Response> makeSocialLoginRequest({
     required AuthRequestModel requestModel,
   }) {
-    return RestApiClient.request(
+    return userApiClient.request(
       requestType: RequestType.post,
       path: ApiEndpoints.socialLogin,
       body: requestModel.toSocialSignInMap(),
     );
   }
+
+  TaskEither<Failure, Unit> setAuthorizationHeader(String token) =>
+      Either.tryCatch(() {
+        userApiClient.setAuthorizationToken(token);
+        return unit;
+      }, (error, stackTrace) => UserTokenSaveFailure()).toTaskEither();
 }

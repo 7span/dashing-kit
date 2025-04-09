@@ -6,6 +6,10 @@ packages:
 
 scripts:
   analyze:
+    packageFilters:
+      scopes:
+        - packages/**
+        - apps/**
     run: |
       melos exec -c 10 -- \
         dart analyze . --fatal-infos

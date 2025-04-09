@@ -17,6 +17,7 @@ final class AppConfig {
   static String get environmentName => _getEnvironmentName;
   static String get baseApiUrl => _getBaseApiUrl;
   static String get oneSignalAppId => _getOneSignalAppId;
+  static String get userApiUrl => _getUserApiUrl;
   static Env environment = Env.development;
 
   /// This variable is used to ensure that a user can setup the config only one time.
@@ -41,6 +42,17 @@ final class AppConfig {
     }
   }
 
+  static String get _getUserApiUrl {
+    switch (environment) {
+      case Env.development:
+        return EnvDev.USER_API_URL;
+      case Env.production:
+        return EnvProd.USER_API_URL;
+      case Env.staging:
+        return EnvStaging.USER_API_URL;
+    }
+  }
+
   static String get _getBaseApiUrl {
     switch (environment) {
       case Env.development:
@@ -51,6 +63,7 @@ final class AppConfig {
         return EnvStaging.BASE_API_URL;
     }
   }
+
   static String get _getOneSignalAppId {
     switch (environment) {
       case Env.development:
@@ -69,6 +82,9 @@ abstract class EnvDev {
   static final String BASE_API_KEY = _EnvStaging.BASE_API_KEY;*/
   @EnviedField(varName: 'ONESIGNAL_APP_ID', obfuscate: true)
   static final String ONESIGNAL_APP_ID = _EnvDev.ONESIGNAL_APP_ID;
+  @EnviedField(varName: 'USER_API_URL', obfuscate: true)
+  static final String USER_API_URL = _EnvDev.USER_API_URL;
+
   @EnviedField(varName: 'BASE_API_URL', obfuscate: true)
   static final String BASE_API_URL = _EnvDev.BASE_API_URL;
 
@@ -82,8 +98,11 @@ abstract class EnvStaging {
   static final String BASE_API_KEY = _EnvStaging.BASE_API_KEY;*/
   @EnviedField(varName: 'ONESIGNAL_APP_ID', obfuscate: true)
   static final String ONESIGNAL_APP_ID = _EnvDev.ONESIGNAL_APP_ID;
+  @EnviedField(varName: 'USER_API_URL', obfuscate: true)
+  static final String USER_API_URL = _EnvStaging.USER_API_URL;
+
   @EnviedField(varName: 'BASE_API_URL', obfuscate: true)
-  static final String BASE_API_URL = _EnvDev.BASE_API_URL;
+  static final String BASE_API_URL = _EnvStaging.BASE_API_URL;
 
   @EnviedField(varName: 'ENV', obfuscate: true)
   static final String ENV_NAME = _EnvStaging.ENV_NAME;
@@ -95,8 +114,11 @@ abstract class EnvProd {
   static final String BASE_API_KEY = _EnvProd.BASE_API_KEY;*/
   @EnviedField(varName: 'ONESIGNAL_APP_ID', obfuscate: true)
   static final String ONESIGNAL_APP_ID = _EnvDev.ONESIGNAL_APP_ID;
+  @EnviedField(varName: 'USER_API_URL', obfuscate: true)
+  static final String USER_API_URL = _EnvProd.USER_API_URL;
+
   @EnviedField(varName: 'BASE_API_URL', obfuscate: true)
-  static final String BASE_API_URL = _EnvDev.BASE_API_URL;
+  static final String BASE_API_URL = _EnvProd.BASE_API_URL;
 
   @EnviedField(varName: 'ENV', obfuscate: true)
   static final String ENV_NAME = _EnvProd.ENV_NAME;

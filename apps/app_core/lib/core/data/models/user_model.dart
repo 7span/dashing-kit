@@ -19,7 +19,7 @@ class UserModel extends HiveObject {
       name: map['name'] as String,
       email: map['email'] as String,
       id: map['id'] as int,
-      profilePicUrl: map['profilePicUrl'] as String,
+      profilePicUrl: map['avatar'] as String,
     );
   }
 

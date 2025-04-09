@@ -77,10 +77,13 @@ dependencies:
 
   connectivity_plus: ^6.1.3
   firebase_auth: ^5.5.1
+  firebase_crashlytics: ^4.3.5
 
   # Social Sign In
   google_sign_in: ^6.3.0
   sign_in_with_apple: ^6.1.4
+
+  webview_flutter: ^4.10.0
 
 dependency_overrides:
   web: ^1.0.0
