@@ -1,9 +1,11 @@
+import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/core/data/services/connectivity_service.dart';
 import 'package:app_core/core/data/services/connectivity_wrapper.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_core/core/domain/bloc/theme_bloc.dart';
 import 'package:app_core/core/presentation/screens/error_screen.dart';
+import 'package:app_notification_service/notification_service.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +30,9 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   /// Here we're initializing the theme bloc so that we can change the theme anywhere from the App
-  List<BlocProvider<dynamic>> get providers =>
-      <BlocProvider<dynamic>>[
-        BlocProvider<ThemeBloc>(
-          create: (BuildContext context) => ThemeBloc(),
-        ),
-      ];
+  List<BlocProvider<dynamic>> get providers => <BlocProvider<dynamic>>[
+    BlocProvider<ThemeBloc>(create: (BuildContext context) => ThemeBloc()),
+  ];
 
   final AppRouter _appRouter = AppRouter();
 
@@ -47,10 +46,7 @@ class _AppState extends State<App> {
       child: MultiBlocProvider(
         providers: providers,
         child: BlocBuilder<ThemeBloc, AppThemeColorMode>(
-          builder: (
-            BuildContext context,
-            AppThemeColorMode themeMode,
-          ) {
+          builder: (BuildContext context, AppThemeColorMode themeMode) {
             return AppResponsiveTheme(
               colorMode: themeMode,
               child: MaterialApp.router(
@@ -58,8 +54,7 @@ class _AppState extends State<App> {
                 title: 'Boilerplate App',
                 locale: TranslationProvider.of(context).flutterLocale,
                 supportedLocales: AppLocaleUtils.supportedLocales,
-                localizationsDelegates:
-                    GlobalMaterialLocalizations.delegates,
+                localizationsDelegates: GlobalMaterialLocalizations.delegates,
                 builder: (BuildContext context, Widget? widget) {
                   ErrorWidget.builder = (details) {
                     return ErrorScreen(details: details);
@@ -70,8 +65,7 @@ class _AppState extends State<App> {
                       OverlayEntry(
                         builder:
                             (context) => ConnectivityWrapper(
-                              connectivityService:
-                                  _connectivityService,
+                              connectivityService: _connectivityService,
                               child: widget!,
                             ),
                       ),
@@ -91,6 +85,7 @@ class _AppState extends State<App> {
   void dispose() {
     NetWorkInfoService.instance.dispose();
     _connectivityService.dispose();
+    getIt<NotificationServiceInterface>().dispose();
     super.dispose();
   }
 }
