@@ -105,16 +105,18 @@ class AuthRepository implements IAuthRepository {
     options: Options(headers: {'Content-Type': 'application/json'}),
   );
 
+  TaskEither<Failure, Unit> _clearHiveData() => TaskEither.tryCatch(
+    () => getIt<IHiveService>().clearData().run(),
+    (error, stackTrace) => APIFailure(),
+  );
+
   @override
-  TaskEither<Failure, bool> logout() {
-    return makeLogoutRequest().flatMap((response) {
-      return TaskEither<Failure, bool>.tryCatch(() async {
-        await getIt<IHiveService>().clearData().run();
-        getIt<NotificationServiceInterface>().logout();
-        return true;
-      }, (error, _) => APIFailure());
-    });
-  }
+  TaskEither<Failure, bool> logout() => makeLogoutRequest().flatMap(
+    (_) => _clearHiveData().flatMap((r) {
+      getIt<NotificationServiceInterface>().logout();
+      return TaskEither<Failure, bool>.of(true);
+    }),
+  );
 
   TaskEither<Failure, String> _getNotificationId() => TaskEither.tryCatch(() {
     return getIt<NotificationServiceInterface>()

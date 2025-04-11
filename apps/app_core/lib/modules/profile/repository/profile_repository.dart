@@ -89,16 +89,18 @@ class ProfileRepository implements IProfileRepository {
     (error, stackTrace) => APIFailure(),
   );
 
-  @override
-  TaskEither<Failure, bool> deleteUser() => _makeDeleteUserRequest()
-      .chainEither(RepositoryUtils.checkStatusCode)
-      .flatMap((response) {
-        return TaskEither<Failure, bool>.tryCatch(() async {
-          await getIt<IHiveService>().clearData().run();
-          return true;
-        }, (error, _) => APIFailure());
-      });
+  TaskEither<Failure, Unit> _clearHiveData() => TaskEither.tryCatch(
+    () => getIt<IHiveService>().clearData().run(),
+    (error, stackTrace) => APIFailure(),
+  );
 
+  @override
+  TaskEither<Failure, bool> deleteUser() => _makeDeleteUserRequest().flatMap(
+    (_) => _clearHiveData().flatMap((r) {
+      getIt<NotificationServiceInterface>().logout();
+      return TaskEither<Failure, bool>.of(true);
+    }),
+  );
   TaskEither<Failure, Response>
   _makeDeleteUserRequest() => _getNotificationId().flatMap(
     (playerID) => userApiClient.request(
