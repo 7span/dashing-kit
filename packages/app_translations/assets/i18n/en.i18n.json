@@ -46,5 +46,8 @@
   "change_password": "Change Password",
   "edit_profile": "Edit Profile",
   "profile_edit_success": "Profile Edited successfully",
-  "please_unable_media_permission": "Please unable media permission"
+  "please_unable_media_permission": "Please unable media permission",
+  "msg_app_update": "Update the app to improve your experience. We've fixed issues, improved performance, and added new features.",
+  "title_app_update": "Update Available",
+  "later": "Later"
 }
