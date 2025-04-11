@@ -1,13 +1,13 @@
 import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/core/domain/bloc/notification_cubit/notification_cubit.dart';
 import 'package:app_core/modules/home/repository/home_repository.dart';
+import 'package:app_notification_service/notification_service.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 @RoutePage()
 class BottomNavigationBarScreen extends StatefulWidget
@@ -51,7 +51,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
         if (state.notificationPermissionStatus == PermissionStatus.denied ||
             state.notificationPermissionStatus ==
                 PermissionStatus.permanentlyDenied) {
-          await OneSignal.Notifications.requestPermission(true);
+          await OneSignalService().requestNotificationPermission();
           if (!context.mounted) return;
           await context
               .read<NotificationCubit>()
