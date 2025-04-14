@@ -85,6 +85,9 @@ dependencies:
 
   webview_flutter: ^4.10.0
 
+  # Launch URL
+  url_launcher: ^6.3.1
+
 dependency_overrides:
   web: ^1.0.0
   source_gen: ^2.0.0
