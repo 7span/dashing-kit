@@ -7,6 +7,7 @@ import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/model/auth_response_model.dart';
+import 'package:app_notification_service/notification_service.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -104,23 +105,33 @@ class AuthRepository implements IAuthRepository {
     options: Options(headers: {'Content-Type': 'application/json'}),
   );
 
+  TaskEither<Failure, Unit> _clearHiveData() => TaskEither.tryCatch(
+    () => getIt<IHiveService>().clearData().run(),
+    (error, stackTrace) => APIFailure(),
+  );
+
   @override
-  TaskEither<Failure, bool> logout() => makeLogoutRequest().flatMap((response) {
-    return TaskEither<Failure, bool>.tryCatch(() async {
-      await getIt<IHiveService>().clearData().run();
-      return true;
-    }, (error, _) => APIFailure());
-  });
+  TaskEither<Failure, bool> logout() => makeLogoutRequest().flatMap(
+    (_) => _clearHiveData().flatMap((r) {
+      getIt<NotificationServiceInterface>().logout();
+      return TaskEither<Failure, bool>.of(true);
+    }),
+  );
+
+  TaskEither<Failure, String> _getNotificationId() => TaskEither.tryCatch(() {
+    return getIt<NotificationServiceInterface>()
+        .getNotificationSubscriptionId();
+  }, APIFailure.new);
 
   TaskEither<Failure, Response>
-  makeLogoutRequest() => getIt<IHiveService>().getUserData().fold(
-    (l) => TaskEither.left(APIFailure()),
-    (r) => userApiClient.request(
+  makeLogoutRequest() => _getNotificationId().flatMap(
+    (playerID) => userApiClient.request(
       requestType: RequestType.delete,
 
+      /// You have to pass [playerID] as query parameter, while calling logout api
       /// Mock api returns different id in response of authentication everytime.
       /// Since Hive will store those same different ids, this api will not work.
-      path: '${ApiEndpoints.logout}/${r.first.id}',
+      path: ApiEndpoints.logout,
     ),
   );
 

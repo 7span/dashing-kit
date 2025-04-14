@@ -3,6 +3,7 @@
 import 'package:api_client/api_client.dart';
 import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/modules/{{name.snakeCase()}}/model/{{name.snakeCase()}}_model.dart';
+import 'package:app_core/app/helpers/injection.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
 
@@ -44,14 +45,14 @@ class {{name.pascalCase()}}Repository implements I{{name.pascalCase()}}Repositor
           );
 
   TaskEither<Failure, Response> _makeFetchRequest(int page) =>
-      RestApiClient.request(path: 'path', body: {'page': page, 'perPage': 15});
+      userApiClient.request(path: 'path', body: {'page': page, 'perPage': 15});
 
   @override
   TaskEither<Failure, bool> save{{name.pascalCase()}}(
     int? id,
     String title,
     String description,
-  ) => RestApiClient.request(
+  ) => userApiClient.request(
     requestType: RequestType.post,
     path: 'path',
     body: {'id': id, 'title': title, 'description': description},
@@ -65,7 +66,7 @@ class {{name.pascalCase()}}Repository implements I{{name.pascalCase()}}Repositor
 
   @override
   TaskEither<Failure, bool> delete{{name.pascalCase()}}(int id) {
-    return RestApiClient.request(requestType: RequestType.delete, path: 'path')
+    return userApiClient.request(requestType: RequestType.delete, path: 'path')
         .chainEither(RepositoryUtils.checkStatusCode)
         .chainEither(
           (response) => Either.fromPredicate(
@@ -78,7 +79,7 @@ class {{name.pascalCase()}}Repository implements I{{name.pascalCase()}}Repositor
 
   @override
   TaskEither<Failure,{{name.pascalCase()}}ResponseModel> get{{name.pascalCase()}}Details(int id) =>
-      RestApiClient.request(path: 'path', body: {'id': id})
+      userApiClient.request(path: 'path', body: {'id': id})
           .chainEither(RepositoryUtils.checkStatusCode)
           .chainEither(
             (response) => RepositoryUtils.mapToModel(

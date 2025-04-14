@@ -1,3 +1,4 @@
+// ignore_for_file: require_trailing_commas
 import 'dart:async';
 
 import 'package:api_client/api_client.dart';
@@ -5,6 +6,7 @@ import 'package:app_core/app/config/app_config.dart';
 import 'package:app_core/app/enum.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/app/observers/app_bloc_observer.dart';
+import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
 import 'package:app_core/core/data/services/firebase_remote_config_service.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
@@ -13,6 +15,7 @@ import 'package:app_core/firebase_options_development.dart'
     as firebase_dev;
 import 'package:app_core/firebase_options_staging.dart'
     as firebase_staging;
+import 'package:app_notification_service/notification_service.dart';
 import 'package:app_subscription/app_subscription_api.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -79,8 +82,15 @@ Future<void> bootstrap(
 
   await FirebaseRemoteConfigService().initialize();
 
+  final notificationService = getIt<NotificationServiceInterface>();
+  await notificationService.init(switch (env) {
+    Env.development => AppConfig.oneSignalAppId,
+    Env.staging => AppConfig.oneSignalAppId,
+    Env.production => AppConfig.oneSignalAppId,
+  }, shouldLog: env != Env.production);
+
   /// Initialize firebase crashlytics
-  // FirebaseCrashlyticsService.init();
+  FirebaseCrashlyticsService.init();
 
   runApp(await builder());
 }
@@ -98,5 +108,6 @@ void initializeSingletons() {
     ..registerLazySingleton(RestApiClient.new, instanceName: 'base')
     ..registerSingleton(AppBlocObserver())
     ..registerSingleton<IHiveService>(const HiveService())
-    ..registerSingleton(CustomInAppPurchase());
+    ..registerSingleton(CustomInAppPurchase())
+    ..registerSingleton<NotificationServiceInterface>(OneSignalService());
 }
