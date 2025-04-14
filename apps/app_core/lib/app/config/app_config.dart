@@ -111,7 +111,6 @@ abstract class EnvDev {
 
 @Envied(path: '.env.staging')
 abstract class EnvStaging {
-
   @EnviedField(varName: 'ONESIGNAL_APP_ID', obfuscate: true)
   static final String ONESIGNAL_APP_ID = _EnvDev.ONESIGNAL_APP_ID;
 

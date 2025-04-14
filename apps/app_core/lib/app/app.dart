@@ -36,9 +36,12 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   /// Here we're initializing the theme bloc so that we can change the theme anywhere from the App
-  List<BlocProvider<dynamic>> get providers => <BlocProvider<dynamic>>[
-    BlocProvider<ThemeBloc>(create: (BuildContext context) => ThemeBloc()),
-  ];
+  List<BlocProvider<dynamic>> get providers =>
+      <BlocProvider<dynamic>>[
+        BlocProvider<ThemeBloc>(
+          create: (BuildContext context) => ThemeBloc(),
+        ),
+      ];
 
   final AppRouter _appRouter = AppRouter();
 
@@ -54,7 +57,10 @@ class _AppState extends State<App> {
       child: MultiBlocProvider(
         providers: providers,
         child: BlocBuilder<ThemeBloc, AppThemeColorMode>(
-          builder: (BuildContext context, AppThemeColorMode themeMode) {
+          builder: (
+            BuildContext context,
+            AppThemeColorMode themeMode,
+          ) {
             return AppResponsiveTheme(
               colorMode: themeMode,
               child: MaterialApp.router(
@@ -62,7 +68,8 @@ class _AppState extends State<App> {
                 title: 'Boilerplate App',
                 locale: TranslationProvider.of(context).flutterLocale,
                 supportedLocales: AppLocaleUtils.supportedLocales,
-                localizationsDelegates: GlobalMaterialLocalizations.delegates,
+                localizationsDelegates:
+                    GlobalMaterialLocalizations.delegates,
                 builder: (BuildContext context, Widget? widget) {
                   ErrorWidget.builder = (details) {
                     return ErrorScreen(details: details);
@@ -109,7 +116,8 @@ class _AppState extends State<App> {
                       OverlayEntry(
                         builder:
                             (context) => ConnectivityWrapper(
-                              connectivityService: _connectivityService,
+                              connectivityService:
+                                  _connectivityService,
                               child: wrappedWidget,
                             ),
                       ),

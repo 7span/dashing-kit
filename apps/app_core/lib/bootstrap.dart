@@ -109,5 +109,7 @@ void initializeSingletons() {
     ..registerSingleton(AppBlocObserver())
     ..registerSingleton<IHiveService>(const HiveService())
     ..registerSingleton(CustomInAppPurchase())
-    ..registerSingleton<NotificationServiceInterface>(OneSignalService());
+    ..registerSingleton<NotificationServiceInterface>(
+      OneSignalService(),
+    );
 }
