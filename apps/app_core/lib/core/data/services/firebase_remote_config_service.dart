@@ -48,10 +48,10 @@ class FirebaseRemoteConfigService {
   Future<void> initialize() async {
     await _setConfigSettings();
     await _setDefaults();
-    await fetchAndActivate();
+    await _fetchAndActivate();
   }
 
-  Future<void> fetchAndActivate() async {
+  Future<void> _fetchAndActivate() async {
     await _remoteConfig.fetchAndActivate();
   }
 

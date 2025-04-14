@@ -36,18 +36,14 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   /// Here we're initializing the theme bloc so that we can change the theme anywhere from the App
-  List<BlocProvider<dynamic>> get providers =>
-      <BlocProvider<dynamic>>[
-        BlocProvider<ThemeBloc>(
-          create: (BuildContext context) => ThemeBloc(),
-        ),
-      ];
+  List<BlocProvider<dynamic>> get providers => <BlocProvider<dynamic>>[
+    BlocProvider<ThemeBloc>(create: (BuildContext context) => ThemeBloc()),
+  ];
 
   final AppRouter _appRouter = AppRouter();
 
   final _connectivityService = ConnectivityService();
-  final FirebaseRemoteConfigService remoteConfig =
-      FirebaseRemoteConfigService();
+  final FirebaseRemoteConfigService remoteConfig = FirebaseRemoteConfigService();
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +53,7 @@ class _AppState extends State<App> {
       child: MultiBlocProvider(
         providers: providers,
         child: BlocBuilder<ThemeBloc, AppThemeColorMode>(
-          builder: (
-            BuildContext context,
-            AppThemeColorMode themeMode,
-          ) {
+          builder: (BuildContext context, AppThemeColorMode themeMode) {
             return AppResponsiveTheme(
               colorMode: themeMode,
               child: MaterialApp.router(
@@ -68,31 +61,23 @@ class _AppState extends State<App> {
                 title: 'Boilerplate App',
                 locale: TranslationProvider.of(context).flutterLocale,
                 supportedLocales: AppLocaleUtils.supportedLocales,
-                localizationsDelegates:
-                    GlobalMaterialLocalizations.delegates,
+                localizationsDelegates: GlobalMaterialLocalizations.delegates,
                 builder: (BuildContext context, Widget? widget) {
                   ErrorWidget.builder = (details) {
                     return ErrorScreen(details: details);
                   };
-                  // Wrap the widget with ForceUpdateWidget
                   final wrappedWidget = ForceUpdateWidget(
                     navigatorKey: _appRouter.navigatorKey,
-                    forceUpdateClient: ForceUpdateClient(
-                      iosAppStoreId: AppConfig.iosAppStoreId,
-                    ),
+                    forceUpdateClient: ForceUpdateClient(iosAppStoreId: AppConfig.iosAppStoreId),
 
                     showForceUpdateAlert:
-                        (context, {allowCancel = false}) =>
-                            forceUpdateDialog(
-                              context: context,
-                              title: context.t.title_app_update,
-                              content: context.t.msg_app_update,
-                              cancelActionText:
-                                  allowCancel
-                                      ? context.t.later
-                                      : null,
-                              defaultActionText: context.t.update,
-                            ),
+                        (context, {allowCancel = false}) => forceUpdateDialog(
+                          context: context,
+                          title: context.t.title_app_update,
+                          content: context.t.msg_app_update,
+                          cancelActionText: allowCancel ? context.t.later : null,
+                          defaultActionText: context.t.update,
+                        ),
                     showStoreListing: (storeUrl) async {
                       if (await canLaunchUrl(storeUrl)) {
                         await launchUrl(
@@ -116,8 +101,7 @@ class _AppState extends State<App> {
                       OverlayEntry(
                         builder:
                             (context) => ConnectivityWrapper(
-                              connectivityService:
-                                  _connectivityService,
+                              connectivityService: _connectivityService,
                               child: wrappedWidget,
                             ),
                       ),
