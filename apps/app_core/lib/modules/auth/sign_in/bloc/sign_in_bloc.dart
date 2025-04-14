@@ -25,14 +25,30 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   // ignore: unused_field
   final IAuthRepository _authenticationRepository;
 
-  void _onEmailChanged(SignInEmailChanged event, Emitter<SignInState> emit) {
+  void _onEmailChanged(
+    SignInEmailChanged event,
+    Emitter<SignInState> emit,
+  ) {
     final email = EmailValidator.dirty(event.email);
-    emit(state.copyWith(email: email, isValid: Formz.validate([email, state.password])));
+    emit(
+      state.copyWith(
+        email: email,
+        isValid: Formz.validate([email, state.password]),
+      ),
+    );
   }
 
-  void _onPasswordChanged(SignInPasswordChanged event, Emitter<SignInState> emit) {
+  void _onPasswordChanged(
+    SignInPasswordChanged event,
+    Emitter<SignInState> emit,
+  ) {
     final password = PasswordValidator.dirty(event.password);
-    emit(state.copyWith(password: password, isValid: Formz.validate([state.email, password])));
+    emit(
+      state.copyWith(
+        password: password,
+        isValid: Formz.validate([state.email, password]),
+      ),
+    );
   }
 
   FutureOr<void> _onUserConsentChanged(
@@ -42,11 +58,18 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     emit(state.copyWith(isUserConsent: event.userConsent));
   }
 
-  Future<void> _onSubmitted(SignInSubmitted event, Emitter<SignInState> emit) async {
+  Future<void> _onSubmitted(
+    SignInSubmitted event,
+    Emitter<SignInState> emit,
+  ) async {
     final email = EmailValidator.dirty(state.email.value);
     final password = PasswordValidator.dirty(state.password.value);
     emit(
-      state.copyWith(email: email, password: password, isValid: Formz.validate([email, password])),
+      state.copyWith(
+        email: email,
+        password: password,
+        isValid: Formz.validate([email, password]),
+      ),
     );
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
@@ -60,10 +83,15 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
               )
               .run();
 
-      loginEither.fold((failure) {
-        log('failure: $failure');
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      }, (success) => emit(state.copyWith(status: FormzSubmissionStatus.success)));
+      loginEither.fold(
+        (failure) {
+          log('failure: $failure');
+          emit(state.copyWith(status: FormzSubmissionStatus.failure));
+        },
+        (success) => emit(
+          state.copyWith(status: FormzSubmissionStatus.success),
+        ),
+      );
     }
   }
 
@@ -73,10 +101,16 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   ) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     final socialLoginEither =
-        await _authenticationRepository.socialLogin(requestModel: event.requestModel).run();
+        await _authenticationRepository
+            .socialLogin(requestModel: event.requestModel)
+            .run();
     socialLoginEither.fold(
-      (error) =>
-          emit(state.copyWith(errorMessage: error.message, status: FormzSubmissionStatus.failure)),
+      (error) => emit(
+        state.copyWith(
+          errorMessage: error.message,
+          status: FormzSubmissionStatus.failure,
+        ),
+      ),
       (result) async {
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       },
