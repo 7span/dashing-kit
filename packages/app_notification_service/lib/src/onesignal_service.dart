@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
 
-import 'package:app_notification_service/src/notification_interface.dart';
-import 'package:app_notification_service/src/notification_observer_event.dart';
-import 'package:app_notification_service/src/user_model.dart';
+import 'package:app_notification_service/notification_service.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class OneSignalService implements NotificationServiceInterface {
@@ -10,16 +10,19 @@ class OneSignalService implements NotificationServiceInterface {
   @override
   Future<String> getNotificationSubscriptionId() async {
     final playerID = OneSignal.User.pushSubscription.id;
-    return playerID!;
+    return playerID ?? '';
   }
 
   /// Initialize Onesignal and set the log level for debugging purpose
   @override
-  Future<void> init(String? appId, {bool shouldLog = true}) async {
-    /// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push
-    /// notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-    OneSignal.initialize(appId!);
+  Future<void> init(String appId, {bool shouldLog = true}) async {
+    await OneSignal.consentRequired(true);
+    await OneSignal.consentGiven(true);
+    if (Platform.isIOS) {
+      await OneSignal.Location.setShared(false);
+    }
 
+    OneSignal.initialize(appId);
     if (shouldLog) {
       await OneSignal.Debug.setLogLevel(OSLogLevel.fatal);
     }
@@ -28,47 +31,59 @@ class OneSignalService implements NotificationServiceInterface {
   @override
   Future<void> setData(NotificationUserModel model) async {
     // Pass in email provided by customer
-    await OneSignal.User.addEmail(model.email!);
-    final externalId = model.userId!; // You will supply the external id to the OneSignal SDK
+    await OneSignal.User.addEmail(model.email);
+    final externalId = model.userId;
     await OneSignal.login(externalId);
   }
 
   @override
   Future<bool> requestNotificationPermission() async {
-    if (OneSignal.Notifications.permission) {
-      final isGranted = await OneSignal.Notifications.requestPermission(true);
-      listenForNotification();
-      return isGranted;
-    } else {
+    try {
+      if (!OneSignal.Notifications.permission) {
+        final isGranted = await OneSignal.Notifications.requestPermission(true);
+        log('Permission request: $isGranted');
+        listenForNotification();
+        return isGranted;
+      } else {
+        log('Permission request: its already having');
+        listenForNotification();
+        return true;
+      }
+    } catch (e) {
+      log('Permission request error: $e');
       return false;
     }
   }
 
   @override
   void listenForNotification() {
-    OneSignal.Notifications.addForegroundWillDisplayListener(
-      (event) {
-        final redirectionUrl = event.notification.additionalData?['redirection_url'] as String?;
-        final notificationEventModel = NotificationObserverEvent(
-          title: event.notification.title,
-          body: event.notification.body,
-          redirectionUrl: redirectionUrl,
-        );
-
-        notificationObserverStream.sink.add(notificationEventModel);
-      },
-    );
+    OneSignal.Notifications.addClickListener((event) {
+      final data = event.notification.additionalData;
+      final notificationEventModel = NotificationObserverEvent(
+        title: event.notification.title,
+        body: event.notification.body,
+        data: data,
+      );
+      notificationObserverStream.sink.add(notificationEventModel);
+    });
   }
 
   @override
-  Stream<NotificationObserverEvent> get listenForNotifications => notificationObserverStream.stream;
+  Stream<NotificationObserverEvent> get listenForNotifications =>
+      notificationObserverStream.stream;
 
   @override
   void dispose() {
     notificationObserverStream.close();
   }
 
+  @override
+  Future<void> logout() async {
+    await OneSignal.logout();
+  }
+
   /// This stream is used for listening notifications from the app side
   @override
-  StreamController<NotificationObserverEvent> notificationObserverStream = StreamController();
+  StreamController<NotificationObserverEvent> notificationObserverStream =
+      StreamController();
 }

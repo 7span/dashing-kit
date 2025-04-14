@@ -58,7 +58,7 @@ Here's the complete folder structure of the boilerplate:
         │   ├── core
         │   │   ├── data
         │   │   │   ├── model
-        │   │   │   │   └── user_model.dart
+        │   │   │   │   └── notification_user_model.dart
         │   │   │   ├── repository-utils
         │   │   │   └── service
         │   │   │       ├── firebase_crashlytics_service.dart

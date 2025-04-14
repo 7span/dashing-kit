@@ -26,8 +26,8 @@ enum ButtonType {
 /// and setting the userdata
 enum HiveKeys {
   userData('data'),
-  userToken('token');
-
+  userToken('token'),
+  userPlayerId('playerId');
   const HiveKeys(this.value);
 
   final String value;

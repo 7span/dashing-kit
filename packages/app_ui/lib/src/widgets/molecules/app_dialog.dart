@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class AppAlertDialog extends StatelessWidget {
   const AppAlertDialog({
-    required this.content,
+    required this.title,
     required this.rightText,
     required this.onRightOptionTap,
+    this.content,
     this.onLeftOptionTap,
-    this.title,
     this.leftText,
     super.key,
   });
@@ -54,6 +54,7 @@ class AppAlertDialog extends StatelessWidget {
         text: content ?? '',
         color: context.colorScheme.grey700,
         textAlign: TextAlign.center,
+        maxLines: 4,
       ),
 
       contentPadding: EdgeInsets.only(
