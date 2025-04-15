@@ -22,6 +22,13 @@ class WidgetbookApp extends StatelessWidget {
       // Use the generated directories variable
       directories: directories,
       addons: [],
+      appBuilder: (context, child) {
+        return Material(
+          // padding: EdgeInsets.all(10),
+          color: Colors.white,
+          child: child,
+        );
+      },
     );
   }
 }
