@@ -17,6 +17,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       super(const SignInState()) {
     on<SignInEmailChanged>(_onEmailChanged);
     on<SignInPasswordChanged>(_onPasswordChanged);
+    on<SignInUserConsentChangedEvent>(_onUserConsentChanged);
     on<SignInSubmitted>(_onSubmitted);
     on<SignInWithGoogleTaped>(_onSignInWithGoogleTaped);
   }
@@ -48,6 +49,13 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         isValid: Formz.validate([state.email, password]),
       ),
     );
+  }
+
+  FutureOr<void> _onUserConsentChanged(
+    SignInUserConsentChangedEvent event,
+    Emitter<SignInState> emit,
+  ) {
+    emit(state.copyWith(isUserConsent: event.userConsent));
   }
 
   Future<void> _onSubmitted(

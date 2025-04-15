@@ -46,5 +46,10 @@
   "change_password": "Change Password",
   "edit_profile": "Edit Profile",
   "profile_edit_success": "Profile Edited successfully",
-  "please_unable_media_permission": "Please unable media permission"
+  "please_unable_media_permission": "Please unable media permission",
+  "by_proceeding_accept" : "By proceeding, I accept the ",
+  "terms_and_condition" : "Terms and Condition",
+  "privacy_policy" : "Privacy Policy",
+  "and": "and",
+  "please_accept_terms" : "Please accept the Terms & Conditions and Privacy Policy to continue."
 }
