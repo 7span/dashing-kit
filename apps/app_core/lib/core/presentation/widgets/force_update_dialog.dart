@@ -59,5 +59,3 @@ Future<bool?> forceUpdateDialog({
         ),
   );
 }
-
-// ignore_for_file:avoid-shadowing
