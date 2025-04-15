@@ -164,7 +164,7 @@ class _UserConsentWidget extends StatelessWidget {
           messageBeforeLinks: context.t.by_proceeding_accept,
           termsText: context.t.terms_and_condition,
           andText: context.t.and,
-          privacyText: context.t.privacy_policy, // "Privacy Policy"
+          privacyText: context.t.privacy_policy,
         );
       },
     );
