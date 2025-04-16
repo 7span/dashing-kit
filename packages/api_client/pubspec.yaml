@@ -18,9 +18,12 @@ dependencies:
   dio_cache_interceptor_hive_store: ^4.0.0
   path_provider: ^2.1.5
   pretty_dio_logger: ^1.4.0
+  hive_ce: ^2.10.1
+  hive_ce_flutter: ^2.2.0
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  hive_ce_generator: ^1.8.2

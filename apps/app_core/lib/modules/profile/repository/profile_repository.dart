@@ -6,7 +6,6 @@ import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/models/user_model.dart';
-import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_notification_service/notification_service.dart';
 import 'package:fpdart/fpdart.dart';
@@ -129,8 +128,8 @@ class ProfileRepository implements IProfileRepository {
         (l) => TaskEither.left(APIFailure()),
         (r) => userApiClient.request(
           requestType: RequestType.put,
-          path: '${ApiEndpoints.profile}/${r.first.id}',
-          body: {'id': r.first.id, 'password': newPassword},
+          path: '${ApiEndpoints.profile}/${r!.id}',
+          body: {'id': r.id, 'password': newPassword},
         ),
       );
 }

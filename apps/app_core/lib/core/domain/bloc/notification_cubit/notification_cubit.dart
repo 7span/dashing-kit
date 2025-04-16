@@ -24,7 +24,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   Future<void> checkAndSavePlayerID(BuildContext context) async {
-    if (context.playerId.isNotEmpty) return;
+    if (playerId.isNotEmpty) return;
     try {
       final playerId =
           await _notificationService.getNotificationSubscriptionId();

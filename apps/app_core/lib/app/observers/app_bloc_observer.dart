@@ -1,4 +1,5 @@
 import 'package:app_core/app/helpers/injection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 
@@ -13,14 +14,24 @@ final class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
-    logger
-        // ignore: avoid_dynamic_calls
-        .f('onChange(${bloc.runtimeType}, ${change.nextState.runtimeType})');
+    if (kDebugMode) {
+      logger
+      // ignore: avoid_dynamic_calls
+      .f(
+        'onChange(${bloc.runtimeType}, ${change.nextState.runtimeType})',
+      );
+    }
   }
 
   @override
-  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
-    logger.e('onError(${bloc.runtimeType}, $error, $stackTrace)');
+  void onError(
+    BlocBase<dynamic> bloc,
+    Object error,
+    StackTrace stackTrace,
+  ) {
+    if (kDebugMode) {
+      logger.e('onError(${bloc.runtimeType}, $error, $stackTrace)');
+    }
     super.onError(bloc, error, stackTrace);
   }
 }

@@ -39,8 +39,8 @@ dependencies:
   envied: ^1.1.1
 
   # secure local storage
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
+  hive_ce: ^2.10.1
+  hive_ce_flutter: ^2.2.0
 
   # Class comparison and form validation
   equatable: ^2.0.7
@@ -111,7 +111,7 @@ dev_dependencies:
   auto_route_generator: ^10.0.1
 
   # For generating hive model adaptors
-  hive_generator: ^2.0.1
+  hive_ce_generator: ^1.8.2
   very_good_analysis: ^7.0.0
 
   # For generating env files
