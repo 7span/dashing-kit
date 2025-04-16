@@ -68,7 +68,10 @@ class _AppState extends State<App> {
                   };
                   final wrappedWidget = ForceUpdateWidget(
                     navigatorKey: _appRouter.navigatorKey,
-                    forceUpdateClient: ForceUpdateClient(iosAppStoreId: AppConfig.iosAppStoreId),
+                    forceUpdateClient: ForceUpdateClient(
+                      iosAppStoreId: AppConfig.iosAppStoreId,
+                      remoteConfigService: FirebaseRemoteConfigService(),
+                    ),
 
                     showForceUpdateAlert:
                         (context, {allowCancel = false}) => forceUpdateDialog(
