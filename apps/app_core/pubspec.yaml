@@ -84,6 +84,8 @@ dependencies:
   sign_in_with_apple: ^6.1.4
 
   webview_flutter: ^4.10.0
+  package_info_plus: ^8.3.0
+  firebase_remote_config: ^5.4.3
 
   # Launch URL
   url_launcher: ^6.3.1

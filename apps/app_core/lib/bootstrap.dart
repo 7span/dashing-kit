@@ -7,11 +7,14 @@ import 'package:app_core/app/enum.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/app/observers/app_bloc_observer.dart';
 import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
+import 'package:app_core/core/data/services/firebase_remote_config_service.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_core/firebase_options.dart' as firebase_prod;
-import 'package:app_core/firebase_options_development.dart' as firebase_dev;
-import 'package:app_core/firebase_options_staging.dart' as firebase_staging;
+import 'package:app_core/firebase_options_development.dart'
+    as firebase_dev;
+import 'package:app_core/firebase_options_staging.dart'
+    as firebase_staging;
 import 'package:app_notification_service/notification_service.dart';
 import 'package:app_subscription/app_subscription_api.dart';
 import 'package:app_translations/app_translations.dart';
@@ -25,11 +28,11 @@ import 'package:logger/logger.dart';
 ///
 /// * [AppBlocObserver] for printing the events and state logs
 /// * [HiveService] for getting and setting the Userdata
-Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
+Future<void> bootstrap(
+  FutureOr<Widget> Function() builder,
+  Env env,
+) async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  /// Initialization of Firebase
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   ///  Initializing localizations
   await LocaleSettings.useDeviceLocale();
@@ -68,11 +71,16 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder, Env env) async {
   await Firebase.initializeApp(
     name: 'Boilerplate-v2',
     options: switch (env) {
-      Env.development => firebase_dev.DefaultFirebaseOptions.currentPlatform,
-      Env.staging => firebase_staging.DefaultFirebaseOptions.currentPlatform,
-      Env.production => firebase_prod.DefaultFirebaseOptions.currentPlatform,
+      Env.development =>
+        firebase_dev.DefaultFirebaseOptions.currentPlatform,
+      Env.staging =>
+        firebase_staging.DefaultFirebaseOptions.currentPlatform,
+      Env.production =>
+        firebase_prod.DefaultFirebaseOptions.currentPlatform,
     },
   );
+
+  await FirebaseRemoteConfigService().initialize();
 
   final notificationService = getIt<NotificationServiceInterface>();
   await notificationService.init(switch (env) {
@@ -101,5 +109,7 @@ void initializeSingletons() {
     ..registerSingleton(AppBlocObserver())
     ..registerSingleton<IHiveService>(const HiveService())
     ..registerSingleton(CustomInAppPurchase())
-    ..registerSingleton<NotificationServiceInterface>(OneSignalService());
+    ..registerSingleton<NotificationServiceInterface>(
+      OneSignalService(),
+    );
 }
