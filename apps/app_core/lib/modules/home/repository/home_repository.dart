@@ -3,7 +3,6 @@
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';
-import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
 import 'package:app_core/modules/home/model/post_response_model.dart';
 import 'package:dio/dio.dart';

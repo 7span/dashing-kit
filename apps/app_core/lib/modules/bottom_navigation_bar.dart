@@ -21,8 +21,8 @@ class BottomNavigationBarScreen extends StatefulWidget
       child: BlocProvider(
         create:
             (context) =>
-                NotificationCubit(context.read<HomeRepository>())
-                  ..checkNotificationPermissionStatus(),
+        NotificationCubit(context.read<HomeRepository>())
+          ..checkNotificationPermissionStatus(),
         child: this,
       ),
     );
@@ -33,7 +33,8 @@ class BottomNavigationBarScreen extends StatefulWidget
       _BottomNavigationBarScreenState();
 }
 
-class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
+class _BottomNavigationBarScreenState
+    extends State<BottomNavigationBarScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -41,14 +42,17 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   }
 
   Future<void> _checkNotificationPermissionStatus() async {
-    await context.read<NotificationCubit>().checkNotificationPermissionStatus();
+    await context
+        .read<NotificationCubit>()
+        .checkNotificationPermissionStatus();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<NotificationCubit, NotificationState>(
       listener: (context, state) async {
-        if (state.notificationPermissionStatus == PermissionStatus.denied ||
+        if (state.notificationPermissionStatus ==
+            PermissionStatus.denied ||
             state.notificationPermissionStatus ==
                 PermissionStatus.permanentlyDenied) {
           await OneSignalService().requestNotificationPermission();
@@ -58,7 +62,9 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
               .checkNotificationPermissionStatus();
         } else if (state.notificationPermissionStatus ==
             PermissionStatus.granted) {
-          await context.read<NotificationCubit>().checkAndSavePlayerID(context);
+          await context
+              .read<NotificationCubit>()
+              .checkAndSavePlayerID();
         }
       },
       builder: (context, state) {
@@ -68,7 +74,8 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
           /// routes of /dashboard
           routes: const [HomeRoute(), ProfileRoute()],
           transitionBuilder:
-              (context, child, animation) => FadeTransition(
+              (context, child, animation) =>
+              FadeTransition(
                 opacity: animation,
 
                 /// the passed child is technically our animated selected-tab page
@@ -83,22 +90,22 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
             return AppScaffold(
               body: child,
               bottomNavigationBar:
-                  context.topRouteMatch.meta['hideNavBar'] == true
-                      ? null
-                      : BottomNavigationBar(
-                        currentIndex: tabsRouter.activeIndex,
-                        onTap: tabsRouter.setActiveIndex,
-                        items: [
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.list),
-                            label: context.t.users,
-                          ),
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.person),
-                            label: context.t.profile,
-                          ),
-                        ],
-                      ),
+              context.topRouteMatch.meta['hideNavBar'] == true
+                  ? null
+                  : BottomNavigationBar(
+                currentIndex: tabsRouter.activeIndex,
+                onTap: tabsRouter.setActiveIndex,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.list),
+                    label: context.t.users,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.person),
+                    label: context.t.profile,
+                  ),
+                ],
+              ),
             );
           },
         );

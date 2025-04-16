@@ -6,6 +6,8 @@ enum RequestType {
   put,
   post,
   delete,
+  //Used to execute retry api after refresh token
+  dynamic,
 }
 
 /// Used in state class for emitting the status of the API

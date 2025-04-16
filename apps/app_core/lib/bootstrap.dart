@@ -9,6 +9,7 @@ import 'package:app_core/app/observers/app_bloc_observer.dart';
 import 'package:app_core/core/data/services/firebase_crashlytics_service.dart';
 import 'package:app_core/core/data/services/firebase_remote_config_service.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
+import 'package:app_core/core/data/services/logout_service.dart';
 import 'package:app_core/core/data/services/network_helper.service.dart';
 import 'package:app_core/firebase_options.dart' as firebase_prod;
 import 'package:app_core/firebase_options_development.dart'
@@ -34,60 +35,44 @@ Future<void> bootstrap(
 ) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  ///  Initializing localizations
-  await LocaleSettings.useDeviceLocale();
-
   /// Initialzing realtime network info service
   NetWorkInfoService.instance.init();
-
-  // enableLeakTracking();
   initializeSingletons();
   AppConfig.setEnvConfig(env);
 
-  await userApiClient.init(
-    baseURL: AppConfig.userApiUrl,
-    isApiCacheEnabled: false,
-  );
-  await baseApiClient.init(
-    baseURL: AppConfig.baseApiUrl,
-    isApiCacheEnabled: false,
-  );
+  await Future.wait([
+    LocaleSettings.useDeviceLocale(),
+    getIt<IHiveService>().init(),
 
-  await getIt<IHiveService>().init();
-
-  /// If the user has already logged in, then set the authorization token for the Closed API endpoint
-  getIt<IHiveService>().getAccessToken().fold(
-    () => null,
-    userApiClient.setAuthorizationToken,
-  );
+    /// Initialize firebase
+    Firebase.initializeApp(
+      name: 'Boilerplate-v2',
+      options: switch (env) {
+        Env.development =>
+          firebase_dev.DefaultFirebaseOptions.currentPlatform,
+        Env.staging =>
+          firebase_staging.DefaultFirebaseOptions.currentPlatform,
+        Env.production =>
+          firebase_prod.DefaultFirebaseOptions.currentPlatform,
+      },
+    ),
+    FirebaseRemoteConfigService().initialize(),
+    baseApiClient.init(
+      baseURL: AppConfig.baseApiUrl,
+      isApiCacheEnabled: false,
+    ),
+    userApiClient.init(
+      baseURL: AppConfig.userApiUrl,
+      isApiCacheEnabled: false,
+    ),
+    getIt<NotificationServiceInterface>().init(switch (env) {
+      Env.development => AppConfig.oneSignalAppId,
+      Env.staging => AppConfig.oneSignalAppId,
+      Env.production => AppConfig.oneSignalAppId,
+    }, shouldLog: env != Env.production),
+  ]);
 
   Bloc.observer = getIt<AppBlocObserver>();
-
-  // MemoryAllocations.instance.addListener((ObjectEvent event) {
-  //   dispatchObjectEvent(event.toMap());
-  // });
-
-  /// Initialize firebase
-  await Firebase.initializeApp(
-    name: 'Boilerplate-v2',
-    options: switch (env) {
-      Env.development =>
-        firebase_dev.DefaultFirebaseOptions.currentPlatform,
-      Env.staging =>
-        firebase_staging.DefaultFirebaseOptions.currentPlatform,
-      Env.production =>
-        firebase_prod.DefaultFirebaseOptions.currentPlatform,
-    },
-  );
-
-  await FirebaseRemoteConfigService().initialize();
-
-  final notificationService = getIt<NotificationServiceInterface>();
-  await notificationService.init(switch (env) {
-    Env.development => AppConfig.oneSignalAppId,
-    Env.staging => AppConfig.oneSignalAppId,
-    Env.production => AppConfig.oneSignalAppId,
-  }, shouldLog: env != Env.production);
 
   /// Initialize firebase crashlytics
   FirebaseCrashlyticsService.init();
@@ -109,6 +94,7 @@ void initializeSingletons() {
     ..registerSingleton(AppBlocObserver())
     ..registerSingleton<IHiveService>(const HiveService())
     ..registerSingleton(CustomInAppPurchase())
+    ..registerLazySingleton<LogoutService>(LogoutService.new)
     ..registerSingleton<NotificationServiceInterface>(
       OneSignalService(),
     );

@@ -3,8 +3,8 @@ import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/models/user_model.dart';
-import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
+import 'package:app_core/core/data/services/logout_service.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/model/auth_response_model.dart';
 import 'package:app_notification_service/notification_service.dart';
@@ -31,21 +31,18 @@ class AuthRepository implements IAuthRepository {
   const AuthRepository();
 
   @override
-  TaskEither<Failure, Unit> login(AuthRequestModel authRequestModel) =>
-      makeLoginRequest(authRequestModel)
-          .chainEither(RepositoryUtils.checkStatusCode)
-          .chainEither(
-            (response) => RepositoryUtils.mapToModel(() {
-              return AuthResponseModel.fromMap(
-                response.data as Map<String, dynamic>,
-              );
-            }),
-          )
-          .map((model) {
-            setAuthorizationHeader(model.id);
-            return model;
-          })
-          .flatMap(saveUserToLocal);
+  TaskEither<Failure, Unit> login(
+    AuthRequestModel authRequestModel,
+  ) => makeLoginRequest(authRequestModel)
+      .chainEither(RepositoryUtils.checkStatusCode)
+      .chainEither(
+        (response) => RepositoryUtils.mapToModel(() {
+          return AuthResponseModel.fromMap(
+            response.data as Map<String, dynamic>,
+          );
+        }),
+      )
+      .flatMap(saveUserToLocal);
 
   TaskEither<Failure, Response> makeLoginRequest(
     AuthRequestModel authRequestModel,
@@ -58,18 +55,14 @@ class AuthRepository implements IAuthRepository {
 
   TaskEither<Failure, Unit> saveUserToLocal(
     AuthResponseModel authResponseModel,
-  ) => getIt<IHiveService>()
-      .setAccessToken(authResponseModel.id)
-      .flatMap(
-        (r) => getIt<IHiveService>().setUserData(
-          UserModel(
-            name: 'user name',
-            email: 'user email',
-            profilePicUrl: '',
-            id: int.parse(authResponseModel.id),
-          ),
-        ),
-      );
+  ) => getIt<IHiveService>().setUserData(
+    UserModel(
+      name: 'user name',
+      email: 'user email',
+      profilePicUrl: '',
+      id: int.parse(authResponseModel.id),
+    ),
+  );
 
   @override
   TaskEither<Failure, Unit> signup(
@@ -90,10 +83,6 @@ class AuthRepository implements IAuthRepository {
           );
         }),
       )
-      .map((model) {
-        setAuthorizationHeader(model.id);
-        return model;
-      })
       .flatMap(saveUserToLocal);
 
   TaskEither<Failure, Response> makeSignUpRequest(
@@ -106,22 +95,22 @@ class AuthRepository implements IAuthRepository {
   );
 
   TaskEither<Failure, Unit> _clearHiveData() => TaskEither.tryCatch(
-    () => getIt<IHiveService>().clearData().run(),
+    () => getIt<LogoutService>().logout().run(),
     (error, stackTrace) => APIFailure(),
   );
 
   @override
   TaskEither<Failure, bool> logout() => makeLogoutRequest().flatMap(
     (_) => _clearHiveData().flatMap((r) {
-      getIt<NotificationServiceInterface>().logout();
       return TaskEither<Failure, bool>.of(true);
     }),
   );
 
-  TaskEither<Failure, String> _getNotificationId() => TaskEither.tryCatch(() {
-    return getIt<NotificationServiceInterface>()
-        .getNotificationSubscriptionId();
-  }, APIFailure.new);
+  TaskEither<Failure, String> _getNotificationId() =>
+      TaskEither.tryCatch(() {
+        return getIt<NotificationServiceInterface>()
+            .getNotificationSubscriptionId();
+      }, APIFailure.new);
 
   TaskEither<Failure, Response>
   makeLogoutRequest() => _getNotificationId().flatMap(
@@ -142,14 +131,11 @@ class AuthRepository implements IAuthRepository {
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
         (response) => RepositoryUtils.mapToModel<AuthResponseModel>(
-          () =>
-              AuthResponseModel.fromMap(response.data as Map<String, dynamic>),
+          () => AuthResponseModel.fromMap(
+            response.data as Map<String, dynamic>,
+          ),
         ),
       )
-      .map((model) {
-        setAuthorizationHeader(model.id);
-        return model;
-      })
       .flatMap(saveUserToLocal);
 
   TaskEither<Failure, Response> makeSocialLoginRequest({
@@ -161,10 +147,4 @@ class AuthRepository implements IAuthRepository {
       body: requestModel.toSocialSignInMap(),
     );
   }
-
-  TaskEither<Failure, Unit> setAuthorizationHeader(String token) =>
-      Either.tryCatch(() {
-        userApiClient.setAuthorizationToken(token);
-        return unit;
-      }, (error, stackTrace) => UserTokenSaveFailure()).toTaskEither();
 }

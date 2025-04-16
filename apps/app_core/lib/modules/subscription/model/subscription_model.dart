@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:hive_ce_flutter/hive_flutter.dart';
 
 part 'subscription_model.g.dart';
 
