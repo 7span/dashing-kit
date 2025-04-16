@@ -43,7 +43,7 @@ class RefreshTokenService {
             refreshTokenEndpoint: refreshTokenEndpoint,
           ),
         )
-        .getOrElse(() => throw Exception('Failed to get refresh token'))
+        .getOrElse(() => TaskEither.left(APIFailure('No refresh token found!!')))
         .flatMap((r) => _storeRefreshedTokens(r.data!.token!, r.data!.refreshToken!));
   }
 }
