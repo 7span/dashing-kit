@@ -9,8 +9,6 @@ class RefreshTokenService {
 
   RefreshTokenService(this.client);
 
-  late UserTokenSaveService userTokenSaveService;
-
   TaskEither<Failure, RefreshTokenDTO> _callRefreshTokenApi({
     required String refreshToken,
     required String refreshTokenEndpoint,
@@ -24,28 +22,19 @@ class RefreshTokenService {
         .chainEither(RepositoryUtils.checkStatusCode)
         .chainEither(
           (r) => RepositoryUtils.mapToModel(
-            () => RefreshTokenDTO.fromMap(
-              r.data as Map<String, dynamic>,
-            ),
+            () => RefreshTokenDTO.fromMap(r.data as Map<String, dynamic>),
           ),
         );
   }
 
-  TaskEither<Failure, String> _storeRefreshedTokens(
-    String token,
-    String refreshToken,
-  ) {
-    return userTokenSaveService
+  TaskEither<Failure, String> _storeRefreshedTokens(String token, String refreshToken) {
+    return UserTokenSaveService.instance
         .setAccessToken(token)
-        .flatMap(
-          (_) => userTokenSaveService.setRefreshToken(refreshToken),
-        )
+        .flatMap((_) => UserTokenSaveService.instance.setRefreshToken(refreshToken))
         .map((f) => token);
   }
 
-  TaskEither<Failure, String> fetchRefreshToken(
-    String refreshTokenEndpoint,
-  ) {
+  TaskEither<Failure, String> fetchRefreshToken(String refreshTokenEndpoint) {
     return HiveApiService.instance
         .getRefreshToken()
         .map(
@@ -54,14 +43,7 @@ class RefreshTokenService {
             refreshTokenEndpoint: refreshTokenEndpoint,
           ),
         )
-        .getOrElse(
-          () => throw Exception('Failed to get refresh token'),
-        )
-        .flatMap(
-          (r) => _storeRefreshedTokens(
-            r.data!.token!,
-            r.data!.refreshToken!,
-          ),
-        );
+        .getOrElse(() => throw Exception('Failed to get refresh token'))
+        .flatMap((r) => _storeRefreshedTokens(r.data!.token!, r.data!.refreshToken!));
   }
 }
