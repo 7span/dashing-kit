@@ -6,8 +6,8 @@ import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/core/data/models/user_model.dart';
-import 'package:app_core/core/data/repository-utils/repository_utils.dart';
 import 'package:app_core/core/data/services/hive.service.dart';
+import 'package:app_notification_service/notification_service.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:dio/dio.dart';
 
@@ -74,8 +74,8 @@ class ProfileRepository implements IProfileRepository {
     (l) => TaskEither.left(APIFailure()),
     (r) => userApiClient.request(
       requestType: requestType,
-      // path: '$ApiEndpoints.profile/${r.first.id}',
-      path: '$ApiEndpoints.profile/${2}',
+      // path: '${ApiEndpoints.profile}/${r.first.id}',
+      path: '${ApiEndpoints.profile}/${2}',
       body: body,
     ),
   );
@@ -88,25 +88,34 @@ class ProfileRepository implements IProfileRepository {
     (error, stackTrace) => APIFailure(),
   );
 
-  @override
-  TaskEither<Failure, bool> deleteUser() => _makeDeleteUserRequest()
-      .chainEither(RepositoryUtils.checkStatusCode)
-      .flatMap((response) {
-        return TaskEither<Failure, bool>.tryCatch(() async {
-          await getIt<IHiveService>().clearData().run();
-          return true;
-        }, (error, _) => APIFailure());
-      });
+  TaskEither<Failure, Unit> _clearHiveData() => TaskEither.tryCatch(
+    () => getIt<IHiveService>().clearData().run(),
+    (error, stackTrace) => APIFailure(),
+  );
 
-  TaskEither<Failure, Response> _makeDeleteUserRequest() =>
-      getIt<IHiveService>().getUserData().fold(
-        (l) => TaskEither.left(APIFailure()),
-        (r) => userApiClient.request(
-          requestType: RequestType.delete,
-          path: ApiEndpoints.logout,
-          body: {'id': r.first.id},
-        ),
-      );
+  @override
+  TaskEither<Failure, bool> deleteUser() => _makeDeleteUserRequest().flatMap(
+    (_) => _clearHiveData().flatMap((r) {
+      getIt<NotificationServiceInterface>().logout();
+      return TaskEither<Failure, bool>.of(true);
+    }),
+  );
+  TaskEither<Failure, Response>
+  _makeDeleteUserRequest() => _getNotificationId().flatMap(
+    (playerID) => userApiClient.request(
+      requestType: RequestType.delete,
+
+      /// You have to pass [playerID] as query parameter, while calling logout api
+      /// Mock api returns different id in response of authentication everytime.
+      /// Since Hive will store those same different ids, this api will not work.
+      path: ApiEndpoints.logout,
+    ),
+  );
+
+  TaskEither<Failure, String> _getNotificationId() => TaskEither.tryCatch(() {
+    return getIt<NotificationServiceInterface>()
+        .getNotificationSubscriptionId();
+  }, APIFailure.new);
 
   @override
   TaskEither<Failure, Unit> changePassword({required String newPassword}) =>
@@ -119,8 +128,8 @@ class ProfileRepository implements IProfileRepository {
         (l) => TaskEither.left(APIFailure()),
         (r) => userApiClient.request(
           requestType: RequestType.put,
-          path: '${ApiEndpoints.profile}/${r.first.id}',
-          body: {'id': r.first.id, 'password': newPassword},
+          path: '${ApiEndpoints.profile}/${r.id}',
+          body: {'id': r.id, 'password': newPassword},
         ),
       );
 }

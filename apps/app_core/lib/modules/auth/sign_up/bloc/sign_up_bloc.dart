@@ -21,6 +21,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<SignUpNameChanged>(_onNameChanged);
     on<SignUpPasswordChanged>(_onPasswordChanged);
     on<SignUpConfirmPasswordChanged>(_onConfirmPasswordChanged);
+    on<SignUpUserConsentChangedEvent>(_onUserConsentChanged);
     on<SignUpSubmitted>(_onSubmitted);
   }
 
@@ -70,6 +71,13 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         isValid: Formz.validate([state.name, state.email, state.password, confirmPassword]),
       ),
     );
+  }
+
+  FutureOr<void> _onUserConsentChanged(
+    SignUpUserConsentChangedEvent event,
+    Emitter<SignUpState> emit,
+  ) {
+    emit(state.copyWith(isUserConsent: event.userConsent));
   }
 
   Future<void> _onSubmitted(SignUpSubmitted event, Emitter<SignUpState> emit) async {

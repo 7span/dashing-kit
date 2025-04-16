@@ -8,6 +8,7 @@ final class SignInState extends Equatable {
     this.isValid = false,
     this.obscureText = true,
     this.errorMessage = '',
+    this.isUserConsent = false,
   });
 
   final FormzSubmissionStatus status;
@@ -15,6 +16,7 @@ final class SignInState extends Equatable {
   final PasswordValidator password;
   final bool isValid;
   final bool obscureText;
+  final bool isUserConsent;
   final String errorMessage;
 
   @override
@@ -25,6 +27,7 @@ final class SignInState extends Equatable {
     isValid,
     obscureText,
     errorMessage,
+    isUserConsent,
   ];
 
   SignInState copyWith({
@@ -32,8 +35,8 @@ final class SignInState extends Equatable {
     EmailValidator? email,
     PasswordValidator? password,
     bool? isValid,
+    bool? isUserConsent,
     bool? obscureText,
-
     String? errorMessage,
   }) {
     return SignInState(
@@ -43,6 +46,7 @@ final class SignInState extends Equatable {
       isValid: isValid ?? this.isValid,
       obscureText: obscureText ?? this.obscureText,
       errorMessage: errorMessage ?? this.errorMessage,
+      isUserConsent: isUserConsent ?? this.isUserConsent,
     );
   }
 }

@@ -6,6 +6,7 @@ cat <<EOT >> apps/app_core/.env.dev
 BASE_API_URL=https://jsonplaceholder.typicode.com/
 USER_API_URL=https://reqres.in/
 ENV=Development
+IOS_APP_STORE_ID=123333
 EOT
 
 
@@ -13,12 +14,14 @@ cat <<EOT >> apps/app_core/.env.prod
 BASE_API_URL=https://jsonplaceholder.typicode.com/
 USER_API_URL=https://reqres.in/
 ENV=Production
+IOS_APP_STORE_ID=123333
 EOT
 
 cat <<EOT >> apps/app_core/.env.staging
 BASE_API_URL=https://jsonplaceholder.typicode.com/
 USER_API_URL=https://reqres.in/
 ENV=Staging
+IOS_APP_STORE_ID=123333
 EOT
 
 melos bs

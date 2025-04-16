@@ -4,6 +4,7 @@ import 'package:api_client/src/api_enum.dart';
 import 'package:api_client/src/api_failure.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:graphql/client.dart';
+
 // ignore: depend_on_referenced_packages
 import 'package:flutter/services.dart';
 
@@ -106,6 +107,7 @@ final class ApiClient {
       case RequestType.get:
       case RequestType.post:
       case RequestType.delete:
+      case RequestType.dynamic:
       case RequestType.put:
         throw Exception('Not implemented');
     }

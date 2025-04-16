@@ -4,16 +4,16 @@
 /// feel free to add it
 class NotificationObserverEvent {
   const NotificationObserverEvent({
-    this.redirectionUrl,
+    this.data,
     this.title,
     this.body,
   });
-  final String? redirectionUrl;
+  final Map<String, dynamic>? data;
   final String? title;
   final String? body;
 
   @override
   String toString() {
-    return 'NotificationObserverEvent{redirectionUrl: $redirectionUrl, title: $title, body: $body}';
+    return 'NotificationObserverEvent{redirectionUrl: $data, title: $title, body: $body}';
   }
 }

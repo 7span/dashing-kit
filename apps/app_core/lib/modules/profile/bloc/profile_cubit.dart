@@ -65,7 +65,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       ),
       (r) =>
-          emit(state.copyWith(apiStatus: ApiStatus.loaded, userModel: r.first)),
+          emit(state.copyWith(apiStatus: ApiStatus.loaded, userModel: r)),
     );
   }
 
