@@ -18,7 +18,7 @@ abstract interface class IHiveService {
 
   Task<Unit> clearData();
 
-  Either<Failure, UserModel?> getUserData();
+  Either<Failure, UserModel> getUserData();
 
   TaskEither<Failure, Unit> setPlayerId(String playerId);
 
@@ -65,11 +65,10 @@ final class HiveService implements IHiveService {
       );
 
   @override
-  Either<Failure, UserModel?> getUserData() => Either.tryCatch(
+  Either<Failure, UserModel> getUserData() => Either.tryCatch(
     () {
       final box = Hive.box<UserModel>(HiveKeys.userData.value);
-      final data = box.values.toList().firstOrNull;
-      return data;
+      return box.values.toList().first;
     },
     (error, stackStrace) {
       return HiveFailure();

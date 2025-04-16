@@ -128,7 +128,7 @@ class ProfileRepository implements IProfileRepository {
         (l) => TaskEither.left(APIFailure()),
         (r) => userApiClient.request(
           requestType: RequestType.put,
-          path: '${ApiEndpoints.profile}/${r!.id}',
+          path: '${ApiEndpoints.profile}/${r.id}',
           body: {'id': r.id, 'password': newPassword},
         ),
       );

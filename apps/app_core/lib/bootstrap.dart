@@ -70,13 +70,7 @@ Future<void> bootstrap(
     }, shouldLog: env != Env.production),
   ]);
 
-  // enableLeakTracking();
-
   Bloc.observer = getIt<AppBlocObserver>();
-
-  // MemoryAllocations.instance.addListener((ObjectEvent event) {
-  //   dispatchObjectEvent(event.toMap());
-  // });=
 
   /// Initialize firebase crashlytics
   FirebaseCrashlyticsService.init();

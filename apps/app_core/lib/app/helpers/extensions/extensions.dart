@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 bool get isLoggedIn => getIt<IHiveService>().getUserData().fold<bool>(
   (_) => false,
-  (model) => model != null,
+  (model) => true,
 );
 
 bool get isAccessed =>
@@ -18,7 +18,7 @@ bool get isAccessed =>
 
 String get username => getIt<IHiveService>()
     .getUserData()
-    .fold<String>((_) => '', (model) => model?.name ?? '');
+    .fold<String>((_) => '', (model) => model.name);
 
 String get playerId =>
     getIt<IHiveService>().getPlayerId().fold(() => '', (id) => id);

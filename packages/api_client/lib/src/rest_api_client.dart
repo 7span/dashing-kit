@@ -197,14 +197,6 @@ final class RestApiClient {
   }
 
   late final Dio dio;
-  //  final dio = Dio(
-  //   BaseOptions(
-  //     baseUrl: baseAPIURL,
-  //     contentType: 'application/json',
-  //     connectTimeout: const Duration(seconds: 5),
-  //     receiveTimeout: const Duration(seconds: 5),
-  //   ),
-  // );
 
   /// With this function, users can make GET, POST, PUT, DELETE request using
   /// only single function.

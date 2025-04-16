@@ -1,7 +1,7 @@
 import 'package:api_client/src/refresh_token_response_model.dart';
 import 'package:fpdart/fpdart.dart';
 
-import '../api_client.dart';
+import 'package:api_client/api_client.dart';
 import 'hive.api.service.dart';
 
 class RefreshTokenService {
