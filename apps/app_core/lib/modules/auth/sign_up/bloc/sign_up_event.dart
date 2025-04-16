@@ -7,7 +7,6 @@ sealed class SignUpEvent extends Equatable {
   List<Object> get props => [];
 }
 
-
 final class SignUpNameChanged extends SignUpEvent {
   const SignUpNameChanged(this.name);
 
@@ -17,7 +16,6 @@ final class SignUpNameChanged extends SignUpEvent {
   List<Object> get props => [name];
 }
 
-
 final class SignUpEmailChanged extends SignUpEvent {
   const SignUpEmailChanged(this.email);
 
@@ -26,7 +24,6 @@ final class SignUpEmailChanged extends SignUpEvent {
   @override
   List<Object> get props => [email];
 }
-
 
 final class SignUpPasswordChanged extends SignUpEvent {
   const SignUpPasswordChanged(this.password);
@@ -44,7 +41,16 @@ final class SignUpConfirmPasswordChanged extends SignUpEvent {
   final String confirmPassword;
 
   @override
-  List<Object> get props => [confirmPassword,password];
+  List<Object> get props => [confirmPassword, password];
+}
+
+final class SignUpUserConsentChangedEvent extends SignUpEvent {
+  const SignUpUserConsentChangedEvent({required this.userConsent});
+
+  final bool userConsent;
+
+  @override
+  List<Object> get props => [userConsent];
 }
 
 final class SignUpSubmitted extends SignUpEvent {

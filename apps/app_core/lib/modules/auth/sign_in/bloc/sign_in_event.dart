@@ -33,3 +33,12 @@ final class SignInWithGoogleTaped extends SignInEvent {
   const SignInWithGoogleTaped({required this.requestModel});
   final AuthRequestModel requestModel;
 }
+
+final class SignInUserConsentChangedEvent extends SignInEvent {
+  const SignInUserConsentChangedEvent({required this.userConsent});
+
+  final bool userConsent;
+
+  @override
+  List<Object> get props => [userConsent];
+}

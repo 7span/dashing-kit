@@ -12,6 +12,7 @@ final class SignUpState extends Equatable {
     this.confirmPassword = const ConfirmPasswordValidator.pure(),
     this.isValid = false,
     this.obscureText = true,
+    this.isUserConsent = false,
   });
 
   SignUpState copyWith({
@@ -24,6 +25,7 @@ final class SignUpState extends Equatable {
     bool? obscureText,
     FormzSubmissionStatus? status,
     int? forgotPasswordBottomSheetPage,
+    bool? isUserConsent,
   }) {
     return SignUpState(
       email: email ?? this.email,
@@ -33,6 +35,7 @@ final class SignUpState extends Equatable {
       isValid: isValid ?? this.isValid,
       status: status ?? this.status,
       obscureText: obscureText ?? this.obscureText,
+      isUserConsent: isUserConsent ?? this.isUserConsent,
     );
   }
 
@@ -43,7 +46,17 @@ final class SignUpState extends Equatable {
   final ConfirmPasswordValidator confirmPassword;
   final bool isValid;
   final bool obscureText;
+  final bool isUserConsent;
 
   @override
-  List<Object> get props => [status, name, email, password, confirmPassword, isValid, obscureText];
+  List<Object> get props => [
+    status,
+    name,
+    email,
+    password,
+    confirmPassword,
+    isValid,
+    obscureText,
+    isUserConsent,
+  ];
 }

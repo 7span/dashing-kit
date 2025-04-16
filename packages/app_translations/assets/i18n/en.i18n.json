@@ -49,5 +49,10 @@
   "please_unable_media_permission": "Please unable media permission",
   "msg_app_update": "Update the app to improve your experience. We've fixed issues, improved performance, and added new features.",
   "title_app_update": "Update Available",
-  "later": "Later"
+  "later": "Later",
+  "by_proceeding_accept" : "By proceeding, I accept the ",
+  "terms_and_condition" : "Terms and Condition",
+  "privacy_policy" : "Privacy Policy",
+  "and": "and",
+  "please_accept_terms" : "Please accept the Terms & Conditions and Privacy Policy to continue."
 }
