@@ -1,11 +1,9 @@
-// main.dart
-
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart'
     as widgetbook;
 
-// Import the generated directories variable
 import 'main.directories.g.dart';
 
 void main() {
@@ -19,14 +17,22 @@ class WidgetbookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Widgetbook.material(
-      // Use the generated directories variable
       directories: directories,
-      addons: [],
+      addons: [
+        DeviceFrameAddon(
+          devices: Devices.ios.all,
+          initialDevice: Devices.ios.iPhone13,
+        ),
+        TextScaleAddon(max: 2.0, min: 1.0, initialScale: 1.0),
+      ],
       appBuilder: (context, child) {
-        return Material(
-          // padding: EdgeInsets.all(10),
-          color: Colors.white,
-          child: child,
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+
+          home: Scaffold(
+            backgroundColor: context.colorScheme.grey300,
+            body: child,
+          ),
         );
       },
     );
