@@ -55,8 +55,10 @@ Future<void> bootstrap(
         Env.production =>
           firebase_prod.DefaultFirebaseOptions.currentPlatform,
       },
-    ),
-    FirebaseRemoteConfigService().initialize(),
+    ).then((_) async {
+      await FirebaseRemoteConfigService().initialize();
+    }),
+
     baseApiClient.init(
       baseURL: AppConfig.baseApiUrl,
       isApiCacheEnabled: false,
