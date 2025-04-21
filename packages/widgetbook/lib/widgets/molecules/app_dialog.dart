@@ -42,11 +42,11 @@ Widget interactiveAppAlertDialog(BuildContext context) {
   );
 
   if (leftButtonPressed) {
-    print('Left Button Pressed');
+    debugPrint('Left Button Pressed');
   }
 
   if (rightButtonPressed) {
-    print('Right Button Pressed');
+    debugPrint('Right Button Pressed');
   }
 
   return AppScaffold(
@@ -59,12 +59,12 @@ Widget interactiveAppAlertDialog(BuildContext context) {
       rightText: rightText,
       onLeftOptionTap: () {
         if (leftButtonPressed) {
-          print('Left button action executed');
+          debugPrint('Left button action executed');
         }
       },
       onRightOptionTap: () {
         if (rightButtonPressed) {
-          print('Right button action executed');
+          debugPrint('Right button action executed');
         }
       },
     ),

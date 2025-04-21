@@ -96,12 +96,16 @@ Widget combinedAppTextFieldUseCases(BuildContext context) {
   double horizontalPadding = 16;
   try {
     horizontalPadding = double.parse(horizontalPaddingStr);
-  } catch (e) {}
+  } catch (e) {
+    debugPrint('error-${e.toString()}');
+  }
 
   double verticalPadding = 16;
   try {
     verticalPadding = double.parse(verticalPaddingStr);
-  } catch (e) {}
+  } catch (e) {
+    debugPrint('error-${e.toString()}');
+  }
 
   // Determine keyboard type
   TextInputType? keyboardType;

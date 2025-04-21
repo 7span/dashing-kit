@@ -32,12 +32,15 @@ Widget interactiveAppPadding(BuildContext context) {
       if (paddingValue == Insets.medium20) return 'Medium (20)';
       if (paddingValue == Insets.large24) return 'Large (24)';
       if (paddingValue == Insets.xlarge32) return 'Extra Large (32)';
-      if (paddingValue == Insets.xxlarge40)
+      if (paddingValue == Insets.xxlarge40) {
         return 'xExtra Large (40)';
-      if (paddingValue == Insets.xxxlarge66)
+      }
+      if (paddingValue == Insets.xxxlarge66) {
         return 'xxExtra Large (40)';
-      if (paddingValue == Insets.xxxxlarge80)
+      }
+      if (paddingValue == Insets.xxxxlarge80) {
         return 'xxxExtra Large (40)';
+      }
       if (paddingValue == Insets.infinity) return 'infinity';
       return 'Zero (0)';
     },
