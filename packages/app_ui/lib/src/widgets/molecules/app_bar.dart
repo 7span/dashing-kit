@@ -34,10 +34,7 @@ class CustomAppBar extends StatelessWidget
     return AppBar(
       automaticallyImplyLeading: automaticallyImplyLeading,
       bottom: bottom,
-      title:
-          leading == null
-              ? Row(children: [HSpace.xsmall8(), titleWidget])
-              : titleWidget,
+      title: titleWidget,
       leading: leading,
       actions: actions,
       centerTitle: centerTitle,
