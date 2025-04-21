@@ -2,7 +2,8 @@ import 'package:app_ui/src/theme/utils/utils.dart';
 import 'package:app_ui/src/widgets/atoms/atoms.dart';
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
     this.title,
@@ -27,25 +28,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? centerTitle;
 
   @override
-  Widget build(BuildContext context) => AppBar(
-        automaticallyImplyLeading: automaticallyImplyLeading,
-        bottom: bottom,
-        title: Row(
-          children: [
-            HSpace.medium20(),
-            if (leading != null) leading!,
-            if (title != null) ...[
-              HSpace.xsmall8(),
-              AppText.base(text: title, color: titleColor),
-            ],
-          ],
-        ),
-        actions: actions,
-        centerTitle: centerTitle,
-        titleSpacing: 0,
-        scrolledUnderElevation: scrolledUnderElevation,
-        backgroundColor: backgroundColor ?? context.colorScheme.white,
-      );
+  Widget build(BuildContext context) {
+    final titleWidget = AppText.base(text: title, color: titleColor);
+
+    return AppBar(
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      bottom: bottom,
+      title:
+          leading == null
+              ? Row(children: [HSpace.xsmall8(), titleWidget])
+              : titleWidget,
+      leading: leading,
+      actions: actions,
+      centerTitle: centerTitle,
+      titleSpacing: 0,
+      scrolledUnderElevation: scrolledUnderElevation,
+      backgroundColor: backgroundColor ?? context.colorScheme.white,
+    );
+  }
 
   /// Height is set to 64 constant because we've to match values same as the Figma
   @override
