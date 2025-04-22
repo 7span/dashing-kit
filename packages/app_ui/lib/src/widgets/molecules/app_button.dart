@@ -110,8 +110,7 @@ class _ButtonType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final finalIcon = SizedBox(child: icon);
-    const double loadingButtonHeight = 50;
-    const double loadingButtonWidth = 100;
+
     final primaryColor = context.colorScheme.primary500;
     final btnTextColor = textColor ?? context.colorScheme.white;
     final defaultButtonStyle = ButtonStyle(
@@ -127,9 +126,7 @@ class _ButtonType extends StatelessWidget {
                   : BorderRadius.circular(AppBorderRadius.xsmall4),
         ),
       ),
-      minimumSize: WidgetStateProperty.all(
-        const Size(loadingButtonWidth, loadingButtonHeight),
-      ),
+      minimumSize: WidgetStateProperty.all(const Size(100, 50)),
     );
 
     return switch (buttonType) {
@@ -146,8 +143,6 @@ class _ButtonType extends StatelessWidget {
           text: text,
           textWidget: textWidget,
           defaultTextColor: btnTextColor,
-          loadingButtonHeight: loadingButtonHeight,
-          loadingButtonWidth: loadingButtonWidth,
         ),
       ),
       ButtonType.filled => FilledButton(
@@ -162,8 +157,6 @@ class _ButtonType extends StatelessWidget {
           isLoading: isLoading,
           text: text,
           defaultTextColor: btnTextColor,
-          loadingButtonHeight: loadingButtonHeight,
-          loadingButtonWidth: loadingButtonWidth,
         ),
       ),
       ButtonType.outlined when icon != null => OutlinedButton.icon(
@@ -177,8 +170,6 @@ class _ButtonType extends StatelessWidget {
           text: text,
           textWidget: textWidget,
           defaultTextColor: btnTextColor,
-          loadingButtonHeight: loadingButtonHeight,
-          loadingButtonWidth: loadingButtonWidth,
         ),
       ),
       ButtonType.outlined => OutlinedButton(
@@ -214,8 +205,6 @@ class _ButtonType extends StatelessWidget {
           text: text,
           textWidget: textWidget,
           defaultTextColor: btnTextColor,
-          loadingButtonHeight: loadingButtonHeight,
-          loadingButtonWidth: loadingButtonWidth,
         ),
       ),
       ButtonType.text when icon != null => TextButton.icon(
@@ -229,8 +218,6 @@ class _ButtonType extends StatelessWidget {
           text: text,
           textWidget: textWidget,
           defaultTextColor: btnTextColor,
-          loadingButtonHeight: loadingButtonHeight,
-          loadingButtonWidth: loadingButtonWidth,
         ),
       ),
       ButtonType.text => TextButton(
@@ -243,8 +230,6 @@ class _ButtonType extends StatelessWidget {
           text: text,
           defaultTextColor: btnTextColor,
           textWidget: textWidget,
-          loadingButtonHeight: loadingButtonHeight,
-          loadingButtonWidth: loadingButtonWidth,
         ),
       ),
     };
@@ -257,26 +242,22 @@ class _ButtonContent extends StatelessWidget {
     required this.defaultTextColor,
     this.text,
     this.textWidget,
-    this.loadingButtonHeight,
-    this.loadingButtonWidth,
   });
 
   final bool isLoading;
   final Color defaultTextColor;
   final String? text;
   final Widget? textWidget;
-  final double? loadingButtonHeight;
-  final double? loadingButtonWidth;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child:
           isLoading
-              ? SizedBox(
-                height: loadingButtonHeight,
-                width: loadingButtonWidth,
-                child: const AppLoadingIndicator(),
+              ? const SizedBox(
+                height: 50,
+                width: 100,
+                child: AppLoadingIndicator(),
               )
               : textWidget ??
                   AppText.s(text: text, color: defaultTextColor),

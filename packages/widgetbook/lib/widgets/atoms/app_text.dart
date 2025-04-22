@@ -8,11 +8,10 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart'
 Widget interactiveAppText(BuildContext context) {
   final knobs = context.knobs;
 
-  // Knobs to dynamically select the text level
   final level = knobs.list<AppTextLevel>(
     label: 'Text Level',
     options: AppTextLevel.values,
-    initialOption: AppTextLevel.title,
+    initialOption: AppTextLevel.XL,
     labelBuilder: (level) {
       switch (level) {
         case AppTextLevel.title:
@@ -41,7 +40,6 @@ Widget interactiveAppText(BuildContext context) {
     },
   );
 
-  // Knobs to adjust other properties like font size, color, and text alignment
   final fontSize = knobs.double.slider(
     label: 'Font Size',
     initialValue: 16.0,
@@ -51,13 +49,12 @@ Widget interactiveAppText(BuildContext context) {
 
   final color = knobs.color(
     label: 'Text Color',
-    initialValue: Colors.white,
+    initialValue: Colors.black,
   );
 
   final textAlign = knobs.list<TextAlign>(
     label: 'Text Align',
     options: TextAlign.values,
-
     labelBuilder: (alignment) {
       switch (alignment) {
         case TextAlign.left:
@@ -66,6 +63,10 @@ Widget interactiveAppText(BuildContext context) {
           return 'Center';
         case TextAlign.right:
           return 'Right';
+        case TextAlign.start:
+          return 'Start';
+        case TextAlign.end:
+          return 'End';
         default:
           return 'Justify';
       }
@@ -74,14 +75,15 @@ Widget interactiveAppText(BuildContext context) {
 
   return AppScaffold(
     appBar: AppBar(title: const Text('Interactive AppText')),
-    body: Padding(
-      padding: const EdgeInsets.all(16.0),
+    body: Container(
+      color: Colors.white,
+      width: double.infinity,
       child: AppText(
         text: 'This is a sample text.',
         level: level,
-        fontSize: fontSize,
-        color: color,
         textAlign: textAlign,
+        color: color,
+        fontSize: fontSize,
       ),
     ),
   );

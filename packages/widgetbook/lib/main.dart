@@ -28,10 +28,12 @@ class WidgetbookApp extends StatelessWidget {
       appBuilder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-
-          home: Scaffold(
-            backgroundColor: context.colorScheme.grey300,
-            body: child,
+          home: AppResponsiveTheme(
+            colorMode: AppThemeColorMode.light,
+            child: Scaffold(
+              backgroundColor: context.colorScheme.grey300,
+              body: child,
+            ),
           ),
         );
       },

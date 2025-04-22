@@ -198,7 +198,7 @@ class AppText extends StatelessWidget {
               return theme?.colors.black;
           }
         }();
-    final style = () {
+    final textStyle = () {
       switch (level) {
         case AppTextLevel.regular10:
           return theme?.typography.regular10;
@@ -227,11 +227,14 @@ class AppText extends StatelessWidget {
     return Text(
       text ?? '',
       textAlign: textAlign,
-      style: style
+      style: textStyle
           ?.copyWith(
             color: color,
             fontSize: fontSize,
-            decoration: isUnderLine ?? false ? TextDecoration.underline : null,
+            decoration:
+                isUnderLine ?? false
+                    ? TextDecoration.underline
+                    : null,
             decorationColor: color,
           )
           .merge(style),
