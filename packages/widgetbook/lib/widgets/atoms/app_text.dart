@@ -40,13 +40,6 @@ Widget interactiveAppText(BuildContext context) {
     },
   );
 
-  final fontSize = knobs.double.slider(
-    label: 'Font Size',
-    initialValue: 16.0,
-    min: 10.0,
-    max: 40.0,
-  );
-
   final color = knobs.color(
     label: 'Text Color',
     initialValue: Colors.black,
@@ -83,7 +76,6 @@ Widget interactiveAppText(BuildContext context) {
         level: level,
         textAlign: textAlign,
         color: color,
-        style: TextStyle(fontSize: fontSize),
       ),
     ),
   );
