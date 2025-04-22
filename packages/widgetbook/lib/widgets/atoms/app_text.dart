@@ -11,7 +11,7 @@ Widget interactiveAppText(BuildContext context) {
   final level = knobs.list<AppTextLevel>(
     label: 'Text Level',
     options: AppTextLevel.values,
-    initialOption: AppTextLevel.XL,
+    initialOption: AppTextLevel.title,
     labelBuilder: (level) {
       switch (level) {
         case AppTextLevel.title:
@@ -83,7 +83,7 @@ Widget interactiveAppText(BuildContext context) {
         level: level,
         textAlign: textAlign,
         color: color,
-        fontSize: fontSize,
+        style: TextStyle(fontSize: fontSize),
       ),
     ),
   );
