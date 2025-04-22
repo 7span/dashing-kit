@@ -26,9 +26,9 @@ class AppButton extends StatelessWidget {
     this.textWidget,
     this.backgroundColor,
   }) : assert(
-          text != null || textWidget != null,
-          'Please provider either String Text or Text Widget',
-        );
+         text != null || textWidget != null,
+         'Please provider either String Text or Text Widget',
+       );
 
   final String? text;
   final bool isLoading;
@@ -110,16 +110,20 @@ class _ButtonType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final finalIcon = SizedBox(child: icon);
+
     final primaryColor = context.colorScheme.primary500;
     final btnTextColor = textColor ?? context.colorScheme.white;
     final defaultButtonStyle = ButtonStyle(
       splashFactory: InkSparkle.splashFactory,
-      backgroundColor: WidgetStateProperty.all(backgroundColor ?? primaryColor),
+      backgroundColor: WidgetStateProperty.all(
+        backgroundColor ?? primaryColor,
+      ),
       shape: WidgetStateProperty.all(
         RoundedRectangleBorder(
-          borderRadius: isRounded
-              ? BorderRadius.circular(AppBorderRadius.big44)
-              : BorderRadius.circular(AppBorderRadius.xsmall4),
+          borderRadius:
+              isRounded
+                  ? BorderRadius.circular(AppBorderRadius.big44)
+                  : BorderRadius.circular(AppBorderRadius.xsmall4),
         ),
       ),
       minimumSize: WidgetStateProperty.all(const Size(100, 50)),
@@ -127,90 +131,107 @@ class _ButtonType extends StatelessWidget {
 
     return switch (buttonType) {
       ButtonType.filled when icon != null => FilledButton.icon(
-          onPressed: isLoading ? () {} : onPressed,
-          style:
-              buttonStyle?.copyWith(splashFactory: InkSparkle.splashFactory) ?? defaultButtonStyle,
-          icon: isLoading ? const SizedBox.shrink() : finalIcon,
-          label: _ButtonContent(
-            isLoading: isLoading,
-            text: text,
-            textWidget: textWidget,
-            defaultTextColor: btnTextColor,
-          ),
+        onPressed: isLoading ? () {} : onPressed,
+        style:
+            buttonStyle?.copyWith(
+              splashFactory: InkSparkle.splashFactory,
+            ) ??
+            defaultButtonStyle,
+        icon: isLoading ? const SizedBox.shrink() : finalIcon,
+        label: _ButtonContent(
+          isLoading: isLoading,
+          text: text,
+          textWidget: textWidget,
+          defaultTextColor: btnTextColor,
         ),
+      ),
       ButtonType.filled => FilledButton(
-          onPressed: isLoading ? () {} : onPressed,
-          style:
-              buttonStyle?.copyWith(splashFactory: InkSparkle.splashFactory) ?? defaultButtonStyle,
-          child: _ButtonContent(
-            textWidget: textWidget,
-            isLoading: isLoading,
-            text: text,
-            defaultTextColor: btnTextColor,
-          ),
+        onPressed: isLoading ? () {} : onPressed,
+        style:
+            buttonStyle?.copyWith(
+              splashFactory: InkSparkle.splashFactory,
+            ) ??
+            defaultButtonStyle,
+        child: _ButtonContent(
+          textWidget: textWidget,
+          isLoading: isLoading,
+          text: text,
+          defaultTextColor: btnTextColor,
         ),
+      ),
       ButtonType.outlined when icon != null => OutlinedButton.icon(
-          onPressed: isLoading ? () {} : onPressed,
-          style: buttonStyle?.copyWith(
-            splashFactory: InkSparkle.splashFactory,
-          ),
-          icon: finalIcon,
-          label: _ButtonContent(
-            isLoading: isLoading,
-            text: text,
-            textWidget: textWidget,
-            defaultTextColor: btnTextColor,
-          ),
+        onPressed: isLoading ? () {} : onPressed,
+        style: buttonStyle?.copyWith(
+          splashFactory: InkSparkle.splashFactory,
         ),
+        icon: finalIcon,
+        label: _ButtonContent(
+          isLoading: isLoading,
+          text: text,
+          textWidget: textWidget,
+          defaultTextColor: btnTextColor,
+        ),
+      ),
       ButtonType.outlined => OutlinedButton(
-          onPressed: isLoading ? () {} : onPressed,
-          style: buttonStyle != null
-              ? buttonStyle?.copyWith(
+        onPressed: isLoading ? () {} : onPressed,
+        style:
+            buttonStyle != null
+                ? buttonStyle?.copyWith(
                   splashFactory: InkSparkle.splashFactory,
                   backgroundColor: WidgetStatePropertyAll(
                     backgroundColor ?? context.colorScheme.primary50,
                   ),
                   side: WidgetStateProperty.all(
-                    BorderSide(color: textColor ?? context.colorScheme.primary100),
+                    BorderSide(
+                      color:
+                          textColor ?? context.colorScheme.primary100,
+                    ),
                   ),
                 )
-              : defaultButtonStyle.copyWith(
+                : defaultButtonStyle.copyWith(
                   splashFactory: InkSparkle.splashFactory,
                   backgroundColor: WidgetStatePropertyAll(
                     backgroundColor ?? context.colorScheme.primary50,
                   ),
                   side: WidgetStateProperty.all(
-                    BorderSide(color: textColor ?? context.colorScheme.primary100),
+                    BorderSide(
+                      color:
+                          textColor ?? context.colorScheme.primary100,
+                    ),
                   ),
                 ),
-          child: _ButtonContent(
-            isLoading: isLoading,
-            text: text,
-            textWidget: textWidget,
-            defaultTextColor: btnTextColor,
-          ),
+        child: _ButtonContent(
+          isLoading: isLoading,
+          text: text,
+          textWidget: textWidget,
+          defaultTextColor: btnTextColor,
         ),
+      ),
       ButtonType.text when icon != null => TextButton.icon(
-          onPressed: isLoading ? () {} : onPressed,
-          style: buttonStyle?.copyWith(splashFactory: InkSparkle.splashFactory),
-          icon: finalIcon,
-          label: _ButtonContent(
-            isLoading: isLoading,
-            text: text,
-            textWidget: textWidget,
-            defaultTextColor: btnTextColor,
-          ),
+        onPressed: isLoading ? () {} : onPressed,
+        style: buttonStyle?.copyWith(
+          splashFactory: InkSparkle.splashFactory,
         ),
+        icon: finalIcon,
+        label: _ButtonContent(
+          isLoading: isLoading,
+          text: text,
+          textWidget: textWidget,
+          defaultTextColor: btnTextColor,
+        ),
+      ),
       ButtonType.text => TextButton(
-          onPressed: isLoading ? () {} : onPressed,
-          style: buttonStyle?.copyWith(splashFactory: InkSparkle.splashFactory),
-          child: _ButtonContent(
-            isLoading: isLoading,
-            text: text,
-            defaultTextColor: btnTextColor,
-            textWidget: textWidget,
-          ),
+        onPressed: isLoading ? () {} : onPressed,
+        style: buttonStyle?.copyWith(
+          splashFactory: InkSparkle.splashFactory,
         ),
+        child: _ButtonContent(
+          isLoading: isLoading,
+          text: text,
+          defaultTextColor: btnTextColor,
+          textWidget: textWidget,
+        ),
+      ),
     };
   }
 }
@@ -231,19 +252,17 @@ class _ButtonContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: isLoading
-          ? const AppLoadingIndicator()
-          : textWidget ??
-              AppText.s(
-                text: text,
-                color: defaultTextColor,
-              ),
+      child:
+          isLoading
+              ? const SizedBox(
+                height: 50,
+                width: 100,
+                child: AppLoadingIndicator(),
+              )
+              : textWidget ??
+                  AppText.s(text: text, color: defaultTextColor),
     );
   }
 }
 
-enum ButtonType {
-  filled,
-  outlined,
-  text,
-}
+enum ButtonType { filled, outlined, text }
