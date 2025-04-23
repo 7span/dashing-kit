@@ -1,32 +1,44 @@
 name-template: 'v$NEXT_PATCH_VERSION 🌟'
 tag-template: 'v$NEXT_PATCH_VERSION'
-categories:
-  - title: '🚀 Features'
-    labels:
-      - 'feature'
-      - 'enhancement'
-
-  - title: '🐛 Fixes'
-    labels:
-      - 'bug'
-      - 'fix'
-
-  - title: '🧹 Maintenance'
-    labels:
-      - 'chore'
-      - 'refactor'
-
+tag-prefix: ''
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: ''
 no-changes-template: '- No changes.'
-
+version-template: '$MAJOR.$MINOR.$PATCH$PRERELEASE'
 version-resolver:
   major:
-    labels:
-      - 'major'
+    labels: ['major']
   minor:
-    labels:
-      - 'minor'
+    labels: ['minor']
   patch:
-    labels:
-      - 'patch'
+    labels: ['patch']
   default: patch
+categories:
+  - title: '🚀 Features'
+    labels: ['feature', 'enhancement']
+  - title: '🐛 Fixes'
+    labels: ['bug', 'fix']
+  - title: '🧹 Maintenance'
+    labels: ['chore', 'refactor']
+exclude-labels: []
+include-labels: []
+include-paths: []
+exclude-contributors: []
+no-contributors-template: 'No contributors'
+replacers: []
+autolabeler: []
+sort-by: 'merged_at'
+sort-direction: 'descending'
+prerelease: false
+prerelease-identifier: ''
+include-pre-releases: false
+latest: true
+filter-by-commitish: false
+commitish: ''
+category-template: '## $TITLE'
+header: ''
+footer: ''
+
+# ✅ This line fixes the error
+template: |
+  $CHANGES
