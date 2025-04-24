@@ -32,7 +32,7 @@ sort-direction: 'descending'
 prerelease: false
 prerelease-identifier: ''
 include-pre-releases: false
-latest: true
+latest: 'true'
 filter-by-commitish: false
 commitish: ''
 category-template: '## $TITLE'
