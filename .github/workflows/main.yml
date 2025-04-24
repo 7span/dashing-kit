@@ -35,6 +35,9 @@ jobs:
           cat <<EOT >> apps/app_core/.env.dev
           ENV=Development
           BASE_API_URL=${{ secrets.BASE_API_URL_DEV }}
+          USER_API_URL=${{ secrets.USER_API_URL_DEV }}
+          IOS_APP_STORE_ID=${{ secrets.IOS_APP_STORE_ID }}
+          ONESIGNAL_APP_ID=${{ secrets.ONESIGNAL_APP_ID_DEV }}
           EOT
 
       # Create .env.staging file
@@ -43,6 +46,9 @@ jobs:
           cat <<EOT >> apps/app_core/.env.staging
           ENV=Staging
           BASE_API_URL=${{ secrets.BASE_API_URL_DEV }}
+          USER_API_URL=${{ secrets.USER_API_URL_DEV }}
+          IOS_APP_STORE_ID=${{ secrets.IOS_APP_STORE_ID }}
+          ONESIGNAL_APP_ID=${{ secrets.ONESIGNAL_APP_ID_DEV }}
           EOT
 
       # Create .env.prod file
@@ -51,6 +57,9 @@ jobs:
           cat <<EOT >> apps/app_core/.env.prod
           ENV=Production
           BASE_API_URL=${{ secrets.BASE_API_URL_PROD }}
+          USER_API_URL=${{ secrets.USER_API_URL_PROD }}
+          IOS_APP_STORE_ID=${{ secrets.IOS_APP_STORE_ID }}
+          ONESIGNAL_APP_ID=${{ secrets.ONESIGNAL_APP_ID_PROD }}
           EOT
      
       - name: Install melos

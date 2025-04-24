@@ -1,12 +1,14 @@
 name: Draft Release
 
 on:
-  push:
+  pull_request_target:
+    types: [closed]
     branches:
       - main
 
 jobs:
   draft-release:
+    if: github.event.pull_request.merged == true
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -16,5 +18,7 @@ jobs:
         uses: release-drafter/release-drafter@v5
         with:
           config-name: release-drafter.yml
+          # Uncomment to auto-publish the release
+          # publish: true
         env:
           GITHUB_TOKEN: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
