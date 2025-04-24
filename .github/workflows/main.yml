@@ -77,6 +77,11 @@ jobs:
       - name: Run Asset generation
         run: melos run asset-gen       
 
+      - name: Accept Android SDK Licenses and Install NDK
+        run: |
+          yes | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_HOME} --licenses
+          sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "ndk;29.0.13113456"
+
       # Build Android apk for prod flavor
       - name: Build Android apk For Production
         run: melos run build-apk
