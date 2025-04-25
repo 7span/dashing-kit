@@ -12,14 +12,14 @@ class HomeState extends Equatable {
   postList; // The currently loaded users
   final bool hasReachedMax; // Whether all pages are loaded
 
-  /// if API page starts with 1:
-  /// ```
+  /// if API pagination starts with 1:
+  /// ```dart
   /// int get nextPage =>
   ///     (list.length / pageSize).floor() + 1;
   ///```
   ///
-  /// if API page starts with 0:
-  /// ```
+  /// if API pagination starts with 0:
+  /// ```dart
   /// int get nextPage =>
   ///     (list.length / pageSize).ceil();
   /// ```
