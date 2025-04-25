@@ -1,4 +1,5 @@
 import 'package:api_client/api_client.dart';
+import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/modules/home/model/post_response_model.dart';
 import 'package:app_core/modules/home/repository/home_repository.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -12,41 +13,43 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({required this.repository}) : super(const HomeState()) {
     on<FetchPostsEvent>(_fetchPosts);
-    on<LoadMorePostsEvent>(_onLoadMorePosts, transformer: droppable());
+    on<LoadMorePostsEvent>(
+      _onLoadMorePosts,
+      transformer: droppable(),
+    );
   }
 
   final HomeRepository repository;
-
-  int _page = 1;
-  final int _limit = 5;
 
   Future<void> _fetchPosts(
     FetchPostsEvent event,
     Emitter<HomeState> emit,
   ) async {
-    _page = 1;
-
     emit(const HomeState(apiStatus: ApiStatus.loading));
 
-    final response =
-        await repository.fetchPostData(page: _page, limit: _limit).run();
+    final response = await repository.fetchPostData().run();
 
-    response.fold((error) => emit(state.copyWith(apiStatus: ApiStatus.error)), (
-      response,
-    ) {
-      if (response.isEmpty) {
-        emit(const HomeState(apiStatus: ApiStatus.empty, hasReachedMax: true));
-      } else {
-        emit(
-          state.copyWith(
-            postList: response,
-            apiStatus: ApiStatus.loaded,
-            hasReachedMax: response.length < _limit,
-          ),
-        );
-        _page++;
-      }
-    });
+    response.fold(
+      (error) => emit(state.copyWith(apiStatus: ApiStatus.error)),
+      (response) {
+        if (response.isEmpty) {
+          emit(
+            const HomeState(
+              apiStatus: ApiStatus.empty,
+              hasReachedMax: true,
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              postList: response,
+              apiStatus: ApiStatus.loaded,
+              hasReachedMax: response.length < ApiEndpoints.pageSize,
+            ),
+          );
+        }
+      },
+    );
   }
 
   Future<void> _onLoadMorePosts(
@@ -56,19 +59,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (state.hasReachedMax) return;
 
     final response =
-        await repository.fetchPostData(page: _page, limit: _limit).run();
+        await repository.fetchPostData(page: state.nextPage).run();
 
-    response.fold((error) => emit(state.copyWith(apiStatus: ApiStatus.error)), (
-      response,
-    ) {
-      emit(
-        state.copyWith(
-          postList: List.of(state.postList)..addAll(response),
-          apiStatus: ApiStatus.loaded,
-          hasReachedMax: response.length < _limit,
-        ),
-      );
-      _page++;
-    });
+    response.fold(
+      (error) => emit(state.copyWith(apiStatus: ApiStatus.error)),
+      (response) {
+        emit(
+          state.copyWith(
+            postList: List.of(state.postList)..addAll(response),
+            apiStatus: ApiStatus.loaded,
+            hasReachedMax: response.length < ApiEndpoints.pageSize,
+          ),
+        );
+      },
+    );
   }
 }
