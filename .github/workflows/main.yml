@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - development
-      - fix/improved-pagination
 
 jobs:
   build:
@@ -78,52 +77,32 @@ jobs:
       - name: Run Asset generation
         run: melos run asset-gen       
 
-#      - name: Accept Android SDK Licenses and Install NDK
-#        run: |
-#          yes | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_HOME} --licenses
-#          sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "ndk;29.0.13113456"
-
-#      # Build Android apk for prod flavor
-#      - name: Build Android apk For Production
-#        run: melos run build-apk
-
-#      # Install Firebase CLI
-#      - name: Install Firebase CLI
-#        run: curl -sL https://firebase.tools | bash
-#
-#      # Distribute APK to Firebase App Distribution
-#      - name: Distribute APK
-#        run: |
-#          firebase appdistribution:distribute apps/app_core/build/app/outputs/flutter-apk/app-prod-release.apk \
-#            --app "${{ secrets.FIREBASE_APP_ID }}" \
-#            --groups "7Span-Internal" \
-#            --release-notes "${{ github.event.head_commit.message }}"
-#        env:
-#          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-#
-#      - name: Upload the build Artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: app-release
-#          path: apps/app_core/build/app/outputs/flutter-apk/app-prod-release.apk
-
-      # === iOS TestFlight Upload ===
-
-      - name: Create App Store Connect API key file
+      - name: Accept Android SDK Licenses and Install NDK
         run: |
-          mkdir -p apps/app_core/private_keys
-          echo "${{ secrets.APP_STORE_API_KEY_P8 }}" | base64 --decode > apps/app_core/private_keys/AuthKey_${{ secrets.APP_STORE_API_KEY_ID }}.p8
+          yes | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_HOME} --licenses
+          sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "ndk;29.0.13113456"
 
-      - name: Build iOS IPA
-        working-directory: apps/app_core
-        run: flutter build ipa -t lib/main_production.dart --flavor prod --export-options-plist=ios/ExportOptions.plist
+      # Build Android apk for prod flavor
+      - name: Build Android apk For Production
+        run: melos run build-apk
 
-      - name: Upload IPA to App Store Connect
-        working-directory: apps/app_core
+      # Install Firebase CLI
+      - name: Install Firebase CLI
+        run: curl -sL https://firebase.tools | bash
+
+      # Distribute APK to Firebase App Distribution
+      - name: Distribute APK
         run: |
-          xcrun altool --upload-app \
-            --type ios \
-            --file build/ios/ipa/*.ipa \
-            --apiKey "${{ secrets.APP_STORE_API_KEY_ID }}" \
-            --apiIssuer "${{ secrets.APP_STORE_ISSUER_ID }}"
+          firebase appdistribution:distribute apps/app_core/build/app/outputs/flutter-apk/app-prod-release.apk \
+            --app "${{ secrets.FIREBASE_APP_ID }}" \
+            --groups "7Span-Internal" \
+            --release-notes "${{ github.event.head_commit.message }}"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Upload the build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: apps/app_core/build/app/outputs/flutter-apk/app-prod-release.apk
           
