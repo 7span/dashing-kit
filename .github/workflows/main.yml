@@ -116,7 +116,7 @@ jobs:
 
       - name: Build iOS IPA
         working-directory: apps/app_core
-        run: flutter build ipa -t lib/main_production.dart
+        run: flutter build ipa -t lib/main_production.dart --flavor prod
 
       - name: Upload IPA to App Store Connect
         working-directory: apps/app_core
