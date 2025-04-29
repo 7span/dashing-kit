@@ -91,26 +91,11 @@ jobs:
       - name: Install Firebase CLI
         run: curl -sL https://firebase.tools | bash
 
-      # Extract Firebase App ID from firebase_options.dart
-      - name: Extract Firebase App ID
-        id: extract_app_id
-        run: |
-          APP_ID=$(awk '
-            $0 ~ /static const FirebaseOptions android = FirebaseOptions\\(/ { in_android=1 }
-            in_android && $0 ~ /appId:/ {
-              gsub(/.*appId:[[:space:]]+\\047/, "", $0)
-              gsub(/\\047.*/, "", $0)
-              print $0
-              exit
-            }
-          ' apps/app_core/lib/firebase_options.dart)
-          echo "APP_ID=$APP_ID" >> $GITHUB_OUTPUT
-
       # Distribute APK to Firebase App Distribution
       - name: Distribute APK
         run: |
           firebase appdistribution:distribute apps/app_core/build/app/outputs/flutter-apk/app-prod-release.apk \
-            --app "${{ steps.extract_app_id.outputs.APP_ID }}" \
+            --app "${{ secrets.FIREBASE_APP_ID }}" \
             --groups "7Span-Internal" \
             --release-notes "${{ github.event.head_commit.message }}"
         env:
