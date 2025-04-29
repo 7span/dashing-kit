@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - development
+      - fix/improved-pagination
 
 jobs:
   build:
@@ -105,4 +106,24 @@ jobs:
         with:
           name: app-release
           path: apps/app_core/build/app/outputs/flutter-apk/app-prod-release.apk
+
+      # === iOS TestFlight Upload ===
+
+      - name: Create App Store Connect API key file
+        run: |
+          mkdir -p apps/app_core/private_keys
+          echo "${{ secrets.APP_STORE_API_KEY_P8 }}" | base64 --decode > apps/app_core/private_keys/AuthKey_${{ secrets.APP_STORE_API_KEY_ID }}.p8
+
+      - name: Build iOS IPA
+        working-directory: apps/app_core
+        run: flutter build ipa -t lib/main_production.dart
+
+      - name: Upload IPA to App Store Connect
+        working-directory: apps/app_core
+        run: |
+          xcrun altool --upload-app \
+            --type ios \
+            --file build/ios/ipa/*.ipa \
+            --apiKey "${{ secrets.APP_STORE_API_KEY_ID }}" \
+            --apiIssuer "${{ secrets.APP_STORE_ISSUER_ID }}"
           

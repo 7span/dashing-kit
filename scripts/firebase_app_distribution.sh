@@ -21,7 +21,7 @@ APP_ID=$(awk '
     exit
   }
 ' "$FIREBASE_OPTIONS_PATH")
-APK_PATH="./apps/app_core/build/app/outputs/flutter-apk/app-release.apk"
+APK_PATH="./apps/app_core/build/app/outputs/flutter-apk/app-prod-release.apk"
 
 # === Ask for Group Name ===
 echo ":group: Enter the Firebase tester group name you want to distribute to:"
