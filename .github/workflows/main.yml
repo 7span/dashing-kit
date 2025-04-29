@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - development
+      - fix/improved-pagination
 
 jobs:
   build:
