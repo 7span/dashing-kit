@@ -1,6 +1,4 @@
 class ApiEndpoints {
-
-  static const pageSize = 5;
   static const login = '/api/v1/login';
   static const signup = '/api/register';
   static const profile = '/api/users';

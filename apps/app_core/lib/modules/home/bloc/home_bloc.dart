@@ -1,5 +1,4 @@
 import 'package:api_client/api_client.dart';
-import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/modules/home/model/post_response_model.dart';
 import 'package:app_core/modules/home/repository/home_repository.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -44,7 +43,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             state.copyWith(
               postList: response,
               apiStatus: ApiStatus.loaded,
-              hasReachedMax: response.length < ApiEndpoints.pageSize,
+              hasReachedMax: response.length < ApiConstant.pageSize,
             ),
           );
         }
@@ -68,7 +67,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           state.copyWith(
             postList: List.of(state.postList)..addAll(response),
             apiStatus: ApiStatus.loaded,
-            hasReachedMax: response.length < ApiEndpoints.pageSize,
+            hasReachedMax: response.length < ApiConstant.pageSize,
           ),
         );
       },

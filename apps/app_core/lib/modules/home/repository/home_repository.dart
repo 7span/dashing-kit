@@ -44,7 +44,7 @@ class HomeRepository implements IHomeRepository {
       path: ApiEndpoints.posts,
       queryParameters: {
         '_page': page,
-        '_limit': ApiEndpoints.pageSize,
+        '_limit': ApiConstant.pageSize,
       },
     );
   }

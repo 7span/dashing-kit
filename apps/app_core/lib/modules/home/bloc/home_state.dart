@@ -23,8 +23,7 @@ class HomeState extends Equatable {
   /// int get nextPage =>
   ///     (list.length / pageSize).ceil();
   /// ```
-  int get nextPage =>
-      (postList.length / ApiEndpoints.pageSize).floor() + 1;
+  int get nextPage => (postList.length / ApiConstant.pageSize).floor() + 1;
 
   /// Copy the state with new values.
 
