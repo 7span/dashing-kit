@@ -8,8 +8,22 @@ class HomeState extends Equatable {
   });
 
   final ApiStatus apiStatus;
-  final List<PostResponseModel> postList; // The currently loaded users
+  final List<PostResponseModel>
+  postList; // The currently loaded users
   final bool hasReachedMax; // Whether all pages are loaded
+
+  /// if API pagination starts with 1:
+  /// ```dart
+  /// int get nextPage =>
+  ///     (list.length / pageSize).floor() + 1;
+  ///```
+  ///
+  /// if API pagination starts with 0:
+  /// ```dart
+  /// int get nextPage =>
+  ///     (list.length / pageSize).ceil();
+  /// ```
+  int get nextPage => (postList.length / ApiConstant.pageSize).floor() + 1;
 
   /// Copy the state with new values.
 

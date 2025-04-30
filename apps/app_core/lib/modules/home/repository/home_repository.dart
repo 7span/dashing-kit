@@ -10,8 +10,7 @@ import 'package:fpdart/fpdart.dart';
 
 abstract interface class IHomeRepository {
   TaskEither<Failure, List<PostResponseModel>> fetchPostData({
-    required int page,
-    required int limit,
+    int page = 1,
   });
 
   TaskEither<Failure, bool> setPlayerId(String playerId);
@@ -20,10 +19,9 @@ abstract interface class IHomeRepository {
 class HomeRepository implements IHomeRepository {
   @override
   TaskEither<Failure, List<PostResponseModel>> fetchPostData({
-    required int page,
-    required int limit,
+    int page = 1,
   }) {
-    return makefetchPostsRequest(page, limit)
+    return makeFetchPostsRequest(page)
         .chainEither(RepositoryUtils.checkStatusCode)
         .chainEither(
           (response) => RepositoryUtils.mapToModel(() {
@@ -31,7 +29,9 @@ class HomeRepository implements IHomeRepository {
             var postList = <PostResponseModel>[];
             for (final postModel in response.data as List<dynamic>) {
               postList.add(
-                PostResponseModel.fromJson(postModel as Map<String, dynamic>),
+                PostResponseModel.fromJson(
+                  postModel as Map<String, dynamic>,
+                ),
               );
             }
             return postList;
@@ -39,10 +39,13 @@ class HomeRepository implements IHomeRepository {
         );
   }
 
-  TaskEither<Failure, Response> makefetchPostsRequest(int page, int limit) {
+  TaskEither<Failure, Response> makeFetchPostsRequest(int page) {
     return baseApiClient.request(
       path: ApiEndpoints.posts,
-      queryParameters: {'_page': page, '_limit': limit},
+      queryParameters: {
+        '_page': page,
+        '_limit': ApiConstant.pageSize,
+      },
     );
   }
 
@@ -50,10 +53,14 @@ class HomeRepository implements IHomeRepository {
   TaskEither<Failure, bool> setPlayerId(String playerID) =>
       getIt<IHiveService>()
           .setPlayerId(playerID)
-          .flatMap((r) => _sendPlayerIdToServer(playerID).map((r) => true));
+          .flatMap(
+            (r) => _sendPlayerIdToServer(playerID).map((r) => true),
+          );
 
   /// Make API call to send the player ID to the server
-  TaskEither<Failure, Response> _sendPlayerIdToServer(String playerID) {
+  TaskEither<Failure, Response> _sendPlayerIdToServer(
+    String playerID,
+  ) {
     return userApiClient.request(
       path: 'Endpoint',
       queryParameters: {'playerId': playerID},

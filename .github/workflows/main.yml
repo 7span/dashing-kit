@@ -86,6 +86,20 @@ jobs:
       - name: Build Android apk For Production
         run: melos run build-apk
 
+      # Install Firebase CLI
+      - name: Install Firebase CLI
+        run: curl -sL https://firebase.tools | bash
+
+      # Distribute APK to Firebase App Distribution
+      - name: Distribute APK
+        run: |
+          firebase appdistribution:distribute apps/app_core/build/app/outputs/flutter-apk/app-prod-release.apk \
+            --app "${{ secrets.FIREBASE_APP_ID }}" \
+            --groups "7Span-Internal" \
+            --release-notes "${{ github.event.head_commit.message }}"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
       - name: Upload the build Artifact
         uses: actions/upload-artifact@v4
         with:
