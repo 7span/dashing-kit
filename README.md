@@ -1,12 +1,13 @@
 ## Flutter Boilerplate
 
-![banner.png](banner.png)
+![Flutter boilerplate banner](banner.webp)
 
 ### ⚡ Jumpstart Development — Prebuilt structure for faster and customised launch.
 
 ![Flutter](https://img.shields.io/badge/Flutter-v3.13.0-blue?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.2.0-blue?logo=dart)
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue)
+![MIT](https://img.shields.io/badge/license-MIT-purple.svg)
 
 # 📝 Features:
 
