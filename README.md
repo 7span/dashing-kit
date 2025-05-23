@@ -1,6 +1,6 @@
 ## Flutter Boilerplate
 
-![banner.png](banner.png)
+![Flutter boilerplate banner](banner.webp)
 
 ### ⚡ Jumpstart Development — Prebuilt structure for faster and customised launch.
 
