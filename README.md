@@ -25,7 +25,7 @@
 # 🗂️ Documentation
 
 Built with ❤️ using Codelab for a seamless learning experience.
-- Explore the step-by-step guide on [Codelab](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#0).
+- Explore the step-by-step guide on [Codelab](https://7span.com/open-source/flutter-launchpad-docs/docs/intro).
 
 # 🏁 Getting Started
 
