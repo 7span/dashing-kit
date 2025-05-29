@@ -25,7 +25,7 @@
 # 🗂️ Documentation
 
 Built with ❤️ using Codelab for a seamless learning experience.
-- Explore the step-by-step guide on [Codelab](https://7span.com/open-source/flutter-launchpad-docs/docs/intro).
+- Explore the step-by-step guide on our [Documentation](https://7span.com/open-source/flutter-launchpad-docs/docs/intro).
 
 # 🏁 Getting Started
 
@@ -40,7 +40,7 @@ Built with ❤️ using Codelab for a seamless learning experience.
 flutter run -t apps/app_core/lib/main_development.dart --flavor development
 ```
 
-> ✅ **Note:** To know more about `project set-up scripts` see the [documentation](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#2).
+> ✅ **Note:** To know more about `project set-up scripts` see the [documentation](https://7span.com/open-source/flutter-launchpad-docs/docs/intro).
 
 
 # 🤝 Contribution
@@ -55,4 +55,4 @@ or submit a pull request.
 
 # 📬 Contact
 
-For issues or suggestions, open an issue or reach out at dash@7span.com.
+For issues or suggestions, open an issue in this repository.
