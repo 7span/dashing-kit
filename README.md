@@ -24,23 +24,31 @@
 
 # 🗂️ Documentation
 
-Built with ❤️ using Codelab for a seamless learning experience.
 - Explore the step-by-step guide on our [Documentation](https://7span.com/open-source/flutter-launchpad-docs/docs/intro).
 
 # 🏁 Getting Started
 
 1. Clone the repository.
-2. Run the set-up script in terminal.
+```
+git clone https://github.com/7span/flutter-launchpad
+```
+
+2. Run this script to ensure required project environment.
+```
+sh scripts/check_environment_configuration.sh
+```
+
+3. Run the set-up script in terminal.
  ```
  sh scripts/init.sh 
  ```
 
-3. Launch application using below command or from IDE.
+4. Launch application using below command or from IDE.
 ```
 flutter run -t apps/app_core/lib/main_development.dart --flavor development
 ```
 
-> ✅ **Note:** To know more about `project set-up scripts` see the [documentation](https://7span.com/open-source/flutter-launchpad-docs/docs/intro).
+> ✅ **Note:** To know more about `project set-up scripts` see the [documentation](https://7span.com/open-source/flutter-launchpad-docs/docs/category/project-set-up).
 
 
 # 🤝 Contribution
