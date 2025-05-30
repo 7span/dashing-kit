@@ -27,6 +27,7 @@ class WidgetbookApp extends StatelessWidget {
       ],
       appBuilder: (context, child) {
         return MaterialApp(
+          title: 'Flutter Launchpad Widgetbook',
           debugShowCheckedModeBanner: false,
           home: AppResponsiveTheme(
             colorMode: AppThemeColorMode.light,
