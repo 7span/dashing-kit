@@ -3,8 +3,8 @@ name: Flutter Build Apk
 on:
   push:
     branches:
-      - main
-      - development
+      - sudo
+      # add your branch here
 
 jobs:
   build:
