@@ -41,6 +41,7 @@
   },
   "hosting": {
     "public": "packages/widgetbook/build/web",
+    "site": "flutter-launchpad-widgetbook",
     "ignore": [
       "firebase.json",
       "**/.*",
