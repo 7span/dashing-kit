@@ -64,6 +64,12 @@ scripts:
       scope: app_core
     exec: cd ios && rm -rf Pods && rm -rf Podfile.lock && pod install --repo-update
 
+  widgetbook-gen:
+    description: Generate WidgetBook files
+    packageFilters:
+      scope: widgetbook_workspace
+    exec: dart run build_runner build -d
+
   format:
     description: Formats the files
     run: |

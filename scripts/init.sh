@@ -51,3 +51,6 @@ mason init
 echo "Installing mason bricks"
 echo "bricks:\n  feature:\n    path: bricks/feature" > mason.yaml
 mason get feature
+
+echo "Generating WidgetBook"
+melos run widgetbook-gen
