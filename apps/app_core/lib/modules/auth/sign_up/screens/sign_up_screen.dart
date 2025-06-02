@@ -66,7 +66,6 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
               SlideAndFadeAnimationWrapper(delay: 300, child: _NameInput()),
               SlideAndFadeAnimationWrapper(delay: 300, child: _EmailInput()),
               SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
-              SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
               SlideAndFadeAnimationWrapper(delay: 400, child: _ConfirmPasswordInput()),
               SlideAndFadeAnimationWrapper(delay: 400, child: _UserConsentWidget()),
               const SlideAndFadeAnimationWrapper(delay: 600, child: _CreateAccountButton()),
