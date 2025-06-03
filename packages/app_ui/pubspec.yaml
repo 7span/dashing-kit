@@ -15,7 +15,7 @@ dependencies:
   flutter_blurhash: ^0.8.2
   flutter_spinkit: ^5.2.1
   octo_image: ^2.1.0
-  skeletonizer: ^1.4.3
+  skeletonizer: ^2.0.1
   timeago: ^3.7.0
   url_launcher: ^6.3.1
   flutter_svg: ^2.0.17
