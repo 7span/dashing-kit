@@ -50,7 +50,12 @@ class AuthRepository implements IAuthRepository {
     requestType: RequestType.post,
     path: ApiEndpoints.login,
     body: authRequestModel.toMap(),
-    options: Options(headers: {'Content-Type': 'application/json'}),
+    options: Options(
+      headers: {
+        'x-api-key': 'reqres-free-v1',
+        'Content-Type': 'application/json',
+      },
+    ),
   );
 
   TaskEither<Failure, Unit> saveUserToLocal(
