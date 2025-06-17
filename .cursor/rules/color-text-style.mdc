@@ -1,0 +1,354 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+description: "Flutter Colors and TextStyles Rule (Material Design)"
+alwaysApply: true
+
+## Overview
+This rule enforces consistent usage of Material Design colors and typography through context extensions and custom widgets in Flutter Launchpad projects.
+
+## Rule Application
+
+### 🎨 Color Usage Rules
+
+#### ✅ ALWAYS Use Context ColorScheme
+**Correct Pattern:**
+```dart
+// Use Material Design color scheme
+Container(color: context.colorScheme.primary)
+Container(color: context.colorScheme.secondary)
+Container(color: context.colorScheme.surface)
+Container(color: context.colorScheme.onPrimary)
+```
+
+#### ❌ NEVER Use Hardcoded Colors
+**Avoid these patterns:**
+```dart
+// DON'T DO THIS
+Container(color: Colors.blue)
+Container(color: Color(0xFF123456))
+Container(color: const Color.fromRGb(255, 0, 0))
+```
+
+### 📝 Typography Rules
+
+#### ✅ ALWAYS Use AppText Widget
+**Correct Pattern:**
+```dart
+// Use AppText for consistent typography
+AppText.medium(
+  text: context.t.login,
+  color: context.colorScheme.primary,
+)
+
+AppText.large(
+  text: "Welcome",
+  color: context.colorScheme.onSurface,
+)
+
+AppText.small(
+  text: "Description",
+  color: context.colorScheme.onSecondary,
+)
+```
+
+#### ❌ NEVER Use Raw Text Widget
+**Avoid this pattern:**
+```dart
+// DON'T DO THIS
+Text(
+  "Login",
+  style: TextStyle(fontSize: 16, color: Colors.black),
+)
+```
+
+#### ✅ Use Context TextTheme for Advanced Cases  
+**For RichText and complex styling:**
+```dart
+RichText(
+  text: TextSpan(
+    text: context.t.login,
+    style: context.textTheme.medium,
+  ),
+)
+
+// Multiple text spans
+RichText(
+  text: TextSpan(
+    children: [
+      TextSpan(
+        text: "Welcome ",
+        style: context.textTheme.large,
+      ),
+      TextSpan(
+        text: "User",
+        style: context.textTheme.medium.copyWith(
+          color: context.colorScheme.primary,
+        ),
+      ),
+    ],
+  ),
+)
+```
+
+## Material ColorScheme Reference
+
+### Primary Colors
+```dart
+context.colorScheme.primary          // Main brand color
+context.colorScheme.onPrimary        // Text/icons on primary
+context.colorScheme.primaryContainer // Tinted primary surface
+context.colorScheme.onPrimaryContainer // Text on primary container
+```
+
+### Secondary Colors
+```dart
+context.colorScheme.secondary        // Accent color
+context.colorScheme.onSecondary      // Text/icons on secondary
+context.colorScheme.secondaryContainer // Tinted secondary surface
+context.colorScheme.onSecondaryContainer // Text on secondary container
+```
+
+### Surface Colors
+```dart
+context.colorScheme.surface          // Component backgrounds
+context.colorScheme.onSurface        // Text/icons on surface
+context.colorScheme.surfaceVariant   // Alternative surface
+context.colorScheme.onSurfaceVariant // Text on surface variant
+```
+
+### Utility Colors
+```dart
+context.colorScheme.background       // App background
+context.colorScheme.onBackground     // Text/icons on background
+context.colorScheme.error            // Error states
+context.colorScheme.onError          // Text/icons on error
+context.colorScheme.outline          // Borders and dividers
+context.colorScheme.shadow           // Shadows and elevation
+```
+
+## AppText Widget Variants
+
+### Text Size Variants
+```dart
+AppText.small(text: "Small text")       // Caption/helper text
+AppText.medium(text: "Medium text")     // Body text
+AppText.large(text: "Large text")       // Headings
+AppText.extraLarge(text: "XL text")     // Main titles
+```
+
+### Common AppText Patterns
+```dart
+// Basic usage
+AppText.medium(
+  text: context.t.welcome,
+  color: context.colorScheme.onSurface,
+)
+
+// With custom styling
+AppText.large(
+  text: "Title",
+  color: context.colorScheme.primary,
+  textAlign: TextAlign.center,
+  maxLines: 2,
+  overflow: TextOverflow.ellipsis,
+)
+
+// Localized text
+AppText.medium(
+  text: context.t.login,
+  color: context.colorScheme.onPrimary,
+)
+```
+
+## Context TextTheme Reference
+
+### Available TextTheme Styles
+```dart
+context.textTheme.small              // Small body text
+context.textTheme.medium             // Regular body text  
+context.textTheme.large              // Large body text
+context.textTheme.headlineSmall      // Small headlines
+context.textTheme.headlineMedium     // Medium headlines
+context.textTheme.headlineLarge      // Large headlines
+context.textTheme.displaySmall       // Small display text
+context.textTheme.displayMedium      // Medium display text
+context.textTheme.displayLarge       // Large display text
+context.textTheme.labelSmall         // Small labels
+context.textTheme.labelMedium        // Medium labels
+context.textTheme.labelLarge         // Large labels
+```
+
+## Implementation Patterns
+
+### Container with Color
+```dart
+Container(
+  decoration: BoxDecoration(
+    color: context.colorScheme.surface,
+    border: Border.all(
+      color: context.colorScheme.outline,
+    ),
+    borderRadius: BorderRadius.circular(8),
+  ),
+  child: AppText.medium(
+    text: context.t.content,
+    color: context.colorScheme.onSurface,
+  ),
+)
+```
+
+### Card with Proper Colors
+```dart
+Card(
+  color: context.colorScheme.surfaceVariant,
+  elevation: 2,
+  child: Padding(
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      children: [
+        AppText.large(
+          text: context.t.title,
+          color: context.colorScheme.onSurfaceVariant,
+        ),
+        AppText.medium(
+          text: context.t.description,
+          color: context.colorScheme.onSurfaceVariant,
+        ),
+      ],
+    ),
+  ),
+)
+```
+
+### Button Styling
+```dart
+ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    backgroundColor: context.colorScheme.primary,
+    foregroundColor: context.colorScheme.onPrimary,
+  ),
+  onPressed: () {},
+  child: AppText.medium(
+    text: context.t.submit,
+    color: context.colorScheme.onPrimary,
+  ),
+)
+```
+
+## Customization Guidelines
+
+### Adding New Colors
+**Edit `colors.dart`:**
+```dart
+// Add custom colors to color scheme
+ColorScheme customColorScheme = ColorScheme.fromSeed(
+  seedColor: Colors.blue,
+  // Add custom color mappings
+);
+```
+
+### Adding New TextStyles  
+**Edit `typography.dart`:**
+```dart
+// Define custom text styles
+TextTheme customTextTheme = TextTheme(
+  headlineLarge: TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.bold,
+  ),
+  // Add more custom styles
+);
+```
+
+## Implementation Checklist
+
+### For UI Components:
+- [ ] Use `context.colorScheme.*` for all colors
+- [ ] Use `AppText.*` instead of `Text` widget
+- [ ] Use `context.textTheme.*` for complex text styling
+- [ ] Follow Material Design color semantics
+- [ ] Use localized text with `context.t.*`
+
+### Code Review Checklist:
+- [ ] No hardcoded colors (`Colors.blue`, `Color(0xFF...)`)
+- [ ] No raw `Text` widgets
+- [ ] Proper color contrast (primary/onPrimary pairs)
+- [ ] Consistent typography hierarchy
+- [ ] Localization used where appropriate
+
+## Common Anti-Patterns to Avoid
+
+### ❌ Wrong Color Usage
+```dart
+// DON'T DO THIS
+Container(color: Colors.red)
+Text("Error", style: TextStyle(color: Colors.red))
+```
+
+### ❌ Wrong Text Usage
+```dart
+// DON'T DO THIS
+Text(
+  "Login",
+  style: TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  ),
+)
+```
+
+### ❌ Inconsistent Theming
+```dart
+// DON'T DO THIS - mixing theme and hardcoded values
+Container(
+  color: context.colorScheme.surface,
+  child: Text(
+    "Mixed theming",
+    style: TextStyle(color: Colors.black), // Should use theme
+  ),
+)
+```
+
+## Best Practices
+
+### Semantic Color Usage
+- Use `primary` for main actions and branding
+- Use `secondary` for accent elements
+- Use `surface` for component backgrounds
+- Use `error` for error states only
+- Always pair colors with their `on*` counterparts
+
+### Typography Hierarchy
+- Use `AppText.extraLarge` for main titles
+- Use `AppText.large` for section headers
+- Use `AppText.medium` for body text
+- Use `AppText.small` for captions and helper text
+
+### Accessibility
+- Ensure proper color contrast ratios
+- Test with dark/light theme variations
+- Use semantic colors for better screen reader support
+
+## Migration Guide
+
+### From Hardcoded Colors
+```dart
+// Before
+Container(color: Colors.blue)
+
+// After
+Container(color: context.colorScheme.primary)
+```
+
+### From Text Widget
+```dart
+// Before
+Text("Login", style: TextStyle(fontSize: 16))
+
+// After
+AppText.medium(text: context.t.login)
+```
