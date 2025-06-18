@@ -1,0 +1,36 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+description: "Usage Colors"
+alwaysApply: true
+
+## Overview
+This rule enforces consistent usage of colors in project.
+
+If you look at the `extensions.dart` file, you will be able to see extensions related to accessing colors and textstyles.
+we follow material conventions. So to use any color, you can use context.colorscheme like this:
+
+```dart
+Container(color:context.colorScheme.primary)
+```
+
+Use AppText instead of Text widget to utilise typography.
+```dart
+AppText.medium(
+ text:context.t.login,
+ color: context.colorScheme.primary,
+),
+```
+
+Same way, You can use TextStyles using context.textTheme.
+
+```dart
+RichText(
+  text: TextSpan(
+    text: context.t.login,
+    Style: context.textTheme.medium,
+    )
+)
+```
