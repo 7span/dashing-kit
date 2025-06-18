@@ -48,7 +48,7 @@ class SubscriptionScreen extends StatelessWidget implements AutoRouteWrapper {
           flog('status in listen of subscription: ${state.status}');
         },
         child: AppScaffold(
-          appBar: AppBar(centerTitle: true, title: const Text('Purchase Plans')),
+          appBar: const CustomAppBar(title: 'Purchase Plans', centerTitle: true),
           body: SingleChildScrollView(
             child: Column(
               spacing: Insets.xsmall8,

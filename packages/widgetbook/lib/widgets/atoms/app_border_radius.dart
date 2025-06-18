@@ -1,13 +1,9 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
-import 'package:widgetbook_annotation/widgetbook_annotation.dart'
-    as widgetbook;
+import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
-@widgetbook.UseCase(
-  name: 'Interactive Border Radius',
-  type: AppBorderRadius,
-)
+@widgetbook.UseCase(name: 'Interactive Border Radius', type: AppBorderRadius)
 Widget interactiveAppBorderRadius(BuildContext context) {
   final knobs = context.knobs;
 
@@ -42,7 +38,7 @@ Widget interactiveAppBorderRadius(BuildContext context) {
 
   // Sample widget to apply the border radius
   return AppScaffold(
-    appBar: AppBar(title: const Text('Interactive Border Radius')),
+    appBar: const CustomAppBar(title: 'Interactive Border Radius'),
     body: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
@@ -53,10 +49,7 @@ Widget interactiveAppBorderRadius(BuildContext context) {
           borderRadius: BorderRadius.circular(borderRadiusValue),
         ),
         child: Center(
-          child: Text(
-            'Border Radius: $borderRadiusValue',
-            style: TextStyle(color: Colors.white),
-          ),
+          child: Text('Border Radius: $borderRadiusValue', style: TextStyle(color: Colors.white)),
         ),
       ),
     ),

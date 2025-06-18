@@ -37,10 +37,9 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
           ),
           BlocProvider(
             create:
-                (context) => ProfileCubit(
-                  context.read<AuthRepository>(),
-                  context.read<ProfileRepository>(),
-                )..fetchProfileDetail(),
+                (context) =>
+                    ProfileCubit(context.read<AuthRepository>(), context.read<ProfileRepository>())
+                      ..fetchProfileDetail(),
           ),
         ],
 
@@ -71,10 +70,7 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(
-        title: Text(context.t.homepage_title),
-        actions: const [ProfileImage()],
-      ),
+      appBar: CustomAppBar(title: context.t.homepage_title, actions: const [ProfileImage()]),
       body: Column(
         children: [
           Expanded(
@@ -89,10 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with PaginationService {
                   case ApiStatus.loading:
                     return const Center(child: AppCircularProgressIndicator());
                   case ApiStatus.loaded:
-                    return _ListWidget(
-                      hasReachedMax: state.hasReachedMax,
-                      post: state.postList,
-                    );
+                    return _ListWidget(hasReachedMax: state.hasReachedMax, post: state.postList);
                   case ApiStatus.error:
                     return AppText.L(text: context.t.post_error);
                   case ApiStatus.empty:
@@ -144,8 +137,7 @@ class _ListWidgetState extends State<_ListWidget> with PaginationService {
   @override
   Widget build(BuildContext context) {
     return AppRefreshIndicator(
-      onRefresh:
-          () async => context.read<HomeBloc>().add(const FetchPostsEvent()),
+      onRefresh: () async => context.read<HomeBloc>().add(const FetchPostsEvent()),
       child: ListView.builder(
         controller: scrollController,
         itemCount: widget.post.length + (widget.hasReachedMax ? 0 : 1),
@@ -155,9 +147,7 @@ class _ListWidgetState extends State<_ListWidget> with PaginationService {
           }
           return Container(
             padding: const EdgeInsets.symmetric(vertical: Insets.xxxxlarge80),
-            child: Text(
-              "${widget.post[index].title ?? ''} ${widget.post[index].body ?? ''}",
-            ),
+            child: Text("${widget.post[index].title ?? ''} ${widget.post[index].body ?? ''}"),
           );
         },
       ),

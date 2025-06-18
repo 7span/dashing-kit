@@ -19,12 +19,8 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
   Widget wrappedRoute(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<AuthRepository>(
-          create: (context) => const AuthRepository(),
-        ),
-        RepositoryProvider<ProfileRepository>(
-          create: (context) => ProfileRepository(),
-        ),
+        RepositoryProvider<AuthRepository>(create: (context) => const AuthRepository()),
+        RepositoryProvider<ProfileRepository>(create: (context) => ProfileRepository()),
       ],
       child: BlocProvider(
         create:
@@ -42,13 +38,8 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state.apiStatus == ApiStatus.error) {
-          showAppSnackbar(
-            context,
-            state.errorMessage,
-            type: SnackbarType.failed,
-          );
-        } else if (state.profileActionStatus ==
-            ProfileActionStatus.profileEdited) {
+          showAppSnackbar(context, state.errorMessage, type: SnackbarType.failed);
+        } else if (state.profileActionStatus == ProfileActionStatus.profileEdited) {
           showAppSnackbar(context, context.t.profile_edit_success);
         } else if ((state.isPermissionDenied ?? false) == true) {
           showAppSnackbar(
@@ -60,7 +51,7 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: AppText.L(text: context.t.edit_profile)),
+          appBar: CustomAppBar(title: context.t.edit_profile),
           body:
               state.apiStatus == ApiStatus.loading
                   ? const Center(child: AppLoadingIndicator())
@@ -68,11 +59,7 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
                     padding: EdgeInsets.symmetric(horizontal: Insets.medium16),
                     child: Column(
                       spacing: Insets.medium16,
-                      children: [
-                        _ProfileImage(),
-                        _NameTextFiled(),
-                        _EditButton(),
-                      ],
+                      children: [_ProfileImage(), _NameTextFiled(), _EditButton()],
                     ),
                   ),
         );

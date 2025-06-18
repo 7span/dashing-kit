@@ -37,7 +37,7 @@ class SignUpPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(),
+      appBar: const CustomAppBar(),
       body: BlocListener<SignUpBloc, SignUpState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) async {

@@ -1,8 +1,7 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
-import 'package:widgetbook_annotation/widgetbook_annotation.dart'
-    as widgetbook;
+import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 @widgetbook.UseCase(name: 'Interactive AppText', type: AppText)
 Widget interactiveAppText(BuildContext context) {
@@ -40,10 +39,7 @@ Widget interactiveAppText(BuildContext context) {
     },
   );
 
-  final color = knobs.color(
-    label: 'Text Color',
-    initialValue: Colors.black,
-  );
+  final color = knobs.color(label: 'Text Color', initialValue: Colors.black);
 
   final textAlign = knobs.list<TextAlign>(
     label: 'Text Align',
@@ -67,7 +63,7 @@ Widget interactiveAppText(BuildContext context) {
   );
 
   return AppScaffold(
-    appBar: AppBar(title: const Text('Interactive AppText')),
+    appBar: const CustomAppBar(title: 'Interactive AppText'),
     body: Container(
       color: Colors.white,
       width: double.infinity,
