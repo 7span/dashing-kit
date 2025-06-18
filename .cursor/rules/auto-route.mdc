@@ -16,8 +16,7 @@ This rule ensures consistent implementation of Auto Route navigation in Flutter 
 - Place the annotation directly above the class declaration
 - No additional parameters needed for basic routes
 
-### 2. StatelessWidget Pattern
-For simple screens without state management:
+### 2. For simple screens without state management:
 ```dart
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -30,8 +29,7 @@ class HomeScreen extends StatelessWidget {
 }
 ```
 
-### 3. StatefulWidget with BLoC Pattern
-For screens requiring state management with BLoC/Cubit:
+### 3. For screens requiring state management with BLoC/Cubit:
 ```dart
 @RoutePage()
 class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
@@ -91,6 +89,18 @@ class AppRouter extends RootStackRouter {
 After adding new routes, **ALWAYS** run:
 ```bash
 melos run build-runner
+```
+
+### 6. Use BackButtonListener instead of PopScope while project contains AutoRoute to avoid conflicts because of auto_route.
+For this you can wrap the AppScafflold with BackButtonListener like this,
+```dart
+@override
+  Widget build(BuildContext context) {
+    return BackButtonListener(
+      onBackButtonPressed: (){},
+      child: AppScafflold(),
+    );
+  }
 ```
 
 ## Implementation Checklist
