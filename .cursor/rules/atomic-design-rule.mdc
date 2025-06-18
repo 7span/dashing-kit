@@ -10,7 +10,7 @@ alwaysApply: true
 ## Overview
 This rule enforces the use of the `app_ui` package components following the Atomic Design Pattern. The package provides consistent theming, spacing, and reusable components across the Flutter Launchpad project.
 
-## app_translations Package 📦
+## 1. app_translations Package 📦
 
 ### Overview
 The `app_translations` package manages localization in the application using the **slang** package. It provides type-safe, auto-generated translations for consistent internationalization across the Flutter Launchpad project.
@@ -46,10 +46,6 @@ Add translations to JSON files in the `i18n` folder within `app_translations` pa
   "submit": "Submit",
   "cancel": "Cancel",
   "loading": "Loading...",
-  "error": {
-    "network": "Network error occurred",
-    "validation": "Please check your input"
-  }
 }
 ```
 
@@ -61,10 +57,6 @@ Add translations to JSON files in the `i18n` folder within `app_translations` pa
   "submit": "Enviar",
   "cancel": "Cancelar",
   "loading": "Cargando...",
-  "error": {
-    "network": "Ocurrió un error de red",
-    "validation": "Por favor verifica tu entrada"
-  }
 }
 ```
 
@@ -86,149 +78,9 @@ AppButton(
   onPressed: () {},
 )
 
-
 AppText.small(text: context.t.error.validation)
 ```
 
-### Translation Patterns
-
-#### Basic Usage
-```dart
-// Page titles
-AppText.large(text: context.t.loginTitle)
-
-// Form labels
-AppTextField(
-  label: context.t.email,
-  hint: context.t.emailHint,
-)
-
-// Button text
-AppButton(text: context.t.signIn, onPressed: () {})
-AppButton.secondary(text: context.t.cancel, onPressed: () {})
-```
-
-#### Complex Translations
-```dart
-// Nested objects
-AppText.small(text: context.t.errors.validation.required)
-AppText.small(text: context.t.messages.success.saved)
-
-// Pluralization (if supported)
-AppText.small(text: context.t.itemCount(count: items.length))
-
-// Interpolation (if supported)  
-AppText.small(text: context.t.welcomeUser(name: user.name))
-```
-
-### JSON Structure Best Practices
-
-#### Organize by Feature
-```json
-{
-  "auth": {
-    "login": "Login",
-    "register": "Register",
-    "forgotPassword": "Forgot Password",
-    "errors": {
-      "invalidEmail": "Invalid email address",
-      "weakPassword": "Password too weak"
-    }
-  },
-  "home": {
-    "welcome": "Welcome",
-    "recentActivity": "Recent Activity"
-  },
-  "common": {
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "loading": "Loading..."
-  }
-}
-```
-
-#### Usage with Organized Structure
-```dart
-// Auth-related texts
-AppText.large(text: context.t.auth.login)
-AppText.small(text: context.t.auth.errors.invalidEmail)
-
-// Home screen texts
-AppText.medium(text: context.t.home.welcome)
-
-// Common actions
-AppButton(text: context.t.common.save, onPressed: () {})
-AppButton.secondary(text: context.t.common.cancel, onPressed: () {})
-```
-
-### Implementation Checklist
-
-#### For New Features:
-- [ ] Add all text strings to appropriate JSON files
-- [ ] Organize keys by feature/screen
-- [ ] Run `melos run locale-gen` after adding keys
-- [ ] Use `context.t.*` throughout the code
-- [ ] Test with different locales
-
-#### Code Review Checklist:
-- [ ] No hardcoded strings in UI components
-- [ ] All user-facing text uses `context.t.*`
-- [ ] Translation keys are descriptive and organized
-- [ ] Generated code is up-to-date
-- [ ] Multiple language files updated consistently
-
-### Common Translation Patterns
-
-#### Form Validation
-```json
-{
-  "validation": {
-    "required": "This field is required",
-    "invalidEmail": "Please enter a valid email",
-    "passwordTooShort": "Password must be at least 8 characters",
-    "passwordMismatch": "Passwords do not match"
-  }
-}
-```
-
-```dart
-// Usage in validation
-if (email.isEmpty) {
-  return context.t.validation.required;
-}
-if (!isValidEmail(email)) {
-  return context.t.validation.invalidEmail;
-}
-```
-
-#### Navigation and Actions
-```json
-{
-  "navigation": {
-    "back": "Back",
-    "next": "Next",
-    "done": "Done",
-    "close": "Close"
-  },
-  "actions": {
-    "edit": "Edit",
-    "delete": "Delete",
-    "share": "Share",
-    "copy": "Copy"
-  }
-}
-```
-
-```dart
-// Usage in UI
-AppButton(text: context.t.navigation.next, onPressed: () {})
-IconButton(
-  tooltip: context.t.actions.share,
-  onPressed: () {},
-  icon: Icon(Icons.share),
-)
-```
 
 ### Troubleshooting
 
@@ -393,6 +245,7 @@ Row(
 Container(
   padding: Insets.medium,
   child: Column(
+    spacing : EdgeInsets.all(Insets.small8),
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       AppText.large(text: context.t.title),
@@ -568,24 +421,6 @@ class AppButton extends StatelessWidget {
   });
 }
 ```
-
-## Implementation Checklist
-
-### For New UI Components:
-- [ ] Use `VSpace`/`HSpace` instead of `SizedBox`
-- [ ] Use `AppButton` instead of raw Material buttons
-- [ ] Use `AppText` for all text rendering
-- [ ] Use `Insets` for consistent padding/margins
-- [ ] Use `AppBorderRadius` for consistent corner radius
-- [ ] Follow atomic design hierarchy (atoms → molecules → organisms)
-
-### Code Review Checklist:
-- [ ] No raw `SizedBox` for spacing
-- [ ] No raw Material buttons (`ElevatedButton`, `TextButton`, etc.)
-- [ ] No hardcoded spacing values
-- [ ] Proper use of app_ui components
-- [ ] Consistent spacing throughout the UI
-- [ ] Localized button text using `context.t`
 
 ## Common Usage Patterns
 
