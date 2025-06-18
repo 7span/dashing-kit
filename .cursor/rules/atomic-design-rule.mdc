@@ -153,8 +153,6 @@ AppText.large(text: "Content")
 
 // Loading indicators
 AppLoadingIndicator()
-AppLoadingIndicator.small()
-AppLoadingIndicator.large()
 ```
 
 ### 🔵 Molecules (Component Combinations)
