@@ -1,4 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:app_core/app/helpers/logger_helper.dart';
 
 ///In your firebase console, you can set the default values for your app.
 ///The json will looks like this:
@@ -24,25 +25,29 @@ class FirebaseRemoteConfigService {
 
   Future<void> _setDefaults() async {
     await _remoteConfig.setDefaults(const {
-      'android': '''
-    {
-      "version": "1.0.0",
-      "allow_cancel": true
-    }
-    ''',
-      'ios': '''
-    {
-      "version": "1.0.0",
-      "allow_cancel": true
-    }
-    ''',
+      'force_update': '''
+      {
+        "android": {
+          "version": "1.0.0",
+          "allow_cancel": true
+        },
+        "ios": {
+          "version": "1.0.0",
+          "allow_cancel": true
+        }
+      }
+      ''',
     });
   }
 
   Future<void> initialize() async {
-    await _setConfigSettings();
-    await _setDefaults();
-    await fetchAndActivate();
+    try {
+      await _setConfigSettings();
+      await _setDefaults();
+      await fetchAndActivate();
+    } catch (e) {
+      flog('Error initializing Firebase Remote Config: $e');
+    }
   }
 
   Future<void> fetchAndActivate() async {
