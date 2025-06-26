@@ -89,6 +89,7 @@ dependencies:
 
   # Launch URL
   url_launcher: ^6.3.1
+  pinput: ^5.0.1
 
 dependency_overrides:
   web: ^1.0.0
@@ -121,7 +122,7 @@ dev_dependencies:
 
   flutter_launcher_icons: ^0.14.3
 
-  pinput: ^5.0.1
+
 
 flutter_gen:
   output: lib/gen/

@@ -1,17 +1,31 @@
 part of 'verify_otp_bloc.dart';
 
-abstract class VerifyOTPEvent {}
+sealed class VerifyOTPEvent extends Equatable {
+  const VerifyOTPEvent();
 
-class VerifyOTPChanged extends VerifyOTPEvent {
-  VerifyOTPChanged(this.otp);
+  @override
+  List<Object> get props => [];
+}
+
+final class VerifyOTPChanged extends VerifyOTPEvent {
+  const VerifyOTPChanged(this.otp);
   final String otp;
+
+  @override
+  List<Object> get props => [otp];
 }
 
 class EmailAddressChanged extends VerifyOTPEvent {
-  EmailAddressChanged(this.email);
+  const EmailAddressChanged(this.email);
   final String email;
+  @override
+  List<Object> get props => [email];
 }
 
-class VerifyButtonPressed extends VerifyOTPEvent {}
+class VerifyButtonPressed extends VerifyOTPEvent {
+  const VerifyButtonPressed();
+}
 
-class ResendEmailEvent extends VerifyOTPEvent {}
+class ResendEmailEvent extends VerifyOTPEvent {
+  const ResendEmailEvent();
+}

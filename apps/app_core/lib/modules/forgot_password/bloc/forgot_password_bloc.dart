@@ -31,8 +31,12 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
     emit(state.copyWith(email: email, isValid: Formz.validate([email])));
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-      await _authenticationRepository.forgotPassword(AuthRequestModel.forgotPassword(email: state.email.value.trim())).run();
-      emit(state.copyWith(status: FormzSubmissionStatus.success));
+      final result =
+          await _authenticationRepository.forgotPassword(AuthRequestModel.forgotPassword(email: state.email.value.trim())).run();
+      result.fold(
+        (failure) => emit(state.copyWith(status: FormzSubmissionStatus.failure)),
+        (success) => emit(state.copyWith(status: FormzSubmissionStatus.success)),
+      );
     }
     return unit;
   }

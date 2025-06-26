@@ -8,12 +8,7 @@ final class ForgotPasswordState extends Equatable {
     this.errorMessage = '',
   });
 
-  ForgotPasswordState copyWith({
-    EmailValidator? email,
-    bool? isValid,
-    FormzSubmissionStatus? status,
-    String? errorMessage,
-  }) {
+  ForgotPasswordState copyWith({EmailValidator? email, bool? isValid, FormzSubmissionStatus? status, String? errorMessage}) {
     return ForgotPasswordState(
       email: email ?? this.email,
       isValid: isValid ?? this.isValid,
@@ -28,5 +23,5 @@ final class ForgotPasswordState extends Equatable {
   final String errorMessage;
 
   @override
-  List<Object> get props => [status, email, isValid];
+  List<Object> get props => [status, email, isValid, errorMessage];
 }
