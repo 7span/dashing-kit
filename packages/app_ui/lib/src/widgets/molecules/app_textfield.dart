@@ -20,6 +20,7 @@ class AppTextField extends StatefulWidget {
     this.contentPadding,
     this.autofillHints,
     this.hintTextBelowTextField,
+    this.maxLength,
   })  : isPasswordField = false,
         isObscureText = false;
 
@@ -40,6 +41,7 @@ class AppTextField extends StatefulWidget {
     this.autofillHints,
     this.hintTextBelowTextField,
     this.contentPadding,
+    this.maxLength,
   })  : isPasswordField = true,
         isObscureText = true;
 
@@ -60,6 +62,7 @@ class AppTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final int? minLines;
   final EdgeInsetsGeometry? contentPadding;
+  final int? maxLength;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -100,11 +103,13 @@ class _AppTextFieldState extends State<AppTextField> {
           onChanged: widget.onChanged,
           autofillHints: widget.autofillHints,
           focusNode: widget.focusNode,
+          maxLength: widget.maxLength,
           decoration: InputDecoration(
             filled: true,
             fillColor: widget.backgroundColor ?? context.colorScheme.grey100,
             hintText: widget.hintText,
-            contentPadding: widget.contentPadding ?? const EdgeInsets.only(left: Insets.small12),
+            contentPadding: widget.contentPadding ??
+                const EdgeInsets.only(left: Insets.small12, right: Insets.small12),
             errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Insets.xsmall8),
