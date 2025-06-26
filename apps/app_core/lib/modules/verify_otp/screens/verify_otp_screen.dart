@@ -62,6 +62,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
   }
 
   void _startTimer() {
+    if (!mounted) return;
     setState(() {
       _secondsRemaining = 30;
       _isTimerRunning = true;
@@ -69,10 +70,18 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsRemaining > 0) {
+        if (!mounted) {
+          timer.cancel();
+          return;
+        }
         setState(() {
           _secondsRemaining--;
         });
       } else {
+        if (!mounted) {
+          timer.cancel();
+          return;
+        }
         setState(() {
           _isTimerRunning = false;
         });
