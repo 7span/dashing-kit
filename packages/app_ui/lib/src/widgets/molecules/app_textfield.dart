@@ -9,6 +9,7 @@ class AppTextField extends StatefulWidget {
     this.textInputAction = TextInputAction.next,
     this.showLabel = true,
     this.hintText,
+    this.readOnly,
     this.keyboardType,
     this.initialValue,
     this.onChanged,
@@ -20,8 +21,8 @@ class AppTextField extends StatefulWidget {
     this.contentPadding,
     this.autofillHints,
     this.hintTextBelowTextField,
-  })  : isPasswordField = false,
-        isObscureText = false;
+  }) : isPasswordField = false,
+       isObscureText = false;
 
   const AppTextField.password({
     required this.label,
@@ -37,15 +38,17 @@ class AppTextField extends StatefulWidget {
     this.backgroundColor,
     this.minLines,
     this.focusNode,
+    this.readOnly,
     this.autofillHints,
     this.hintTextBelowTextField,
     this.contentPadding,
-  })  : isPasswordField = true,
-        isObscureText = true;
+  }) : isPasswordField = true,
+       isObscureText = true;
 
   final String label;
   final String? initialValue;
   final String? hintText;
+  final bool? readOnly;
   final String? errorText;
   final String? hintTextBelowTextField;
   final TextInputAction? textInputAction;
@@ -85,10 +88,7 @@ class _AppTextFieldState extends State<AppTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.showLabel) ...[
-          AppText.xsSemiBold(text: widget.label),
-          VSpace.xsmall8(),
-        ],
+        if (widget.showLabel) ...[AppText.xsSemiBold(text: widget.label), VSpace.xsmall8()],
         TextFormField(
           initialValue: widget.initialValue,
           cursorColor: context.colorScheme.black,
@@ -98,6 +98,7 @@ class _AppTextFieldState extends State<AppTextField> {
           validator: widget.validator,
           obscureText: isObscureText,
           onChanged: widget.onChanged,
+          readOnly: widget.readOnly ?? false,
           autofillHints: widget.autofillHints,
           focusNode: widget.focusNode,
           decoration: InputDecoration(
@@ -110,29 +111,21 @@ class _AppTextFieldState extends State<AppTextField> {
               borderRadius: BorderRadius.circular(Insets.xsmall8),
               borderSide: BorderSide(color: context.colorScheme.primary400),
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(Insets.xsmall8),
-              borderSide: BorderSide.none,
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(Insets.xsmall8), borderSide: BorderSide.none),
             errorText: widget.errorText,
-            suffixIcon: widget.isPasswordField
-                ? IconButton(
-                    splashColor: context.colorScheme.primary50,
-                    onPressed: toggleObscureText,
-                    icon: Icon(
-                      isObscureText ? Icons.visibility_off : Icons.visibility,
-                      color: context.colorScheme.grey700,
-                    ),
-                  )
-                : null,
+            suffixIcon:
+                widget.isPasswordField
+                    ? IconButton(
+                      splashColor: context.colorScheme.primary50,
+                      onPressed: toggleObscureText,
+                      icon: Icon(isObscureText ? Icons.visibility_off : Icons.visibility, color: context.colorScheme.grey700),
+                    )
+                    : null,
           ),
           minLines: widget.minLines,
           maxLines: widget.minLines ?? 0 + 1,
         ),
-        if (widget.hintTextBelowTextField != null) ...[
-          VSpace.xsmall8(),
-          AppText.xsRegular(text: widget.hintTextBelowTextField),
-        ],
+        if (widget.hintTextBelowTextField != null) ...[VSpace.xsmall8(), AppText.xsRegular(text: widget.hintTextBelowTextField)],
       ],
     );
   }
