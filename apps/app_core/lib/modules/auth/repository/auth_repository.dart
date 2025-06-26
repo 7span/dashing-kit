@@ -19,9 +19,11 @@ abstract interface class IAuthRepository {
 
   TaskEither<Failure, bool> logout();
 
-  TaskEither<Failure, Unit> socialLogin({
-    required AuthRequestModel requestModel,
-  });
+  TaskEither<Failure, void> forgotPassword(AuthRequestModel authRequestModel);
+
+  TaskEither<Failure, Unit> socialLogin({required AuthRequestModel requestModel});
+
+  TaskEither<Failure, AuthResponseModel> verifyOTP(AuthRequestModel authRequestModel);
 }
 
 // ignore: comment_references
@@ -31,48 +33,28 @@ class AuthRepository implements IAuthRepository {
   const AuthRepository();
 
   @override
-  TaskEither<Failure, Unit> login(
-    AuthRequestModel authRequestModel,
-  ) => makeLoginRequest(authRequestModel)
+  TaskEither<Failure, Unit> login(AuthRequestModel authRequestModel) => makeLoginRequest(authRequestModel)
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
         (response) => RepositoryUtils.mapToModel(() {
-          return AuthResponseModel.fromMap(
-            response.data as Map<String, dynamic>,
-          );
+          return AuthResponseModel.fromMap(response.data as Map<String, dynamic>);
         }),
       )
       .flatMap(saveUserToLocal);
 
-  TaskEither<Failure, Response> makeLoginRequest(
-    AuthRequestModel authRequestModel,
-  ) => userApiClient.request(
+  TaskEither<Failure, Response> makeLoginRequest(AuthRequestModel authRequestModel) => userApiClient.request(
     requestType: RequestType.post,
     path: ApiEndpoints.login,
     body: authRequestModel.toMap(),
-    options: Options(
-      headers: {
-        'x-api-key': 'reqres-free-v1',
-        'Content-Type': 'application/json',
-      },
-    ),
+    options: Options(headers: {'x-api-key': 'reqres-free-v1', 'Content-Type': 'application/json'}),
   );
 
-  TaskEither<Failure, Unit> saveUserToLocal(
-    AuthResponseModel authResponseModel,
-  ) => getIt<IHiveService>().setUserData(
-    UserModel(
-      name: 'user name',
-      email: 'user email',
-      profilePicUrl: '',
-      id: int.parse(authResponseModel.id),
-    ),
+  TaskEither<Failure, Unit> saveUserToLocal(AuthResponseModel authResponseModel) => getIt<IHiveService>().setUserData(
+    UserModel(name: 'user name', email: 'user email', profilePicUrl: '', id: int.parse(authResponseModel.id)),
   );
 
   @override
-  TaskEither<Failure, Unit> signup(
-    AuthRequestModel authRequestModel,
-  ) => makeSignUpRequest(authRequestModel)
+  TaskEither<Failure, Unit> signup(AuthRequestModel authRequestModel) => makeSignUpRequest(authRequestModel)
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
         (r) => RepositoryUtils.mapToModel(() {
@@ -82,27 +64,20 @@ class AuthRepository implements IAuthRepository {
           //   return AuthResponseModel.fromMap(
           //   r.data as Map<String, dynamic>,
           // );
-          return AuthResponseModel(
-            email: 'eve.holt@reqres.in',
-            id: (r.data as Map<String, dynamic>)['id'].toString(),
-          );
+          return AuthResponseModel(email: 'eve.holt@reqres.in', id: (r.data as Map<String, dynamic>)['id'].toString());
         }),
       )
       .flatMap(saveUserToLocal);
 
-  TaskEither<Failure, Response> makeSignUpRequest(
-    AuthRequestModel authRequestModel,
-  ) => userApiClient.request(
+  TaskEither<Failure, Response> makeSignUpRequest(AuthRequestModel authRequestModel) => userApiClient.request(
     requestType: RequestType.post,
     path: ApiEndpoints.signup,
     body: authRequestModel.toMap(),
     options: Options(headers: {'Content-Type': 'application/json'}),
   );
 
-  TaskEither<Failure, Unit> _clearHiveData() => TaskEither.tryCatch(
-    () => getIt<LogoutService>().logout().run(),
-    (error, stackTrace) => APIFailure(),
-  );
+  TaskEither<Failure, Unit> _clearHiveData() =>
+      TaskEither.tryCatch(() => getIt<LogoutService>().logout().run(), (error, stackTrace) => APIFailure());
 
   @override
   TaskEither<Failure, bool> logout() => makeLogoutRequest().flatMap(
@@ -111,14 +86,11 @@ class AuthRepository implements IAuthRepository {
     }),
   );
 
-  TaskEither<Failure, String> _getNotificationId() =>
-      TaskEither.tryCatch(() {
-        return getIt<NotificationServiceInterface>()
-            .getNotificationSubscriptionId();
-      }, APIFailure.new);
+  TaskEither<Failure, String> _getNotificationId() => TaskEither.tryCatch(() {
+    return getIt<NotificationServiceInterface>().getNotificationSubscriptionId();
+  }, APIFailure.new);
 
-  TaskEither<Failure, Response>
-  makeLogoutRequest() => _getNotificationId().flatMap(
+  TaskEither<Failure, Response> makeLogoutRequest() => _getNotificationId().flatMap(
     (playerID) => userApiClient.request(
       requestType: RequestType.delete,
 
@@ -130,26 +102,54 @@ class AuthRepository implements IAuthRepository {
   );
 
   @override
-  TaskEither<Failure, Unit> socialLogin({
-    required AuthRequestModel requestModel,
-  }) => makeSocialLoginRequest(requestModel: requestModel)
+  TaskEither<Failure, Unit> socialLogin({required AuthRequestModel requestModel}) => makeSocialLoginRequest(
+        requestModel: requestModel,
+      )
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
-        (response) => RepositoryUtils.mapToModel<AuthResponseModel>(
-          () => AuthResponseModel.fromMap(
-            response.data as Map<String, dynamic>,
-          ),
-        ),
+        (response) =>
+            RepositoryUtils.mapToModel<AuthResponseModel>(() => AuthResponseModel.fromMap(response.data as Map<String, dynamic>)),
       )
       .flatMap(saveUserToLocal);
 
-  TaskEither<Failure, Response> makeSocialLoginRequest({
-    required AuthRequestModel requestModel,
-  }) {
+  TaskEither<Failure, Response> makeSocialLoginRequest({required AuthRequestModel requestModel}) {
     return userApiClient.request(
       requestType: RequestType.post,
       path: ApiEndpoints.socialLogin,
       body: requestModel.toSocialSignInMap(),
     );
   }
+
+  @override
+  TaskEither<Failure, void> forgotPassword(AuthRequestModel authRequestModel) => makeForgotPasswordRequest(authRequestModel)
+      .chainEither(RepositoryUtils.checkStatusCode)
+      .chainEither(
+        (response) => RepositoryUtils.mapToModel(() {
+          return response.data;
+        }),
+      )
+      .map((_) {});
+
+  TaskEither<Failure, Response> makeForgotPasswordRequest(AuthRequestModel authRequestModel) => userApiClient.request(
+    requestType: RequestType.post,
+    path: ApiEndpoints.forgotPassword,
+    body: authRequestModel.toForgotPasswordMap(),
+    options: Options(headers: {'x-api-key': 'reqres-free-v1', 'Content-Type': 'application/json'}),
+  );
+
+  @override
+  TaskEither<Failure, AuthResponseModel> verifyOTP(AuthRequestModel authRequestModel) => makeVerifyOTPRequest(authRequestModel)
+      .chainEither(RepositoryUtils.checkStatusCode)
+      .chainEither(
+        (response) => RepositoryUtils.mapToModel(() {
+          return AuthResponseModel.fromMap(response.data as Map<String, dynamic>);
+        }),
+      );
+
+  TaskEither<Failure, Response> makeVerifyOTPRequest(AuthRequestModel authRequestModel) => userApiClient.request(
+    requestType: RequestType.post,
+    path: ApiEndpoints.verifyOTP,
+    body: authRequestModel.toVerifyOTPMap(),
+    options: Options(headers: {'Content-Type': 'application/json'}),
+  );
 }

@@ -54,5 +54,13 @@
   "terms_and_condition" : "Terms and Condition",
   "privacy_policy" : "Privacy Policy",
   "and": "and",
-  "please_accept_terms" : "Please accept the Terms & Conditions and Privacy Policy to continue."
+  "please_accept_terms" : "Please accept the Terms & Conditions and Privacy Policy to continue.",
+  "reset_password_mail_sent": "Reset password mail sent",
+  "welcome": "Welcome",
+  "reset_password": "Reset Password",
+  "go_back": "Go Back",
+  "enter_otp": "Enter OTP",
+  "verify_otp": "Verify OTP",
+  "resend_otp": "Resend OTP",
+  "otp_send_to_email": "OTP sent to your email"
 }
