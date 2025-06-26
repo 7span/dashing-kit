@@ -21,6 +21,7 @@ class AppTextField extends StatefulWidget {
     this.contentPadding,
     this.autofillHints,
     this.hintTextBelowTextField,
+    this.maxLength,
   }) : isPasswordField = false,
        isObscureText = false;
 
@@ -42,6 +43,7 @@ class AppTextField extends StatefulWidget {
     this.autofillHints,
     this.hintTextBelowTextField,
     this.contentPadding,
+    this.maxLength,
   }) : isPasswordField = true,
        isObscureText = true;
 
@@ -63,6 +65,7 @@ class AppTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final int? minLines;
   final EdgeInsetsGeometry? contentPadding;
+  final int? maxLength;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -101,31 +104,43 @@ class _AppTextFieldState extends State<AppTextField> {
           readOnly: widget.readOnly ?? false,
           autofillHints: widget.autofillHints,
           focusNode: widget.focusNode,
+          maxLength: widget.maxLength,
           decoration: InputDecoration(
             filled: true,
             fillColor: widget.backgroundColor ?? context.colorScheme.grey100,
             hintText: widget.hintText,
-            contentPadding: widget.contentPadding ?? const EdgeInsets.only(left: Insets.small12),
+            contentPadding:
+                widget.contentPadding ??
+                const EdgeInsets.only(left: Insets.small12, right: Insets.small12),
             errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Insets.xsmall8),
               borderSide: BorderSide(color: context.colorScheme.primary400),
             ),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(Insets.xsmall8), borderSide: BorderSide.none),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(Insets.xsmall8),
+              borderSide: BorderSide.none,
+            ),
             errorText: widget.errorText,
             suffixIcon:
                 widget.isPasswordField
                     ? IconButton(
                       splashColor: context.colorScheme.primary50,
                       onPressed: toggleObscureText,
-                      icon: Icon(isObscureText ? Icons.visibility_off : Icons.visibility, color: context.colorScheme.grey700),
+                      icon: Icon(
+                        isObscureText ? Icons.visibility_off : Icons.visibility,
+                        color: context.colorScheme.grey700,
+                      ),
                     )
                     : null,
           ),
           minLines: widget.minLines,
           maxLines: widget.minLines ?? 0 + 1,
         ),
-        if (widget.hintTextBelowTextField != null) ...[VSpace.xsmall8(), AppText.xsRegular(text: widget.hintTextBelowTextField)],
+        if (widget.hintTextBelowTextField != null) ...[
+          VSpace.xsmall8(),
+          AppText.xsRegular(text: widget.hintTextBelowTextField),
+        ],
       ],
     );
   }
