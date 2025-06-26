@@ -109,8 +109,7 @@ class _AppTextFieldState extends State<AppTextField> {
             filled: true,
             fillColor: widget.backgroundColor ?? context.colorScheme.grey100,
             hintText: widget.hintText,
-            contentPadding: widget.contentPadding ??
-                const EdgeInsets.only(left: Insets.small12, right: Insets.small12),
+            contentPadding: widget.contentPadding ?? const EdgeInsets.only(left: Insets.small12, right: Insets.small12),
             errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Insets.xsmall8),
