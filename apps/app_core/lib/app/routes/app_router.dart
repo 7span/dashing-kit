@@ -4,11 +4,13 @@ import 'package:app_core/modules/auth/sign_in/screens/sign_in_screen.dart';
 import 'package:app_core/modules/auth/sign_up/screens/sign_up_screen.dart';
 import 'package:app_core/modules/bottom_navigation_bar.dart';
 import 'package:app_core/modules/change_password/screen/change_password_screen.dart';
+import 'package:app_core/modules/forgot_password/screens/forgot_password_screen.dart';
 import 'package:app_core/modules/home/screen/home_screen.dart';
 import 'package:app_core/modules/profile/screen/edit_profile_screen.dart';
 import 'package:app_core/modules/profile/screen/profile_screen.dart';
 import 'package:app_core/modules/splash/splash_screen.dart';
 import 'package:app_core/modules/subscription/screen/subscription_screen.dart';
+import 'package:app_core/modules/verify_otp/screens/verify_otp_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -22,6 +24,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: SubscriptionRoute.page),
     AutoRoute(initial: true, page: SplashRoute.page, path: '/'),
     AutoRoute(page: SignInRoute.page),
+    AutoRoute(page: ForgotPasswordRoute.page),
+    AutoRoute(page: VerifyOTPRoute.page),
     AutoRoute(
       page: BottomNavigationBarRoute.page,
       guards: [AuthGuard()],
@@ -32,11 +36,7 @@ class AppRouter extends RootStackRouter {
           path: 'account',
           children: [
             AutoRoute(page: ProfileRoute.page),
-            AutoRoute(
-              page: ChangePasswordRoute.page,
-              path: 'change-password',
-              meta: const {'hideNavBar': true},
-            ),
+            AutoRoute(page: ChangePasswordRoute.page, path: 'change-password', meta: const {'hideNavBar': true}),
           ],
         ),
       ],

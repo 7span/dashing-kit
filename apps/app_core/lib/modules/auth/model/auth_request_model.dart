@@ -10,6 +10,10 @@ class AuthRequestModel {
     this.oneSignalPlayerId,
   });
 
+  AuthRequestModel.verifyOTP({required this.email, required this.token});
+
+  AuthRequestModel.forgotPassword({required this.email});
+
   String? email;
   String? name;
   String? password;
@@ -18,6 +22,7 @@ class AuthRequestModel {
   String? providerId;
   String? providerToken;
   String? oneSignalPlayerId;
+  String? token;
 
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
@@ -25,6 +30,13 @@ class AuthRequestModel {
     map['avatar'] = avatar;
     map['email'] = email;
     map['password'] = password;
+    return map;
+  }
+
+  Map<String, dynamic> toVerifyOTPMap() {
+    final map = <String, dynamic>{};
+    map['email'] = email;
+    map['token'] = token;
     return map;
   }
 
@@ -38,6 +50,12 @@ class AuthRequestModel {
     map['providerId'] = providerId;
     map['providerToken'] = providerToken;
     map['oneSignalPlayerId'] = oneSignalPlayerId;
+    return map;
+  }
+
+  Map<String, dynamic> toForgotPasswordMap() {
+    final map = <String, dynamic>{};
+    map['email'] = email;
     return map;
   }
 }
