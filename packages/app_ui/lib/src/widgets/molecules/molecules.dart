@@ -7,6 +7,7 @@ export 'app_network_image.dart';
 export 'app_profile_image.dart';
 export 'app_refresh_indicator.dart';
 export 'app_textfield.dart';
+export 'app_timer.dart';
 export 'empty_ui.dart';
 export 'no_internet_widget.dart';
 export 'user_concent_widget.dart';

@@ -5,6 +5,7 @@ import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
 import 'package:app_core/modules/verify_otp/bloc/verify_otp_bloc.dart';
+import 'package:app_core/modules/verify_otp/bloc/verify_otp_state.dart';
 import 'package:app_translations/app_translations.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:auto_route/auto_route.dart';
@@ -36,8 +37,6 @@ class VerifyOTPScreen extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderStateMixin {
-  late final TextEditingController pinController;
-  late final FocusNode focusNode;
   late final GlobalKey<FormState> formKey;
 
   Timer? _timer;
@@ -47,16 +46,12 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
   @override
   void dispose() {
     _timer?.cancel();
-    pinController.dispose();
-    focusNode.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     formKey = GlobalKey<FormState>();
-    pinController = TextEditingController();
-    focusNode = FocusNode();
     _startTimer();
     super.initState();
   }
@@ -91,14 +86,6 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
   }
 
   void _onResendOTP(BuildContext context) {
-    final email = widget.emailAddress;
-    if (email == null || email.isEmpty) {
-      showAppSnackbar(context, 'Email address is missing. Cannot resend OTP.');
-      return;
-    }
-    debugPrint('Resending OTP to email: $email');
-
-    pinController.clear();
     FocusScope.of(context).unfocus();
     context.read<VerifyOTPBloc>().add(const ResendEmailEvent());
     _startTimer();
@@ -108,15 +95,14 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
     TextInput.finishAutofillContext();
     FocusScope.of(context).unfocus();
     // Static check for OTP
-    if (state.otp == '222222') {
-      pinController.clear();
+    if (state.otp.value == '222222') {
       showAppSnackbar(contextBuild, 'OTP verified successfully!');
       contextBuild.maybePop();
       if (mounted) {
-        contextBuild.pushRoute(const ChangePasswordRoute());
+        contextBuild.replaceRoute(const ChangePasswordRoute());
       }
     } else {
-      showAppSnackbar(contextBuild, 'Invalid OTP');
+      showAppSnackbar(contextBuild, 'Invalid OTP', type: SnackbarType.failed);
     }
   }
 
@@ -135,7 +121,6 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
             listener: (BuildContext context, VerifyOTPState state) {
               if (state.statusForResendOTP == ApiStatus.error || state.statusForVerifyOTP == ApiStatus.error) {
                 final errorMessage = state.errorMessage;
-                pinController.clear();
                 showAppSnackbar(context, errorMessage);
               }
               if (state.statusForResendOTP == ApiStatus.loaded) {
@@ -163,27 +148,16 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                       builder:
                           (context, state) => Pinput(
                             length: 6,
-                            controller: pinController,
-                            focusNode: focusNode,
                             separatorBuilder: (index) => HSpace.xxsmall4(),
-                            validator: (value) {
-                              //For now we added static validation
-                              return value == '222222' ? null : 'Pin is incorrect';
-                            },
-                            onCompleted: (pin) {
-                              debugPrint('onCompleted: $pin');
-                            },
+                            errorText: state.otp.error != null ? 'Pin is incorrect' : null,
                             onChanged: (value) {
                               context.read<VerifyOTPBloc>().add(VerifyOTPChanged(value));
                             },
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           ),
                     ),
                     VSpace.xsmall8(),
-                    if (_isTimerRunning)
-                      AppText(
-                        text: '00:${_secondsRemaining.toString().padLeft(2, '0')}',
-                        style: context.textTheme?.sSemiBold.copyWith(color: context.colorScheme.primary400),
-                      ),
+                    if (_isTimerRunning) AppTimer(seconds: 30, onTick: (remaining) {}, onFinished: () {}),
                     VSpace.small12(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -205,7 +179,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                     BlocBuilder<VerifyOTPBloc, VerifyOTPState>(
                       builder:
                           (contextBuild, state) => Visibility(
-                            visible: state.otpIsValid,
+                            visible: state.isValid,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
                               child: AppButton(
