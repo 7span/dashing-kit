@@ -62,5 +62,6 @@
   "enter_otp": "Enter OTP",
   "verify_otp": "Verify OTP",
   "resend_otp": "Resend OTP",
-  "otp_send_to_email": "OTP sent to your email"
+  "otp_send_to_email": "OTP sent to your email",
+  "did_not_receive_otp": "Didn't receive the verification OTP?"
 }
