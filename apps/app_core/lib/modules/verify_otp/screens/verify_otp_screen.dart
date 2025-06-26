@@ -91,7 +91,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
 
     pinController.clear();
     FocusScope.of(context).unfocus();
-    context.read<VerifyOTPBloc>().add(ResendEmailEvent());
+    context.read<VerifyOTPBloc>().add(const ResendEmailEvent());
     _startTimer();
   }
 
