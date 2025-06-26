@@ -43,8 +43,9 @@ class VerifyOTPBloc extends Bloc<VerifyOTPEvent, VerifyOTPState> {
     return unit;
   }
 
+  static const int _otpLength = 6;
   Future<Unit> _onVerifyOTPChanged(VerifyOTPChanged event, Emitter<VerifyOTPState> emit) async {
-    if (event.otp.length == 6) {
+    if (event.otp.length == _otpLength) {
       emit(
         state.copyWith(
           otpIsValid: true,

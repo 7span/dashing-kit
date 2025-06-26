@@ -146,13 +146,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                       child: Center(child: AppText.xsSemiBold(text: context.t.welcome, fontSize: 16)),
                     ),
                     VSpace.large24(),
-                    AppTextField(
-                      initialValue: widget.emailAddress,
-                      label: context.t.email,
-                      textInputAction: TextInputAction.done,
-                      keyboardType: TextInputType.emailAddress,
-                      autofillHints: const [AutofillHints.email],
-                    ),
+                    AppTextField(initialValue: widget.emailAddress, label: context.t.email, readOnly: true),
                     VSpace.medium16(),
                     Padding(padding: const EdgeInsets.all(Insets.small12), child: AppText.sSemiBold(text: context.t.enter_otp)),
                     VSpace.small12(),
@@ -222,19 +216,5 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
         ),
       ),
     );
-  }
-}
-
-class Countdown extends AnimatedWidget {
-  Countdown({super.key, this.animation}) : super(listenable: animation!);
-  final Animation<int>? animation;
-
-  @override
-  Widget build(BuildContext context) {
-    final clockTimer = Duration(seconds: animation!.value);
-
-    final timerText = '${clockTimer.inMinutes.remainder(60)}:${clockTimer.inSeconds.remainder(60).toString().padLeft(2, '0')}';
-
-    return AppText(text: timerText);
   }
 }
