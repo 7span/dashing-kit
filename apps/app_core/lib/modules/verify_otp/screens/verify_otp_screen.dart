@@ -186,7 +186,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         AppText(
-                          text: "Didn't receive the verification OTP?",
+                          text: context.t.did_not_receive_otp,
                           style: context.textTheme?.xsRegular.copyWith(color: context.colorScheme.black),
                         ),
                         AppButton(
