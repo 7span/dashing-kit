@@ -26,7 +26,7 @@ final class VerifyOTPState extends Equatable {
       isValid: isValid ?? this.isValid,
       statusForResendOTP: statusForResendOTP ?? this.statusForResendOTP,
       statusForVerifyOTP: statusForVerifyOTP ?? this.statusForVerifyOTP,
-      errorMessage: errorMessage ?? '',
+      errorMessage: errorMessage ?? this.errorMessage,
       otp: otp ?? this.otp,
     );
   }
@@ -40,13 +40,5 @@ final class VerifyOTPState extends Equatable {
   final String otp;
 
   @override
-  List<Object> get props => [
-        statusForResendOTP,
-        email,
-        otp,
-        otpIsValid,
-        isValid,
-        errorMessage,
-        statusForVerifyOTP,
-      ];
+  List<Object> get props => [statusForResendOTP, email, otp, otpIsValid, isValid, errorMessage, statusForVerifyOTP];
 }

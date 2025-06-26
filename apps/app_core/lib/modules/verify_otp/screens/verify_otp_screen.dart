@@ -164,6 +164,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                             focusNode: focusNode,
                             separatorBuilder: (index) => HSpace.xxsmall4(),
                             validator: (value) {
+                              //For now we added static validation
                               return value == '222222' ? null : 'Pin is incorrect';
                             },
                             onCompleted: (pin) {
