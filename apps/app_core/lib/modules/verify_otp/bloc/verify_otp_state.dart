@@ -1,44 +1,41 @@
-part of 'verify_otp_bloc.dart';
+import 'package:api_client/api_client.dart';
+import 'package:app_core/core/domain/validators/email_validator.dart';
+import 'package:app_core/core/domain/validators/length_validator.dart';
+import 'package:equatable/equatable.dart';
 
 final class VerifyOTPState extends Equatable {
   const VerifyOTPState({
     this.statusForResendOTP = ApiStatus.initial,
     this.statusForVerifyOTP = ApiStatus.initial,
     this.email = const EmailValidator.pure(),
-    this.isValid = false,
     this.errorMessage = '',
-    this.otp = '',
-    this.otpIsValid = false,
+    this.otp = const LengthValidator.pure(6),
   });
 
   VerifyOTPState copyWith({
     EmailValidator? email,
-    bool? otpIsValid,
-    bool? isValid,
+    LengthValidator? otp,
     ApiStatus? statusForResendOTP,
     ApiStatus? statusForVerifyOTP,
     String? errorMessage,
-    String? otp,
   }) {
     return VerifyOTPState(
       email: email ?? this.email,
-      otpIsValid: otpIsValid ?? this.otpIsValid,
-      isValid: isValid ?? this.isValid,
+      otp: otp ?? this.otp,
       statusForResendOTP: statusForResendOTP ?? this.statusForResendOTP,
       statusForVerifyOTP: statusForVerifyOTP ?? this.statusForVerifyOTP,
       errorMessage: errorMessage ?? this.errorMessage,
-      otp: otp ?? this.otp,
     );
   }
 
   final ApiStatus statusForResendOTP;
   final ApiStatus statusForVerifyOTP;
   final EmailValidator email;
-  final bool otpIsValid;
-  final bool isValid;
+  final LengthValidator otp;
   final String errorMessage;
-  final String otp;
+
+  bool get isValid => otp.isValid;
 
   @override
-  List<Object> get props => [statusForResendOTP, email, otp, otpIsValid, isValid, errorMessage, statusForVerifyOTP];
+  List<Object> get props => [statusForResendOTP, email, otp, errorMessage, statusForVerifyOTP];
 }

@@ -35,7 +35,7 @@ class ForgotPasswordPage extends StatelessWidget implements AutoRouteWrapper {
             showAppSnackbar(context, state.errorMessage);
           } else if (state.status.isSuccess) {
             showAppSnackbar(context, context.t.reset_password_mail_sent);
-            await context.pushRoute(VerifyOTPRoute(emailAddress: state.email.value));
+            await context.replaceRoute(VerifyOTPRoute(emailAddress: state.email.value));
           }
         },
         child: SingleChildScrollView(
