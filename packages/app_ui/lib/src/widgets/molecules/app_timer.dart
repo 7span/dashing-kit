@@ -57,7 +57,9 @@ class _AppTimerState extends State<AppTimer> {
 
   @override
   Widget build(BuildContext context) {
-    final timerText = '00:${_secondsRemaining.toString().padLeft(2, '0')}';
+    final minutes = _secondsRemaining ~/ 60;
+    final seconds = _secondsRemaining % 60;
+    final timerText = '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
     return AppText(text: timerText, style: context.textTheme?.sSemiBold.copyWith(color: context.colorScheme.primary400));
   }
 }
