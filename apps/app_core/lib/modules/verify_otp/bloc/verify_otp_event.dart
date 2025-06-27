@@ -15,17 +15,17 @@ final class VerifyOTPChanged extends VerifyOTPEvent {
   List<Object> get props => [otp];
 }
 
-class EmailAddressChanged extends VerifyOTPEvent {
+final class EmailAddressChanged extends VerifyOTPEvent {
   const EmailAddressChanged(this.email);
   final String email;
   @override
   List<Object> get props => [email];
 }
 
-class VerifyButtonPressed extends VerifyOTPEvent {
+final class VerifyButtonPressed extends VerifyOTPEvent {
   const VerifyButtonPressed();
 }
 
-class ResendEmailEvent extends VerifyOTPEvent {
+final class ResendEmailEvent extends VerifyOTPEvent {
   const ResendEmailEvent();
 }

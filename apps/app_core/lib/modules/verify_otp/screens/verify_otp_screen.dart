@@ -146,7 +146,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                           (context, state) => Pinput(
                             length: 6,
                             separatorBuilder: (index) => HSpace.xxsmall4(),
-                            errorText: state.otp.error != null ? 'Pin is incorrect' : null,
+                            errorText: state.otp.error != null ? context.t.pin_incorrect : null,
                             onChanged: (value) {
                               context.read<VerifyOTPBloc>().add(VerifyOTPChanged(value));
                             },
