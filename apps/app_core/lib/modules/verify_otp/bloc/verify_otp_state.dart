@@ -1,5 +1,4 @@
 import 'package:api_client/api_client.dart';
-import 'package:app_core/core/domain/validators/email_validator.dart';
 import 'package:app_core/core/domain/validators/length_validator.dart';
 import 'package:equatable/equatable.dart';
 
