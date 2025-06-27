@@ -27,12 +27,7 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
       providers: [RepositoryProvider(create: (context) => const AuthRepository())],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create:
-                (context) => SignInBloc(
-                  authenticationRepository: RepositoryProvider.of<AuthRepository>(context),
-                ),
-          ),
+          BlocProvider(create: (context) => SignInBloc(authenticationRepository: RepositoryProvider.of<AuthRepository>(context))),
         ],
         child: this,
       ),
@@ -61,20 +56,31 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
               children: [
                 VSpace.xxxxlarge80(),
                 VSpace.large24(),
-                const SlideAndFadeAnimationWrapper(
-                  delay: 100,
-                  child: Center(child: FlutterLogo(size: 100)),
-                ),
+                const SlideAndFadeAnimationWrapper(delay: 100, child: Center(child: FlutterLogo(size: 100))),
                 VSpace.xxlarge40(),
                 VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 200,
-                  child: AppText.XL(text: context.t.sign_in),
-                ),
+                SlideAndFadeAnimationWrapper(delay: 200, child: AppText.XL(text: context.t.sign_in)),
                 VSpace.large24(),
                 SlideAndFadeAnimationWrapper(delay: 300, child: _EmailInput()),
                 VSpace.large24(),
                 SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
+                VSpace.large24(),
+                AnimatedGestureDetector(
+                  onTap: () {
+                    context.pushRoute(const ForgotPasswordRoute());
+                  },
+                  child: SlideAndFadeAnimationWrapper(
+                    delay: 200,
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: AppText.regular10(
+                        fontSize: 14,
+                        text: context.t.forgot_password,
+                        color: context.colorScheme.primary400,
+                      ),
+                    ),
+                  ),
+                ),
                 VSpace.large24(),
                 SlideAndFadeAnimationWrapper(delay: 400, child: _UserConsentWidget()),
                 VSpace.xxlarge40(),
@@ -84,8 +90,7 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
                 VSpace.large24(),
                 const SlideAndFadeAnimationWrapper(delay: 600, child: _ContinueWithGoogleButton()),
                 VSpace.large24(),
-                if (Platform.isIOS)
-                  const SlideAndFadeAnimationWrapper(delay: 600, child: _ContinueWithAppleButton()),
+                if (Platform.isIOS) const SlideAndFadeAnimationWrapper(delay: 600, child: _ContinueWithAppleButton()),
               ],
             ),
           ),
@@ -125,8 +130,7 @@ class _PasswordInput extends StatelessWidget {
           label: context.t.password,
           textInputAction: TextInputAction.done,
           onChanged: (password) => context.read<SignInBloc>().add(SignInPasswordChanged(password)),
-          errorText:
-              state.password.displayError != null ? context.t.common_validation_password : null,
+          errorText: state.password.displayError != null ? context.t.common_validation_password : null,
           autofillHints: const [AutofillHints.password],
         );
       },
@@ -143,9 +147,7 @@ class _UserConsentWidget extends StatelessWidget {
         return UserConsentWidget(
           value: isUserConsent,
           onCheckBoxValueChanged: (userConsent) {
-            context.read<SignInBloc>().add(
-              SignInUserConsentChangedEvent(userConsent: userConsent ?? false),
-            );
+            context.read<SignInBloc>().add(SignInUserConsentChangedEvent(userConsent: userConsent ?? false));
           },
           onTermsAndConditionTap:
               () => launchUrl(
