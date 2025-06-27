@@ -9,7 +9,7 @@ class AppTextField extends StatefulWidget {
     this.textInputAction = TextInputAction.next,
     this.showLabel = true,
     this.hintText,
-    this.readOnly,
+    this.isReadOnly,
     this.keyboardType,
     this.initialValue,
     this.onChanged,
@@ -39,7 +39,7 @@ class AppTextField extends StatefulWidget {
     this.backgroundColor,
     this.minLines,
     this.focusNode,
-    this.readOnly,
+    this.isReadOnly,
     this.autofillHints,
     this.hintTextBelowTextField,
     this.contentPadding,
@@ -50,7 +50,7 @@ class AppTextField extends StatefulWidget {
   final String label;
   final String? initialValue;
   final String? hintText;
-  final bool? readOnly;
+  final bool? isReadOnly;
   final String? errorText;
   final String? hintTextBelowTextField;
   final TextInputAction? textInputAction;
@@ -101,7 +101,7 @@ class _AppTextFieldState extends State<AppTextField> {
           validator: widget.validator,
           obscureText: isObscureText,
           onChanged: widget.onChanged,
-          readOnly: widget.readOnly ?? false,
+          readOnly: widget.isReadOnly ?? false,
           autofillHints: widget.autofillHints,
           focusNode: widget.focusNode,
           maxLength: widget.maxLength,

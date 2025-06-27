@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/routes/app_router.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
@@ -16,9 +14,9 @@ import 'package:pinput/pinput.dart';
 
 @RoutePage()
 class VerifyOTPScreen extends StatefulWidget implements AutoRouteWrapper {
-  const VerifyOTPScreen({super.key, this.emailAddress});
+  const VerifyOTPScreen({required this.emailAddress, super.key});
 
-  final String? emailAddress;
+  final String emailAddress;
 
   @override
   State<VerifyOTPScreen> createState() => _VerifyOTPScreenState();
@@ -28,8 +26,7 @@ class VerifyOTPScreen extends StatefulWidget implements AutoRouteWrapper {
     return RepositoryProvider<AuthRepository>(
       create: (context) => const AuthRepository(),
       child: BlocProvider(
-        create:
-            (context) => VerifyOTPBloc(RepositoryProvider.of<AuthRepository>(context))..add(SetEmailEvent(emailAddress ?? '')),
+        create: (context) => VerifyOTPBloc(RepositoryProvider.of<AuthRepository>(context))..add(SetEmailEvent(emailAddress)),
         child: this,
       ),
     );
@@ -37,70 +34,9 @@ class VerifyOTPScreen extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderStateMixin {
-  Timer? _timer;
-  int _secondsRemaining = 30;
-  bool _isTimerRunning = true;
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
   @override
   void initState() {
-    _startTimer();
     super.initState();
-  }
-
-  void _startTimer() {
-    if (!mounted) return;
-    setState(() {
-      _secondsRemaining = 30;
-      _isTimerRunning = true;
-    });
-    _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_secondsRemaining > 0) {
-        if (!mounted) {
-          timer.cancel();
-          return;
-        }
-        setState(() {
-          _secondsRemaining--;
-        });
-      } else {
-        if (!mounted) {
-          timer.cancel();
-          return;
-        }
-        setState(() {
-          _isTimerRunning = false;
-        });
-        _timer?.cancel();
-      }
-    });
-  }
-
-  void _onResendOTP(BuildContext context) {
-    FocusScope.of(context).unfocus();
-    context.read<VerifyOTPBloc>().add(const ResendEmailEvent());
-    _startTimer();
-  }
-
-  void _onVerifyOTP(BuildContext contextBuild, VerifyOTPState state) {
-    TextInput.finishAutofillContext();
-    FocusScope.of(context).unfocus();
-    // Static check for OTP
-    if (state.otp.value == '222222') {
-      showAppSnackbar(contextBuild, 'OTP verified successfully!');
-      contextBuild.maybePop();
-      if (mounted) {
-        contextBuild.replaceRoute(const ChangePasswordRoute());
-      }
-    } else {
-      showAppSnackbar(contextBuild, 'Invalid OTP', type: SnackbarType.failed);
-    }
   }
 
   @override
@@ -115,71 +51,83 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
         child: Padding(
           padding: const EdgeInsets.all(Insets.small12),
           child: BlocConsumer<VerifyOTPBloc, VerifyOTPState>(
-            listener: (BuildContext context, VerifyOTPState state) {
-              if (state.resendOtpStatus == ApiStatus.error || state.verifyOtpStatus == ApiStatus.error) {
-                final errorMessage = state.errorMessage;
-                showAppSnackbar(context, errorMessage);
-              }
-              if (state.resendOtpStatus == ApiStatus.loaded) {
-                showAppSnackbar(context, context.t.otp_send_to_email);
+            listener: (context, state) {
+              if (state.verifyOtpStatus == ApiStatus.loaded && state.otp.value == '222222') {
+                showAppSnackbar(context, 'OTP verified successfully!');
+                context.replaceRoute(const ChangePasswordRoute());
+              } else if (state.verifyOtpStatus == ApiStatus.error) {
+                showAppSnackbar(context, 'Invalid OTP', type: SnackbarType.failed);
               }
             },
             builder: (context, state) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    VSpace.large24(),
-                    SlideAndFadeAnimationWrapper(delay: 100, child: Center(child: Assets.images.logo.image(width: 100))),
-                    VSpace.large24(),
-                    SlideAndFadeAnimationWrapper(
-                      delay: 200,
-                      child: Center(child: AppText.xsSemiBold(text: context.t.welcome, fontSize: 16)),
+              return ListView(
+                children: [
+                  VSpace.large24(),
+                  SlideAndFadeAnimationWrapper(delay: 100, child: Center(child: Assets.images.logo.image(width: 100))),
+                  VSpace.large24(),
+                  SlideAndFadeAnimationWrapper(
+                    delay: 200,
+                    child: Center(child: AppText.xsSemiBold(text: context.t.welcome, fontSize: 16)),
+                  ),
+                  VSpace.large24(),
+                  AppTextField(initialValue: widget.emailAddress, label: context.t.email, isReadOnly: true),
+                  VSpace.medium16(),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(Insets.small12),
+                      child: AppText.sSemiBold(text: context.t.enter_otp),
                     ),
-                    VSpace.large24(),
-                    AppTextField(initialValue: widget.emailAddress, label: context.t.email, readOnly: true),
-                    VSpace.medium16(),
-                    Padding(padding: const EdgeInsets.all(Insets.small12), child: AppText.sSemiBold(text: context.t.enter_otp)),
-                    VSpace.small12(),
-                    Pinput(
-                      length: 6,
-                      separatorBuilder: (index) => HSpace.xxsmall4(),
-                      errorText: state.otp.error != null ? context.t.pin_incorrect : null,
-                      onChanged: (value) {
-                        context.read<VerifyOTPBloc>().add(VerifyOTPChanged(value));
-                      },
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    ),
-                    VSpace.xsmall8(),
-                    if (_isTimerRunning) AppTimer(seconds: 30, onFinished: () {}),
-                    VSpace.small12(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AppText(
-                          text: context.t.did_not_receive_otp,
-                          style: context.textTheme?.xsRegular.copyWith(color: context.colorScheme.black),
-                        ),
-                        AppButton(
-                          text: context.t.resend_otp,
-                          buttonType: ButtonType.text,
-                          textColor: context.colorScheme.primary400,
-                          onPressed: _isTimerRunning ? null : () => _onResendOTP(context),
-                        ),
-                        HSpace.xsmall8(),
-                      ],
-                    ),
-                    VSpace.large24(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
-                      child: AppButton(
-                        isExpanded: true,
-                        text: context.t.verify_otp,
-                        isLoading: state.verifyOtpStatus == ApiStatus.loading,
-                        onPressed: () => _onVerifyOTP(context, state),
+                  ),
+                  VSpace.small12(),
+                  Pinput(
+                    length: 6,
+                    separatorBuilder: (index) => HSpace.xxsmall4(),
+                    errorText: state.otp.error != null ? context.t.pin_incorrect : null,
+                    onChanged: (value) {
+                      context.read<VerifyOTPBloc>().add(VerifyOTPChanged(value));
+                    },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  ),
+                  VSpace.xsmall8(),
+                  if (state.isTimerRunning)
+                    Center(
+                      child: AppTimer(
+                        seconds: 30,
+                        onFinished: () {
+                          context.read<VerifyOTPBloc>().add(const TimerFinishedEvent());
+                        },
                       ),
                     ),
-                  ],
-                ),
+                  VSpace.small12(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AppText.xsRegular(color: context.colorScheme.black, text: context.t.did_not_receive_otp),
+                      AppButton(
+                        text: context.t.resend_otp,
+                        buttonType: ButtonType.text,
+                        textColor: context.colorScheme.primary400,
+                        onPressed: state.isTimerRunning
+                            ? null
+                            : () {
+                                FocusScope.of(context).unfocus();
+                                context.read<VerifyOTPBloc>().add(const ResendEmailEvent());
+                              },
+                      ),
+                      HSpace.xsmall8(),
+                    ],
+                  ),
+                  VSpace.large24(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
+                    child: AppButton(
+                      isExpanded: true,
+                      text: context.t.verify_otp,
+                      isLoading: state.verifyOtpStatus == ApiStatus.loading,
+                      onPressed: () => context.read<VerifyOTPBloc>().add(const VerifyButtonPressed()),
+                    ),
+                  ),
+                ],
               );
             },
           ),
