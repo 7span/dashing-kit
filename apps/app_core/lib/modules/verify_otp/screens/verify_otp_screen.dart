@@ -43,88 +43,86 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
         title: context.t.verify_otp,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(Insets.small12),
-          child: BlocConsumer<VerifyOTPBloc, VerifyOTPState>(
-            listener: (context, state) {
-              if (state.verifyOtpStatus == ApiStatus.loaded && state.otp.value == '222222') {
-                showAppSnackbar(context, 'OTP verified successfully!');
-                context.replaceRoute(const ChangePasswordRoute());
-              } else if (state.verifyOtpStatus == ApiStatus.error) {
-                showAppSnackbar(context, 'Invalid OTP', type: SnackbarType.failed);
-              }
-            },
-            builder: (context, state) {
-              return ListView(
-                children: [
-                  VSpace.large24(),
-                  SlideAndFadeAnimationWrapper(delay: 100, child: Center(child: Assets.images.logo.image(width: 100))),
-                  VSpace.large24(),
-                  SlideAndFadeAnimationWrapper(
-                    delay: 200,
-                    child: Center(child: AppText.xsSemiBold(text: context.t.welcome, fontSize: 16)),
+        child: BlocConsumer<VerifyOTPBloc, VerifyOTPState>(
+          listener: (context, state) {
+            if (state.verifyOtpStatus == ApiStatus.loaded && state.otp.value == '222222') {
+              showAppSnackbar(context, 'OTP verified successfully!');
+              context.replaceRoute(const ChangePasswordRoute());
+            } else if (state.verifyOtpStatus == ApiStatus.error) {
+              showAppSnackbar(context, 'Invalid OTP', type: SnackbarType.failed);
+            }
+          },
+          builder: (context, state) {
+            return ListView(
+              padding: const EdgeInsets.all(Insets.small12),
+              children: [
+                VSpace.large24(),
+                SlideAndFadeAnimationWrapper(delay: 100, child: Center(child: Assets.images.logo.image(width: 100))),
+                VSpace.large24(),
+                SlideAndFadeAnimationWrapper(
+                  delay: 200,
+                  child: Center(child: AppText.xsSemiBold(text: context.t.welcome, fontSize: 16)),
+                ),
+                VSpace.large24(),
+                AppTextField(initialValue: widget.emailAddress, label: context.t.email, isReadOnly: true),
+                VSpace.medium16(),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(Insets.small12),
+                    child: AppText.sSemiBold(text: context.t.enter_otp),
                   ),
-                  VSpace.large24(),
-                  AppTextField(initialValue: widget.emailAddress, label: context.t.email, isReadOnly: true),
-                  VSpace.medium16(),
+                ),
+                VSpace.small12(),
+                Pinput(
+                  length: 6,
+                  separatorBuilder: (index) => HSpace.xxsmall4(),
+                  errorText: state.otp.error != null ? context.t.pin_incorrect : null,
+                  onChanged: (value) {
+                    context.read<VerifyOTPBloc>().add(VerifyOTPChanged(value));
+                  },
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                ),
+                VSpace.xsmall8(),
+                if (state.isTimerRunning)
                   Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(Insets.small12),
-                      child: AppText.sSemiBold(text: context.t.enter_otp),
+                    child: AppTimer(
+                      seconds: 30,
+                      onFinished: () {
+                        context.read<VerifyOTPBloc>().add(const TimerFinishedEvent());
+                      },
                     ),
                   ),
-                  VSpace.small12(),
-                  Pinput(
-                    length: 6,
-                    separatorBuilder: (index) => HSpace.xxsmall4(),
-                    errorText: state.otp.error != null ? context.t.pin_incorrect : null,
-                    onChanged: (value) {
-                      context.read<VerifyOTPBloc>().add(VerifyOTPChanged(value));
-                    },
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  ),
-                  VSpace.xsmall8(),
-                  if (state.isTimerRunning)
-                    Center(
-                      child: AppTimer(
-                        seconds: 30,
-                        onFinished: () {
-                          context.read<VerifyOTPBloc>().add(const TimerFinishedEvent());
-                        },
-                      ),
+                VSpace.small12(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppText.xsRegular(color: context.colorScheme.black, text: context.t.did_not_receive_otp),
+                    AppButton(
+                      text: context.t.resend_otp,
+                      buttonType: ButtonType.text,
+                      textColor: context.colorScheme.primary400,
+                      onPressed:
+                          state.isTimerRunning
+                              ? null
+                              : () {
+                                FocusScope.of(context).unfocus();
+                                context.read<VerifyOTPBloc>().add(const ResendEmailEvent());
+                              },
                     ),
-                  VSpace.small12(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AppText.xsRegular(color: context.colorScheme.black, text: context.t.did_not_receive_otp),
-                      AppButton(
-                        text: context.t.resend_otp,
-                        buttonType: ButtonType.text,
-                        textColor: context.colorScheme.primary400,
-                        onPressed:
-                            state.isTimerRunning
-                                ? null
-                                : () {
-                                  FocusScope.of(context).unfocus();
-                                  context.read<VerifyOTPBloc>().add(const ResendEmailEvent());
-                                },
-                      ),
-                      HSpace.xsmall8(),
-                    ],
-                  ),
-                  VSpace.large24(),
-                  AppButton(
-                    isExpanded: true,
-                    padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
-                    text: context.t.verify_otp,
-                    isLoading: state.verifyOtpStatus == ApiStatus.loading,
-                    onPressed: () => context.read<VerifyOTPBloc>().add(const VerifyButtonPressed()),
-                  ),
-                ],
-              );
-            },
-          ),
+                    HSpace.xsmall8(),
+                  ],
+                ),
+                VSpace.large24(),
+                AppButton(
+                  isExpanded: true,
+                  padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
+                  text: context.t.verify_otp,
+                  isLoading: state.verifyOtpStatus == ApiStatus.loading,
+                  onPressed: () => context.read<VerifyOTPBloc>().add(const VerifyButtonPressed()),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
