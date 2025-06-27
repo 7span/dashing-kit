@@ -31,8 +31,8 @@ final class ResendEmailEvent extends VerifyOTPEvent {
 }
 
 class SetEmailEvent extends VerifyOTPEvent {
-  final String email;
   const SetEmailEvent(this.email);
+  final String email;
 
   @override
   List<Object> get props => [email];
