@@ -4,6 +4,7 @@ export 'app_circular_progress_indicator.dart';
 export 'app_dialog.dart';
 export 'app_dropdown.dart';
 export 'app_network_image.dart';
+export 'app_otp_input.dart';
 export 'app_profile_image.dart';
 export 'app_refresh_indicator.dart';
 export 'app_textfield.dart';
