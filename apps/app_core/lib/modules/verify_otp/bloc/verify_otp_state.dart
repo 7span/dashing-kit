@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 
 final class VerifyOTPState extends Equatable {
   const VerifyOTPState({
-    this.statusForResendOTP = ApiStatus.initial,
-    this.statusForVerifyOTP = ApiStatus.initial,
+    this.resendOtpStatus = ApiStatus.initial,
+    this.verifyOtpStatus = ApiStatus.initial,
     this.email = const EmailValidator.pure(),
     this.errorMessage = '',
     this.otp = const LengthValidator.pure(6),
@@ -15,21 +15,21 @@ final class VerifyOTPState extends Equatable {
   VerifyOTPState copyWith({
     EmailValidator? email,
     LengthValidator? otp,
-    ApiStatus? statusForResendOTP,
-    ApiStatus? statusForVerifyOTP,
+    ApiStatus? resendOtpStatus,
+    ApiStatus? verifyOtpStatus,
     String? errorMessage,
   }) {
     return VerifyOTPState(
       email: email ?? this.email,
       otp: otp ?? this.otp,
-      statusForResendOTP: statusForResendOTP ?? this.statusForResendOTP,
-      statusForVerifyOTP: statusForVerifyOTP ?? this.statusForVerifyOTP,
+      resendOtpStatus: resendOtpStatus ?? this.resendOtpStatus,
+      verifyOtpStatus: verifyOtpStatus ?? this.verifyOtpStatus,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
-  final ApiStatus statusForResendOTP;
-  final ApiStatus statusForVerifyOTP;
+  final ApiStatus resendOtpStatus;
+  final ApiStatus verifyOtpStatus;
   final EmailValidator email;
   final LengthValidator otp;
   final String errorMessage;
@@ -37,5 +37,5 @@ final class VerifyOTPState extends Equatable {
   bool get isValid => otp.isValid && email.isValid;
 
   @override
-  List<Object> get props => [statusForResendOTP, email, otp, errorMessage, statusForVerifyOTP];
+  List<Object> get props => [resendOtpStatus, email, otp, errorMessage, verifyOtpStatus];
 }

@@ -38,27 +38,23 @@ class ForgotPasswordPage extends StatelessWidget implements AutoRouteWrapper {
             await context.replaceRoute(VerifyOTPRoute(emailAddress: state.email.value));
           }
         },
-        child: SingleChildScrollView(
+        child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
-          child: AutofillGroup(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                VSpace.xxxlarge66(),
-                SlideAndFadeAnimationWrapper(delay: 100, child: Center(child: Assets.images.logo.image(width: 100))),
-                VSpace.large24(),
-                SlideAndFadeAnimationWrapper(
-                  delay: 200,
-                  child: Center(child: AppText.xsSemiBold(text: context.t.welcome, fontSize: 16)),
-                ),
-                VSpace.large24(),
-                SlideAndFadeAnimationWrapper(delay: 300, child: _EmailInput()),
-                VSpace.xxlarge40(),
-                const SlideAndFadeAnimationWrapper(delay: 500, child: _ForgotPasswordButton()),
-                VSpace.large24(),
-              ],
+
+          children: [
+            VSpace.xxxlarge66(),
+            SlideAndFadeAnimationWrapper(delay: 100, child: Center(child: Assets.images.logo.image(width: 100))),
+            VSpace.large24(),
+            SlideAndFadeAnimationWrapper(
+              delay: 200,
+              child: Center(child: AppText.xsSemiBold(text: context.t.welcome, fontSize: 16)),
             ),
-          ),
+            VSpace.large24(),
+            SlideAndFadeAnimationWrapper(delay: 300, child: _EmailInput()),
+            VSpace.xxlarge40(),
+            const SlideAndFadeAnimationWrapper(delay: 500, child: _ForgotPasswordButton()),
+            VSpace.large24(),
+          ],
         ),
       ),
     );

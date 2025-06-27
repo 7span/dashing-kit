@@ -28,8 +28,8 @@ class VerifyOTPScreen extends StatefulWidget implements AutoRouteWrapper {
     return RepositoryProvider<AuthRepository>(
       create: (context) => const AuthRepository(),
       child: BlocProvider(
-        lazy: false,
-        create: (context) => VerifyOTPBloc(RepositoryProvider.of<AuthRepository>(context), emailAddress ?? ''),
+        create:
+            (context) => VerifyOTPBloc(RepositoryProvider.of<AuthRepository>(context))..add(SetEmailEvent(emailAddress ?? '')),
         child: this,
       ),
     );
@@ -116,14 +116,13 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
           padding: const EdgeInsets.all(Insets.small12),
           child: BlocConsumer<VerifyOTPBloc, VerifyOTPState>(
             listener: (BuildContext context, VerifyOTPState state) {
-              if (state.statusForResendOTP == ApiStatus.error || state.statusForVerifyOTP == ApiStatus.error) {
+              if (state.resendOtpStatus == ApiStatus.error || state.verifyOtpStatus == ApiStatus.error) {
                 final errorMessage = state.errorMessage;
                 showAppSnackbar(context, errorMessage);
               }
-              if (state.statusForResendOTP == ApiStatus.loaded) {
+              if (state.resendOtpStatus == ApiStatus.loaded) {
                 showAppSnackbar(context, context.t.otp_send_to_email);
               }
-              // Remove API success navigation, handled in static check
             },
             builder: (context, state) {
               return SingleChildScrollView(
@@ -141,17 +140,14 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                     VSpace.medium16(),
                     Padding(padding: const EdgeInsets.all(Insets.small12), child: AppText.sSemiBold(text: context.t.enter_otp)),
                     VSpace.small12(),
-                    BlocBuilder<VerifyOTPBloc, VerifyOTPState>(
-                      builder:
-                          (context, state) => Pinput(
-                            length: 6,
-                            separatorBuilder: (index) => HSpace.xxsmall4(),
-                            errorText: state.otp.error != null ? context.t.pin_incorrect : null,
-                            onChanged: (value) {
-                              context.read<VerifyOTPBloc>().add(VerifyOTPChanged(value));
-                            },
-                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          ),
+                    Pinput(
+                      length: 6,
+                      separatorBuilder: (index) => HSpace.xxsmall4(),
+                      errorText: state.otp.error != null ? context.t.pin_incorrect : null,
+                      onChanged: (value) {
+                        context.read<VerifyOTPBloc>().add(VerifyOTPChanged(value));
+                      },
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                     VSpace.xsmall8(),
                     if (_isTimerRunning) AppTimer(seconds: 30, onFinished: () {}),
@@ -169,24 +165,18 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                           textColor: context.colorScheme.primary400,
                           onPressed: _isTimerRunning ? null : () => _onResendOTP(context),
                         ),
-                        const SizedBox(width: 8),
+                        HSpace.xsmall8(),
                       ],
                     ),
                     VSpace.large24(),
-                    BlocBuilder<VerifyOTPBloc, VerifyOTPState>(
-                      builder:
-                          (contextBuild, state) => Visibility(
-                            visible: state.isValid,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
-                              child: AppButton(
-                                isExpanded: true,
-                                text: context.t.verify_otp,
-                                isLoading: state.statusForVerifyOTP == ApiStatus.loading,
-                                onPressed: () => _onVerifyOTP(contextBuild, state),
-                              ),
-                            ),
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
+                      child: AppButton(
+                        isExpanded: true,
+                        text: context.t.verify_otp,
+                        isLoading: state.verifyOtpStatus == ApiStatus.loading,
+                        onPressed: () => _onVerifyOTP(context, state),
+                      ),
                     ),
                   ],
                 ),

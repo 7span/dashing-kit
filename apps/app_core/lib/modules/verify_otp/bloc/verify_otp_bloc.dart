@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:api_client/api_client.dart';
+import 'package:app_core/core/domain/validators/email_validator.dart';
 import 'package:app_core/core/domain/validators/length_validator.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
@@ -12,66 +13,61 @@ import 'package:fpdart/fpdart.dart';
 part 'verify_otp_event.dart';
 
 class VerifyOTPBloc extends Bloc<VerifyOTPEvent, VerifyOTPState> {
-  VerifyOTPBloc(this.authenticationRepository, this.emailAddress) : super(const VerifyOTPState()) {
+  VerifyOTPBloc(this.authenticationRepository) : super(const VerifyOTPState()) {
+    on<SetEmailEvent>(_onSetEmail);
     on<VerifyButtonPressed>(_onVerifyButtonPressed);
     on<VerifyOTPChanged>(_onVerifyOTPChanged);
     on<ResendEmailEvent>(_onResendEmail);
   }
 
   final AuthRepository authenticationRepository;
-  final String emailAddress;
+
+  void _onSetEmail(SetEmailEvent event, Emitter<VerifyOTPState> emit) {
+    emit(state.copyWith(email: EmailValidator.dirty(event.email)));
+  }
 
   Future<Unit> _onVerifyButtonPressed(VerifyButtonPressed event, Emitter<VerifyOTPState> emit) async {
-    emit(state.copyWith(statusForVerifyOTP: ApiStatus.loading, statusForResendOTP: ApiStatus.initial));
+    emit(state.copyWith(verifyOtpStatus: ApiStatus.loading, resendOtpStatus: ApiStatus.initial));
     final verifyOTPEither =
-        await authenticationRepository.verifyOTP(AuthRequestModel.verifyOTP(email: emailAddress, token: state.otp.value)).run();
+        await authenticationRepository
+            .verifyOTP(AuthRequestModel.verifyOTP(email: state.email.value, token: state.otp.value))
+            .run();
 
     verifyOTPEither.fold(
       (failure) {
-        emit(
-          state.copyWith(
-            statusForVerifyOTP: ApiStatus.error,
-            statusForResendOTP: ApiStatus.initial,
-            errorMessage: failure.message,
-          ),
-        );
+        emit(state.copyWith(verifyOtpStatus: ApiStatus.error, resendOtpStatus: ApiStatus.initial, errorMessage: failure.message));
       },
       (success) {
-        emit(state.copyWith(statusForVerifyOTP: ApiStatus.loaded, statusForResendOTP: ApiStatus.initial));
+        emit(state.copyWith(verifyOtpStatus: ApiStatus.loaded, resendOtpStatus: ApiStatus.initial));
       },
     );
     return unit;
   }
 
-  static const int _otpLength = 6;
+  final int _otpLength = 6;
   Future<Unit> _onVerifyOTPChanged(VerifyOTPChanged event, Emitter<VerifyOTPState> emit) async {
     final otp = LengthValidator.dirty(_otpLength, event.otp);
-    emit(state.copyWith(otp: otp, statusForVerifyOTP: ApiStatus.initial, statusForResendOTP: ApiStatus.initial));
+    emit(state.copyWith(otp: otp, verifyOtpStatus: ApiStatus.initial, resendOtpStatus: ApiStatus.initial));
     return unit;
   }
 
   Future<Unit> _onResendEmail(ResendEmailEvent event, Emitter<VerifyOTPState> emit) async {
     emit(
       state.copyWith(
-        statusForVerifyOTP: ApiStatus.initial,
-        statusForResendOTP: ApiStatus.loading,
-        otp: const LengthValidator.pure(_otpLength),
+        verifyOtpStatus: ApiStatus.initial,
+        resendOtpStatus: ApiStatus.loading,
+        otp: LengthValidator.pure(_otpLength),
       ),
     );
-    final response = await authenticationRepository.forgotPassword(AuthRequestModel.forgotPassword(email: emailAddress)).run();
+    final response =
+        await authenticationRepository.forgotPassword(AuthRequestModel.forgotPassword(email: state.email.value)).run();
 
     response.fold(
       (failure) {
-        emit(
-          state.copyWith(
-            statusForResendOTP: ApiStatus.error,
-            statusForVerifyOTP: ApiStatus.initial,
-            errorMessage: failure.message,
-          ),
-        );
+        emit(state.copyWith(resendOtpStatus: ApiStatus.error, verifyOtpStatus: ApiStatus.initial, errorMessage: failure.message));
       },
       (success) {
-        emit(state.copyWith(statusForVerifyOTP: ApiStatus.initial, statusForResendOTP: ApiStatus.loaded));
+        emit(state.copyWith(verifyOtpStatus: ApiStatus.initial, resendOtpStatus: ApiStatus.loaded));
       },
     );
     return unit;
