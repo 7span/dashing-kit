@@ -35,6 +35,7 @@ class _AppTimerState extends State<AppTimer> {
   }
 
   void _startTimer() {
+    if (widget.seconds == 0) return;
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsRemaining > 0) {
@@ -43,7 +44,7 @@ class _AppTimerState extends State<AppTimer> {
         });
       } else {
         timer.cancel();
-        if (widget.onFinished != null) widget.onFinished?.call();
+        widget.onFinished?.call();
       }
     });
   }
