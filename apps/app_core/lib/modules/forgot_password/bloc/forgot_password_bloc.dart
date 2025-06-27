@@ -22,7 +22,7 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
   final IAuthRepository _authenticationRepository;
 
   void _onEmailChanged(ForgotPasswordEmailChanged event, Emitter<ForgotPasswordState> emit) {
-    final email = EmailValidator.dirty(event.email);
+    final email = EmailValidator.dirty(event.email.trim());
     emit(state.copyWith(email: email, isValid: Formz.validate([email])));
   }
 
@@ -32,7 +32,7 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       final result =
-          await _authenticationRepository.forgotPassword(AuthRequestModel.forgotPassword(email: state.email.value.trim())).run();
+          await _authenticationRepository.forgotPassword(AuthRequestModel.forgotPassword(email: state.email.value)).run();
       result.fold(
         (failure) => emit(state.copyWith(status: FormzSubmissionStatus.failure)),
         (success) => emit(state.copyWith(status: FormzSubmissionStatus.success)),

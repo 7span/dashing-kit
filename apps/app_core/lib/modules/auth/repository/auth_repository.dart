@@ -19,7 +19,7 @@ abstract interface class IAuthRepository {
 
   TaskEither<Failure, bool> logout();
 
-  TaskEither<Failure, void> forgotPassword(AuthRequestModel authRequestModel);
+  TaskEither<Failure, Unit> forgotPassword(AuthRequestModel authRequestModel);
 
   TaskEither<Failure, Unit> socialLogin({required AuthRequestModel requestModel});
 
@@ -121,14 +121,14 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  TaskEither<Failure, void> forgotPassword(AuthRequestModel authRequestModel) => makeForgotPasswordRequest(authRequestModel)
+  TaskEither<Failure, Unit> forgotPassword(AuthRequestModel authRequestModel) => makeForgotPasswordRequest(authRequestModel)
       .chainEither(RepositoryUtils.checkStatusCode)
       .chainEither(
         (response) => RepositoryUtils.mapToModel(() {
           return response.data;
         }),
       )
-      .map((_) {});
+      .map((_) => unit);
 
   TaskEither<Failure, Response> makeForgotPasswordRequest(AuthRequestModel authRequestModel) => userApiClient.request(
     requestType: RequestType.post,

@@ -29,3 +29,11 @@ final class VerifyButtonPressed extends VerifyOTPEvent {
 final class ResendEmailEvent extends VerifyOTPEvent {
   const ResendEmailEvent();
 }
+
+class SetEmailEvent extends VerifyOTPEvent {
+  final String email;
+  const SetEmailEvent(this.email);
+
+  @override
+  List<Object> get props => [email];
+}
