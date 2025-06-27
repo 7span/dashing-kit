@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:api_client/api_client.dart';
-import 'package:app_core/core/domain/validators/email_validator.dart';
 import 'package:app_core/core/domain/validators/length_validator.dart';
 import 'package:app_core/modules/auth/model/auth_request_model.dart';
 import 'package:app_core/modules/auth/repository/auth_repository.dart';
@@ -18,29 +17,36 @@ class VerifyOTPBloc extends Bloc<VerifyOTPEvent, VerifyOTPState> {
     on<VerifyButtonPressed>(_onVerifyButtonPressed);
     on<VerifyOTPChanged>(_onVerifyOTPChanged);
     on<ResendEmailEvent>(_onResendEmail);
+    on<StartTimerEvent>((event, emit) {
+      emit(state.copyWith(isTimerRunning: true));
+    });
+    on<TimerFinishedEvent>((event, emit) {
+      emit(state.copyWith(isTimerRunning: false));
+    });
   }
 
   final AuthRepository authenticationRepository;
 
   void _onSetEmail(SetEmailEvent event, Emitter<VerifyOTPState> emit) {
-    emit(state.copyWith(email: EmailValidator.dirty(event.email)));
+    emit(state.copyWith(email: event.email));
   }
 
   Future<Unit> _onVerifyButtonPressed(VerifyButtonPressed event, Emitter<VerifyOTPState> emit) async {
     emit(state.copyWith(verifyOtpStatus: ApiStatus.loading, resendOtpStatus: ApiStatus.initial));
-    final verifyOTPEither =
-        await authenticationRepository
-            .verifyOTP(AuthRequestModel.verifyOTP(email: state.email.value, token: state.otp.value))
-            .run();
-
-    verifyOTPEither.fold(
-      (failure) {
-        emit(state.copyWith(verifyOtpStatus: ApiStatus.error, resendOtpStatus: ApiStatus.initial, errorMessage: failure.message));
-      },
-      (success) {
-        emit(state.copyWith(verifyOtpStatus: ApiStatus.loaded, resendOtpStatus: ApiStatus.initial));
-      },
-    );
+    // Static OTP check for now
+    if (state.otp.value == '222222') {
+      emit(state.copyWith(
+        verifyOtpStatus: ApiStatus.loaded,
+        resendOtpStatus: ApiStatus.initial,
+        errorMessage: 'OTP verified successfully!',
+      ));
+    } else {
+      emit(state.copyWith(
+        verifyOtpStatus: ApiStatus.error,
+        resendOtpStatus: ApiStatus.initial,
+        errorMessage: 'Invalid OTP',
+      ));
+    }
     return unit;
   }
 
@@ -60,7 +66,7 @@ class VerifyOTPBloc extends Bloc<VerifyOTPEvent, VerifyOTPState> {
       ),
     );
     final response =
-        await authenticationRepository.forgotPassword(AuthRequestModel.forgotPassword(email: state.email.value)).run();
+        await authenticationRepository.forgotPassword(AuthRequestModel.forgotPassword(email: state.email)).run();
 
     response.fold(
       (failure) {
@@ -68,6 +74,7 @@ class VerifyOTPBloc extends Bloc<VerifyOTPEvent, VerifyOTPState> {
       },
       (success) {
         emit(state.copyWith(verifyOtpStatus: ApiStatus.initial, resendOtpStatus: ApiStatus.loaded));
+        add(const StartTimerEvent());
       },
     );
     return unit;

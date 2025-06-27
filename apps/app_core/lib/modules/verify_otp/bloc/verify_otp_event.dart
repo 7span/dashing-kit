@@ -37,3 +37,11 @@ class SetEmailEvent extends VerifyOTPEvent {
   @override
   List<Object> get props => [email];
 }
+
+class StartTimerEvent extends VerifyOTPEvent {
+  const StartTimerEvent();
+}
+
+class TimerFinishedEvent extends VerifyOTPEvent {
+  const TimerFinishedEvent();
+}
