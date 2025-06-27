@@ -114,14 +114,12 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                     ],
                   ),
                   VSpace.large24(),
-                  Padding(
+                  AppButton(
+                    isExpanded: true,
                     padding: const EdgeInsets.symmetric(horizontal: Insets.large24),
-                    child: AppButton(
-                      isExpanded: true,
-                      text: context.t.verify_otp,
-                      isLoading: state.verifyOtpStatus == ApiStatus.loading,
-                      onPressed: () => context.read<VerifyOTPBloc>().add(const VerifyButtonPressed()),
-                    ),
+                    text: context.t.verify_otp,
+                    isLoading: state.verifyOtpStatus == ApiStatus.loading,
+                    onPressed: () => context.read<VerifyOTPBloc>().add(const VerifyButtonPressed()),
                   ),
                 ],
               );
