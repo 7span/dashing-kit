@@ -4,7 +4,7 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class AppTimer extends StatefulWidget {
-  const AppTimer({required this.seconds, super.key, this.onFinished});
+  const AppTimer({required this.seconds, super.key, this.onFinished}) : assert(seconds >= 0, 'seconds must be non-negative');
   final int seconds;
 
   final VoidCallback? onFinished;
