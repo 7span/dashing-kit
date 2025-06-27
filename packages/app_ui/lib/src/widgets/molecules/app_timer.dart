@@ -4,17 +4,16 @@ import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class AppTimer extends StatefulWidget {
-  const AppTimer({required this.seconds, super.key, this.onTick, this.onFinished, this.textStyle});
+  const AppTimer({required this.seconds, super.key, this.onFinished});
   final int seconds;
-  final void Function(int secondsRemaining)? onTick;
+
   final VoidCallback? onFinished;
-  final TextStyle? textStyle;
 
   @override
   State<AppTimer> createState() => _AppTimerState();
 }
 
-class _AppTimerState extends State<AppTimer> with TickerProviderStateMixin {
+class _AppTimerState extends State<AppTimer> {
   late int _secondsRemaining;
   Timer? _timer;
 
@@ -42,7 +41,6 @@ class _AppTimerState extends State<AppTimer> with TickerProviderStateMixin {
         setState(() {
           _secondsRemaining--;
         });
-        if (widget.onTick != null) widget.onTick?.call(_secondsRemaining);
       } else {
         timer.cancel();
         if (widget.onFinished != null) widget.onFinished?.call();
@@ -59,9 +57,6 @@ class _AppTimerState extends State<AppTimer> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final timerText = '00:${_secondsRemaining.toString().padLeft(2, '0')}';
-    return AppText(
-      text: timerText,
-      style: widget.textStyle ?? context.textTheme?.sSemiBold.copyWith(color: context.colorScheme.primary400),
-    );
+    return AppText(text: timerText, style: context.textTheme?.sSemiBold.copyWith(color: context.colorScheme.primary400));
   }
 }
