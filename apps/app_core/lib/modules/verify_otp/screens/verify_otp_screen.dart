@@ -35,11 +35,6 @@ class VerifyOTPScreen extends StatefulWidget implements AutoRouteWrapper {
 
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderStateMixin {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: CustomAppBar(
@@ -107,12 +102,13 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                         text: context.t.resend_otp,
                         buttonType: ButtonType.text,
                         textColor: context.colorScheme.primary400,
-                        onPressed: state.isTimerRunning
-                            ? null
-                            : () {
-                                FocusScope.of(context).unfocus();
-                                context.read<VerifyOTPBloc>().add(const ResendEmailEvent());
-                              },
+                        onPressed:
+                            state.isTimerRunning
+                                ? null
+                                : () {
+                                  FocusScope.of(context).unfocus();
+                                  context.read<VerifyOTPBloc>().add(const ResendEmailEvent());
+                                },
                       ),
                       HSpace.xsmall8(),
                     ],
