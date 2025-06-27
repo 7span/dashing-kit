@@ -37,8 +37,6 @@ class VerifyOTPScreen extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderStateMixin {
-  late final GlobalKey<FormState> formKey;
-
   Timer? _timer;
   int _secondsRemaining = 30;
   bool _isTimerRunning = true;
@@ -51,7 +49,6 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
 
   @override
   void initState() {
-    formKey = GlobalKey<FormState>();
     _startTimer();
     super.initState();
   }
@@ -157,7 +154,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> with TickerProviderSt
                           ),
                     ),
                     VSpace.xsmall8(),
-                    if (_isTimerRunning) AppTimer(seconds: 30, onTick: (remaining) {}, onFinished: () {}),
+                    if (_isTimerRunning) AppTimer(seconds: 30, onFinished: () {}),
                     VSpace.small12(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

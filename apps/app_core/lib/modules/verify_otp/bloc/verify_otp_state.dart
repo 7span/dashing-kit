@@ -34,7 +34,7 @@ final class VerifyOTPState extends Equatable {
   final LengthValidator otp;
   final String errorMessage;
 
-  bool get isValid => otp.isValid;
+  bool get isValid => otp.isValid && email.isValid;
 
   @override
   List<Object> get props => [statusForResendOTP, email, otp, errorMessage, statusForVerifyOTP];
