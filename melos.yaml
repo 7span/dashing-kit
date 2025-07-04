@@ -39,7 +39,7 @@ scripts:
     exec: dart run slang
 
   build-apk:
-    description: Builds the APK File
+    description: Builds the APK File. If you're using puro or fvm, then make sure to add `puro` or `fvm` before running the command
     packageFilters:
       flutter: true
       dirExists: lib
