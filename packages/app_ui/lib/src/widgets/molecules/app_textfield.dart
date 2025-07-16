@@ -109,9 +109,7 @@ class _AppTextFieldState extends State<AppTextField> {
             filled: true,
             fillColor: widget.backgroundColor ?? context.colorScheme.grey100,
             hintText: widget.hintText,
-            contentPadding:
-                widget.contentPadding ??
-                const EdgeInsets.only(left: Insets.small12, right: Insets.small12),
+            contentPadding: widget.contentPadding ?? const EdgeInsets.only(left: Insets.small12, right: Insets.small12),
             errorMaxLines: 2,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Insets.xsmall8),
@@ -127,10 +125,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     ? IconButton(
                       splashColor: context.colorScheme.primary50,
                       onPressed: toggleObscureText,
-                      icon: Icon(
-                        isObscureText ? Icons.visibility_off : Icons.visibility,
-                        color: context.colorScheme.grey700,
-                      ),
+                      icon: Icon(isObscureText ? Icons.visibility_off : Icons.visibility, color: context.colorScheme.grey700),
                     )
                     : null,
           ),
