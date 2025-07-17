@@ -21,7 +21,7 @@ void main() => runApp(MaterialApp(home: Home()));
 class Home extends StatelessWidget {
   final count = 0;
   @override
-  Widget build(context) => AppScaffold(
+  Widget build(context) => Scaffold(
       appBar: AppBar(title: Text("Demo")),
       body: Center(
         child: Text("$count"),

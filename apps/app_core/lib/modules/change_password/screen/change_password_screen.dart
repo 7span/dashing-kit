@@ -17,16 +17,12 @@ class ChangePasswordScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(),
+      appBar: const CustomAppBar(),
       body: BlocListener<ChangePasswordCubit, ChangePasswordState>(
         listenWhen: (prev, current) => prev.apiStatus != current.apiStatus,
         listener: (_, state) async {
           if (state.apiStatus == ApiStatus.error) {
-            showAppSnackbar(
-              context,
-              context.t.failed_to_update,
-              type: SnackbarType.failed,
-            );
+            showAppSnackbar(context, context.t.failed_to_update, type: SnackbarType.failed);
           } else if (state.apiStatus == ApiStatus.loaded) {
             showAppSnackbar(context, context.t.update_successful);
           }
@@ -48,14 +44,8 @@ class ChangePasswordScreen extends StatelessWidget implements AutoRouteWrapper {
                 child: AppText.XL(text: context.t.change_password),
               ),
               SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
-              SlideAndFadeAnimationWrapper(
-                delay: 400,
-                child: _ConfirmPasswordInput(),
-              ),
-              const SlideAndFadeAnimationWrapper(
-                delay: 600,
-                child: _CreateAccountButton(),
-              ),
+              SlideAndFadeAnimationWrapper(delay: 400, child: _ConfirmPasswordInput()),
+              const SlideAndFadeAnimationWrapper(delay: 600, child: _CreateAccountButton()),
             ],
           ),
         ),
@@ -69,10 +59,7 @@ class ChangePasswordScreen extends StatelessWidget implements AutoRouteWrapper {
       create: (_) => ProfileRepository(),
       child: BlocProvider<ChangePasswordCubit>(
         lazy: false,
-        create:
-            (context) => ChangePasswordCubit(
-              RepositoryProvider.of<ProfileRepository>(context),
-            ),
+        create: (context) => ChangePasswordCubit(RepositoryProvider.of<ProfileRepository>(context)),
         child: this,
       ),
     );
@@ -83,24 +70,20 @@ class _ConfirmPasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
-      buildWhen:
-          (previous, current) =>
-              previous.confirmPassword != current.confirmPassword,
+      buildWhen: (previous, current) => previous.confirmPassword != current.confirmPassword,
       builder: (context, state) {
         return AppTextField.password(
           initialValue: state.confirmPassword.value,
           label: context.t.confirm_password,
           textInputAction: TextInputAction.done,
           onChanged:
-              (password) =>
-                  context.read<ChangePasswordCubit>().onConfirmPasswordChange(
-                    confirmPassword: password,
-                    password: state.password.value,
-                  ),
+              (password) => context.read<ChangePasswordCubit>().onConfirmPasswordChange(
+                confirmPassword: password,
+                password: state.password.value,
+              ),
 
           errorText:
-              state.confirmPassword.error ==
-                      ConfirmPasswordValidationError.invalid
+              state.confirmPassword.error == ConfirmPasswordValidationError.invalid
                   ? context.t.common_validation_confirm_password
                   : null,
           autofillHints: const [AutofillHints.password],
@@ -120,15 +103,10 @@ class _PasswordInput extends StatelessWidget {
           initialValue: state.password.value,
           label: context.t.password,
           textInputAction: TextInputAction.done,
-          onChanged:
-              (password) => context
-                  .read<ChangePasswordCubit>()
-                  .onPasswordChange(password),
+          onChanged: (password) => context.read<ChangePasswordCubit>().onPasswordChange(password),
 
           errorText:
-              state.password.displayError != null
-                  ? context.t.common_validation_password
-                  : null,
+              state.password.displayError != null ? context.t.common_validation_password : null,
           autofillHints: const [AutofillHints.password],
         );
       },

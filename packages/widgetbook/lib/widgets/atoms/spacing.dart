@@ -1,8 +1,7 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
-import 'package:widgetbook_annotation/widgetbook_annotation.dart'
-    as widgetbook;
+import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 @widgetbook.UseCase(name: 'Interactive VSpace', type: VSpace)
 Widget interactiveVSpace(BuildContext context) {
@@ -36,16 +35,12 @@ Widget interactiveVSpace(BuildContext context) {
   );
 
   return AppScaffold(
-    appBar: AppBar(title: const Text('Interactive VSpace')),
+    appBar: const CustomAppBar(title: 'Interactive VSpace'),
     body: Column(
       children: [
-        Flexible(
-          child: const Text('This text is above the VSpace widget'),
-        ),
+        Flexible(child: const Text('This text is above the VSpace widget')),
         VSpace(size), // Dynamically set vertical spacing
-        Flexible(
-          child: const Text('This text is below the VSpace widget'),
-        ),
+        Flexible(child: const Text('This text is below the VSpace widget')),
       ],
     ),
   );
@@ -79,20 +74,12 @@ Widget interactiveHSpace(BuildContext context) {
   );
 
   return AppScaffold(
-    appBar: AppBar(title: const Text('Interactive HSpace')),
+    appBar: const CustomAppBar(title: 'Interactive HSpace'),
     body: Row(
       children: [
-        Flexible(
-          child: const Text(
-            'This text is to the left of the HSpace widget',
-          ),
-        ),
+        Flexible(child: const Text('This text is to the left of the HSpace widget')),
         HSpace(size), // Dynamically set horizontal spacing
-        Flexible(
-          child: const Text(
-            'This text is to the right of the HSpace widget',
-          ),
-        ),
+        Flexible(child: const Text('This text is to the right of the HSpace widget')),
       ],
     ),
   );

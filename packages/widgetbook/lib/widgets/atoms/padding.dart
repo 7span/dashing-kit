@@ -1,8 +1,7 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
-import 'package:widgetbook_annotation/widgetbook_annotation.dart'
-    as widgetbook;
+import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 @widgetbook.UseCase(name: 'Interactive Padding', type: AppPadding)
 Widget interactiveAppPadding(BuildContext context) {
@@ -47,7 +46,7 @@ Widget interactiveAppPadding(BuildContext context) {
   );
 
   return AppScaffold(
-    appBar: AppBar(title: const Text('Interactive AppPadding')),
+    appBar: CustomAppBar(title: 'Interactive AppPadding'),
     body: Center(
       child: Container(
         color: Colors.red,
