@@ -1,6 +1,8 @@
 ## Flutter Boilerplate
-
 ![Flutter boilerplate banner](banner.webp)
+
+
+<a href="https://www.producthunt.com/products/dashingkit-a-flutter-boilerplate?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-dashingkit&#0045;a&#0045;flutter&#0045;boilerplate" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=997445&theme=light&t=1753436745235" alt="DashingKit&#0032;&#0045;&#0032;A&#0032;Flutter&#0032;Boilerplate - Ship&#0032;market&#0045;ready&#0032;Flutter&#0032;apps&#0032;at&#0032;lightning&#0032;speed&#0046; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 ### ⚡ Jumpstart Development — Prebuilt structure for faster and customised launch.
 
