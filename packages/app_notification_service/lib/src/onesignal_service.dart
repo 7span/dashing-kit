@@ -73,8 +73,8 @@ class OneSignalService implements NotificationServiceInterface {
       notificationObserverStream.stream;
 
   @override
-  void dispose() {
-    notificationObserverStream.close();
+  Future<void> dispose() async {
+    await notificationObserverStream.close();
   }
 
   @override
