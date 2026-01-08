@@ -22,17 +22,16 @@
 - Well-structured documentation for easy onboarding.📖
 - Pre-defined custom widgets to speed up UI development. 🧱
 - **Atomic Design Pattern** for modular and maintainable UI.⚛️
-- Enhanced features with built-in [app_notification](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#13), [authentication module](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#14) and [app_subscription](https://codelabs-preview.appspot.com/?file_id=1BDawGTK-riXb-PjwFCCqjwZ74yhdzFapw9kT2yJnp88#15) packages. 🚀
 
 # 🗂️ Documentation
 
-- Explore the step-by-step guide on our [Documentation](https://7span.com/open-source/flutter-launchpad-docs/docs/intro).
+- Explore the step-by-step guide on our [Documentation](https://7span.com/open-source/dashing-kit-docs/docs/intro).
 
 # 🏁 Getting Started
 
 1. Clone the repository.
 ```
-git clone https://github.com/7span/flutter-launchpad
+git clone https://github.com/7span/dashing-kit.git
 ```
 
 2. Run this script to ensure required project environment.
@@ -50,7 +49,7 @@ sh scripts/check_environment_configuration.sh
 flutter run -t apps/app_core/lib/main_development.dart --flavor development
 ```
 
-> ✅ **Note:** To know more about `project set-up scripts` see the [documentation](https://7span.com/open-source/flutter-launchpad-docs/docs/category/project-set-up).
+> ✅ **Note:** To know more about `project set-up scripts` see the [documentation](https://7span.com/open-source/dashing-kit-docs/docs/category/project-set-up).
 
 
 # 🤝 Contribution
