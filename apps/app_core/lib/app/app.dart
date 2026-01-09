@@ -124,7 +124,7 @@ class _AppState extends State<App> {
   Future<void> dispose() async {
     NetWorkInfoService.instance.dispose();
     _connectivityService.dispose();
-     getIt<NotificationServiceInterface>().dispose();
+    await getIt<NotificationServiceInterface>().dispose();
     super.dispose();
   }
 }
