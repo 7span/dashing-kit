@@ -121,10 +121,10 @@ class _AppState extends State<App> {
   }
 
   @override
-  void dispose() {
+  Future<void> dispose() async {
     NetWorkInfoService.instance.dispose();
     _connectivityService.dispose();
-    getIt<NotificationServiceInterface>().dispose();
+     getIt<NotificationServiceInterface>().dispose();
     super.dispose();
   }
 }
