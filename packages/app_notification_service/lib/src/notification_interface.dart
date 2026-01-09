@@ -17,7 +17,7 @@ abstract interface class NotificationServiceInterface {
 
   void listenForNotification();
 
-  void dispose();
+  Future<void> dispose();
 
   void logout();
 }
