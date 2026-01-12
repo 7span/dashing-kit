@@ -7,7 +7,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 Widget interactiveAppPadding(BuildContext context) {
   final knobs = context.knobs;
 
-  final padding = knobs.list<double>(
+  final padding = knobs.object.dropdown<double>(
     label: 'Padding',
     options: [
       Insets.zero,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_core/core/data/services/force_update_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -38,13 +40,13 @@ class _ForceUpdateWidgetState extends State<ForceUpdateWidget>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _checkIfAppUpdateIsNeeded();
+    unawaited(_checkIfAppUpdateIsNeeded());
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _checkIfAppUpdateIsNeeded();
+      unawaited(_checkIfAppUpdateIsNeeded());
     }
   }
 

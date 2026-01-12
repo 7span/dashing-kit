@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_ui/app_ui.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -26,20 +28,27 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   void initState() {
-    webViewController =
-        WebViewController()
-          ..setNavigationDelegate(
-            NavigationDelegate(
-              onPageFinished: (finish) {
-                setState(() {
-                  isLoading = true;
-                });
-              },
-            ),
-          )
-          ..loadRequest(Uri.parse('${widget.url}'));
     super.initState();
+    webViewController = WebViewController();
+
+    unawaited(
+      webViewController.setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (_) {
+            if (!mounted) return;
+            setState(() {
+              isLoading = false;
+            });
+          },
+        ),
+      ),
+    );
+
+    unawaited(
+      webViewController.loadRequest(Uri.parse(widget.url ?? '')),
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {

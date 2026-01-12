@@ -8,7 +8,7 @@ Widget interactiveAppBorderRadius(BuildContext context) {
   final knobs = context.knobs;
 
   // Knobs to dynamically select border radius values
-  final borderRadiusValue = knobs.list<double>(
+  final borderRadiusValue = knobs.object.dropdown<double>(
     label: 'Border Radius',
     options: [
       AppBorderRadius.zero,

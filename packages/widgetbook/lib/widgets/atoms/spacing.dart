@@ -8,7 +8,7 @@ Widget interactiveVSpace(BuildContext context) {
   final knobs = context.knobs;
 
   // Knobs to adjust the vertical spacing dynamically
-  final size = knobs.list<double>(
+  final size = knobs.object.dropdown<double>(
     label: 'Vertical Spacing',
     options: [
       Insets.xxsmall4,
@@ -51,7 +51,7 @@ Widget interactiveHSpace(BuildContext context) {
   final knobs = context.knobs;
 
   // Knobs to adjust the horizontal spacing dynamically
-  final size = knobs.list<double>(
+  final size = knobs.object.dropdown<double>(
     label: 'Horizontal Spacing',
     options: [
       Insets.xxsmall4,

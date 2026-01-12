@@ -61,8 +61,8 @@ class ConnectivityService {
     _isDialogVisible = false;
   }
 
-  void dispose() {
+  Future<void> dispose() async {
     _removeNoInternetOverlay();
-    _controller.close();
+    await _controller.close();
   }
 }

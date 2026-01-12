@@ -13,7 +13,7 @@ Widget interactiveAppScaffold(BuildContext context) {
           ? CustomAppBar(title: 'App Scaffold')
           : null;
 
-  final backgroundColor = knobs.list<Color>(
+  final backgroundColor = knobs.object.dropdown<Color>(
     label: 'Background Color',
     options: [Colors.blueGrey, Colors.teal, Colors.green, Colors.orange, Colors.pink],
     initialOption: Colors.blueGrey,

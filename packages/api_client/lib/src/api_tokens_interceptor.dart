@@ -238,7 +238,7 @@ class ApiTokensInterceptor extends QueuedInterceptor {
               .run();
         }
       }
-    }, (_, __) {}).run();
+    }, (_, _) {}).run();
     super.onResponse(response, handler);
   }
 

@@ -19,10 +19,16 @@ class WidgetbookApp extends StatelessWidget {
     return Widgetbook.material(
       directories: directories,
       addons: [
-        DeviceFrameAddon(
-          devices: Devices.ios.all,
-          initialDevice: Devices.ios.iPhone13,
-        ),
+        ViewportAddon([
+          ViewportData(
+            name: 'iPhone 13',
+            width: 390,
+            height: 844,
+            pixelRatio: 3.0,
+            platform: TargetPlatform.iOS,
+          ),
+        ]),
+
         TextScaleAddon(max: 2.0, min: 1.0, initialScale: 1.0),
       ],
       appBuilder: (context, child) {

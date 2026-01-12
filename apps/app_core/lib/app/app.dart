@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:app_core/app/config/app_config.dart';
 import 'package:app_core/app/helpers/injection.dart';
@@ -123,10 +122,11 @@ class _AppState extends State<App> {
   }
 
   @override
-  void dispose()  {
+  void dispose() {
     NetWorkInfoService.instance.dispose();
     _connectivityService.dispose();
-    unawaited(getIt<NotificationServiceInterface>().dispose());
+    getIt<NotificationServiceInterface>().dispose();
     super.dispose();
   }
+
 }

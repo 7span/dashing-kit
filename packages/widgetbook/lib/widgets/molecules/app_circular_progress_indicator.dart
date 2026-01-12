@@ -14,7 +14,7 @@ Widget allInOneCircularProgressIndicator(BuildContext context) {
     initialValue: false,
   );
 
-  final selectedColorName = context.knobs.list<String>(
+  final selectedColorName = context.knobs.object.dropdown<String>(
     label: 'Color',
     options: const [
       'Primary',
@@ -55,7 +55,7 @@ Widget allInOneCircularProgressIndicator(BuildContext context) {
     initialValue: Colors.teal,
   );
 
-  final selectedSize = context.knobs.list<String>(
+  final selectedSize = context.knobs.object.dropdown<String>(
     label: 'Size',
     options: const [
       'Tiny',
@@ -104,7 +104,7 @@ Widget allInOneCircularProgressIndicator(BuildContext context) {
       break;
   }
 
-  final layout = context.knobs.list<String>(
+  final layout = context.knobs.object.dropdown<String>(
     label: 'Layout Example',
     options: const [
       'Plain Centered',

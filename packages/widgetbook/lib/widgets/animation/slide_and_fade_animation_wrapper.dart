@@ -11,7 +11,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart'
 Widget slideAndFadeAnimationWrapperUseCase(BuildContext context) {
   final knobs = context.knobs;
 
-  final slideDirection = knobs.list<SlideFrom>(
+  final slideDirection = knobs.object.dropdown<SlideFrom>(
     label: 'Slide From',
     options: SlideFrom.values,
     initialOption: SlideFrom.bottom,

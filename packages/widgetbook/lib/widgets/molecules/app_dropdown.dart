@@ -42,7 +42,7 @@ Widget interactiveAppDropDownWidget(BuildContext context) {
   }
 
   // Dropdown items
-  final categoryItems = context.knobs.list<String>(
+  final categoryItems = context.knobs.object.dropdown<String>(
     label: 'Items Category',
     options: const [
       'Status',
@@ -115,7 +115,7 @@ Widget interactiveAppDropDownWidget(BuildContext context) {
     initialValue: false,
   );
 
-  final initialItemIndex = context.knobs.list<String>(
+  final initialItemIndex = context.knobs.object.dropdown<String>(
     label: 'Initial Item Index',
     options: ['0', '1', '2', '3', '4'],
     initialOption: '0',
