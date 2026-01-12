@@ -23,7 +23,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
 
   final SubscriptionRepository repository;
   final BuildContext context;
-  final _inAppPurchase = getIt<CustomInAppPurchase>();
+  final CustomInAppPurchase _inAppPurchase = getIt<CustomInAppPurchase>();
 
   void togglePlanType(PlanType planType) {
     emit(state.copyWith(planType: planType));

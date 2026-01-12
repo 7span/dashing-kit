@@ -16,7 +16,6 @@ final class AppBlocObserver extends BlocObserver {
     super.onChange(bloc, change);
     if (kDebugMode) {
       logger
-      // ignore: avoid_dynamic_calls
       .f(
         'onChange(${bloc.runtimeType}, ${change.nextState.runtimeType})',
       );

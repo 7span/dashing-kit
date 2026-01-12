@@ -9,6 +9,8 @@ version: 1.0.0+1
 environment:
   sdk: ">=3.7.2 <4.0.0"
 
+resolution: workspace
+
 dependencies:
   flutter:
     sdk: flutter
@@ -17,20 +19,12 @@ dependencies:
 
   cupertino_icons: ^1.0.8
 
-  # Translation package for localization
-  app_translations: ^0.0.1
-
-  # App UI Package
-  app_ui: ^0.0.1
-
-  # API Client Package
-  api_client: ^0.0.1
-
-  # App Subscription Package
-  app_subscription: ^0.0.1
-
-  #App Notification Package
-  app_notification_service: ^0.0.1
+  # Workspace packages (NO versions)
+  app_translations:
+  app_ui:
+  api_client:
+  app_subscription:
+  app_notification_service:
 
   # internationalization
   timeago: ^3.7.1
@@ -89,10 +83,6 @@ dependencies:
   # Launch URL
   url_launcher: ^6.3.2
 
-
-dependency_overrides:
-  web: ^1.0.0
-  source_gen: ^2.0.0
 
 dev_dependencies:
   flutter_test:

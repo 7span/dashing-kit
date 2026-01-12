@@ -3,6 +3,6 @@ import 'package:get_it/get_it.dart';
 
 final GetIt getIt = GetIt.instance;
 
-final userApiClient = getIt.get<RestApiClient>(instanceName: 'user');
+final RestApiClient userApiClient = getIt.get<RestApiClient>(instanceName: 'user');
 
-final baseApiClient = getIt.get<RestApiClient>(instanceName: 'base');
+final RestApiClient baseApiClient = getIt.get<RestApiClient>(instanceName: 'base');

@@ -11,6 +11,18 @@ dependencies:
   flutter:
     sdk: flutter
 
+workspace:
+  - apps/app_core
+  - packages/api_client
+  - packages/app_notification_service
+  - packages/app_subscription
+  - packages/app_translations
+  - packages/app_ui
+  - packages/widgetbook
+
+dependency_overrides:
+  web: ^1.1.1
+  source_gen: ^4.1.1
 
 dev_dependencies:
   flutter_test:
