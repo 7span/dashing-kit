@@ -7,7 +7,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 Widget interactiveAppText(BuildContext context) {
   final knobs = context.knobs;
 
-  final level = knobs.list<AppTextLevel>(
+  final level = knobs.object.dropdown<AppTextLevel>(
     label: 'Text Level',
     options: AppTextLevel.values,
     initialOption: AppTextLevel.title,
@@ -41,7 +41,7 @@ Widget interactiveAppText(BuildContext context) {
 
   final color = knobs.color(label: 'Text Color', initialValue: Colors.black);
 
-  final textAlign = knobs.list<TextAlign>(
+  final textAlign = knobs.object.dropdown<TextAlign>(
     label: 'Text Align',
     options: TextAlign.values,
     labelBuilder: (alignment) {

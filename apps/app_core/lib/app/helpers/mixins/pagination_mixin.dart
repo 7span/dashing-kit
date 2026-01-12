@@ -24,9 +24,9 @@ mixin PaginationService<T extends StatefulWidget> on State<T> {
   ///    _checkIfCanLoadMore();
   ///  }
   /// ```
-  void listener() {
+  Future<void> listener() async {
     if (scrollController.offset > scrollController.position.maxScrollExtent - 50) {
-      _checkIfCanLoadMore();
+      await _checkIfCanLoadMore();
     }
   }
 

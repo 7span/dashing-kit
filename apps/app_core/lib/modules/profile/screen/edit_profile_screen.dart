@@ -1,4 +1,3 @@
-// ignore_for_file: unused_element
 
 import 'package:api_client/api_client.dart';
 import 'package:app_core/core/presentation/widgets/app_snackbar.dart';
@@ -41,7 +40,7 @@ class EditProfileScreen extends StatelessWidget implements AutoRouteWrapper {
           showAppSnackbar(context, state.errorMessage, type: SnackbarType.failed);
         } else if (state.profileActionStatus == ProfileActionStatus.profileEdited) {
           showAppSnackbar(context, context.t.profile_edit_success);
-        } else if ((state.isPermissionDenied ?? false) == true) {
+        } else if (state.isPermissionDenied ?? false) {
           showAppSnackbar(
             context,
             context.t.please_unable_media_permission,

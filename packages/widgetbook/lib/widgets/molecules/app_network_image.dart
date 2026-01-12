@@ -24,14 +24,14 @@ Widget allInOneShowcaseWithKnobs(BuildContext context) {
     initialValue: 'AB',
   );
 
-  final mediaType = context.knobs.list<String?>(
+  final mediaType = context.knobs.object.dropdown<String?>(
     label: 'Media Type',
     options: ['image/jpeg', 'application/pdf', 'video/mp4', null],
     labelBuilder: (value) => value ?? 'null',
     initialOption: 'image/jpeg',
   );
 
-  final shape = context.knobs.list<BoxShape>(
+  final shape = context.knobs.object.dropdown<BoxShape>(
     label: 'Shape',
     options: [BoxShape.rectangle, BoxShape.circle],
     labelBuilder:
@@ -69,7 +69,7 @@ Widget allInOneShowcaseWithKnobs(BuildContext context) {
           )
           .toDouble();
 
-  final backgroundColor = context.knobs.list<Color>(
+  final backgroundColor = context.knobs.object.dropdown<Color>(
     label: 'Placeholder Color',
     options: [
       Colors.grey,

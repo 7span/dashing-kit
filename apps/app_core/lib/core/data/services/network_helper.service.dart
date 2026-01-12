@@ -19,8 +19,8 @@ class NetWorkInfoService {
     });
   }
 
-  void dispose() {
-    listener.cancel();
+  Future<void> dispose() async {
+    await listener.cancel();
   }
 
   ConnectionStatus connectionStatus = ConnectionStatus.online;

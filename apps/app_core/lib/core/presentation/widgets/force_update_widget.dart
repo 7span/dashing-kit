@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_core/core/data/services/force_update_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -38,13 +40,13 @@ class _ForceUpdateWidgetState extends State<ForceUpdateWidget>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _checkIfAppUpdateIsNeeded();
+    unawaited(_checkIfAppUpdateIsNeeded());
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _checkIfAppUpdateIsNeeded();
+      unawaited(_checkIfAppUpdateIsNeeded());
     }
   }
 
@@ -101,7 +103,7 @@ class _ForceUpdateWidgetState extends State<ForceUpdateWidget>
       await widget.showStoreListing(storeUrl);
     } else if (success == false) {
       // * user clicked on the cancel button
-    } else if (success == null && allowCancel == false) {
+    } else if (success == null && !allowCancel) {
       // * user clicked on the Android back button: show alert again
       return _triggerForceUpdate(storeUrl, allowCancel);
     }

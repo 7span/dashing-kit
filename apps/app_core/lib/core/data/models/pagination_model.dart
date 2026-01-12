@@ -2,7 +2,6 @@
 
 import 'package:equatable/equatable.dart';
 
-// ignore: must_be_immutable
 class PaginationModel extends Equatable {
   const PaginationModel({this.currentPage, this.hasMorePages, this.total});
 

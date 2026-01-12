@@ -15,8 +15,8 @@ class PermissionsHelper {
     return result.values.toList()[0];
   }
 
-  void redirectToSettings() {
-    openAppSettings();
+  Future<void> redirectToSettings() async {
+    await openAppSettings();
   }
 
   /// Request multiple [permissions]

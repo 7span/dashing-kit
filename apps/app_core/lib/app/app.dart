@@ -1,3 +1,4 @@
+
 import 'package:app_core/app/config/app_config.dart';
 import 'package:app_core/app/helpers/injection.dart';
 import 'package:app_core/app/routes/app_router.dart';
@@ -127,4 +128,5 @@ class _AppState extends State<App> {
     getIt<NotificationServiceInterface>().dispose();
     super.dispose();
   }
+
 }

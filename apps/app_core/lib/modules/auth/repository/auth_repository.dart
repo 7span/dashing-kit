@@ -1,4 +1,3 @@
-// ignore_for_file: require_trailing_commas
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';
 import 'package:app_core/app/helpers/injection.dart';

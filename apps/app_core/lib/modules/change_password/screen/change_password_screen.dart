@@ -124,9 +124,9 @@ class _CreateAccountButton extends StatelessWidget {
         return AppButton(
           isLoading: state.apiStatus == ApiStatus.loading,
           text: context.t.update,
-          onPressed: () {
+          onPressed: () async {
             TextInput.finishAutofillContext();
-            context.read<ChangePasswordCubit>().onSubmitPassword();
+            await context.read<ChangePasswordCubit>().onSubmitPassword();
           },
           isExpanded: true,
         );

@@ -60,7 +60,7 @@ Widget interactiveEmptyScreenAllVariations(BuildContext context) {
   );
 
   // Custom icon
-  final iconType = context.knobs.list<String>(
+  final iconType = context.knobs.object.dropdown<String>(
     label: 'Icon Type',
     options: const [
       'Default',
@@ -122,7 +122,7 @@ Widget interactiveEmptyScreenAllVariations(BuildContext context) {
   }
 
   // Layout options
-  final layoutType = context.knobs.list<String>(
+  final layoutType = context.knobs.object.dropdown<String>(
     label: 'Layout Type',
     options: const [
       'Standard',

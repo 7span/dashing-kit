@@ -1,4 +1,3 @@
-// ignore_for_file: one_member_abstracts
 
 import 'package:api_client/api_client.dart';
 import 'package:app_core/app/config/api_endpoints.dart';

@@ -14,7 +14,7 @@ Widget allInOneButtonShowcase(BuildContext context) {
     initialValue: 'Click Me',
   );
 
-  final buttonType = context.knobs.list<ButtonType>(
+  final buttonType = context.knobs.object.dropdown<ButtonType>(
     label: 'Button Type',
     options: ButtonType.values,
     initialOption: ButtonType.filled,
@@ -59,7 +59,7 @@ Widget allInOneButtonShowcase(BuildContext context) {
     label: 'Show Icon',
     initialValue: false,
   );
-  final iconData = context.knobs.list<IconData>(
+  final iconData = context.knobs.object.dropdown<IconData>(
     label: 'Icon',
     options: const [
       Icons.favorite,
@@ -72,7 +72,7 @@ Widget allInOneButtonShowcase(BuildContext context) {
     initialOption: Icons.favorite,
   );
 
-  final containerType = context.knobs.list<String>(
+  final containerType = context.knobs.object.dropdown<String>(
     label: 'Container Type',
     options: const ['None', 'Card', 'Column', 'Row'],
     initialOption: 'None',

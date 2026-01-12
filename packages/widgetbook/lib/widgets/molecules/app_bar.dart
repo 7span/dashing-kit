@@ -10,7 +10,7 @@ Widget interactiveCustomAppBar(BuildContext context) {
 
   final title = knobs.string(label: 'Title', initialValue: 'My App');
 
-  final titleColor = knobs.list<Color>(
+  final titleColor = knobs.object.dropdown<Color>(
     label: 'Title Color',
     options: [Colors.black, Colors.white, Colors.blue],
     labelBuilder: (color) {
@@ -20,7 +20,7 @@ Widget interactiveCustomAppBar(BuildContext context) {
     },
   );
 
-  final backgroundColor = knobs.list<Color>(
+  final backgroundColor = knobs.object.dropdown<Color>(
     label: 'Background Color',
     options: [Colors.white, Colors.grey, Colors.transparent],
     labelBuilder: (color) {

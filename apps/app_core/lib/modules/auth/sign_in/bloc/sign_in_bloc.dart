@@ -22,7 +22,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInWithGoogleTaped>(_onSignInWithGoogleTaped);
   }
 
-  // ignore: unused_field
   final IAuthRepository _authenticationRepository;
 
   void _onEmailChanged(

@@ -20,7 +20,7 @@ Widget combinedAppTextFieldUseCases(BuildContext context) {
     initialValue: true,
   );
 
-  final inputType = context.knobs.list<String>(
+  final inputType = context.knobs.object.dropdown<String>(
     label: 'Input Type',
     options: const [
       'Text',
@@ -68,7 +68,7 @@ Widget combinedAppTextFieldUseCases(BuildContext context) {
     initialValue: Colors.grey.shade100,
   );
 
-  final paddingType = context.knobs.list<String>(
+  final paddingType = context.knobs.object.dropdown<String>(
     label: 'Content Padding Type',
     options: const [
       'None',
@@ -169,7 +169,7 @@ Widget combinedAppTextFieldUseCases(BuildContext context) {
   }
 
   final minLinesOptions = ['1', '2', '3', '4', '5'];
-  final minLinesString = context.knobs.list(
+  final minLinesString = context.knobs.object.dropdown(
     label: 'Min Lines (for multiline)',
     options: minLinesOptions,
     initialOption: '3',

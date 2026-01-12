@@ -7,22 +7,24 @@ environment:
   sdk: ">=3.7.2 <4.0.0"
   flutter: ">=3.0.0 <4.0.0"
 
+resolution: workspace
+
 dependencies:
   flutter:
     sdk: flutter
 
   # Used for localization
-  slang: ^4.5.0
-  slang_flutter: ^4.5.0
+  slang: ^4.11.1
+  slang_flutter: ^4.11.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  slang_build_runner: ^4.5.0
-  flutter_lints: ^5.0.0
-  melos: ^6.3.2
-  build_runner: ^2.4.15
+  slang_build_runner: ^4.11.0
+  flutter_lints: ^6.0.0
+  melos: ^7.3.0
+  build_runner: ^2.10.4
 
 flutter:
   assets:

@@ -66,8 +66,8 @@ class SignInPage extends StatelessWidget implements AutoRouteWrapper {
                 SlideAndFadeAnimationWrapper(delay: 400, child: _PasswordInput()),
                 VSpace.large24(),
                 AnimatedGestureDetector(
-                  onTap: () {
-                    context.pushRoute(const ForgotPasswordRoute());
+                  onTap: () async {
+                    await context.pushRoute(const ForgotPasswordRoute());
                   },
                   child: SlideAndFadeAnimationWrapper(
                     delay: 200,
@@ -208,8 +208,8 @@ class _CreateAccountButton extends StatelessWidget {
       textColor: context.colorScheme.primary500,
       backgroundColor: context.colorScheme.white,
       text: context.t.sign_up,
-      onPressed: () {
-        context.pushRoute(const SignUpRoute());
+      onPressed: () async {
+        await context.pushRoute(const SignUpRoute());
       },
       isExpanded: true,
     );
@@ -237,8 +237,8 @@ class _ContinueWithGoogleButton extends StatelessWidget {
     );
   }
 
-  void _loginWithGoogle(BuildContext context) {
-    GoogleAuthHelper.signIn(
+  Future<void> _loginWithGoogle(BuildContext context) async {
+    await GoogleAuthHelper.signIn(
       context,
       onSuccess: () {
         if (context.mounted) {
