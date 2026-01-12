@@ -24,21 +24,18 @@ class WebViewScreen extends StatefulWidget {
 
 class _WebViewScreenState extends State<WebViewScreen> {
   late WebViewController webViewController = WebViewController();
-  bool isLoading = false;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    webViewController = WebViewController();
-
     unawaited(
       webViewController.setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (_) {
             if (!mounted) return;
-            setState(() {
-              isLoading = false;
-            });
+            setState(() => _isLoading = false);
+
           },
         ),
       ),
@@ -59,7 +56,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         backgroundColor: context.colorScheme.white,
       ),
       body:
-          !isLoading
+          _isLoading
               ? const Center(child: AppCircularProgressIndicator())
               : WebViewWidget(controller: webViewController),
     );
